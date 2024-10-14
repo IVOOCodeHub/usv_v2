@@ -1,0 +1,21 @@
+@use "../../../../components_library/src/utils/styles/variables" as vars;
+
+#auth {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  background: vars.$greyBackground;
+  min-height: 79dvh;
+  width: 100%;
+}
+
+.formContainer {
+  width: 30%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4rem;
+}

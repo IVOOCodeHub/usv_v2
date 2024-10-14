@@ -1,0 +1,18 @@
+$mobileWidth: 768px;
+$tabletWidth: 1024px;
+$laptopWidth: 1280px;
+$desktopWidth: 1440px;
+
+$fontColorPrimary: #36395a;
+$errorColor: #fb5858;
+
+$greyBackground: #dcdcdc;
+
+$brandColor: #818f26;
+$darkerBrandColor: #6a782b;
+
+$brandColorGradient: linear-gradient(
+  to left,
+  adjust-color($brandColor, $lightness: 30%),
+  adjust-color($darkerBrandColor, $lightness: 20%)
+);
