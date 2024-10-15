@@ -7,15 +7,19 @@
   justify-content: center;
   margin: auto;
   background: vars.$greyBackground;
-  min-height: 79dvh;
+  min-height: 80dvh;
   width: 100%;
 }
 
 .formContainer {
-  width: 30%;
+  width: 25%;
   display: flex;
   flex-flow: column;
   align-items: center;
   justify-content: center;
   gap: 4rem;
+
+  @media (max-width: 1024px) {
+    width: 80%;
+  }
 }

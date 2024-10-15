@@ -3,9 +3,9 @@ import { ReactElement } from "react";
 import { NavigateFunction } from "react-router-dom";
 
 // components
-import Header from "../../../../components_library/src/components/header/Header";
-import Footer from "../../../../components_library/src/components/footer/Footer";
-import Button from "../../../../components_library/src/components/button/Button";
+import Header from "../../components/header/Header";
+import Footer from "../../components/footer/Footer";
+import Button from "../../components/button/Button";
 
 // hooks | libraries
 import { useContext, useEffect } from "react";
@@ -47,7 +47,7 @@ export default function TestPage(): ReactElement {
             <main
               id={"testPage"}
               style={{
-                minHeight: "78dvh",
+                minHeight: "90dvh",
                 display: "flex",
                 flexFlow: "column",
                 alignItems: "center",

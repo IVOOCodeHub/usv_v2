@@ -10,7 +10,7 @@ import TestPage from "./views/testPage/TestPage";
 
 function App(): ReactElement {
   return (
-    <Router basename={"usv"}>
+    <Router basename={"usv_v2"}>
       <Routes>
         <Route path="/" element={<Auth />} />
         <Route path={"auth"} element={<Auth />} />

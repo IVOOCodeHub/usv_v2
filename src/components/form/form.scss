@@ -1,0 +1,85 @@
+.form--multiple {
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+  border: 1px solid #36395a;
+  padding: 1em;
+  border-radius: 6px;
+  width: 100%;
+  background: #ffffff;
+}
+
+.form--single {
+  display: flex;
+  flex-flow: column;
+  align-self: flex-start;
+  width: 100%;
+  padding: 1em;
+  background: #ffffff;
+}
+
+#form h3 {
+  font-size: 1.5em;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+#form .inputWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (max-width: 1024px) {
+    flex-flow: column;
+  }
+}
+
+#form .inputWrapper label {
+  width: 40%;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+#form input[type="text"],
+#form input[type="email"],
+#form input[type="number"],
+#form input[type="password"],
+#form input[type="date"] {
+  border: 1px solid #36395a;
+  padding: 0.8em;
+  height: 1.7em;
+  text-align: center;
+  width: 60%;
+}
+
+#form input[type="date"] {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+#form input:not([type="file"]) {
+  background: #f2f2f2;
+}
+
+#form input {
+  &:focus {
+    outline: 3.5px solid #36395a;
+  }
+}
+
+#form .buttonWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+}
+
+#form .errorMessage {
+  font-size: 1dvw;
+  font-weight: 700;
+  text-align: center;
+  color: #da033b;
+}

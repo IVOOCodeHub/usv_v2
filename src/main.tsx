@@ -8,10 +8,13 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 
 // context
+import { LoaderProvider } from "./context/LoaderContext.tsx";
 import { UserProvider } from "./context/UserContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <UserProvider>
-    <App />
-  </UserProvider>,
+  <LoaderProvider>
+    <UserProvider>
+      <App />
+    </UserProvider>
+  </LoaderProvider>,
 );

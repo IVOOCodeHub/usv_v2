@@ -1,0 +1,36 @@
+header {
+  padding: 0 5em;
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 2px solid #808080ff;
+  min-height: 10dvh;
+  max-height: 10dvh;
+
+  @media (max-width: 768px) {
+    padding: 0 2em;
+  }
+}
+
+header nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header nav h1 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 1.8dvw;
+  font-weight: 700;
+  text-transform: uppercase;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+}
+
+header a figure {
+  width: 150px;
+}

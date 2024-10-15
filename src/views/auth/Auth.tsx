@@ -11,23 +11,36 @@ import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // components
-import Header from "../../../../components_library/src/components/header/Header";
-import Form from "../../../../components_library/src/components/form/Form";
-import Footer from "../../../../components_library/src/components/footer/Footer";
+import Header from "../../components/header/Header";
+import Loader from "../../components/loader/Loader";
+import Form from "../../components/form/Form";
+import Footer from "../../components/footer/Footer";
 
 // context
+import { LoaderContext } from "../../context/LoaderContext.tsx";
 import { UserContext } from "../../context/UserContext.tsx";
 
 export default function Auth(): ReactElement {
-  const { user, getUser } = useContext(UserContext);
+  const { isLoading } = useContext(LoaderContext);
+  const { user, getUser, credentialsErrorMessage, setCredentialsErrorMessage } =
+    useContext(UserContext);
   const [userCredentials, setUserCredentials] =
     useState<IUserCredentials | null>(null);
   const navigate: NavigateFunction = useNavigate();
 
+  const handleSubmit: (
+    userCredentials: IUserCredentials,
+  ) => Promise<void> = async (
+    userCredentials: IUserCredentials,
+  ): Promise<void> => {
+    await getUser(userCredentials);
+  };
+
   useEffect((): void => {
     if (!user && userCredentials) {
-      getUser(userCredentials);
+      handleSubmit(userCredentials).finally();
     } else if (user) {
+      setCredentialsErrorMessage("");
       navigate("/test");
     }
   }, [user, getUser, userCredentials, navigate]);
@@ -41,29 +54,38 @@ export default function Auth(): ReactElement {
         }}
       />
       <main id={"auth"}>
-        <div className={"formContainer"}>
-          <Form
-            props={{
-              title: "Authentification",
-              inputs: [
-                {
-                  label: "Identifiant :",
-                  key: "matricule",
-                  type: "text",
-                  placeholder: "ex: 6176",
-                },
-                {
-                  label: "Mot de passe :",
-                  key: "password",
-                  type: "password",
-                  placeholder: "ex: decnic",
-                },
-              ],
-              isWithSubmitButton: true,
-              setFormData: setUserCredentials,
-            }}
-          />
-        </div>
+        <>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <div className={"formContainer"}>
+              <Form
+                props={{
+                  title: "Authentification",
+                  inputs: [
+                    {
+                      label: "Identifiant :",
+                      key: "matricule",
+                      type: "text",
+                      required: true,
+                      placeholder: "ex: 6176",
+                    },
+                    {
+                      label: "Mot de passe :",
+                      key: "password",
+                      type: "password",
+                      required: true,
+                      placeholder: "ex: decnic",
+                    },
+                  ],
+                  isWithSubmitButton: true,
+                  errorMessage: credentialsErrorMessage,
+                  setFormData: setUserCredentials,
+                }}
+              />
+            </div>
+          )}
+        </>
       </main>
       <Footer />
     </>
