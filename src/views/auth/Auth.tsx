@@ -21,7 +21,7 @@ import { LoaderContext } from "../../context/LoaderContext.tsx";
 import { UserContext } from "../../context/UserContext.tsx";
 
 export default function Auth(): ReactElement {
-  const { isLoading } = useContext(LoaderContext);
+  const { isLoading, startLoading, stopLoading } = useContext(LoaderContext);
   const { user, getUser, credentialsErrorMessage, setCredentialsErrorMessage } =
     useContext(UserContext);
   const [userCredentials, setUserCredentials] =
@@ -37,19 +37,21 @@ export default function Auth(): ReactElement {
   };
 
   useEffect((): void => {
+    startLoading();
     if (!user && userCredentials) {
       handleSubmit(userCredentials).finally();
     } else if (user) {
       setCredentialsErrorMessage("");
-      navigate("/test");
+      navigate("/menu_site");
     }
+    return stopLoading();
   }, [user, getUser, userCredentials, navigate]);
 
   return (
     <>
       <Header
         props={{
-          pageURL: "GIVOO | LOGIN",
+          pageURL: "G_IVOO | LOGIN",
           helpBtn: true,
         }}
       />

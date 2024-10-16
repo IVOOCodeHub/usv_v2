@@ -10,10 +10,7 @@ interface IUserContext {
 }
 
 // hooks | libraries
-import { createContext, useState, Context, useContext } from "react";
-
-// context
-import { LoaderContext } from "./LoaderContext.tsx";
+import { createContext, useState, Context } from "react";
 
 // services
 import { getUserService } from "../API/services/User.service.ts";
@@ -31,7 +28,6 @@ export const UserProvider = ({
 }: {
   children: ReactElement;
 }): ReactElement => {
-  const { startLoading, stopLoading } = useContext(LoaderContext);
   const [user, setUser] = useState<IUser | null>(null);
   const [credentialsErrorMessage, setCredentialsErrorMessage] =
     useState<string>("");
@@ -39,8 +35,6 @@ export const UserProvider = ({
   const getUser: (userCredentials: IUserCredentials) => Promise<void> = async (
     userCredentials: IUserCredentials,
   ): Promise<void> => {
-    startLoading();
-
     // add a timer to avoid flashing du to loader if datas fetch is instant
     await new Promise((resolve: (value: unknown) => void): number =>
       setTimeout(resolve, 500),
@@ -52,8 +46,6 @@ export const UserProvider = ({
     } else {
       setUser(res);
     }
-
-    stopLoading();
   };
 
   return (

@@ -1,0 +1,45 @@
+@use "../../../../../components_library/src/utils/styles/variables" as vars;
+
+#menuSite {
+  min-height: 80dvh;
+  background: vars.$greyBackground;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#menuSite form {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  width: 35%;
+  @media(max-width: 1024px) {
+    width: 100%;
+  }
+}
+
+#menuSite form .inputWrapper {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  gap: 0.5em;
+  width: 50%;
+}
+
+#menuSite form .inputWrapper .css-b62m3t-container {
+  width: 100%;
+}
+
+#menuSite form .buttonWrapper {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#menuSite form .buttonWrapper button {
+  width: 100px;
+}
