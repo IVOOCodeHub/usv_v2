@@ -1,4 +1,4 @@
-@use "../../../../../components_library/src/utils/styles/variables" as vars;
+@use "../../../utils/styles/variables" as vars;
 
 #menuSite {
   min-height: 80dvh;
@@ -37,7 +37,7 @@
   width: 50%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 #menuSite form .buttonWrapper button {

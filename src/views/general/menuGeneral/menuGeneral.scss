@@ -1,0 +1,43 @@
+@use "../../../utils/styles/variables" as vars;
+
+#menuGeneral {
+  min-height: 90dvh;
+  background: vars.$greyBackground;
+}
+
+#menuGeneral .menuGeneral__nav {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+}
+
+#menuGeneral .tableContainer {
+  display: flex;
+  flex-flow: row;
+  gap: .5em;
+  width: 100%;
+
+  & > #NRTL {
+    width: 10%;
+  }
+
+  & > #NRTL > table {
+    width: 100%;
+  }
+}
+
+#NRTL tbody tr:last-child td {
+  border-radius: 0 0 10px 10px !important;
+}
+
+.menuGeneral__testZone {
+  display: flex;
+  justify-content: space-around;
+  padding: 3em;
+}
+
+.menuGeneral__testZone button {
+  font-size: .7em;
+}

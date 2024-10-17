@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Auth from "./views/auth/Auth";
 import TestPage from "./views/testPage/TestPage";
 import MenuSite from "./views/general/menuSite/MenuSite.tsx";
+import MenuGeneral from "./views/general/menuGeneral/MenuGeneral.tsx";
 
 function App(): ReactElement {
   return (
@@ -16,6 +17,7 @@ function App(): ReactElement {
         <Route path="/" element={<Auth />} />
         <Route path={"auth"} element={<Auth />} />
         <Route path={"menu_site"} element={<MenuSite />} />
+        <Route path={"menu_general"} element={<MenuGeneral />} />
         <Route path={"*"} element={<TestPage />} />
       </Routes>
     </Router>
