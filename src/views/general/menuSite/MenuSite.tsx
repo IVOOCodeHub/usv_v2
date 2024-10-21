@@ -30,8 +30,8 @@ export default function MenuSite(): ReactElement {
     label: "IVOO",
   });
   const [selectedSite, setSelectedSite] = useState<OptionType | null>({
-    value: "TOUS",
-    label: "TOUS",
+    value: "TOUS SITES",
+    label: "TOUS SITES",
   });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {

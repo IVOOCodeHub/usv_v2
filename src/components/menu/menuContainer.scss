@@ -1,0 +1,35 @@
+#menuContainer {
+  column-count: 6;
+  column-gap: 5px;
+  width: 100%;
+}
+
+#menuSection {
+  background-color: #8aa1c7;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 5px;
+  display: inline-block;
+  width: 100%;
+}
+
+#menuSection h2 {
+  font-size: 16px;
+  color: #ffffff;
+  text-shadow: 1px 1px 1px #000000;
+}
+
+#menuItem {
+  background-color: #a5b6d5;
+  margin: 5px 0;
+  padding: 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 14px;
+}
+
+#menuItem:hover {
+  background-color: #d4dff1;
+}

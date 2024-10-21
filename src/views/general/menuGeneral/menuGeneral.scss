@@ -11,33 +11,20 @@
   justify-content: center;
   align-items: center;
   gap: 2em;
-}
-
-#menuGeneral .tableContainer {
-  display: flex;
-  flex-flow: row;
-  gap: .5em;
   width: 100%;
-
-  & > #NRTL {
-    width: 10%;
-  }
-
-  & > #NRTL > table {
-    width: 100%;
-  }
 }
 
-#NRTL tbody tr:last-child td {
-  border-radius: 0 0 10px 10px !important;
+.menuGeneral__nav__menuWrapper {
+  padding: 1dvw;
 }
 
 .menuGeneral__testZone {
+  margin-top: 2em;
   display: flex;
   justify-content: space-around;
-  padding: 3em;
+  padding: 1.5dvw;
 }
 
 .menuGeneral__testZone button {
-  font-size: .7em;
+  font-size: 0.7em;
 }
