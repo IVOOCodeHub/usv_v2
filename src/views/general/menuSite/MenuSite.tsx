@@ -20,36 +20,48 @@ import Button from "../../../components/button/Button";
 import Footer from "../../../components/footer/Footer";
 
 // context
-import { UserContext } from "../../../context/UserContext.tsx";
+import { UserContext } from "../../../context/userContext.tsx";
+import { SiteContext } from "../../../context/siteContext.tsx";
 
 export default function MenuSite(): ReactElement {
   const navigate: NavigateFunction = useNavigate();
   const { user, setUser } = useContext(UserContext);
-  const [selectedGroup, setSelectedGroup] = useState<OptionType | null>({
-    value: "IVOO",
-    label: "IVOO",
-  });
-  const [selectedSite, setSelectedSite] = useState<OptionType | null>({
-    value: "TOUS SITES",
-    label: "TOUS SITES",
-  });
+  const { setSelectedSite } = useContext(SiteContext);
+
+  const [selectedGroupSelect, setSelectedGroupSelect] =
+    useState<OptionType | null>({
+      value: "IVOO",
+      label: "IVOO",
+    });
+  const [selectedSiteSelect, setSelectedSiteSelect] =
+    useState<OptionType | null>({
+      value: "TOUS SITES",
+      label: "TOUS SITES",
+    });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
+
+    if (!selectedGroupSelect || !selectedSiteSelect) {
+      return;
+    }
+
     const selectedMenu = {
-      groupe: selectedGroup?.value,
-      site: selectedSite?.value,
+      groupe: selectedGroupSelect.value,
+      site: selectedSiteSelect.value,
     };
 
-    navigate("/menu_general", { state: selectedMenu });
+    setSelectedSite(selectedMenu);
+
+    navigate("/menu_general");
   };
 
-  const handleGroupChange = (selectedOption: OptionType | null) => {
-    setSelectedGroup(selectedOption);
+  const handleGroupChange = (selectedOption: OptionType | null): void => {
+    setSelectedGroupSelect(selectedOption);
   };
 
-  const handleSiteChange = (selectedOption: OptionType | null) => {
-    setSelectedSite(selectedOption);
+  const handleSiteChange = (selectedOption: OptionType | null): void => {
+    setSelectedSiteSelect(selectedOption);
   };
 
   useEffect((): void => {
@@ -101,7 +113,7 @@ export default function MenuSite(): ReactElement {
             />
             <Button
               props={{
-                style: "blue",
+                style: "grey",
                 text: "Retour",
                 type: "button",
                 onClick: (): void => {

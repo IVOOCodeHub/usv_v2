@@ -8,7 +8,12 @@ import { NavigateFunction } from "react-router-dom";
 import { IMenuContainerProps } from "../../../components/menu/MenuContainer.tsx";
 
 // hooks | libraries
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useContext } from "react";
+
+// context
+import { UserContext } from "../../../context/userContext.tsx";
+import { SiteContext } from "../../../context/siteContext.tsx";
 
 // components
 import Header from "../../../components/header/Header";
@@ -18,10 +23,14 @@ import Footer from "../../../components/footer/Footer";
 
 export default function MenuGeneral(): ReactElement {
   const navigate: NavigateFunction = useNavigate();
-  const location = useLocation();
-  const { site } = location.state || { groupe: "", site: "" };
+  const { user } = useContext(UserContext);
+  const { selectedSite } = useContext(SiteContext);
 
-  console.log("location state =>", location.state);
+  useEffect((): void => {
+    if (!user) {
+      navigate("/auth");
+    }
+  }, []);
 
   const menuData: IMenuContainerProps[] = [
     {
@@ -34,7 +43,7 @@ export default function MenuGeneral(): ReactElement {
         { name: "États info", link: "/menu_general" },
         { name: "Outil Info", link: "/menu_general" },
         { name: "MDP", link: "/menu_general" },
-        { name: "Gestion G_IVOO", link: "/menu_general" },
+        { name: "Gestion G_IVOO", link: "/gestion_givoo/acces" },
       ],
     },
     {
@@ -126,7 +135,7 @@ export default function MenuGeneral(): ReactElement {
     <>
       <Header
         props={{
-          pageURL: `G_IVOO | ${site} | ACCUEIL ADMINISTRATION`,
+          pageURL: `G_IVOO | ${selectedSite?.site} | ACCUEIL ADMINISTRATION`,
           helpBtn: true,
         }}
       />
@@ -137,7 +146,7 @@ export default function MenuGeneral(): ReactElement {
           </div>
           <Button
             props={{
-              style: "blue",
+              style: "grey",
               text: "Retour",
               type: "button",
               onClick: (): void => navigate("/menu_site"),

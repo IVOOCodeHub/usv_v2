@@ -77,12 +77,12 @@
   font-family: -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
   border-radius: 6px;
   border: none;
-  background: #6e6d70;
+  background: #8e8c91;
   box-shadow:
     0 0.5px 1px rgba(0, 0, 0, 0.1),
-    inset 0 0.5px 0.5px rgba(255, 255, 255, 0.5),
+    inset 0 0.5px 0.5px rgba(142, 140, 145, 0.5),
     0 0 0 0.5px rgba(0, 0, 0, 0.12);
-  color: #dfdedf;
+  color: #ffffff;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -93,7 +93,7 @@
 
   &:focus {
     box-shadow:
-      inset 0 0.8px 0px -0.25px rgba(255, 255, 255, 0.2),
+      inset 0 0.8px 0px -0.25px rgba(142, 140, 145, 0.2),
       0px 0.5px 1px rgba(0, 0, 0, 0.1),
       0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
     outline: 3.5px solid #36395a;

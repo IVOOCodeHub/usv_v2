@@ -1,0 +1,63 @@
+#gestionDesAccesGIVOO {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 90dvh;
+  background: #f2f2f2;
+
+  @media (max-width: 768px) {
+    min-height: 75dvh;
+  }
+}
+
+#gestionDesAccesGIVOO form {
+  background: #ffffff;
+  border: 1px solid #36395a;
+  padding: 1em;
+  border-radius: 6px;
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+  width: 25%;
+
+  @media (max-width: 1024px) {
+    width: 50%;
+  }
+  @media (max-width: 768px) {
+    width: 75%;
+    padding: .5em;
+  }
+}
+
+#gestionDesAccesGIVOO form .inputWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  @media (max-width: 1024px) {
+    flex-flow: column;
+    gap: 0.5em;
+  }
+}
+
+#gestionDesAccesGIVOO form .inputWrapper label {
+  //width: 50%;
+  text-align: center;
+}
+
+#gestionDesAccesGIVOO form .inputWrapper .css-b62m3t-container {
+  width: 50%;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
+}
+
+#gestionDesAccesGIVOO form .buttonWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}

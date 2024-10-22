@@ -12,7 +12,7 @@ import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // context
-import { UserContext } from "../../context/UserContext.tsx";
+import { UserContext } from "../../context/userContext.tsx";
 
 export default function TestPage(): ReactElement {
   const { user, setUser } = useContext(UserContext);

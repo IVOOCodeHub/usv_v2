@@ -17,8 +17,8 @@ import Form from "../../components/form/Form";
 import Footer from "../../components/footer/Footer";
 
 // context
-import { LoaderContext } from "../../context/LoaderContext.tsx";
-import { UserContext } from "../../context/UserContext.tsx";
+import { LoaderContext } from "../../context/loaderContext.tsx";
+import { UserContext } from "../../context/userContext.tsx";
 
 export default function Auth(): ReactElement {
   const { isLoading, startLoading, stopLoading } = useContext(LoaderContext);

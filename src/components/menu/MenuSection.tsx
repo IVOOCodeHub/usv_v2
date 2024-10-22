@@ -14,7 +14,7 @@ export default function MenuSection({
       <h2>{title}</h2>
       {items.map(
         (item: IMenuItem, index: number): ReactElement => (
-          <MenuItem key={index} name={item.name} />
+          <MenuItem key={index} name={item.name} link={item.link} />
         ),
       )}
     </ul>
