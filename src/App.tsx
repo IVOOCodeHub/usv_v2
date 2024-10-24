@@ -11,7 +11,8 @@ import MenuSite from "./views/general/menuSite/MenuSite.tsx";
 import MenuGeneral from "./views/general/menuGeneral/MenuGeneral.tsx";
 
 // router
-import GestionGIVOORouter from "./views/parametrages/gestionGIVOO/gestionGIVOORouter.tsx";
+import GestionGIVOORouter from "./views/parametrages/gestionGIVOO/GestionGIVOORouter.tsx";
+import CommandesRouter from "./views/commandes/CommandesRouter.tsx";
 
 function App(): ReactElement {
   return (
@@ -24,6 +25,8 @@ function App(): ReactElement {
 
         {/* GestionGIVOO sub application */}
         <Route path={"gestion_givoo/*"} element={<GestionGIVOORouter />} />
+        {/* Commandes sub application */}
+        <Route path={"commandes/*"} element={<CommandesRouter />} />
 
         <Route path={"*"} element={<TestPage />} />
       </Routes>

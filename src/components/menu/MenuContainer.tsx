@@ -3,14 +3,11 @@ import "./menuContainer.scss";
 
 // types
 import { ReactElement } from "react";
+import { IMenuItem } from "./MenuItem.tsx";
 export interface IMenuContainerProps {
   title: string;
   items: IMenuItem[];
-}
-
-export interface IMenuItem {
-  name: string;
-  link: string;
+  isCheckable?: boolean;
 }
 
 // components
@@ -29,6 +26,7 @@ export default function MenuContainer({
             key={index}
             title={section.title}
             items={section.items}
+            isCheckable={section.isCheckable}
           />
         ),
       )}

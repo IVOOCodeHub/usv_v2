@@ -9,8 +9,7 @@ export default function GestionGIVOORouter(): ReactElement {
   return (
     <Routes>
       <Route path="acces" element={<GestionDesAccesGIVOO />} />
-      <Route path="menu" element={<GestionDesAccesMenusGIVOO />}
-      />
+      <Route path="menu" element={<GestionDesAccesMenusGIVOO />} />
     </Routes>
   );
 }
