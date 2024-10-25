@@ -6,3 +6,40 @@
   min-height: 90dvh;
   background: #f2f2f2;
 }
+
+#tresorerieMenu .menuWrapper {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+}
+
+#tresorerieMenu .menuWrapper #menuContainer {
+  column-count: 2;
+}
+
+#tresorerieMenu .menuWrapper section:last-of-type {
+  //column-count: 1 !important;
+  //width: 50%;
+}
+
+#tresorerieMenu .menuWrapper button:not(:last-child) {
+  background-color: #a5b6d5;
+  margin-bottom: 5px;
+  padding: 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 0.85dvw;
+  border: none;
+  width: 100%;
+
+  &:hover {
+    background-color: #d4dff1;
+
+    & li {
+      background-color: #d4dff1;
+    }
+  }
+}

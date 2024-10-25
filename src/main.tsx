@@ -11,12 +11,15 @@ import App from "./App.tsx";
 import { LoaderProvider } from "./context/loaderContext.tsx";
 import { UserProvider } from "./context/userContext.tsx";
 import { SiteProvider } from "./context/siteContext.tsx";
+import { CourrierProvider } from "./context/courrierContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <LoaderProvider>
     <UserProvider>
       <SiteProvider>
-        <App />
+        <CourrierProvider>
+          <App />
+        </CourrierProvider>
       </SiteProvider>
     </UserProvider>
   </LoaderProvider>,
