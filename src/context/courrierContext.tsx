@@ -1,6 +1,5 @@
 // types
 import { ReactElement } from "react";
-import { ICourrierDepenses } from "../utils/types/courrier.interface.ts";
 import { IUserCredentials } from "../utils/types/user.interface.ts";
 
 interface ICourrierContext {
@@ -16,6 +15,7 @@ import { createContext, useState, Context } from "react";
 
 // services
 import { getCourrierDepensesService } from "../API/services/Courrier.service.ts";
+import { ICourrierDepenses } from "../utils/types/courrier.interface.ts";
 
 export const CourrierContext: Context<ICourrierContext> =
   createContext<ICourrierContext>({

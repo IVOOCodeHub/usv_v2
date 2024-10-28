@@ -1,6 +1,3 @@
-// utils
-import { convertObjectToArray } from "../../../../../utils/scripts/utils.ts";
-
 // styles
 import "./courrierDepenses.scss";
 import "nillys-react-table-library/style";
@@ -30,26 +27,29 @@ export default function CourrierDepenses(): ReactElement {
   const { courrierDepenses, getCourrierDepenses } = useContext(CourrierContext);
   const [bodyArray, setBodyArray] = useState<string[][]>([]);
 
-  useEffect(() => {
-    getCourrierDepenses(userCredentials!);
-  }, [ ]);
+  const convertToArray: (datas: ICourrierDepenses[]) => string[][] = (
+    datas: ICourrierDepenses[],
+  ): string[][] => {
+    return datas.map((data: ICourrierDepenses): string[] => [
+      data.index,
+      data.action,
+      data.auteurSaisie,
+      data.commentaire,
+      data.dhSaisie,
+      data.nature,
+      data.service,
+      data.societe,
+      data.societeEmettrice,
+      data.statut,
+    ]);
+  };
 
-  useEffect(() => {
-    if (courrierDepenses) {
-      const convertToArray = (datas) => {
-        return datas.map((data) => [
-          data.index,
-          data.action,
-          data.auteurSaisie,
-          data.commentaire,
-          data.dhSaisie,
-          data.nature,
-          data.service,
-          data.societe,
-          data.societeEmettrice,
-          data.statut,
-        ]);
-      };
+  useEffect((): void => {
+    getCourrierDepenses(userCredentials!);
+  }, []);
+
+  useEffect((): void => {
+    if (Array.isArray(courrierDepenses)) {
       setBodyArray(convertToArray(courrierDepenses));
     }
   }, [getCourrierDepenses, courrierDepenses]);
@@ -80,7 +80,19 @@ export default function CourrierDepenses(): ReactElement {
       <Header props={{ pageURL: "G_IVOO | Comptabilité" }} />
       <main id={"courrierDepenses"}>
         <div className={"tableWrapper"}>
-          <NRTL datas={tableData} />
+          <NRTL
+            datas={tableData}
+            headerBackgroundColor={
+              "linear-gradient(to left, #84CDE4FF, #1092B8)"
+            }
+            headerHoverBackgroundColor={"#1092B8"}
+            showItemsPerPageSelector={true}
+            showPreviousNextButtons={true}
+            showSearchBar={true}
+            showPagination={true}
+            enableColumnSorting={true}
+            itemsPerPageOptions={[10, 25, 50]}
+          />
         </div>
         <Button
           props={{

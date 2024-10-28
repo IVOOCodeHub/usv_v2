@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "axios": "^1.7.7",
-    "nillys-react-table-library": "^1.1.0",
+    "nillys-react-table-library": "^1.1.2",
     "prettier": "^3.3.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
