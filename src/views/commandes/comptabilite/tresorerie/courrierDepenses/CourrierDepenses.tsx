@@ -2,27 +2,27 @@
 import "./courrierDepenses.scss";
 import "nillys-react-table-library/style";
 
-// types
-import { ReactElement } from "react";
-import { NavigateFunction } from "react-router-dom";
-
 // hooks | libraries
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavigateFunction } from "react-router-dom";
 import { NRTL } from "nillys-react-table-library";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, ReactElement } from "react";
 
 // components
+import withAuth from "../../../../../views/auth/withAuth";
 import Header from "../../../../../components/header/Header";
+import Loader from "../../../../../components/loader/Loader";
 import Button from "../../../../../components/button/Button.tsx";
 import Footer from "../../../../../components/footer/Footer";
 
 // context
+import { LoaderContext } from "../../../../../context/loaderContext.tsx";
 import { UserContext } from "../../../../../context/userContext";
 import { CourrierContext } from "../../../../../context/courrierContext.tsx";
 import { ICourrierDepenses } from "../../../../../utils/types/courrier.interface.ts";
 
-export default function CourrierDepenses(): ReactElement {
+function CourrierDepenses(): ReactElement {
   const navigate: NavigateFunction = useNavigate();
+  const { isLoading, startLoading, stopLoading } = useContext(LoaderContext);
   const { user } = useContext(UserContext);
   const { courrierDepenses, getCourrierDepenses } = useContext(CourrierContext);
   const [bodyArray, setBodyArray] = useState<string[][]>([]);
@@ -32,20 +32,24 @@ export default function CourrierDepenses(): ReactElement {
   ): string[][] => {
     return datas.map((data: ICourrierDepenses): string[] => [
       data.index,
-      data.action,
-      data.auteurSaisie,
-      data.commentaire,
       data.dhSaisie,
-      data.nature,
-      data.service,
-      data.societe,
       data.societeEmettrice,
-      data.statut,
+      data.societe,
+      data.nature,
+      data.action,
+      data.commentaire,
     ]);
   };
 
   useEffect((): void => {
-    getCourrierDepenses(userCredentials!);
+    startLoading();
+    if (user) {
+      const userCredentials = {
+        matricule: user.matricule,
+        password: user.password,
+      };
+      getCourrierDepenses(userCredentials).finally(stopLoading);
+    }
   }, []);
 
   useEffect((): void => {
@@ -54,23 +58,15 @@ export default function CourrierDepenses(): ReactElement {
     }
   }, [getCourrierDepenses, courrierDepenses]);
 
-  const userCredentials = {
-    matricule: user!.matricule,
-    password: user!.password,
-  };
-
   const tableData = {
     tableHead: [
       "Clé",
+      "Date réception",
+      "Émetteur",
+      "Destinataire",
+      "Pièce",
       "Action",
-      "Auteur saisie",
       "Commentaire",
-      "DH saisie",
-      "Nature",
-      "Service",
-      "Société",
-      "Société émettrice",
-      "Statut",
     ],
     tableBody: bodyArray,
   };
@@ -80,19 +76,28 @@ export default function CourrierDepenses(): ReactElement {
       <Header props={{ pageURL: "G_IVOO | Comptabilité" }} />
       <main id={"courrierDepenses"}>
         <div className={"tableWrapper"}>
-          <NRTL
-            datas={tableData}
-            headerBackgroundColor={
-              "linear-gradient(to left, #84CDE4FF, #1092B8)"
-            }
-            headerHoverBackgroundColor={"#1092B8"}
-            showItemsPerPageSelector={true}
-            showPreviousNextButtons={true}
-            showSearchBar={true}
-            showPagination={true}
-            enableColumnSorting={true}
-            itemsPerPageOptions={[10, 25, 50]}
-          />
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <NRTL
+              datas={tableData}
+              headerBackgroundColor={
+                "linear-gradient(to left, #84CDE4FF, #1092B8)"
+              }
+              headerHoverBackgroundColor={"#1092B8"}
+              showItemsPerPageSelector={true}
+              showPreviousNextButtons={true}
+              showSearchBar={true}
+              showPagination={true}
+              enableColumnSorting={true}
+              itemsPerPageOptions={[10, 25, 50]}
+              onRowClick={(rowData: string[]): void =>
+                navigate("/commandes/tresorerie/courrier_consult", {
+                  state: { rowData },
+                })
+              }
+            />
+          )}
         </div>
         <Button
           props={{
@@ -107,3 +112,7 @@ export default function CourrierDepenses(): ReactElement {
     </>
   );
 }
+
+const CourrierDepensesWithAuth: (props: object) => ReactElement | null =
+  withAuth(CourrierDepenses);
+export default CourrierDepensesWithAuth;

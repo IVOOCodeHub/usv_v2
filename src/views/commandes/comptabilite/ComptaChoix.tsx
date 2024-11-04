@@ -3,12 +3,12 @@ import "./comptaChoix.scss";
 
 // types
 import { ReactElement } from "react";
-import { NavigateFunction } from "react-router-dom";
 
 // hooks | libraries
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavigateFunction } from "react-router-dom";
 
 // components
+import withAuth from "../../auth/withAuth.tsx";
 import Header from "../../../components/header/Header";
 import Button from "../../../components/button/Button.tsx";
 import MenuContainer, {
@@ -16,7 +16,7 @@ import MenuContainer, {
 } from "../../../components/menu/MenuContainer.tsx";
 import Footer from "../../../components/footer/Footer";
 
-export default function ComptaChoix(): ReactElement {
+function ComptaChoix(): ReactElement {
   const navigate: NavigateFunction = useNavigate();
   const menuData: IMenuContainerProps[] = [
     {
@@ -50,3 +50,7 @@ export default function ComptaChoix(): ReactElement {
     </>
   );
 }
+
+const ComptaChoixWithAuth: (props: object) => ReactElement | null =
+  withAuth(ComptaChoix);
+export default ComptaChoixWithAuth;

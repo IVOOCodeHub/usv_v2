@@ -1,4 +1,8 @@
+// custom types
 import { ICourrierDepenses } from "../../utils/types/courrier.interface.ts";
+
+// utils
+import { convertENDateToFr } from "../../utils/scripts/utils.ts";
 
 export interface IServerCourrierDepenses {
   action: string;
@@ -11,6 +15,7 @@ export interface IServerCourrierDepenses {
   societe: string;
   societe_emettrice: string;
   statut: string;
+  nom_fichier: string;
 }
 
 export const courrierDepensesModel: (
@@ -23,11 +28,12 @@ export const courrierDepensesModel: (
     auteurSaisie: serverCourrierDepenses.auteur_saisie,
     index: serverCourrierDepenses.cle,
     commentaire: serverCourrierDepenses.commentaire,
-    dhSaisie: serverCourrierDepenses.dh_saisie,
+    dhSaisie: convertENDateToFr(serverCourrierDepenses.dh_saisie),
     nature: serverCourrierDepenses.nature,
     service: serverCourrierDepenses.service,
     societe: serverCourrierDepenses.societe,
     societeEmettrice: serverCourrierDepenses.societe_emettrice,
     statut: serverCourrierDepenses.statut,
+    fileName: serverCourrierDepenses.nom_fichier,
   };
 };

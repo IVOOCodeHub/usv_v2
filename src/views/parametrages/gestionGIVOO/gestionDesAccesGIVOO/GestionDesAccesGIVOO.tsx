@@ -2,25 +2,24 @@
 import "./gestionDesAccesGIVOO.scss";
 
 // types
-import { ReactElement, FormEvent } from "react";
-import { NavigateFunction } from "react-router-dom";
 interface IOptionType {
   value: string;
   label: string;
 }
 
 // hooks | libraries
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, NavigateFunction } from "react-router-dom";
+import { useState, ReactElement, FormEvent } from "react";
 
 // components
+import withAuth from "../../../auth/withAuth.tsx";
 import Header from "../../../../components/header/Header";
 import Select from "react-select";
 import Button from "../../../../components/button/Button";
 import Footer from "../../../../components/footer/Footer";
 import AlertBox from "../../../../components/alertBox/AlertBox.tsx";
 
-export default function GestionDesAccesGIVOO(): ReactElement {
+function GestionDesAccesGIVOO(): ReactElement {
   const navigate: NavigateFunction = useNavigate();
   const [selectedRole, setSelectedRole] = useState<IOptionType | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -113,3 +112,7 @@ export default function GestionDesAccesGIVOO(): ReactElement {
     </>
   );
 }
+
+const GestionDesAccesGIVOOWithAuth: (props: object) => ReactElement | null =
+  withAuth(GestionDesAccesGIVOO);
+export default GestionDesAccesGIVOOWithAuth;

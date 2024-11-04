@@ -2,19 +2,18 @@
 import "./menuSite.scss";
 
 // types
-import { ReactElement, FormEvent } from "react";
-import { NavigateFunction } from "react-router-dom";
 interface OptionType {
   value: string;
   label: string;
 }
 
 // hooks | libraries
-import { useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useState, ReactElement, FormEvent } from "react";
+import { useNavigate, NavigateFunction } from "react-router-dom";
 import Select from "react-select"; // https://www.npmjs.com/package/react-select
 
 // components
+import withAuth from "../../auth/withAuth.tsx";
 import Header from "../../../components/header/Header";
 import Button from "../../../components/button/Button";
 import Footer from "../../../components/footer/Footer";
@@ -23,9 +22,9 @@ import Footer from "../../../components/footer/Footer";
 import { UserContext } from "../../../context/userContext.tsx";
 import { SiteContext } from "../../../context/siteContext.tsx";
 
-export default function MenuSite(): ReactElement {
+function MenuSite(): ReactElement {
   const navigate: NavigateFunction = useNavigate();
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const { setSelectedSite } = useContext(SiteContext);
 
   const [selectedGroupSelect, setSelectedGroupSelect] =
@@ -63,12 +62,6 @@ export default function MenuSite(): ReactElement {
   const handleSiteChange = (selectedOption: OptionType | null): void => {
     setSelectedSiteSelect(selectedOption);
   };
-
-  useEffect((): void => {
-    if (!user) {
-      navigate("/auth");
-    }
-  }, []);
 
   return (
     <>
@@ -129,3 +122,7 @@ export default function MenuSite(): ReactElement {
     </>
   );
 }
+
+const MenuSiteWithAuth: (props: object) => ReactElement | null =
+  withAuth(MenuSite);
+export default MenuSiteWithAuth;

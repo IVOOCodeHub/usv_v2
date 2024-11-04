@@ -1,0 +1,30 @@
+#courrierConsult {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row;
+  margin: auto;
+  background: var(--greyBackground);
+  min-height: 90dvh;
+  width: 100%;
+}
+
+#courrierConsult .leftSide,
+#courrierConsult .rightSide {
+  width: 50%;
+  min-height: 50dvh;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#courrierConsult .leftSide div {
+  width: 100%;
+  min-height: 80dvh;
+}
+
+#courrierConsult .leftSide div iframe {
+  width: 100%;
+  min-height: 80dvh;
+}

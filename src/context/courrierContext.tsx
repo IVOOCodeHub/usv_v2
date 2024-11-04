@@ -1,5 +1,4 @@
-// types
-import { ReactElement } from "react";
+//  custom types
 import { IUserCredentials } from "../utils/types/user.interface.ts";
 
 interface ICourrierContext {
@@ -11,7 +10,7 @@ interface ICourrierContext {
 }
 
 // hooks | libraries
-import { createContext, useState, Context } from "react";
+import { createContext, useState, Context, ReactElement } from "react";
 
 // services
 import { getCourrierDepensesService } from "../API/services/Courrier.service.ts";

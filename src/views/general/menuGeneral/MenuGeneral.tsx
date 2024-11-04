@@ -2,35 +2,26 @@
 import "./menuGeneral.scss";
 import "nillys-react-table-library/style";
 
-// types
-import { ReactElement } from "react";
-import { NavigateFunction } from "react-router-dom";
-import { IMenuContainerProps } from "../../../components/menu/MenuContainer.tsx";
-
 // hooks | libraries
-import { useNavigate } from "react-router-dom";
-import { useEffect, useContext } from "react";
+import { useContext, ReactElement } from "react";
+import { useNavigate, NavigateFunction } from "react-router-dom";
 
 // context
-import { UserContext } from "../../../context/userContext.tsx";
 import { SiteContext } from "../../../context/siteContext.tsx";
 
 // components
+import withAuth from "../../auth/withAuth.tsx";
 import Header from "../../../components/header/Header";
-import MenuContainer from "../../../components/menu/MenuContainer.tsx";
+import MenuContainer, {
+  IMenuContainerProps,
+} from "../../../components/menu/MenuContainer.tsx";
 import Button from "../../../components/button/Button";
 import Footer from "../../../components/footer/Footer";
 
-export default function MenuGeneral(): ReactElement {
-  const navigate: NavigateFunction = useNavigate();
-  const { user } = useContext(UserContext);
+function MenuGeneral(): ReactElement {
   const { selectedSite } = useContext(SiteContext);
 
-  useEffect((): void => {
-    if (!user) {
-      navigate("/auth");
-    }
-  }, []);
+  const navigate: NavigateFunction = useNavigate();
 
   const menuData: IMenuContainerProps[] = [
     {
@@ -131,7 +122,11 @@ export default function MenuGeneral(): ReactElement {
           link: "/menu_general",
           isCheckable: false,
         },
-        { name: "Comptabilité", link: "/commandes/compta_choix", isCheckable: false },
+        {
+          name: "Comptabilité",
+          link: "/commandes/compta_choix",
+          isCheckable: false,
+        },
         { name: "Litiges", link: "/menu_general", isCheckable: false },
       ],
       isCheckable: false,
@@ -303,3 +298,7 @@ export default function MenuGeneral(): ReactElement {
     </>
   );
 }
+
+const MenuGeneralWithAuth: (props: object) => ReactElement | null =
+  withAuth(MenuGeneral);
+export default MenuGeneralWithAuth;

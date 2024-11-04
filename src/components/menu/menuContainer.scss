@@ -2,6 +2,7 @@
   column-count: 6;
   column-gap: 5px;
   width: 100%;
+  border: 2px solid red;
 
   @media (max-width: 1024px) {
     column-count: 4;

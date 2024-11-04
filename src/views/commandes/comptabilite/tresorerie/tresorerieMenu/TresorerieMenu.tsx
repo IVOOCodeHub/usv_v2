@@ -3,19 +3,20 @@ import "./tresorerieMenu.scss";
 
 // types
 import { ReactElement } from "react";
-import { NavigateFunction } from "react-router-dom";
-import { IMenuContainerProps } from "../../../../../components/menu/MenuContainer.tsx";
 
 // hooks | libraries
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavigateFunction } from "react-router-dom";
 
 // components
+import withAuth from "../../../../../views/auth/withAuth";
 import Header from "../../../../../components/header/Header";
 import Button from "../../../../../components/button/Button.tsx";
-import MenuContainer from "../../../../../components/menu/MenuContainer.tsx";
+import MenuContainer, {
+  IMenuContainerProps,
+} from "../../../../../components/menu/MenuContainer.tsx";
 import Footer from "../../../../../components/footer/Footer";
 
-export default function TresorerieMenu(): ReactElement {
+function TresorerieMenu(): ReactElement {
   const navigate: NavigateFunction = useNavigate();
   const menuData: IMenuContainerProps[] = [
     {
@@ -87,3 +88,7 @@ export default function TresorerieMenu(): ReactElement {
     </>
   );
 }
+
+const TresorerieMenuWithAuth: (props: object) => ReactElement | null =
+  withAuth(TresorerieMenu);
+export default TresorerieMenuWithAuth;

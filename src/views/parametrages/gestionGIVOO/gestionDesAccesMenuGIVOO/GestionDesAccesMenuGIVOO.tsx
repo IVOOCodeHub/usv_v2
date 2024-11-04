@@ -3,19 +3,19 @@ import "./gestionDesAccesMenuGIVOO.scss";
 
 // types
 import { ReactElement } from "react";
-import { NavigateFunction } from "react-router-dom";
 
 // hooks | libraries
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, NavigateFunction } from "react-router-dom";
 
 // components
+import withAuth from "../../../auth/withAuth.tsx";
 import Header from "../../../../components/header/Header.tsx";
 import MenuContainer from "../../../../components/menu/MenuContainer";
 import Button from "../../../../components/button/Button.tsx";
 import Footer from "../../../../components/footer/Footer.tsx";
 import { IMenuContainerProps } from "../../../../components/menu/MenuContainer.tsx";
 
-export default function GestionDesAccesMenuGIVOO(): ReactElement {
+function GestionDesAccesMenuGIVOO(): ReactElement {
   const navigate: NavigateFunction = useNavigate();
   const location = useLocation();
   const { role } = location.state;
@@ -269,3 +269,7 @@ export default function GestionDesAccesMenuGIVOO(): ReactElement {
     </>
   );
 }
+
+const GestionDesAccesMenuGIVOOWithAuth: (props: object) => ReactElement | null =
+  withAuth(GestionDesAccesMenuGIVOO);
+export default GestionDesAccesMenuGIVOOWithAuth;

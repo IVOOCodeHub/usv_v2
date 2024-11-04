@@ -9,4 +9,5 @@ export interface ICourrierDepenses {
   societe: string;
   societeEmettrice: string;
   statut: string;
+  fileName: string;
 }
