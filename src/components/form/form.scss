@@ -52,10 +52,11 @@
   padding: 0.8em;
   height: 1.7em;
   text-align: center;
-  width: 60%;
+  min-width: 230px;
 }
 
 #form input[type="date"] {
+  min-width: 230px;
   &:hover {
     cursor: pointer;
   }
@@ -71,9 +72,23 @@
   }
 }
 
+#form .css-b62m3t-container {
+  min-width: 230px;
+  &:focus {
+    outline: 3.5px solid #36395a;
+  }
+}
+
+#form .css-13cymwt-control {
+  background: #f2f2f2;
+  border-color: unset;
+  border-radius: unset;
+}
+
 #form .buttonWrapper {
   display: flex;
   justify-content: center;
+  gap: 4em;
   margin-top: 1em;
 }
 

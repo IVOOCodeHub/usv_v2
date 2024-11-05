@@ -96,6 +96,7 @@ function CourrierDepenses(): ReactElement {
                   state: { rowData },
                 })
               }
+              language={'fr'}
             />
           )}
         </div>

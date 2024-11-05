@@ -12,7 +12,8 @@
   flex-flow: column;
   align-items: center;
   justify-content: center;
-  width: 50%;
+  width: 35%;
+  gap: .5em;
 }
 
 #tresorerieMenu .menuWrapper #menuContainer {
@@ -21,7 +22,6 @@
 
 #tresorerieMenu .menuWrapper button:not(:last-child) {
   background-color: #a5b6d5;
-  margin-bottom: 5px;
   padding: 7px;
   border-radius: 4px;
   cursor: pointer;

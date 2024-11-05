@@ -1,8 +1,9 @@
 #menuContainer {
+  -webkit-column-count: 6;
   column-count: 6;
+  column-width: 20px !important;
   column-gap: 5px;
   width: 100%;
-  border: 2px solid red;
 
   @media (max-width: 1024px) {
     column-count: 4;
@@ -23,8 +24,8 @@
   border-radius: 8px;
   text-align: center;
   margin-bottom: 5px;
-  display: inline-block;
   width: 100%;
+  break-inside: avoid-column;
 }
 
 #menuSection h2 {
@@ -43,7 +44,6 @@
   border-radius: 4px;
   cursor: pointer;
   text-align: center;
-  font-size: .85dvw;
   width: 100%;
   position: relative;
 }
