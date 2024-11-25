@@ -70,9 +70,114 @@
 // RIGHT SIDE
 
 #courrierConsult .rightSide .formContainer {
-  width: 50%;
+  width: 75%;
 }
 
 #courrierConsult .rightSide form .buttonWrapper {
   width: 100%;
+}
+
+#courrierConsult .rightSide .formContainer form {
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+  border: 1px solid #36395a;
+  padding: 1em;
+  border-radius: 6px;
+  width: 100%;
+  background: #ffffff;
+}
+
+#courrierConsult .rightSide .formContainer form h3 {
+  font-size: 1.5em;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+#courrierConsult .rightSide .formContainer form .inputWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (max-width: 1024px) {
+    flex-flow: column;
+  }
+}
+
+#courrierConsult .rightSide .formContainer form .inputWrapper label {
+  width: 40%;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+#courrierConsult .rightSide .formContainer form input[type="text"],
+#courrierConsult .rightSide .formContainer form input[type="email"],
+#courrierConsult .rightSide .formContainer form input[type="number"],
+#courrierConsult .rightSide .formContainer form input[type="password"],
+#courrierConsult .rightSide .formContainer form input[type="date"] {
+  border: 1px solid #36395a;
+  padding: 0.8em;
+  text-align: center;
+  min-width: 230px;
+  max-height: 38px;
+}
+
+#courrierConsult .rightSide .formContainer form input[type="date"] {
+  min-width: 230px;
+  max-height: 38px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+#courrierConsult .rightSide .formContainer form input:not([type="file"]) {
+  background: #f2f2f2;
+}
+
+#courrierConsult .rightSide .formContainer form input {
+  &:focus {
+    outline: 3.5px solid #36395a;
+  }
+}
+
+#courrierConsult .rightSide .formContainer form .css-b62m3t-container {
+  font-size: 12px !important;
+  &:focus {
+    outline: 3.5px solid #36395a !important;
+  }
+}
+
+#courrierConsult .rightSide .formContainer form .css-13cymwt-control {
+  font-size: 12px !important;
+  background: #f2f2f2;
+  border-color: unset;
+  border-radius: unset;
+}
+
+#courrierConsult .rightSide .formContainer form .css-13cymwt-control:not(#selectGroup .css-13cymwt-control) {
+  width: 230px;
+}
+
+#courrierConsult .rightSide .formContainer form .css-b62m3t-container:not(#selectGroup .css-b62m3t-container) {
+  width: 230px;
+}
+
+#courrierConsult .rightSide .formContainer form .inputWrapper .tiersWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+#courrierConsult .rightSide .formContainer form .inputWrapper .tiersWrapper p {
+  font-weight: 700;
+}
+
+#courrierConsult .rightSide .formContainer form .buttonWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 4em;
+  margin-top: 1em;
 }

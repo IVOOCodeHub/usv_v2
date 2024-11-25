@@ -2,15 +2,6 @@
 import "./form.scss";
 
 // types
-import {
-  ReactElement,
-  FormEvent,
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-} from "react";
-import { Props as SelectProps } from "react-select";
-
 interface IFormProps<T> {
   props: {
     title: string;
@@ -31,7 +22,9 @@ interface IFormProps<T> {
       placeholder?: string;
       selectProps?: SelectProps;
     }[];
+    isWithSelectGroup?: boolean;
     isWithSubmitButton?: boolean;
+    submitButtonText?: string;
     isWithCancelButton?: boolean;
     formData?: T;
     setFormData?: Dispatch<SetStateAction<T>>;
@@ -42,18 +35,29 @@ interface IFormProps<T> {
 }
 
 // hooks | libraries
-import { useState, useEffect } from "react";
+import {
+  useState,
+  useEffect,
+  ReactElement,
+  FormEvent,
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
 // components
-import Select from "react-select";
+import Select, { Props as SelectProps } from "react-select";
 import Button from "../button/Button";
 
-export default function Form<T>({ props }: IFormProps<T>): ReactElement {
+export default function Form<T>({
+  props,
+}: Readonly<IFormProps<T>>): ReactElement {
   const {
     title,
     input,
     inputs,
     isWithSubmitButton,
+    submitButtonText,
     isWithCancelButton,
     setFormData,
     errorMessage,
@@ -119,24 +123,29 @@ export default function Form<T>({ props }: IFormProps<T>): ReactElement {
       )}
       {inputs && (
         <>
-          {inputs.map((input, index) => (
-            <div className="inputWrapper" key={index}>
-              <label htmlFor={input.key}>{input.label}</label>
+          {inputs.map(
+            (input): ReactElement => (
+              <div className="inputWrapper" key={input.key}>
+                <label htmlFor={input.key}>{input.label}</label>
 
-              {input.type === "select" && input.selectProps ? (
-                <Select {...input.selectProps} />
-              ) : (
-                <input
-                  type={input.type}
-                  id={input.key}
-                  required={input.required}
-                  placeholder={input.placeholder}
-                  checked={input.checked}
-                  onChange={handleInputChange}
-                />
-              )}
-            </div>
-          ))}
+                {input.type === "select" && input.selectProps ? (
+                  <Select
+                    {...input.selectProps}
+                    // styles={customStyles}
+                  />
+                ) : (
+                  <input
+                    type={input.type}
+                    id={input.key}
+                    required={input.required}
+                    placeholder={input.placeholder}
+                    checked={input.checked}
+                    onChange={handleInputChange}
+                  />
+                )}
+              </div>
+            ),
+          )}
         </>
       )}
       {isWithSubmitButton && (
@@ -144,7 +153,7 @@ export default function Form<T>({ props }: IFormProps<T>): ReactElement {
           <Button
             props={{
               style: "blue",
-              text: "Connexion",
+              text: submitButtonText,
               type: "submit",
               disabled: isSubmitDisabled,
             }}

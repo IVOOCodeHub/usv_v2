@@ -1,0 +1,29 @@
+#selectGroup {
+  display: flex;
+  padding: 1em;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 2em;
+}
+
+#selectGroup li {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+#selectGroup li label {
+  width: 100% !important;
+  white-space: nowrap;
+  text-align: center;
+}
+
+#selectGroup li select {
+  width: 100%;
+}
+
+#selectGroup li .css-b62m3t-container,
+#selectGroup li .css-13cymwt-control {
+  width: 100%;
+}

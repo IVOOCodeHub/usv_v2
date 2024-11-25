@@ -81,6 +81,7 @@ export default function Auth(): ReactElement {
                     },
                   ],
                   isWithSubmitButton: true,
+                  submitButtonText: 'Connexion',
                   errorMessage: credentialsErrorMessage,
                   setFormData: setUserCredentials,
                 }}

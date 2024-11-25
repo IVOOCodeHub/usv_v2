@@ -7,7 +7,7 @@ import { ReactElement } from "react";
 interface IButtonProps {
   props: {
     style: "blue" | "white" | "grey" | "green" | "red";
-    text: string;
+    text: string | undefined;
     type: "submit" | "reset" | "button" | undefined;
     disabled?: boolean;
     onClick?: (
