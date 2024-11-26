@@ -45,7 +45,7 @@ const NouvellePrevisionDepenses = () => {
 				}}
 			/>
 			<main id={'nouvellePrevisionDepenses'}>
-				<h1>Nouvelle Prévision Dépenses</h1>
+				<h1 id='title'>Nouvelle Prévision Dépenses</h1>
         <DefinitionComponent items={items} />
 				<Button
 					props={{
