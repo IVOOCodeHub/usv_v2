@@ -9,6 +9,7 @@ import { useEffect, useState, useContext, ReactElement } from 'react'
 import withAuth from '../../../../../views/auth/withAuth'
 import Header from '../../../../../components/header/Header'
 import DefinitionComponent from '../../../../../components/definition/DefinitionComponent.tsx'
+import Form from '../../../../../components/form/Form.tsx'
 import Loader from '../../../../../components/loader/Loader'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
@@ -25,7 +26,7 @@ const NouvellePrevisionDepenses = () => {
 	const { user } = useContext(UserContext)
 	const { courrierDepenses, getCourrierDepenses } = useContext(CourrierContext)
 
-  const items = [
+	const items = [
 		{ label: 'Date pièce', value: '01/01/2024' },
 		{ label: 'Société', value: 'OpenAI Inc.' },
 		{ label: 'Rubrique', value: null },
@@ -46,7 +47,58 @@ const NouvellePrevisionDepenses = () => {
 			/>
 			<main id={'nouvellePrevisionDepenses'}>
 				<h1 id='title'>Nouvelle Prévision Dépenses</h1>
-        <DefinitionComponent items={items} />
+				<section className='componentsContainer'>
+					<Form
+						props={{
+							title: 'Nouvelle Prévision Dépenses',
+							inputs: [
+								{
+									label: 'Adresse mail :',
+									key: 'email',
+									type: 'email',
+									placeholder: 'ex: decressac.nicolas@icloud.com',
+									required: true,
+								},
+								{
+									label: 'Prénom :',
+									key: 'firstName',
+									type: 'text',
+									placeholder: 'ex: Nicolas',
+									required: true,
+								},
+								{
+									label: 'Date de naissance :',
+									key: 'birthDate',
+									type: 'date',
+									required: true,
+								},
+								{
+									label: 'Code TO :',
+									key: 'matricule',
+									type: 'number',
+									placeholder: 'ex: 6176',
+									required: true,
+								},
+								{
+									label: 'Mot de passe TO :',
+									key: 'password',
+									type: 'password',
+									placeholder: 'ex: decnic',
+									required: true,
+								},
+								{
+									label: 'CV :',
+									key: 'file',
+									type: 'file',
+									required: false,
+								},
+							],
+							isWithSubmitButton: true,
+						}}
+					/>
+					<DefinitionComponent items={items} />
+				</section>
+
 				<Button
 					props={{
 						style: 'grey',
