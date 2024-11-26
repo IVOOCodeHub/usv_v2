@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 $mobileWidth: 768px;
 $tabletWidth: 1024px;
 $laptopWidth: 1280px;
@@ -9,12 +11,15 @@ $errorColor: #fb5858;
 $colorSecondary: #36395a;
 
 $greyBackground: #dcdcdc;
+$whiteBackground: #ffffff;
 
 $brandColor: #818f26;
 $darkerBrandColor: #6a782b;
 
-$brandColorGradient: linear-gradient(
-  to left,
-  adjust-color($brandColor, $lightness: 30%),
-  adjust-color($darkerBrandColor, $lightness: 20%)
-);
+$brandColorGradient: linear-gradient(to left,
+  color.adjust($brandColor, $lightness: 30%),
+  color.adjust($darkerBrandColor, $lightness: 20%));
+
+$player-color-primary-light: #84CDE4;
+$player-color-primary-dark: #1092B8;
+$header-color-gradient:linear-gradient(to left, $player-color-primary-light, $player-color-primary-dark);
