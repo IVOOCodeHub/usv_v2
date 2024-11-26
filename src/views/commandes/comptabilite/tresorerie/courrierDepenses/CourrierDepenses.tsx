@@ -1,10 +1,11 @@
 // styles
 import "./courrierDepenses.scss";
-import "nillys-react-table-library/style";
+// import "nillys-react-table-library/style";
 
 // hooks | libraries
 import { useNavigate, NavigateFunction } from "react-router-dom";
-import { NRTL } from "nillys-react-table-library";
+// import { NRTL } from "nillys-react-table-library";
+import NRTL from '../../../../../components/NRTL/NRTL.tsx'
 import { useEffect, useState, useContext, ReactElement } from "react";
 
 // components
@@ -88,6 +89,7 @@ function CourrierDepenses(): ReactElement {
               showItemsPerPageSelector={true}
               showPreviousNextButtons={true}
               showSearchBar={true}
+              filterableColumns={[false, false, true, true, true, true, false]}
               showPagination={true}
               enableColumnSorting={true}
               itemsPerPageOptions={[10, 25, 50]}
