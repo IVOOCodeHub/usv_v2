@@ -1,18 +1,137 @@
 #nouvellePrevisionDepenses {
     display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
     align-items: center;
-}
-
-#title {
-    font-size: 1.5em;
-}
-
-.componentsContainer {
+    justify-content: center;
+    gap: 2%;
+    flex-flow: row;
+    margin: auto;
+    background: #f2f2f2;
+    min-height: 90dvh;
     width: 100%;
+    padding: 1em 1em;
+}
+
+#nouvellePrevisionDepenses .leftSide,
+#nouvellePrevisionConsult .rightSide {
+    width: 50%;
+    min-height: 50dvh;
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+    flex-flow: column;
     align-items: center;
+    justify-content: center;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer {
+    width: 75%;
+}
+
+#nouvellePrevisionDepenses .leftSide form .buttonWrapper {
+    width: 100%;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form {
+    display: flex;
+    flex-flow: column;
+    gap: 1em;
+    border: 1px solid #36395a;
+    padding: 1em;
+    border-radius: 6px;
+    width: 100%;
+    background: #ffffff;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form h3 {
+    font-size: 1.5em;
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .inputWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @media (max-width: 1024px) {
+        flex-flow: column;
+    }
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .inputWrapper label {
+    width: 40%;
+
+    @media (max-width: 1024px) {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form input[type="text"],
+#nouvellePrevisionDepenses .leftSide .formContainer form input[type="email"],
+#nouvellePrevisionDepenses .leftSide .formContainer form input[type="number"],
+#nouvellePrevisionDepenses .leftSide .formContainer form input[type="password"],
+#nouvellePrevisionDepenses .leftSide .formContainer form input[type="date"] {
+    border: 1px solid #36395a;
+    padding: 0.8em;
+    text-align: center;
+    min-width: 230px;
+    max-height: 38px;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form input[type="date"] {
+    min-width: 230px;
+    max-height: 38px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form input:not([type="file"]) {
+    background: #f2f2f2;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form input {
+    &:focus {
+        outline: 3.5px solid #36395a;
+    }
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .css-b62m3t-container {
+    font-size: 12px !important;
+
+    &:focus {
+        outline: 3.5px solid #36395a !important;
+    }
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .css-13cymwt-control {
+    font-size: 12px !important;
+    background: #f2f2f2;
+    border-color: unset;
+    border-radius: unset;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .css-13cymwt-control:not(#selectGroup .css-13cymwt-control) {
+    width: 230px;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .css-b62m3t-container:not(#selectGroup .css-b62m3t-container) {
+    width: 230px;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .inputWrapper .tiersWrapper {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .inputWrapper .tiersWrapper p {
+    font-weight: 700;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .buttonWrapper {
+    display: flex;
+    justify-content: center;
+    gap: 4em;
+    margin-top: 1em;
 }
