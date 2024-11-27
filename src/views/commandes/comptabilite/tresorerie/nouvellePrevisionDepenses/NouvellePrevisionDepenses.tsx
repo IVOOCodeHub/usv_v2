@@ -88,6 +88,10 @@ const NouvellePrevisionDepenses = () => {
 						<form>
 							<h3>Nouvelle prévision de dépense</h3>
 							<div className={'inputWrapper'}>
+								<label>Clé courrier : </label>
+								<input type={'number'} />
+							</div>
+							<div className={'inputWrapper'}>
 								<label>Date pièce : </label>
 								<input type={'date'} />
 							</div>
@@ -221,23 +225,7 @@ const NouvellePrevisionDepenses = () => {
 								<input type={'number'} />
 							</div>
 							<div className={'inputWrapper'}>
-								<label>Banque réglement : </label>
-								<Select
-									options={[
-										{ value: '', label: 'Choisir' },
-										{
-											value: '00025711726',
-											label: '00025711726 - SOCIETE GENERALE',
-										},
-									]}
-								/>
-							</div>
-							<div className={'inputWrapper'}>
 								<label>Avec TVA : </label>
-								<input type={'checkbox'} />
-							</div>
-							<div className={'inputWrapper'}>
-								<label>Moins de 20% TVA : </label>
 								<input type={'checkbox'} />
 							</div>
 							<div className={'inputWrapper'}>
