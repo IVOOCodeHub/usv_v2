@@ -2,7 +2,6 @@ import './nouvellePrevisionDepenses.scss'
 
 // hooks | libraries
 import { useNavigate, NavigateFunction } from 'react-router-dom'
-import { NRTL } from 'nillys-react-table-library'
 import { useEffect, useState, useContext, ReactElement } from 'react'
 
 // components
@@ -10,7 +9,6 @@ import Select from 'react-select'
 import withAuth from '../../../../../views/auth/withAuth'
 import Header from '../../../../../components/header/Header'
 import DefinitionComponent from '../../../../../components/definition/DefinitionComponent.tsx'
-import Form from '../../../../../components/form/Form.tsx'
 import Loader from '../../../../../components/loader/Loader'
 import SelectGroup from '../../../../../components/selectGroup/SelectGroup.tsx'
 import Button from '../../../../../components/button/Button.tsx'
@@ -28,6 +26,8 @@ const NouvellePrevisionDepenses = () => {
 	const { user } = useContext(UserContext)
 	const { courrierDepenses, getCourrierDepenses } = useContext(CourrierContext)
 	const [bodyArray, setBodyArray] = useState<string[][]>([])
+	const [cleCourrier, setCleCourrier] = useState<string>('')
+	const [pieceToDisplay, setPieceToDisplay] = useState<string>('')
 
 	const convertToArray: (datas: ICourrierDepenses[]) => string[][] = (datas: ICourrierDepenses[]): string[][] => {
 		return datas.map((data: ICourrierDepenses): string[] => [
@@ -58,9 +58,9 @@ const NouvellePrevisionDepenses = () => {
 		}
 	}, [getCourrierDepenses, courrierDepenses])
 
-	const tableData = {
-		tableHead: ['Clé', 'Date réception', 'Émetteur', 'Destinataire', 'Pièce', 'Action', 'Commentaire'],
-		tableBody: bodyArray,
+	const searchCleCourrier = (e: React.ChangeEvent<HTMLInputElement>): void => {
+		setCleCourrier(e.target.value)
+		console.log('clé courrier : ', cleCourrier)
 	}
 
 	const items = [
@@ -89,7 +89,22 @@ const NouvellePrevisionDepenses = () => {
 							<h3>Nouvelle prévision de dépense</h3>
 							<div className={'inputWrapper'}>
 								<label>Clé courrier : </label>
-								<input type={'number'} />
+								<div className={'btnVoir'}>
+									<Button
+										props={{
+											style: 'blue',
+											text: 'Voir',
+											type: 'submit',
+										}}
+									/>
+								</div>
+								<input
+									type={'number'}
+									id='cleCourrier'
+									name='cleCourrier'
+									value={cleCourrier}
+									onChange={searchCleCourrier}
+								/>
 							</div>
 							<div className={'inputWrapper'}>
 								<label>Date pièce : </label>
@@ -276,6 +291,8 @@ const NouvellePrevisionDepenses = () => {
 	)
 }
 
-const NouvellePrevisionDepensesWithAuth: (props: object) => ReactElement | null = withAuth(NouvellePrevisionDepenses)
+export default NouvellePrevisionDepenses
 
-export default NouvellePrevisionDepensesWithAuth
+// const NouvellePrevisionDepensesWithAuth: (props: object) => ReactElement | null = withAuth(NouvellePrevisionDepenses)
+
+// export default NouvellePrevisionDepensesWithAuth
