@@ -27,7 +27,11 @@ const NouvellePrevisionDepenses = () => {
 	const { courrierDepenses, getCourrierDepenses } = useContext(CourrierContext)
 	const [bodyArray, setBodyArray] = useState<string[][]>([])
 	const [cleCourrier, setCleCourrier] = useState<string>('')
-	const [pieceToDisplay, setPieceToDisplay] = useState<string>('')
+	const [pieceToDisplay, setPieceToDisplay] = useState<ICourrierDepenses | null | undefined>(null)
+
+	useEffect(() => {
+		setPieceToDisplay(getSelectedCourrier())
+	}, [])
 
 	const convertToArray: (datas: ICourrierDepenses[]) => string[][] = (datas: ICourrierDepenses[]): string[][] => {
 		return datas.map((data: ICourrierDepenses): string[] => [
@@ -75,6 +79,22 @@ const NouvellePrevisionDepenses = () => {
 		{ label: 'Date échéance', value: '31/12/2024' },
 		{ label: 'Date Ordo.', value: '15/12/2024' },
 	]
+
+	const getSelectedCourrier = (): void => {
+		if (Array.isArray(courrierDepenses)) {
+			const selectedCourrier = courrierDepenses.find(
+				(courrier: ICourrierDepenses): boolean => courrier.index === cleCourrier
+			)
+			if (selectedCourrier) {
+				setPieceToDisplay(selectedCourrier) // Met à jour l'état pour afficher dans l'iframe
+				console.log('PDF sélectionné :', selectedCourrier.fileName)
+			} else {
+				console.log('Aucun courrier trouvé pour cette clé.')
+				setPieceToDisplay(null)
+			}
+		}
+	}
+
 	return (
 		<>
 			<Header
@@ -94,7 +114,8 @@ const NouvellePrevisionDepenses = () => {
 										props={{
 											style: 'blue',
 											text: 'Voir',
-											type: 'submit',
+											type: 'button',
+											onClick: getSelectedCourrier,
 										}}
 									/>
 								</div>
@@ -275,7 +296,13 @@ const NouvellePrevisionDepenses = () => {
 						</form>
 					</div>
 				</div>
-				<DefinitionComponent items={items} />
+				<div className='rightSide'>
+					{pieceToDisplay?.fileName ? (
+						<iframe src={pieceToDisplay.fileName} title='Document PDF' width='100%' height='600px'></iframe>
+					) : (
+						<p>Sélectionnez un courrier pour afficher le document PDF.</p>
+					)}
+				</div>
 
 				<Button
 					props={{
