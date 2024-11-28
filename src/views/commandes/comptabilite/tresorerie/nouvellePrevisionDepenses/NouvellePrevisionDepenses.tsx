@@ -298,7 +298,11 @@ const NouvellePrevisionDepenses = () => {
 				</div>
 				<div className='rightSide'>
 					{pieceToDisplay?.fileName ? (
-						<iframe src={pieceToDisplay.fileName} title='Document PDF' width='100%' height='600px'></iframe>
+						// <iframe src={pieceToDisplay.fileName} title='courrier' width='100%' height='600px'></iframe>
+						<iframe
+							title={'courrier'}
+							src={`http://192.168.0.254:8080/usv_prod/courriers/${pieceToDisplay.fileName}`}
+						/>
 					) : (
 						<p>Sélectionnez un courrier pour afficher le document PDF.</p>
 					)}

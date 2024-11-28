@@ -23,7 +23,11 @@
     }
 
     iframe {
-        border: none;
+        width: 100%;
+        height: 100%;
+        min-height: 77dvh;
+        border: 1px solid #36395a;
+        border-radius: 0 0 6px 6px;
     }
 }
 
