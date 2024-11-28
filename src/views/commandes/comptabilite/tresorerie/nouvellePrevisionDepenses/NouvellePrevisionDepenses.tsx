@@ -79,7 +79,7 @@ const NouvellePrevisionDepenses = () => {
 		<>
 			<Header
 				props={{
-					pageURL: 'GIVOO | TRESORÉRIE | NOUVELLE PREVISION DÉPENSES',
+					pageURL: 'GIVOO | TRÉSORERIE | NOUVELLE PRÉVISION DÉPENSES',
 				}}
 			/>
 			<main id={'nouvellePrevisionDepenses'}>
