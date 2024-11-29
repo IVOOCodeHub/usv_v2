@@ -24,7 +24,8 @@ import SelectGroup from "../../../../../components/selectGroup/SelectGroup.tsx";
 export function CourrierConsult(): ReactElement {
   const location = useLocation();
   const { rowData } = location.state;
-  const courrierID: string = rowData[0];
+  const courrierData = rowData
+  const courrierID: string = courrierData[0];
   const navigate: NavigateFunction = useNavigate();
   const { courrierDepenses } = useContext(CourrierContext);
   const getSelectedCourrier: () => ICourrierDepenses | undefined = ():

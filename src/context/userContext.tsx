@@ -7,6 +7,7 @@ interface IUserContext {
   getUser: (userCredentials: IUserCredentials) => Promise<void>;
   credentialsErrorMessage: string;
   setCredentialsErrorMessage: (errorMessage: string) => void;
+  userCredentials: IUserCredentials | null;
 }
 
 // hooks | libraries
@@ -21,6 +22,7 @@ export const UserContext: Context<IUserContext> = createContext<IUserContext>({
   getUser: async (): Promise<void> => {},
   credentialsErrorMessage: "",
   setCredentialsErrorMessage: (): void => {},
+  userCredentials: null,
 });
 
 export const UserProvider = ({
@@ -31,6 +33,7 @@ export const UserProvider = ({
   const [user, setUser] = useState<IUser | null>(null);
   const [credentialsErrorMessage, setCredentialsErrorMessage] =
     useState<string>("");
+  const [userCredentials, setUserCredentials] = useState<IUserCredentials | null>(null)
 
   const getUser: (userCredentials: IUserCredentials) => Promise<void> = async (
     userCredentials: IUserCredentials,
@@ -45,6 +48,11 @@ export const UserProvider = ({
       setCredentialsErrorMessage(res);
     } else {
       setUser(res);
+      const credentials = {
+        matricule: res.matricule,
+        password: res.password
+      }
+      setUserCredentials(credentials)
     }
   };
 
@@ -56,6 +64,7 @@ export const UserProvider = ({
         getUser,
         credentialsErrorMessage,
         setCredentialsErrorMessage,
+        userCredentials
       }}
     >
       {children}
