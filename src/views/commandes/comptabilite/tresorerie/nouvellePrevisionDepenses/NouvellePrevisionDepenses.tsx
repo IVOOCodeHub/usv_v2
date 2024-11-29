@@ -304,7 +304,7 @@ const NouvellePrevisionDepenses = () => {
 							src={`http://192.168.0.254:8080/usv_prod/courriers/${pieceToDisplay.fileName}`}
 						/>
 					) : (
-						<p>Sélectionnez un courrier pour afficher le document PDF.</p>
+						<p className='pdfDisplayZone'>Sélectionnez un courrier pour afficher le document PDF.</p>
 					)}
 				</div>
 
