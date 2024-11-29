@@ -159,10 +159,15 @@
 .btnVoir {
     display: flex;
     justify-content: flex-end;
-    width: 100%;
+    width: auto;
     margin-right: 1rem;
 }
 
 .pdfDisplayZone {
     text-align: center;
+}
+
+#nouvellePrevisionDepenses .inputWrapper input.error {
+    border: 2px solid red !important; // Utilisez !important temporairement pour diagnostiquer
+    border-radius: 4px;
 }

@@ -24,13 +24,19 @@ const NouvellePrevisionDepenses = () => {
 	const navigate: NavigateFunction = useNavigate()
 	const { isLoading, startLoading, stopLoading } = useContext(LoaderContext)
 	const { user } = useContext(UserContext)
+	const [pdfZoneMessage, setPdfZoneMessage] = useState<string>(
+		'Sélectionnez un courrier pour afficher le document PDF.'
+	)
+	const [hasSearched, setHasSearched] = useState<boolean>(false)
+	const [hasError, setHasError] = useState<boolean>(false)
 	const { courrierDepenses, getCourrierDepenses } = useContext(CourrierContext)
 	const [bodyArray, setBodyArray] = useState<string[][]>([])
 	const [cleCourrier, setCleCourrier] = useState<string>('')
 	const [pieceToDisplay, setPieceToDisplay] = useState<ICourrierDepenses | null | undefined>(null)
 
 	useEffect(() => {
-		setPieceToDisplay(getSelectedCourrier())
+		// const selectedCourrier = getSelectedCourrier()
+		// setPieceToDisplay(selectedCourrier)
 	}, [])
 
 	const convertToArray: (datas: ICourrierDepenses[]) => string[][] = (datas: ICourrierDepenses[]): string[][] => {
@@ -67,32 +73,46 @@ const NouvellePrevisionDepenses = () => {
 		console.log('clé courrier : ', cleCourrier)
 	}
 
-	const items = [
-		{ label: 'Date pièce', value: '01/01/2024' },
-		{ label: 'Société', value: 'OpenAI Inc.' },
-		{ label: 'Rubrique', value: null },
-		{ label: 'Montant TTC', value: '1234.56 €' },
-		{ label: 'Banque règlement', value: undefined },
-		{ label: 'Avec TVA', value: 'Oui' },
-		{ label: 'Moins de 20% de TVA', value: 'Non' },
-		{ label: 'TVA 20%', value: '246.91 €' },
-		{ label: 'Date échéance', value: '31/12/2024' },
-		{ label: 'Date Ordo.', value: '15/12/2024' },
-	]
-
 	const getSelectedCourrier = (): void => {
+		setHasSearched(true) // Marque qu'une recherche a été effectuée
+
+		if (!cleCourrier.trim()) {
+			setPdfZoneMessage('Veuillez entrer une clé de courrier.')
+			setPieceToDisplay(null)
+			setHasError(true)
+			return
+		}
+
+		setHasError(false)
+
 		if (Array.isArray(courrierDepenses)) {
 			const selectedCourrier = courrierDepenses.find(
 				(courrier: ICourrierDepenses): boolean => courrier.index === cleCourrier
 			)
+
 			if (selectedCourrier) {
-				setPieceToDisplay(selectedCourrier) // Met à jour l'état pour afficher dans l'iframe
+				setPdfZoneMessage('Document trouvé et prêt à afficher.')
+				setPieceToDisplay(selectedCourrier)
 				console.log('PDF sélectionné :', selectedCourrier.fileName)
-			} else {
-				console.log('Aucun courrier trouvé pour cette clé.')
-				setPieceToDisplay(null)
+				return
 			}
 		}
+
+		setPdfZoneMessage('Aucun courrier trouvé pour cette clé.')
+		setPieceToDisplay(null)
+	}
+
+	// Simplified logic for displaying the PDF content
+	let pdfContent
+
+	if (!hasSearched) {
+		pdfContent = <p className='pdfDisplayZone'>Sélectionnez un courrier pour afficher le document PDF.</p>
+	} else if (pieceToDisplay?.fileName) {
+		pdfContent = (
+			<iframe title='courrier' src={`http://192.168.0.254:8080/usv_prod/courriers/${pieceToDisplay.fileName}`} />
+		)
+	} else {
+		pdfContent = <p className='pdfDisplayZone'>{pdfZoneMessage}</p>
 	}
 
 	return (
@@ -115,7 +135,9 @@ const NouvellePrevisionDepenses = () => {
 											style: 'blue',
 											text: 'Voir',
 											type: 'button',
-											onClick: getSelectedCourrier,
+											onClick: () => {
+												getSelectedCourrier()
+											},
 										}}
 									/>
 								</div>
@@ -125,6 +147,7 @@ const NouvellePrevisionDepenses = () => {
 									name='cleCourrier'
 									value={cleCourrier}
 									onChange={searchCleCourrier}
+									className={hasError ? 'error' : ''}
 								/>
 							</div>
 							<div className={'inputWrapper'}>
@@ -296,17 +319,7 @@ const NouvellePrevisionDepenses = () => {
 						</form>
 					</div>
 				</div>
-				<div className='rightSide'>
-					{pieceToDisplay?.fileName ? (
-						// <iframe src={pieceToDisplay.fileName} title='courrier' width='100%' height='600px'></iframe>
-						<iframe
-							title={'courrier'}
-							src={`http://192.168.0.254:8080/usv_prod/courriers/${pieceToDisplay.fileName}`}
-						/>
-					) : (
-						<p className='pdfDisplayZone'>Sélectionnez un courrier pour afficher le document PDF.</p>
-					)}
-				</div>
+				<div className='rightSide'>{pdfContent}</div>
 
 				<Button
 					props={{
