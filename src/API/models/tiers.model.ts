@@ -1,0 +1,133 @@
+import { ITiersPrevisions } from "../../utils/types/tiers.interface.ts";
+import {convertENDateToFr} from "../../utils/scripts/utils.ts";
+
+export interface IServerTiersPrevisions {
+  auteur_saisie: string;
+  auteur_statut: string;
+  avec_tva: string;
+  cle: string;
+  cle_accord_partenaire: string;
+  cle_budget: string;
+  cle_commande: string;
+  cle_courrier: string;
+  cle_ecriture: string;
+  cle_etale: string;
+  cle_facture: string;
+  cle_prelevement: string;
+  cle_rubrique_treso: string;
+  code_journal: string;
+  code_operation: string;
+  code_tiers_payeur: string;
+  commentaire: string;
+  compte_regroupement: string;
+  credit: string;
+  date_echeance: string;
+  date_ordo: string;
+  date_paiement: string;
+  date_piece: string;
+  date_saisie: string;
+  date_solde: string;
+  debit: string;
+  dh_statut: string;
+  inter: string;
+  libelle_compte_general: string;
+  libelle_compte_tiers: string;
+  libelle_ecriture: string;
+  libelle_ecriture_annee: string;
+  libelle_ecriture_beneficiaire: string;
+  libelle_ecriture_mois: string;
+  libelle_ecriture_prefixe: string;
+  libelle_ecriture_trimestre: string;
+  manu: string;
+  marque: string;
+  mat_mark: string;
+  mode_reglement: string;
+  montant_tva1: string;
+  montant_tva2: string;
+  montant_tva3: string;
+  montant_tva4: string;
+  montant_tva5: string;
+  no_compte_banque: string;
+  no_compte_general: string;
+  no_compte_tiers: string;
+  no_semaine_echeance: string;
+  no_semaine_ordo: string;
+  ref_source_tiers: string;
+  reference_paiement: string;
+  rubrique_treso: string;
+  societe: string;
+  statut: string;
+  taux_tva1: string;
+  taux_tva2: string;
+  taux_tva3: string;
+  taux_tva4: string;
+  taux_tva5: string;
+}
+
+export const tiersPrevisionsModel = (
+  serverTiersPrevisions: IServerTiersPrevisions,
+): ITiersPrevisions => {
+  return {
+    auteurSaisie: serverTiersPrevisions.auteur_saisie,
+    auteurStatut: serverTiersPrevisions.auteur_statut,
+    avecTva: serverTiersPrevisions.avec_tva,
+    cle: serverTiersPrevisions.cle,
+    cleAccordPartenaire: serverTiersPrevisions.cle_accord_partenaire,
+    cleBudget: serverTiersPrevisions.cle_budget,
+    cleCommande: serverTiersPrevisions.cle_commande,
+    cleCourrier: serverTiersPrevisions.cle_courrier,
+    cleEcriture: serverTiersPrevisions.cle_ecriture,
+    cleEtale: serverTiersPrevisions.cle_etale,
+    cleFacture: serverTiersPrevisions.cle_facture,
+    clePrelevement: serverTiersPrevisions.cle_prelevement,
+    cleRubriqueTreso: serverTiersPrevisions.cle_rubrique_treso,
+    codeJournal: serverTiersPrevisions.code_journal,
+    codeOperation: serverTiersPrevisions.code_operation,
+    codeTiersPayeur: serverTiersPrevisions.code_tiers_payeur,
+    commentaire: serverTiersPrevisions.commentaire,
+    compteRegroupement: serverTiersPrevisions.compte_regroupement,
+    credit: serverTiersPrevisions.credit,
+    dateEcheance: convertENDateToFr(serverTiersPrevisions.date_echeance),
+    dateOrdo: serverTiersPrevisions.date_ordo,
+    datePaiement: serverTiersPrevisions.date_paiement,
+    datePiece: serverTiersPrevisions.date_piece,
+    dateSaisie: serverTiersPrevisions.date_saisie,
+    dateSolde: serverTiersPrevisions.date_solde,
+    debit: serverTiersPrevisions.debit,
+    dhStatut: serverTiersPrevisions.dh_statut,
+    inter: serverTiersPrevisions.inter,
+    libelleCompteGeneral: serverTiersPrevisions.libelle_compte_general,
+    libelleCompteTiers: serverTiersPrevisions.libelle_compte_tiers,
+    libelleEcriture: serverTiersPrevisions.libelle_ecriture,
+    libelleEcritureAnnee: serverTiersPrevisions.libelle_ecriture_annee,
+    libelleEcritureBeneficiaire:
+      serverTiersPrevisions.libelle_ecriture_beneficiaire,
+    libelleEcritureMois: serverTiersPrevisions.libelle_ecriture_mois,
+    libelleEcriturePrefixe: serverTiersPrevisions.libelle_ecriture_prefixe,
+    libelleEcritureTrimestre: serverTiersPrevisions.libelle_ecriture_trimestre,
+    manu: serverTiersPrevisions.manu,
+    marque: serverTiersPrevisions.marque,
+    matMark: serverTiersPrevisions.mat_mark,
+    modeReglement: serverTiersPrevisions.mode_reglement,
+    montantTva1: serverTiersPrevisions.montant_tva1,
+    montantTva2: serverTiersPrevisions.montant_tva2,
+    montantTva3: serverTiersPrevisions.montant_tva3,
+    montantTva4: serverTiersPrevisions.montant_tva4,
+    montantTva5: serverTiersPrevisions.montant_tva5,
+    noCompteBanque: serverTiersPrevisions.no_compte_banque,
+    noCompteGeneral: serverTiersPrevisions.no_compte_general,
+    noCompteTiers: serverTiersPrevisions.no_compte_tiers,
+    noSemaineEcheance: serverTiersPrevisions.no_semaine_echeance,
+    noSemaineOrdo: serverTiersPrevisions.no_semaine_ordo,
+    refSourceTiers: serverTiersPrevisions.ref_source_tiers,
+    referencePaiement: serverTiersPrevisions.reference_paiement,
+    rubriqueTreso: serverTiersPrevisions.rubrique_treso,
+    societe: serverTiersPrevisions.societe,
+    statut: serverTiersPrevisions.statut,
+    tauxTva1: serverTiersPrevisions.taux_tva1,
+    tauxTva2: serverTiersPrevisions.taux_tva2,
+    tauxTva3: serverTiersPrevisions.taux_tva3,
+    tauxTva4: serverTiersPrevisions.taux_tva4,
+    tauxTva5: serverTiersPrevisions.taux_tva5,
+  };
+};

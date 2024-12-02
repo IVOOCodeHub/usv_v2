@@ -2,6 +2,8 @@
 import { IUserCredentials } from "../utils/types/user.interface.ts";
 
 interface ICourrierContext {
+  courrier: ICourrier | string | null;
+  getCourrier: (userCredentials: IUserCredentials, courrierID: string) => Promise<ICourrier | string  | undefined>
   courrierDepenses: ICourrierDepenses[] | string | null;
   setCourrierDepenses: (courrierDepenses: ICourrierDepenses[] | null) => void;
   getCourrierDepenses: (
@@ -13,11 +15,21 @@ interface ICourrierContext {
 import { createContext, useState, Context, ReactElement } from "react";
 
 // services
-import { getCourrierDepensesService } from "../API/services/Courrier.service.ts";
-import { ICourrierDepenses } from "../utils/types/courrier.interface.ts";
+import {
+  getCourrierDepensesService,
+  getCourrierService,
+} from "../API/services/Courrier.service.ts";
+import {
+  ICourrier,
+  ICourrierDepenses,
+} from "../utils/types/courrier.interface.ts";
 
 export const CourrierContext: Context<ICourrierContext> =
   createContext<ICourrierContext>({
+    courrier: null,
+    getCourrier: async (): Promise<ICourrier | string | undefined> => {
+        return undefined
+    },
     courrierDepenses: null,
     setCourrierDepenses: (): void => {},
     getCourrierDepenses: async (): Promise<ICourrierDepenses[] | string> => {
@@ -30,9 +42,19 @@ export const CourrierProvider = ({
 }: {
   children: ReactElement;
 }): ReactElement => {
+  const [courrier, setCourrier] = useState<ICourrier | string | null>(null);
   const [courrierDepenses, setCourrierDepenses] = useState<
     ICourrierDepenses[] | string | null
   >(null);
+
+  const getCourrier = async (
+    userCredentials: IUserCredentials,
+    courrierID: string,
+  ):Promise<ICourrier | string> => {
+    const res: ICourrier | string = await getCourrierService(userCredentials, courrierID);
+    setCourrier(res)
+    return res;
+  };
 
   const getCourrierDepenses: (
     userCredentials: IUserCredentials,
@@ -51,6 +73,8 @@ export const CourrierProvider = ({
         courrierDepenses,
         setCourrierDepenses,
         getCourrierDepenses,
+        courrier,
+        getCourrier,
       }}
     >
       {children}

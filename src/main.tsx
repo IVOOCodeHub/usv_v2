@@ -12,13 +12,16 @@ import { LoaderProvider } from "./context/loaderContext.tsx";
 import { UserProvider } from "./context/userContext.tsx";
 import { SiteProvider } from "./context/siteContext.tsx";
 import { CourrierProvider } from "./context/courrierContext.tsx";
+import { TiersProvider } from "./context/tiersContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <LoaderProvider>
     <UserProvider>
       <SiteProvider>
         <CourrierProvider>
-          <App />
+          <TiersProvider>
+            <App />
+          </TiersProvider>
         </CourrierProvider>
       </SiteProvider>
     </UserProvider>

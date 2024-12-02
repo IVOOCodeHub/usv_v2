@@ -1,17 +1,18 @@
 // styles
 import "./courrierDepenses.scss";
-import "nillys-react-table-library/style";
+// import "nillys-react-table-library/style";
 
 // hooks | libraries
 import { useNavigate, NavigateFunction } from "react-router-dom";
-import { NRTL } from "nillys-react-table-library";
+// import { NRTL } from "nillys-react-table-library";
+import NRTL from "../../../../../components/NRTL/NRTL.tsx";
 import { useEffect, useState, useContext, ReactElement } from "react";
 
 // components
 import withAuth from "../../../../../views/auth/withAuth";
 import Header from "../../../../../components/header/Header";
 import Loader from "../../../../../components/loader/Loader";
-import Button from "../../../../../components/button/Button.tsx";
+import Button from "../../../../../components/button/Button";
 import Footer from "../../../../../components/footer/Footer";
 
 // context
@@ -23,7 +24,7 @@ import { ICourrierDepenses } from "../../../../../utils/types/courrier.interface
 function CourrierDepenses(): ReactElement {
   const navigate: NavigateFunction = useNavigate();
   const { isLoading, startLoading, stopLoading } = useContext(LoaderContext);
-  const { user } = useContext(UserContext);
+  const { userCredentials } = useContext(UserContext);
   const { courrierDepenses, getCourrierDepenses } = useContext(CourrierContext);
   const [bodyArray, setBodyArray] = useState<string[][]>([]);
 
@@ -43,11 +44,7 @@ function CourrierDepenses(): ReactElement {
 
   useEffect((): void => {
     startLoading();
-    if (user) {
-      const userCredentials = {
-        matricule: user.matricule,
-        password: user.password,
-      };
+    if (userCredentials) {
       getCourrierDepenses(userCredentials).finally(stopLoading);
     }
   }, []);
@@ -64,16 +61,41 @@ function CourrierDepenses(): ReactElement {
       "Date réception",
       "Émetteur",
       "Destinataire",
-      "Pièce",
+      "Nature",
       "Action",
       "Commentaire",
     ],
     tableBody: bodyArray,
   };
 
+  const goTo: (natureCourrier: string, rowData: string[]) => void = (
+    natureCourrier: string,
+    rowData: string[],
+  ): void => {
+    console.log("rowData –>", rowData);
+    const isDebug = false;
+
+    switch (natureCourrier.toLowerCase().trim()) {
+      case "relance reçue":
+        navigate("/commandes/tresorerie/courrier_relance", {
+          state: { rowData },
+        });
+        break;
+
+      default:
+        if (!isDebug) {
+          navigate("/commandes/tresorerie/courrier_consult", {
+            state: { rowData },
+          });
+        } else {
+          console.log("natureCourrier ->", natureCourrier.toLowerCase().trim());
+        }
+    }
+  };
+
   return (
     <>
-      <Header props={{ pageURL: "G_IVOO | Comptabilité" }} />
+      <Header props={{ pageURL: "G_IVOO | Comptabilité", helpBtn: true }} />
       <main id={"courrierDepenses"}>
         <div className={"tableWrapper"}>
           {isLoading ? (
@@ -88,15 +110,14 @@ function CourrierDepenses(): ReactElement {
               showItemsPerPageSelector={true}
               showPreviousNextButtons={true}
               showSearchBar={true}
+              filterableColumns={[false, false, true, true, true, true, false]}
               showPagination={true}
               enableColumnSorting={true}
               itemsPerPageOptions={[10, 25, 50]}
               onRowClick={(rowData: string[]): void =>
-                navigate("/commandes/tresorerie/courrier_consult", {
-                  state: { rowData },
-                })
+                goTo(rowData[4], rowData)
               }
-              language={'fr'}
+              language={"fr"}
             />
           )}
         </div>

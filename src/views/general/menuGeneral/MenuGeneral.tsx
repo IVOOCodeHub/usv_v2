@@ -1,6 +1,5 @@
 // styles
 import "./menuGeneral.scss";
-import "nillys-react-table-library/style";
 
 // hooks | libraries
 import { useContext, ReactElement } from "react";

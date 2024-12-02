@@ -1,0 +1,301 @@
+$defaultTableBgColor: linear-gradient(
+  to left,
+  adjust-color(#818f26ff, $lightness: 30%),
+  adjust-color(#6a782bff, $lightness: 20%)
+);
+$defaultHeaderHoverColor: adjust-color(#818f26ff, $lightness: 10%);
+$defaultRowColor: #ffffff;
+$defaultHoverRowColor: #36395a;
+$defaultTextColor: #36395a;
+$defaultHoverTextColor: #ffffff;
+$defaultDisabledButtonColor: #dcdcdc;
+$defaultColumnSortingColor: #dcdcdc;
+$defaultColumnSortingFullFilledColor: #36395a;
+
+#NRTL {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-top: 2em;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
+  --header-bg-color: #{$defaultTableBgColor};
+  --header-hover-bg-color: #{$defaultHeaderHoverColor};
+  --row-color: #{$defaultRowColor};
+  --hover-row-color: #{$defaultHoverRowColor};
+  --text-color: #{$defaultTextColor};
+  --hover-text-color: #{$defaultHoverTextColor};
+  --disable-button-color: #{$defaultDisabledButtonColor};
+  --column-sorting-color: #{$defaultColumnSortingColor};
+  --column-sorting-full-filled-color: #{$defaultColumnSortingFullFilledColor};
+}
+
+#NRTL .tableHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5em;
+
+  @media (max-width: 768px) {
+    padding: 1em;
+  }
+}
+
+#NRTL .tableHeader .selectContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+#NRTL .tableHeader .searchContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+
+  @media (max-width: 768px) {
+    justify-content: flex-end;
+  }
+}
+
+#NRTL .tableHeader .searchContainer input {
+  border: 1px solid #36395a;
+  padding: 0.5em;
+  height: 1.7em;
+
+  @media (max-width: 768px) {
+    width: 50%;
+  }
+}
+
+#NRTL .tableHeader .searchContainer input:focus {
+  outline: 3px solid #36395a;
+}
+
+#NRTL .tableWrapper {
+  @media (max-width: 768px) {
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+
+#NRTL table {
+  width: 85dvw;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background: var(--header-bg-color, #{$defaultTableBgColor});
+  border-radius: 10px;
+  table-layout: fixed;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    table-layout: auto;
+    border-radius: unset;
+  }
+}
+
+#NRTL thead th {
+  padding: 10px;
+  text-align: center;
+  position: relative;
+  font-weight: 700;
+
+  @media (max-width: 1024px) {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+#NRTL thead th:hover {
+  @media (max-width: 1024px) {
+    white-space: normal;
+    overflow: visible;
+    .chevron svg {
+      opacity: 0;
+    }
+  }
+}
+
+#NRTL thead th:hover {
+  background: var(--header-hover-bg-color, #{$defaultHeaderHoverColor});
+  cursor: pointer;
+  transition: background 150ms ease-in-out;
+}
+
+#NRTL thead th:hover:first-child {
+  border-radius: 10px 0 0 0;
+
+  @media (max-width: 768px) {
+    border-radius: unset;
+  }
+}
+
+#NRTL thead th:hover:last-child {
+  border-radius: 0 10px 0 0;
+
+  @media (max-width: 768px) {
+    border-radius: unset;
+  }
+}
+
+#NRTL thead th div:not(.selectContainer) {
+  display: flex;
+  flex-flow: column;
+  position: absolute;
+  right: 1.3dvw;
+  top: 0;
+
+  @media (max-width: 768px) {
+    top: -4px;
+    right: 2dvw;
+  }
+}
+
+#NRTL thead th .selectContainer {
+  width: 100%;
+  margin-top: 10px;
+}
+
+#NRTL thead th .selectContainer select {
+  width: 80%;
+}
+
+#NRTL thead th .chevron {
+  stroke: var(--column-sorting-color, #{$defaultColumnSortingColor});
+  fill: var(--column-sorting-color, #{$defaultColumnSortingColor});
+}
+
+#NRTL thead th .chevron svg {
+  @media (max-width: 1024px) {
+    width: 10px !important;
+    height: 10px !important;
+  }
+  @media (max-width: 768px) {
+    width: 6px !important;
+    height: 6px !important;
+  }
+}
+
+#NRTL thead th .chevron-active {
+  stroke: var(
+    --column-sorting-full-filled-color,
+    #{$defaultColumnSortingFullFilledColor}
+  );
+  fill: var(
+    --column-sorting-full-filled-color,
+    #{$defaultColumnSortingFullFilledColor}
+  );
+}
+
+#NRTL thead th div > span:first-child {
+  position: absolute;
+  transform: translate(10%, 100%);
+}
+
+#NRTL thead th div > span:last-child {
+  position: absolute;
+  transform: translate(10%, 175%);
+}
+
+#NRTL thead th div span svg {
+  width: 1.2dvw;
+  height: 1.2dvh;
+}
+
+#NRTL tbody tr {
+  background: var(--row-color, #{$defaultRowColor});
+}
+
+#NRTL td {
+  padding: 10px;
+  text-align: center;
+}
+
+#NRTL table tbody tr:hover {
+  background: var(--row-hover-color, #{$defaultHoverRowColor}) !important;
+  cursor: default;
+  td {
+    color: var(--row-color, #{$defaultHoverTextColor});
+  }
+}
+
+#NRTL table tbody td {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#NRTL table tbody td:hover {
+  white-space: normal;
+  overflow: visible;
+}
+
+#NRTL tbody tr:last-child td:first-child {
+  border-radius: 0 0 0 10px;
+
+  @media (max-width: 768px) {
+    border-radius: unset;
+  }
+}
+
+#NRTL tbody tr:last-child td:last-child {
+  border-radius: 0 0 10px 0;
+
+  @media (max-width: 768px) {
+    border-radius: unset;
+  }
+}
+
+#NRTL .tableFooter {
+  margin: 1em 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    padding: 0 1.5em;
+  }
+}
+
+#NRTL .tableFooter .buttonContainer {
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+}
+
+#NRTL .tableFooter .buttonContainer button {
+  width: 150px;
+  text-align: center;
+  background: #f6f6f6;
+  color: var(--text-color, #{$defaultTextColor});
+  border: 1px solid var(--text-color, #{$defaultTextColor});
+  cursor: pointer;
+  padding: 0.3em 0.5em;
+  border-radius: unset;
+  font-size: 12px;
+}
+
+#NRTL .tableFooter .buttonContainer button:disabled {
+  background: var(
+    --default-disabled-button-color,
+    #{$defaultDisabledButtonColor}
+  ) !important;
+  cursor: not-allowed !important;
+}
+
+#NRTL .tableFooter .buttonContainer .paginationIcn {
+  font-size: 1.4em;
+  cursor: pointer;
+}
+
+#NRTL .tableFooter .buttonContainer .disabled {
+  opacity: 0;
+}

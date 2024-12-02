@@ -9,6 +9,7 @@ interface IUserContext {
 	getUser: (userCredentials: IUserCredentials) => Promise<void>
 	credentialsErrorMessage: string
 	setCredentialsErrorMessage: (errorMessage: string) => void
+	userCredentials: IUserCredentials | null
 }
 
 // services
@@ -20,11 +21,13 @@ export const UserContext: Context<IUserContext> = createContext<IUserContext>({
 	getUser: async (): Promise<void> => {},
 	credentialsErrorMessage: '',
 	setCredentialsErrorMessage: (): void => {},
+	userCredentials: null,
 })
 
 export const UserProvider = ({ children }: { children: ReactElement }): ReactElement => {
 	const [user, setUser] = useState<IUser | null>(null)
 	const [credentialsErrorMessage, setCredentialsErrorMessage] = useState<string>('')
+	const [userCredentials, setUserCredentials] = useState<IUserCredentials | null>(null)
 
 	const getUser: (userCredentials: IUserCredentials) => Promise<void> = async (
 		userCredentials: IUserCredentials
@@ -37,6 +40,11 @@ export const UserProvider = ({ children }: { children: ReactElement }): ReactEle
 			setCredentialsErrorMessage(res)
 		} else {
 			setUser(res)
+			const credentials = {
+				matricule: res.matricule,
+				password: res.password,
+			}
+			setUserCredentials(credentials)
 		}
 	}
 
@@ -48,6 +56,7 @@ export const UserProvider = ({ children }: { children: ReactElement }): ReactEle
 				getUser,
 				credentialsErrorMessage,
 				setCredentialsErrorMessage,
+				userCredentials,
 			}}
 		>
 			{children}
