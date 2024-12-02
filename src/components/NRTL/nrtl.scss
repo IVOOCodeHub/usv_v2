@@ -1,8 +1,6 @@
-$defaultTableBgColor: linear-gradient(
-  to left,
+$defaultTableBgColor: linear-gradient(to left,
   adjust-color(#818f26ff, $lightness: 30%),
-  adjust-color(#6a782bff, $lightness: 20%)
-);
+  adjust-color(#6a782bff, $lightness: 20%));
 $defaultHeaderHoverColor: adjust-color(#818f26ff, $lightness: 10%);
 $defaultRowColor: #ffffff;
 $defaultHoverRowColor: #36395a;
@@ -24,6 +22,7 @@ $defaultColumnSortingFullFilledColor: #36395a;
     width: 100%;
   }
 
+  // Ajout des variables CSS dans un seul bloc pour éviter le duplicate selector
   --header-bg-color: #{$defaultTableBgColor};
   --header-hover-bg-color: #{$defaultHeaderHoverColor};
   --row-color: #{$defaultRowColor};
@@ -34,6 +33,7 @@ $defaultColumnSortingFullFilledColor: #36395a;
   --column-sorting-color: #{$defaultColumnSortingColor};
   --column-sorting-full-filled-color: #{$defaultColumnSortingFullFilledColor};
 }
+
 
 #NRTL .tableHeader {
   width: 100%;
@@ -113,20 +113,20 @@ $defaultColumnSortingFullFilledColor: #36395a;
 }
 
 #NRTL thead th:hover {
+  background: var(--header-hover-bg-color, $defaultHeaderHoverColor);
+  cursor: pointer;
+  transition: background 150ms ease-in-out;
+
   @media (max-width: 1024px) {
     white-space: normal;
     overflow: visible;
+
     .chevron svg {
       opacity: 0;
     }
   }
 }
 
-#NRTL thead th:hover {
-  background: var(--header-hover-bg-color, #{$defaultHeaderHoverColor});
-  cursor: pointer;
-  transition: background 150ms ease-in-out;
-}
 
 #NRTL thead th:hover:first-child {
   border-radius: 10px 0 0 0;
@@ -176,6 +176,7 @@ $defaultColumnSortingFullFilledColor: #36395a;
     width: 10px !important;
     height: 10px !important;
   }
+
   @media (max-width: 768px) {
     width: 6px !important;
     height: 6px !important;
@@ -183,22 +184,18 @@ $defaultColumnSortingFullFilledColor: #36395a;
 }
 
 #NRTL thead th .chevron-active {
-  stroke: var(
-    --column-sorting-full-filled-color,
-    #{$defaultColumnSortingFullFilledColor}
-  );
-  fill: var(
-    --column-sorting-full-filled-color,
-    #{$defaultColumnSortingFullFilledColor}
-  );
+  stroke: var(--column-sorting-full-filled-color,
+    #{$defaultColumnSortingFullFilledColor});
+  fill: var(--column-sorting-full-filled-color,
+    #{$defaultColumnSortingFullFilledColor});
 }
 
-#NRTL thead th div > span:first-child {
+#NRTL thead th div>span:first-child {
   position: absolute;
   transform: translate(10%, 100%);
 }
 
-#NRTL thead th div > span:last-child {
+#NRTL thead th div>span:last-child {
   position: absolute;
   transform: translate(10%, 175%);
 }
@@ -220,7 +217,8 @@ $defaultColumnSortingFullFilledColor: #36395a;
 #NRTL table tbody tr:hover {
   background: var(--row-hover-color, #{$defaultHoverRowColor}) !important;
   cursor: default;
-  td {
+
+  & td {
     color: var(--row-color, #{$defaultHoverTextColor});
   }
 }
@@ -230,11 +228,11 @@ $defaultColumnSortingFullFilledColor: #36395a;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
 
-#NRTL table tbody td:hover {
-  white-space: normal;
-  overflow: visible;
+  &:hover {
+    white-space: normal;
+    overflow: visible;
+  }
 }
 
 #NRTL tbody tr:last-child td:first-child {
@@ -284,10 +282,8 @@ $defaultColumnSortingFullFilledColor: #36395a;
 }
 
 #NRTL .tableFooter .buttonContainer button:disabled {
-  background: var(
-    --default-disabled-button-color,
-    #{$defaultDisabledButtonColor}
-  ) !important;
+  background: var(--default-disabled-button-color,
+    #{$defaultDisabledButtonColor}) !important;
   cursor: not-allowed !important;
 }
 

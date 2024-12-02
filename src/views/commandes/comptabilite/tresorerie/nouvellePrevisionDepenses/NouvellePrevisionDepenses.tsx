@@ -6,9 +6,9 @@ import { useEffect, useState, useContext, ReactElement } from 'react'
 
 // components
 import Select from 'react-select'
-import withAuth from '../../../../../views/auth/withAuth'
+// import withAuth from '../../../../../views/auth/withAuth'
 import Header from '../../../../../components/header/Header'
-import Loader from '../../../../../components/loader/Loader'
+// import Loader from '../../../../../components/loader/Loader'
 import SelectGroup from '../../../../../components/selectGroup/SelectGroup.tsx'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
@@ -30,8 +30,22 @@ const NouvellePrevisionDepenses = () => {
 	const [hasError, setHasError] = useState<boolean>(false)
 	const { courrierDepenses, getCourrierDepenses } = useContext(CourrierContext)
 	const [bodyArray, setBodyArray] = useState<string[][]>([])
-	const [cleCourrier, setCleCourrier] = useState<string>('')
 	const [pieceToDisplay, setPieceToDisplay] = useState<ICourrierDepenses | null | undefined>(null)
+
+	// États pour chaque champ du formulaire
+	const [cleCourrier, setCleCourrier] = useState<string>('')
+	const [datePiece, setDatePiece] = useState<string>('')
+	const [societe, setSociete] = useState<string>('')
+	const [rubrique, setRubrique] = useState<string>('')
+	const [montantTTC, setMontantTTC] = useState<string>('')
+	const [avecTVA, setAvecTVA] = useState<boolean>(false)
+	const [tva20, setTva20] = useState<string>('')
+	const [dateEcheance, setDateEcheance] = useState<string>('')
+	const [dateOrdo, setDateOrdo] = useState<string>('')
+	// États pour le groupe "Libellé"
+	const [prefixeLibelle, setPrefixeLibelle] = useState<string>('')
+	const [mois, setMois] = useState<string>('')
+	const [trim, setTrim] = useState<string>('')
 
 	useEffect(() => {
 		// const selectedCourrier = getSelectedCourrier()
@@ -114,6 +128,27 @@ const NouvellePrevisionDepenses = () => {
 		pdfContent = <p className='pdfDisplayZone'>{pdfZoneMessage}</p>
 	}
 
+	// Fonction pour soumettre le formulaire
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+		e.preventDefault()
+
+		// Créer un tableau d'objets avec les données du formulaire
+		const formData = [
+			{ label: 'Clé courrier', value: cleCourrier },
+			{ label: 'Date pièce', value: datePiece },
+			{ label: 'Société', value: societe },
+			{ label: 'Rubrique', value: rubrique },
+			{ label: 'Montant TTC', value: montantTTC },
+			{ label: 'Avec TVA', value: avecTVA ? 'Oui' : 'Non' },
+			{ label: 'TVA 20%', value: tva20 },
+			{ label: 'Date échéance', value: dateEcheance },
+			{ label: 'Date Ordo.', value: dateOrdo },
+		]
+
+		// Afficher dans la console
+		console.log('Données du formulaire :', formData)
+	}
+
 	return (
 		<>
 			<Header
@@ -124,7 +159,7 @@ const NouvellePrevisionDepenses = () => {
 			<main id={'nouvellePrevisionDepenses'}>
 				<div className={'leftSide'}>
 					<div className={'formContainer'}>
-						<form>
+						<form onSubmit={handleSubmit}>
 							<h3>Nouvelle prévision de dépense</h3>
 							<div className={'inputWrapper'}>
 								<label>Clé courrier : </label>
@@ -151,7 +186,7 @@ const NouvellePrevisionDepenses = () => {
 							</div>
 							<div className={'inputWrapper'}>
 								<label>Date pièce : </label>
-								<input type={'date'} />
+								<input type={'date'} value={datePiece} onChange={(e) => setDatePiece(e.target.value)} />
 							</div>
 							<div className={'inputWrapper'}>
 								<label>Société : </label>
@@ -178,6 +213,7 @@ const NouvellePrevisionDepenses = () => {
 										{ value: 'SITAP', label: 'SITAP' },
 										{ value: 'STENICO_RE', label: 'STENICO_RE' },
 									]}
+									onChange={(selectedOption) => setSociete(selectedOption?.value || '')}
 								/>
 							</div>
 							<div className={'inputWrapper'}>
@@ -210,6 +246,7 @@ const NouvellePrevisionDepenses = () => {
 											label: 'CHARGES SALARIALES',
 										},
 									]}
+									onChange={(selectedOption) => setRubrique(selectedOption?.value || '')}
 								/>
 							</div>
 							<div className={'inputWrapper'}>
@@ -275,28 +312,33 @@ const NouvellePrevisionDepenses = () => {
 												],
 											},
 										],
+										// onChange: (selectedOption, group) => {
+										// 	if (group === 'Préfixe libellé') setPrefixeLibelle(selectedOption?.value || '')
+										// 	else if (group === 'Mois') setMois(selectedOption?.value || '')
+										// 	else if (group === 'Trim') setTrim(selectedOption?.value || '')
+										// },
 									}}
 								/>
 							</div>
 							<div className={'inputWrapper'}>
 								<label>Montant TTC : </label>
-								<input type={'number'} />
+								<input type={'number'} value={montantTTC} onChange={(e) => setMontantTTC(e.target.value)} />
 							</div>
 							<div className={'inputWrapper'}>
 								<label>Avec TVA : </label>
-								<input type={'checkbox'} />
+								<input type={'checkbox'} checked={avecTVA} onChange={(e) => setAvecTVA(e.target.checked)} />
 							</div>
 							<div className={'inputWrapper'}>
 								<label>TVA 20% : </label>
-								<input type={'number'} />
+								<input type={'number'} value={tva20} onChange={(e) => setTva20(e.target.value)} />
 							</div>
 							<div className={'inputWrapper'}>
 								<label>Date échéance : </label>
-								<input type={'date'} />
+								<input type={'date'} value={dateEcheance} onChange={(e) => setDateEcheance(e.target.value)} />
 							</div>
 							<div className={'inputWrapper'}>
 								<label>Date Ordo. : </label>
-								<input type={'date'} />
+								<input type={'date'} value={dateOrdo} onChange={(e) => setDateOrdo(e.target.value)} />
 							</div>
 							<div className={'buttonWrapper'}>
 								<Button
