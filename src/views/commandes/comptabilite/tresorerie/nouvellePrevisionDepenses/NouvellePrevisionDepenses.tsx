@@ -241,10 +241,23 @@ const NouvellePrevisionDepenses = () => {
 								<Select
 									options={[
 										{ value: '', label: 'Choisir' },
-										{
-											value: 'CHARGES SALARIALES',
-											label: 'CHARGES SALARIALES',
-										},
+										{ value: 'AUTRES RECETTES', label: 'AUTRES RECETTES' },
+										{ value: 'BANQUE', label: 'BANQUE' },
+										{ value: 'CHARGES SALARIALES', label: 'CHARGES SALARIALES' },
+										{ value: 'CLIENTS', label: 'CLIENTS' },
+										{ value: 'COMPTE COURANT', label: 'COMPTE COURANT' },
+										{ value: 'ELECTRICITE-EAU', label: 'ELECTRICITE-EAU' },
+										{ value: 'FOURNISSEURS', label: 'FOURNISSEURS' },
+										{ value: 'HONORAIRES', label: 'HONORAIRES' },
+										{ value: 'IMPOTS ET TAXES', label: 'IMPOTS ET TAXES' },
+										{ value: 'INTERCO', label: 'INTERCO' },
+										{ value: 'LOYERS', label: 'LOYERS' },
+										{ value: 'NOTE DE FRAIS', label: 'NOTE DE FRAIS' },
+										{ value: 'PAIE SOLDE', label: 'PAIE SOLDE' },
+										{ value: 'PERSONNEL EXTERNE', label: 'PERSONNEL EXTERNE' },
+										{ value: 'SAISIES', label: 'SAISIES' },
+										{ value: 'SBL', label: 'SBL' },
+										{ value: 'TELECOM', label: 'TELECOM' },
 									]}
 									onChange={(selectedOption) => setRubrique(selectedOption?.value || '')}
 								/>
