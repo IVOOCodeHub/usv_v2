@@ -171,3 +171,21 @@
     border: 2px solid red !important; // Utilisez !important temporairement pour diagnostiquer
     border-radius: 4px;
 }
+
+.inputWithSymbol {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    input {
+        padding-right: 1.5em; // Ajoute de l'espace pour le symbole
+        width: 100%; // Assure que l'input occupe tout l'espace
+    }
+
+    .symbol {
+        position: absolute;
+        right: 1.5em; // Positionne le symbole à droite
+        color: #36395a; // Couleur grise pour le symbole (personnalisable)
+        font-size: 0.9em; // Taille du symbole (optionnel)
+    }
+}

@@ -39,7 +39,7 @@ const NouvellePrevisionDepenses = () => {
 	const [rubrique, setRubrique] = useState<string>('')
 	const [montantTTC, setMontantTTC] = useState<string>('')
 	const [avecTVA, setAvecTVA] = useState<boolean>(false)
-	const [tva20, setTva20] = useState<string>('')
+	const [tva20, setTva20] = useState<string | ''>('') // Initialisation à une chaîne vide
 	const [dateEcheance, setDateEcheance] = useState<string>('')
 	const [dateOrdo, setDateOrdo] = useState<string>('')
 	// États pour le groupe "Libellé"
@@ -47,10 +47,15 @@ const NouvellePrevisionDepenses = () => {
 	const [mois, setMois] = useState<string>('')
 	const [trim, setTrim] = useState<string>('')
 
+	// Effet pour calculer automatiquement la TVA
 	useEffect(() => {
-		// const selectedCourrier = getSelectedCourrier()
-		// setPieceToDisplay(selectedCourrier)
-	}, [])
+		const montant = parseFloat(montantTTC)
+		if (avecTVA && montant > 0) {
+			setTva20(((montant / 120) * 20).toFixed(2)) // Calcul de la TVA
+		} else {
+			setTva20('') // Réinitialiser si non applicable
+		}
+	}, [avecTVA, montantTTC])
 
 	const convertToArray: (datas: ICourrierDepenses[]) => string[][] = (datas: ICourrierDepenses[]): string[][] => {
 		return datas.map((data: ICourrierDepenses): string[] => [
@@ -132,6 +137,14 @@ const NouvellePrevisionDepenses = () => {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
 		e.preventDefault()
 
+		// let calculatedTva20 = 0 // Variable temporaire pour stocker la TVA calculée
+
+		// // Calcul automatique du montant de la TVA à partir du montant TTC si la case avec TVA est cochée
+		// if (avecTVA && montantTTC !== null && montantTTC !== undefined) {
+		// 	calculatedTva20 = Math.round((montantTTC / 120) * 20) // Calculez la TVA
+		// 	setTva20(calculatedTva20) // Mettez à jour l'état pour les prochains rendus
+		// }
+
 		// Créer un tableau d'objets avec les données du formulaire
 		const formData = [
 			{ label: 'Clé courrier', value: cleCourrier },
@@ -140,7 +153,7 @@ const NouvellePrevisionDepenses = () => {
 			{ label: 'Rubrique', value: rubrique },
 			{ label: 'Montant TTC', value: montantTTC },
 			{ label: 'Avec TVA', value: avecTVA ? 'Oui' : 'Non' },
-			{ label: 'TVA 20%', value: tva20 },
+			{ label: 'TVA 20%', value: tva20 }, // Utilisez la TVA calculée ici
 			{ label: 'Date échéance', value: dateEcheance },
 			{ label: 'Date Ordo.', value: dateOrdo },
 		]
@@ -213,7 +226,7 @@ const NouvellePrevisionDepenses = () => {
 										{ value: 'SITAP', label: 'SITAP' },
 										{ value: 'STENICO_RE', label: 'STENICO_RE' },
 									]}
-									onChange={(selectedOption) => setSociete(selectedOption?.value || '')}
+									onChange={(selectedOption) => setSociete(selectedOption?.value ?? '')}
 								/>
 							</div>
 							<div className={'inputWrapper'}>
@@ -259,7 +272,7 @@ const NouvellePrevisionDepenses = () => {
 										{ value: 'SBL', label: 'SBL' },
 										{ value: 'TELECOM', label: 'TELECOM' },
 									]}
-									onChange={(selectedOption) => setRubrique(selectedOption?.value || '')}
+									onChange={(selectedOption) => setRubrique(selectedOption?.value ?? '')}
 								/>
 							</div>
 							<div className={'inputWrapper'}>
@@ -335,16 +348,30 @@ const NouvellePrevisionDepenses = () => {
 							</div>
 							<div className={'inputWrapper'}>
 								<label>Montant TTC : </label>
-								<input type={'number'} value={montantTTC} onChange={(e) => setMontantTTC(e.target.value)} />
+								<div className='inputWithSymbol'>
+									<input
+										type={'number'}
+										value={montantTTC}
+										onChange={(e) => {
+											const value = e.target.value
+											setMontantTTC(value) // Met à jour l'état avec la chaîne saisie
+										}}
+									/>
+									<span className='symbol'>€</span>
+								</div>
 							</div>
 							<div className={'inputWrapper'}>
 								<label>Avec TVA : </label>
 								<input type={'checkbox'} checked={avecTVA} onChange={(e) => setAvecTVA(e.target.checked)} />
 							</div>
 							<div className={'inputWrapper'}>
-								<label>TVA 20% : </label>
-								<input type={'number'} value={tva20} onChange={(e) => setTva20(e.target.value)} />
+								<label>TVA 20% :</label>
+								<div className='inputWithSymbol'>
+									<input type='text' value={tva20 ?? ''} readOnly />
+									<span className='symbol'>€</span>
+								</div>
 							</div>
+
 							<div className={'inputWrapper'}>
 								<label>Date échéance : </label>
 								<input type={'date'} value={dateEcheance} onChange={(e) => setDateEcheance(e.target.value)} />
