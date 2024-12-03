@@ -5,10 +5,7 @@ import { isOnProduction } from "../../utils/scripts/utils.ts";
 import { AxiosResponse } from "axios";
 import { IUserCredentials } from "../../utils/types/user.interface.ts";
 import { ICourrierDepenses} from "../../utils/types/courrier.interface.ts";
-import {courrierModel, IServerCourrier, IServerCourrierDepenses} from "../models/courrier.model.ts";
-
-// model
-import { courrierDepensesModel } from "../models/courrier.model.ts";
+import {courrierModel, courrierDepensesModel, IServerCourrier, IServerCourrierDepenses} from "../models/courrier.model.ts";
 
 // API
 import { postRequest } from "../APICalls.ts";

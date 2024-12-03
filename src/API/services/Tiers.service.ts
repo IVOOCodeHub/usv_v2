@@ -4,11 +4,8 @@ import { isOnProduction } from "../../utils/scripts/utils.ts";
 // types
 import { AxiosResponse } from "axios";
 import { IUserCredentials } from "../../utils/types/user.interface.ts";
-import { IServerTiersPrevisions } from "../models/tiers.model.ts";
+import { IServerTiersPrevisions, tiersPrevisionsModel } from "../models/tiers.model.ts";
 import { ITiersPrevisions } from "../../utils/types/tiers.interface.ts";
-
-// model
-import { tiersPrevisionsModel } from "../models/tiers.model.ts";
 
 // API
 import { postRequest } from "../APICalls.ts";
