@@ -10,6 +10,7 @@ import withAuth from "../../../../../views/auth/withAuth";
 import Header from "../../../../../components/header/Header";
 import Button from "../../../../../components/button/Button";
 import NRTL from "../../../../../components/NRTL/NRTL";
+import DisplayCourrierModalWithAuth from "../../../../../components/displayCourrierModal/DisplayCourrierModal.tsx";
 import Footer from "../../../../../components/footer/Footer";
 
 // context
@@ -17,12 +18,15 @@ import { UserContext } from "../../../../../context/userContext.tsx";
 import { CourrierContext } from "../../../../../context/courrierContext.tsx";
 import { TiersContext } from "../../../../../context/tiersContext.tsx";
 import { ITiersPrevisions } from "../../../../../utils/types/tiers.interface.ts";
+import { ICourrier } from "../../../../../utils/types/courrier.interface.ts";
 
 export function CourrierRelance(): ReactElement {
   const { userCredentials } = useContext(UserContext);
   const { getCourrier, courrier } = useContext(CourrierContext);
   const { getTiersPrevisions, tiersPrevisions } = useContext(TiersContext);
+  const [firstBodyArray, setFirstBodyArray] = useState<string[][]>([]);
   const [secondBodyArray, setSecondBodyArray] = useState<string[][]>([]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const navigate: NavigateFunction = useNavigate();
   const location = useLocation();
@@ -37,7 +41,7 @@ export function CourrierRelance(): ReactElement {
     commentaire: rowData[6],
   };
 
-  const tableData = {
+  const firstTableData = {
     tableHead: [
       "Courrier",
       "Émetteur",
@@ -46,7 +50,18 @@ export function CourrierRelance(): ReactElement {
       "Service",
       "Commentaire",
     ],
-    tableBody: [rowData],
+    tableBody: firstBodyArray,
+  };
+
+  const convertToArrayForFirstTable = (courriers: ICourrier[]): string[][] => {
+    return courriers.map((courrier: ICourrier): string[] => [
+      courrier.cle,
+      courrier.societeEmettrice,
+      courrier.societe,
+      courrier.nature,
+      courrier.service,
+      courrier.commentaire,
+    ]);
   };
 
   const secondTableData = {
@@ -61,16 +76,25 @@ export function CourrierRelance(): ReactElement {
     tableBody: secondBodyArray,
   };
 
-  const convertToArrayForSecondTable: (
-    datas: ITiersPrevisions[],
-  ) => string[][] = (datas: ITiersPrevisions[]): string[][] => {
-    return datas.map((data: ITiersPrevisions): string[] => [
-      data.cle,
-      data.dateEcheance,
-      data.libelleEcriture,
-      data.credit,
-      data.statut,
-      data.referencePaiement,
+  const keepTwoDecimals = (number: number): string => {
+    return new Intl.NumberFormat("fr-FR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(number);
+  };
+
+  const convertToArrayForSecondTable = (
+    previsions: ITiersPrevisions[],
+  ): string[][] => {
+    return previsions.map((previsions: ITiersPrevisions): string[] => [
+      previsions.cle,
+      previsions.dateEcheance,
+      previsions.libelleEcriture,
+      keepTwoDecimals(parseFloat(previsions.credit)) + " €",
+      previsions.statut,
+      previsions.referencePaiement === "0"
+        ? "Aucune"
+        : previsions.referencePaiement,
     ]);
   };
 
@@ -89,8 +113,13 @@ export function CourrierRelance(): ReactElement {
     }
   }, [courrier]);
 
-  console.log("courrier ->", courrier);
-  console.log("tiersPrevision ->", tiersPrevisions);
+  useEffect((): void => {
+    if (courrier && typeof courrier !== "string") {
+      setFirstBodyArray(convertToArrayForFirstTable([courrier]));
+    } else {
+      console.error(`Error with getCourrierService request : ${courrier}`);
+    }
+  }, [courrier]);
 
   useEffect((): void => {
     if (Array.isArray(tiersPrevisions)) {
@@ -106,97 +135,108 @@ export function CourrierRelance(): ReactElement {
           helpBtn: true,
         }}
       />
-      <main id={"courrierRelance"}>
-        <section className={"courrierRelance__topSection"}>
-          <NRTL
-            datas={tableData}
-            headerBackgroundColor={
-              "linear-gradient(to left, #84CDE4FF, #1092B8)"
-            }
-            headerHoverBackgroundColor={"#1092B8"}
-            onRowClick={() => ""}
-            language={"fr"}
-          />
-          <div className={"buttonWrapper"}>
-            <Button
-              props={{
-                style: "white",
-                text: "Voir courrier",
-                type: "button",
-                onClick: (): void => navigate("/commandes/tresorerie/menu"),
-              }}
+      {courrier && typeof courrier !== "string" && (
+        <main id={"courrierRelance"}>
+          {isModalOpen && (
+            <div className={"modalContainer"}>
+              <DisplayCourrierModalWithAuth
+                props={{
+                  selectedCourrier: courrier,
+                  isModalOpen,
+                  setIsModalOpen: setIsModalOpen,
+                }}
+              />
+            </div>
+          )}
+          <section className={"courrierRelance__topSection"}>
+            <NRTL
+              datas={firstTableData}
+              headerBackgroundColor={
+                "linear-gradient(to left, #84CDE4FF, #1092B8)"
+              }
+              headerHoverBackgroundColor={"#1092B8"}
+              language={"fr"}
             />
-            <Button
-              props={{
-                style: "white",
-                text: "Requalifier",
-                type: "button",
-                onClick: (): void => navigate("/commandes/tresorerie/menu"),
-              }}
+            <div className={"buttonWrapper"}>
+              <Button
+                props={{
+                  style: "white",
+                  text: "Voir courrier",
+                  type: "button",
+                  onClick: (): void => setIsModalOpen(true),
+                }}
+              />
+              <Button
+                props={{
+                  style: "white",
+                  text: "Requalifier",
+                  type: "button",
+                  onClick: (): void => navigate("/commandes/tresorerie/menu"),
+                }}
+              />
+              <Button
+                props={{
+                  style: "white",
+                  text: "Associer à un litige",
+                  type: "button",
+                  onClick: (): void => navigate("/commandes/tresorerie/menu"),
+                }}
+              />
+            </div>
+          </section>
+
+          <section className={"courrierRelance__bottomSection"}>
+            <form>
+              <div className={"inputWrapper"}>
+                <label htmlFor={"minDate"}>Date mini</label>
+                <input name={"minDate"} type={"date"} />
+              </div>
+              <div className={"inputWrapper"}>
+                <label htmlFor={"maxDate"}>Date maxi</label>
+                <input name={"maxDate"} type={"date"} />
+              </div>
+              <div className={"inputWrapper"}>
+                <label htmlFor={"libelle"}>Libellé</label>
+                <input name={"libelle"} type={"text"} />
+              </div>
+              <div className={"inputWrapper"}>
+                <label htmlFor={"minAmount"}>Montant mini</label>
+                <input name={"minAmount"} type={"text"} />
+              </div>
+              <div className={"inputWrapper"}>
+                <label htmlFor={"maxAmount"}>Montant maxi</label>
+                <input name={"maxAmount"} type={"text"} />
+              </div>
+            </form>
+            <NRTL
+              datas={secondTableData}
+              headerBackgroundColor={
+                "linear-gradient(to left, #84CDE4FF, #1092B8)"
+              }
+              headerHoverBackgroundColor={"#1092B8"}
+              showPreviousNextButtons={true}
+              enableColumnSorting={true}
+              showItemsPerPageSelector={true}
+              showSearchBar={true}
+              showPagination={true}
+              itemsPerPageOptions={[5, 25, 50]}
+              filterableColumns={[false, false, false, false, true, false]}
+              language={"fr"}
             />
+          </section>
+
+          <div className={"goBackBtnWrapper"}>
             <Button
               props={{
-                style: "white",
-                text: "Associer à un litige",
+                style: "grey",
+                text: "Retour",
                 type: "button",
-                onClick: (): void => navigate("/commandes/tresorerie/menu"),
+                onClick: (): void => navigate(-1),
               }}
             />
           </div>
-        </section>
-
-        <section className={"courrierRelance__bottomSection"}>
-          <form>
-            <div className={"inputWrapper"}>
-              <label>Date mini</label>
-              <input type={"date"} />
-            </div>
-            <div className={"inputWrapper"}>
-              <label>Date maxi</label>
-              <input type={"date"} />
-            </div>
-            <div className={"inputWrapper"}>
-              <label>Libellé</label>
-              <input type={"text"} />
-            </div>
-            <div className={"inputWrapper"}>
-              <label>Montant mini</label>
-              <input type={"date"} />
-            </div>
-            <div className={"inputWrapper"}>
-              <label>Montant maxi</label>
-              <input type={"date"} />
-            </div>
-          </form>
-          <NRTL
-            datas={secondTableData}
-            headerBackgroundColor={
-              "linear-gradient(to left, #84CDE4FF, #1092B8)"
-            }
-            headerHoverBackgroundColor={"#1092B8"}
-            showPreviousNextButtons={true}
-            enableColumnSorting={true}
-            showItemsPerPageSelector={true}
-            showSearchBar={true}
-            showPagination={true}
-            itemsPerPageOptions={[15, 25, 50]}
-            onRowClick={() => ""}
-            filterableColumns={[false, false, false, false, true, false]}
-            language={"fr"}
-          />
-        </section>
-
-        <div className={"goBackBtnWrapper"}>
-          <Button
-            props={{
-              style: "grey",
-              text: "Retour",
-              type: "button",
-              onClick: (): void => navigate(-1),
-            }}
-          />
-        </div>
-      </main>
+        </main>
+      )}
       <Footer />
     </>
   );
