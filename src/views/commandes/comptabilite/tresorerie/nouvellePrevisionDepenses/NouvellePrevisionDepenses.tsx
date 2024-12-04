@@ -36,6 +36,7 @@ const NouvellePrevisionDepenses = () => {
 	const [cleCourrier, setCleCourrier] = useState<string>('')
 	const [datePiece, setDatePiece] = useState<string>('')
 	const [societe, setSociete] = useState<string>('')
+	const [tiers, setTiers] = useState<string>('')
 	const [rubrique, setRubrique] = useState<string>('')
 	const [montantTTC, setMontantTTC] = useState<string>('')
 	const [avecTVA, setAvecTVA] = useState<boolean>(false)
@@ -111,7 +112,9 @@ const NouvellePrevisionDepenses = () => {
 			if (selectedCourrier) {
 				setPdfZoneMessage('Document trouvé et prêt à afficher.')
 				setPieceToDisplay(selectedCourrier)
+				setTiers(selectedCourrier.societeEmettrice)
 				console.log('PDF sélectionné :', selectedCourrier.fileName)
+				console.log('Tiers sélectionné :', selectedCourrier.societeEmettrice)
 				return
 			}
 		}
@@ -150,6 +153,7 @@ const NouvellePrevisionDepenses = () => {
 			{ label: 'Clé courrier', value: cleCourrier },
 			{ label: 'Date pièce', value: datePiece },
 			{ label: 'Société', value: societe },
+			{ label: 'Tiers', value: tiers },
 			{ label: 'Rubrique', value: rubrique },
 			{ label: 'Montant TTC', value: montantTTC },
 			{ label: 'Avec TVA', value: avecTVA ? 'Oui' : 'Non' },
@@ -231,22 +235,8 @@ const NouvellePrevisionDepenses = () => {
 							</div>
 							<div className={'inputWrapper'}>
 								<label>Tiers</label>
-								<div className={'tiersWrapper'}>
-									<p>1424 - MMA</p>
-									<Button
-										props={{
-											style: 'grey',
-											text: 'Prév',
-											type: 'button',
-										}}
-									/>
-									<Button
-										props={{
-											style: 'grey',
-											text: 'Edit. tiers',
-											type: 'button',
-										}}
-									/>
+								<div className='tiersInput'>
+									<input type={'text'} id='tiers' name='tiers' value={tiers} readOnly />
 								</div>
 							</div>
 							<div className={'inputWrapper'}>
