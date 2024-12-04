@@ -6,6 +6,12 @@ import { useEffect, useState, useContext, ReactElement } from 'react'
 
 // components
 import Select from 'react-select'
+import { StylesConfig } from 'react-select'
+
+interface Option {
+	value: string
+	label: string
+}
 // import withAuth from '../../../../../views/auth/withAuth'
 import Header from '../../../../../components/header/Header'
 // import Loader from '../../../../../components/loader/Loader'
@@ -47,6 +53,51 @@ const NouvellePrevisionDepenses = () => {
 	const [prefixeLibelle, setPrefixeLibelle] = useState<string>('')
 	const [mois, setMois] = useState<string>('')
 	const [trim, setTrim] = useState<string>('')
+
+	// Personnalisation du style des champs de saisie SELECT
+
+	const customSelectStyles: StylesConfig<Option, false> = {
+		control: (provided) => ({
+			...provided,
+			border: '1px solid #36395a',
+			borderRadius: 'unset',
+			background: '#f2f2f2',
+			minHeight: '38px',
+			width: '230px', // Correspond à la largeur des autres champs
+			padding: '0', // Réinitialise le padding pour éviter l'effet démesuré
+			display: 'flex',
+			alignItems: 'center',
+			textAlign: 'center',
+			boxShadow: 'none',
+			'&:hover': {
+				borderColor: '#36395a',
+			},
+		}),
+		singleValue: (provided) => ({
+			...provided,
+			textAlign: 'center',
+			color: '#36395a',
+			fontSize: '12px', // Ajuste la taille de la police pour correspondre aux autres champs
+		}),
+		placeholder: (provided) => ({
+			...provided,
+			textAlign: 'center',
+			color: '#aaa',
+			fontSize: '12px',
+		}),
+		dropdownIndicator: (provided) => ({
+			...provided,
+			color: '#36395a',
+			padding: '0', // Supprime le padding autour de l'indicateur
+		}),
+		indicatorSeparator: () => ({
+			display: 'none',
+		}),
+		menu: (provided) => ({
+			...provided,
+			textAlign: 'left',
+		}),
+	}
 
 	// Effet pour calculer automatiquement la TVA
 	useEffect(() => {
@@ -230,6 +281,7 @@ const NouvellePrevisionDepenses = () => {
 										{ value: 'SITAP', label: 'SITAP' },
 										{ value: 'STENICO_RE', label: 'STENICO_RE' },
 									]}
+									styles={customSelectStyles}
 									onChange={(selectedOption) => setSociete(selectedOption?.value ?? '')}
 								/>
 							</div>
@@ -262,6 +314,7 @@ const NouvellePrevisionDepenses = () => {
 										{ value: 'SBL', label: 'SBL' },
 										{ value: 'TELECOM', label: 'TELECOM' },
 									]}
+									styles={customSelectStyles}
 									onChange={(selectedOption) => setRubrique(selectedOption?.value ?? '')}
 								/>
 							</div>
@@ -328,6 +381,7 @@ const NouvellePrevisionDepenses = () => {
 												],
 											},
 										],
+
 										// onChange: (selectedOption, group) => {
 										// 	if (group === 'Préfixe libellé') setPrefixeLibelle(selectedOption?.value || '')
 										// 	else if (group === 'Mois') setMois(selectedOption?.value || '')

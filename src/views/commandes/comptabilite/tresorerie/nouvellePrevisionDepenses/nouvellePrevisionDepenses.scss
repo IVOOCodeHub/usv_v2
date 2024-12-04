@@ -125,10 +125,27 @@
 }
 
 #nouvellePrevisionDepenses .leftSide .formContainer form .css-13cymwt-control {
-    font-size: 12px !important;
+    width: 230px; // Aligné avec les autres champs
+    height: 38px; // Hauteur des autres champs
+    font-size: 12px !important; // Taille de police uniforme
     background: #f2f2f2;
-    border-color: unset;
-    border-radius: unset;
+    border: 1px solid #36395a;
+    border-radius: 4px;
+    text-align: center; // Centre le texte
+    box-shadow: none;
+
+    &:hover {
+        border-color: #36395a;
+    }
+}
+
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .css-13cymwt-container {
+    width: 230px; // Fixe la largeur globale
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .css-1okebmr-indicatorSeparator {
+    display: none; // Supprime le séparateur
 }
 
 #nouvellePrevisionDepenses .leftSide .formContainer form .css-13cymwt-control:not(#selectGroup .css-13cymwt-control) {
@@ -138,20 +155,6 @@
 #nouvellePrevisionDepenses .leftSide .formContainer form .css-b62m3t-container:not(#selectGroup .css-b62m3t-container) {
     width: 230px;
 }
-
-// #nouvellePrevisionDepenses .leftSide .formContainer form .inputWrapper .tiersWrapper {
-//     display: flex;
-//     width: 100%;
-//     align-items: center;
-//     justify-content: center;
-//     gap: 1em;
-//     border: 2px solid #e3083f;
-// }
-
-// #nouvellePrevisionDepenses .leftSide .formContainer form .inputWrapper .tiersWrapper p {
-//     font-weight: 700;
-//     font-size: 1.2em;
-// }
 
 #nouvellePrevisionDepenses .leftSide .formContainer form .buttonWrapper {
     display: flex;
@@ -174,6 +177,13 @@
 #nouvellePrevisionDepenses .inputWrapper input.error {
     border: 2px solid red !important; // Utilisez !important temporairement pour diagnostiquer
     border-radius: 4px;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .css-13cymwt-control .css-1hwfws3 {
+    display: flex;
+    justify-content: center; // Centre le contenu sélectionné
+    align-items: center;
+    text-align: center;
 }
 
 .inputWithSymbol {
@@ -200,4 +210,11 @@
     align-items: center;
     justify-content: center;
     gap: 1em;
+}
+
+#selectGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: space-between;
 }
