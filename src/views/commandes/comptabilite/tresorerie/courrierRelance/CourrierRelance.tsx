@@ -171,7 +171,10 @@ export function CourrierRelance(): ReactElement {
                   style: "white",
                   text: "Requalifier",
                   type: "button",
-                  onClick: (): void => navigate("/commandes/tresorerie/menu"),
+                  onClick: (): void =>
+                    navigate("/commandes/tresorerie/courrier_requalification", {
+                      state: courrier,
+                    }),
                 }}
               />
               <Button

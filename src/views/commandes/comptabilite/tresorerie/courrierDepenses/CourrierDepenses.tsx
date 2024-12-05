@@ -1,10 +1,8 @@
 // styles
 import "./courrierDepenses.scss";
-// import "nillys-react-table-library/style";
 
 // hooks | libraries
 import { useNavigate, NavigateFunction } from "react-router-dom";
-// import { NRTL } from "nillys-react-table-library";
 import NRTL from "../../../../../components/NRTL/NRTL.tsx";
 import { useEffect, useState, useContext, ReactElement } from "react";
 
