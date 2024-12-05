@@ -22,7 +22,7 @@
         background-color: #f9f9f9;
 
         @media (max-width: 768px) {
-            margin-top: 1.5rem;
+            margin: 1.5rem 0;
         }
     }
 
@@ -77,8 +77,12 @@
     text-align: center;
     margin-bottom: 1em;
 
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
         font-size: 2.5em;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 4em;
     }
 }
 
@@ -92,8 +96,22 @@
         gap: 1rem;
     }
 
-    &.selectGroup {
-        margin-right: -5px;
+    @media (min-width: 1024px) {
+        &.selectGroup {
+            margin-right: -6px;
+        }
+    }
+}
+
+.cleCourrierWrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 1.5rem;
+
+    @media (min-width: 1024px) {
+        flex-flow: row;
+        gap: 1rem;
     }
 }
 
@@ -106,6 +124,15 @@
         width: 100%;
         text-align: center;
         font-size: 1.5dvw;
+    }
+
+    @media (max-width: 640px) {
+        font-size: 2.2dvw;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 3dvw;
+        text-align: center;
     }
 }
 
@@ -124,7 +151,7 @@
 #nouvellePrevisionDepenses .leftSide .formContainer form input[type="date"] {
     min-width: 230px;
     max-height: 38px;
-    color: #333333;
+    color: #36395a;
 
     &:hover {
         cursor: pointer;
@@ -137,6 +164,12 @@
 
 #nouvellePrevisionDepenses .leftSide .formContainer form input[type="text"] {
     min-width: 230px;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form input[type="number"] {
+    @media (max-width: 1024px) {
+        min-width: 230px;
+    }
 }
 
 #nouvellePrevisionDepenses .leftSide .formContainer form input {
@@ -182,7 +215,7 @@
 }
 
 #nouvellePrevisionDepenses .leftSide .formContainer form .css-b62m3t-container:not(#selectGroup .css-b62m3t-container) {
-    width: 230px;
+    border-radius: 4px;
 }
 
 #nouvellePrevisionDepenses .leftSide .formContainer form .buttonWrapper {

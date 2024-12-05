@@ -231,7 +231,8 @@ const NouvellePrevisionDepenses = () => {
 							<h3>Nouvelle prévision de dépense</h3>
 							<div className={'inputWrapper'}>
 								<label>Clé courrier : </label>
-								<div className={'btnVoir'}>
+								<div className="cleCourrierWrapper">
+									<div className={'btnVoir'}>
 									<Button
 										props={{
 											style: 'blue',
@@ -251,6 +252,8 @@ const NouvellePrevisionDepenses = () => {
 									onChange={searchCleCourrier}
 									className={hasError ? 'error' : ''}
 								/>
+								</div>
+								
 							</div>
 							<div className={'inputWrapper'}>
 								<label>Date pièce : </label>
