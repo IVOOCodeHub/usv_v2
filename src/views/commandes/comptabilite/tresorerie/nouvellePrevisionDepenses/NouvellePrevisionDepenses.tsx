@@ -318,7 +318,7 @@ const NouvellePrevisionDepenses = () => {
 									onChange={(selectedOption) => setRubrique(selectedOption?.value ?? '')}
 								/>
 							</div>
-							<div className={'inputWrapper'}>
+							<div className={'inputWrapper selectGroup'}>
 								<label>Libellé :</label>
 								<SelectGroup
 									props={{
