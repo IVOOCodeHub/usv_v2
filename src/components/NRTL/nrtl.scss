@@ -18,11 +18,7 @@ $defaultColumnSortingFullFilledColor: #36395a;
   font-size: 12px;
   margin-top: 2em;
 
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-
-  // Ajout des variables CSS dans un seul bloc pour éviter le duplicate selector
+  // Déclaration des variables CSS avant les règles imbriquées
   --header-bg-color: #{$defaultTableBgColor};
   --header-hover-bg-color: #{$defaultHeaderHoverColor};
   --row-color: #{$defaultRowColor};
@@ -32,6 +28,10 @@ $defaultColumnSortingFullFilledColor: #36395a;
   --disable-button-color: #{$defaultDisabledButtonColor};
   --column-sorting-color: #{$defaultColumnSortingColor};
   --column-sorting-full-filled-color: #{$defaultColumnSortingFullFilledColor};
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 }
 
 

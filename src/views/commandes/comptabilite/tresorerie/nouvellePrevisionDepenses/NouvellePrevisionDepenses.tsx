@@ -231,29 +231,28 @@ const NouvellePrevisionDepenses = () => {
 							<h3>Nouvelle prévision de dépense</h3>
 							<div className={'inputWrapper'}>
 								<label>Clé courrier : </label>
-								<div className="cleCourrierWrapper">
+								<div className='cleCourrierWrapper'>
 									<div className={'btnVoir'}>
-									<Button
-										props={{
-											style: 'blue',
-											text: 'Voir',
-											type: 'button',
-											onClick: () => {
-												getSelectedCourrier()
-											},
-										}}
+										<Button
+											props={{
+												style: 'blue',
+												text: 'Voir',
+												type: 'button',
+												onClick: () => {
+													getSelectedCourrier()
+												},
+											}}
+										/>
+									</div>
+									<input
+										type={'number'}
+										id='cleCourrier'
+										name='cleCourrier'
+										value={cleCourrier}
+										onChange={searchCleCourrier}
+										className={hasError ? 'error' : ''}
 									/>
 								</div>
-								<input
-									type={'number'}
-									id='cleCourrier'
-									name='cleCourrier'
-									value={cleCourrier}
-									onChange={searchCleCourrier}
-									className={hasError ? 'error' : ''}
-								/>
-								</div>
-								
 							</div>
 							<div className={'inputWrapper'}>
 								<label>Date pièce : </label>
@@ -365,7 +364,7 @@ const NouvellePrevisionDepenses = () => {
 												],
 											},
 											{
-												libelle: 'Trim',
+												libelle: 'Trimestre',
 												options: [
 													{ value: '0', label: 'Choisir' },
 													{ value: '1er trimestre', label: '1er trimestre' },
