@@ -5,8 +5,7 @@ import { useNavigate, NavigateFunction } from 'react-router-dom'
 import { useEffect, useState, useContext, ReactElement } from 'react'
 
 // components
-import Select from 'react-select'
-import { StylesConfig } from 'react-select'
+import Select, { StylesConfig } from 'react-select'
 
 interface Option {
 	value: string
