@@ -9,6 +9,7 @@ import CourrierDepenses from './courrierDepenses/CourrierDepenses.tsx'
 import CourrierConsult from './courrierConsult/CourrierConsult.tsx'
 import CourrierRelance from './courrierRelance/CourrierRelance.tsx'
 import NouvellePrevisionDepenses from './nouvellePrevisionDepenses/NouvellePrevisionDepenses.tsx'
+import NouvellePrevisionRecette from './nouvellePrevisionRecette/NouvellePrevisionRecette.tsx'
 
 export default function TresorerieRouter(): ReactElement {
 	return (
@@ -18,6 +19,7 @@ export default function TresorerieRouter(): ReactElement {
 			<Route path={'courrier_consult'} element={<CourrierConsult />} />
 			<Route path={'courrier_relance'} element={<CourrierRelance />} />
 			<Route path={'nouvelle_prevision_depenses'} element={<NouvellePrevisionDepenses />} />
+			<Route path={'nouvelle_prevision_recette'} element={<NouvellePrevisionRecette />} />
 		</Routes>
 	)
 }

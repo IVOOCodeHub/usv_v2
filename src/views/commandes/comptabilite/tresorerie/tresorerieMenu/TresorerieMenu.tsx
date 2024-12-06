@@ -35,7 +35,7 @@ function TresorerieMenu(): ReactElement {
 			title: 'Recettes',
 			items: [
 				{ name: 'Courrier', link: '/' },
-				{ name: 'Nouvelle prévision de recette EXTERNE', link: '/' },
+				{ name: 'Nouvelle prévision de recette EXTERNE', link: '/commandes/tresorerie/nouvelle_prevision_recette' },
 				{ name: 'Recettes à ordonnancer', link: '/' },
 				{ name: 'Encaissements', link: '/' },
 				{ name: 'Retard encaissements', link: '/' },
