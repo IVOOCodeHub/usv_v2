@@ -8,9 +8,9 @@ import { useNavigate, NavigateFunction } from "react-router-dom";
 // components
 import WithAuth from "../../../../auth/withAuth";
 import Header from "../../../../../components/header/Header";
-import Footer from "../../../../../components/footer/Footer";
+import Select from "react-select";
 import Button from "../../../../../components/button/Button.tsx";
-import Select from 'react-select'
+import Footer from "../../../../../components/footer/Footer";
 
 // context
 import { CourrierContext } from "../../../../../context/courrierContext.tsx";
@@ -38,38 +38,68 @@ export function CourrierRequalification(): ReactElement {
                 />
               </section>
               <section className={"rightContainer"}>
-                  <h2>Courrier {courrier.cle}</h2>
-                  <form>
-                      <div className={'inputWrapper'}>
-                          <label>Tiers : </label>
-                          <p>{courrier.societeEmettrice}</p>
-                      </div>
-                      <div className={'inputWrapper'}>
-                          <label>Type courrier : </label>
-                          <Select options={[
-                              {value: '', label: 'Choisir'},
-                              {value: 'Avis', label:'Avis'},
-                              {value: 'Avoir', label:'Avoir'},
-                              {value: 'Chèque', label:'Chèque'},
-                              {value: 'Courrier', label:'Courrier'},
-                              {value: 'Demande', label:'Demande'},
-                              {value: 'Facture CLIENT', label:'Facture CLIENT'},
-                              {value: 'Facture FOURNISSEUR', label:'Facture FOURNISSEUR'},
-                              {value: 'Justificatif', label:'Justificatif'},
-                              {value: 'Litige', label:'Litige'},
-                              {value: 'Note de frais', label:'Note de frais'},
-                              {value: 'Relance', label:'Relance'},
-                              {value: 'Relevé bancaire', label:'Relevé bancaire'},
-                              {value: 'Retour AR', label:'Retour AR'},
-                          ]} />
-                      </div>
-                  </form>
+                <h2>Courrier {courrier.cle}</h2>
+                <form>
+                  <div className={"inputWrapper"}>
+                    <label htmlFor={"tiers"}>Tiers : </label>
+                    <p className={"tiers"}>{courrier.societeEmettrice}</p>
+                  </div>
+                  <div className={"inputWrapper"}>
+                    <label htmlFor={"type"}>Type courrier : </label>
+                    <Select
+                      name={"type"}
+                      options={[
+                        { value: "", label: "Choisir" },
+                        { value: "Avis", label: "Avis" },
+                        { value: "Avoir", label: "Avoir" },
+                        { value: "Chèque", label: "Chèque" },
+                        { value: "Courrier", label: "Courrier" },
+                        { value: "Demande", label: "Demande" },
+                        { value: "Facture CLIENT", label: "Facture CLIENT" },
+                        {
+                          value: "Facture FOURNISSEUR",
+                          label: "Facture FOURNISSEUR",
+                        },
+                        { value: "Justificatif", label: "Justificatif" },
+                        { value: "Litige", label: "Litige" },
+                        { value: "Note de frais", label: "Note de frais" },
+                        { value: "Relance", label: "Relance" },
+                        { value: "Relevé bancaire", label: "Relevé bancaire" },
+                        { value: "Retour AR", label: "Retour AR" },
+                      ]}
+                    />
+                  </div>
+                  <div className={"inputWrapper"}>
+                    <label htmlFor={"action"}>Action : </label>
+                    <Select
+                      name={"action"}
+                      options={[
+                        { value: "", label: "Choisir" },
+                        { value: "A classer", label: "A classer" },
+                        { value: "A justifier", label: "A justifier" },
+                        { value: "A traiter", label: "A traiter" },
+                        { value: "Poubelle", label: "Poubelle" },
+                        { value: "Demande", label: "Demande" },
+                      ]}
+                    />
+                  </div>
+                  <div className={"inputWrapper"}>
+                    <label htmlFor={"datePAction"}>
+                      Date de prochaine action :{" "}
+                    </label>
+                    <input name={"datePAction"} type={"date"} />
+                  </div>
+                  <div className={"inputWrapper"}>
+                    <label htmlFor={"comment"}>Commentaire : </label>
+                    <textarea name={"comment"}></textarea>
+                  </div>
+                </form>
               </section>
             </div>
-              <div className={"goBackBtnWrapper"}>
-                  <Button
-                      props={{
-                          style: "grey",
+            <div className={"goBackBtnWrapper"}>
+              <Button
+                props={{
+                  style: "grey",
                   text: "Retour",
                   type: "button",
                   onClick: (): void => navigate(-1),

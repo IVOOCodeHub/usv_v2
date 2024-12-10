@@ -21,7 +21,7 @@ interface INRTLProps {
   enableColumnSorting?: boolean;
   itemsPerPageOptions?: number[];
   language?: "En" | "Fr" | string;
-  onRowClick?: (rowData: string[]) => void;
+  onRowClick?: (rowData: string[], index: number) => void;
 }
 interface INRTL {
   tableHead: string[];
@@ -376,7 +376,7 @@ export default function NRTL({
                 (row: string[], index: number): ReactElement => (
                   <tr
                     key={index}
-                    onClick={(): void => onRowClick?.(row)}
+                    onClick={(): void => onRowClick?.(row, index)}
                     style={{ cursor: onRowClick ? "pointer" : "default" }}
                   >
                     {row.map(
