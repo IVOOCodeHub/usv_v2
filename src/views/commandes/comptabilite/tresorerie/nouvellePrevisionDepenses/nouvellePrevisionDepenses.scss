@@ -1,0 +1,292 @@
+#nouvellePrevisionDepenses {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2%;
+    flex-flow: row;
+    margin: auto;
+    background: #f2f2f2;
+    min-height: 90dvh;
+    width: 100%;
+    padding: 1em 1em;
+
+    .leftSide {
+        flex: 1;
+    }
+
+    .rightSide {
+        flex: 1;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 8px;
+        background-color: #f9f9f9;
+
+        @media (max-width: 768px) {
+            margin: 1.5rem 0;
+        }
+    }
+
+    iframe {
+        width: 100%;
+        height: 100%;
+        min-height: 77dvh;
+        border: 1px solid #36395a;
+        border-radius: 0 0 6px 6px;
+    }
+
+    @media (max-width: 768px) {
+        flex-flow: column;
+    }
+}
+
+#nouvellePrevisionDepenses .leftSide,
+#nouvellePrevisionConsult .rightSide {
+    width: 50%;
+    min-height: 50dvh;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer {
+    width: 75%;
+}
+
+#nouvellePrevisionDepenses .leftSide form .buttonWrapper {
+    width: 100%;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form {
+    display: flex;
+    flex-flow: column;
+    gap: 1em;
+    border: 1px solid #36395a;
+    padding: 1em;
+    border-radius: 6px;
+    width: 100%;
+    background: #ffffff;
+
+    @media (max-width: 768px) {
+        width: auto;
+        min-width: 300px;
+    }
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form h3 {
+    font-size: 1.5em;
+    text-align: center;
+    margin-bottom: 1em;
+
+    @media (max-width: 1024px) {
+        font-size: 2.5em;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 4em;
+    }
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .inputWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @media (max-width: 1024px) {
+        flex-flow: column;
+        gap: 1rem;
+    }
+
+    @media (min-width: 1024px) {
+        &.selectGroup {
+            margin-right: -6px;
+        }
+    }
+}
+
+.cleCourrierWrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 1.5rem;
+
+    @media (min-width: 1024px) {
+        flex-flow: row;
+        gap: 1rem;
+    }
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .inputWrapper label {
+    width: 40%;
+    font-size: 1dvw;
+    text-wrap-mode: nowrap;
+
+    @media (max-width: 1024px) {
+        width: 100%;
+        text-align: center;
+        font-size: 1.5dvw;
+    }
+
+    @media (max-width: 640px) {
+        font-size: 2.2dvw;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 3dvw;
+        text-align: center;
+    }
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form input[type="text"],
+#nouvellePrevisionDepenses .leftSide .formContainer form input[type="email"],
+#nouvellePrevisionDepenses .leftSide .formContainer form input[type="number"],
+#nouvellePrevisionDepenses .leftSide .formContainer form input[type="password"],
+#nouvellePrevisionDepenses .leftSide .formContainer form input[type="date"] {
+    border: 1px solid #36395a;
+    padding: 0.8em;
+    text-align: center;
+    max-height: 38px;
+    font-size: 12px;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form input[type="date"] {
+    min-width: 230px;
+    max-height: 38px;
+    color: #36395a;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form input:not([type="file"]) {
+    background: #f2f2f2;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form input[type="text"] {
+    min-width: 230px;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form input[type="number"] {
+    @media (max-width: 1024px) {
+        min-width: 230px;
+    }
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form input {
+    &:focus {
+        outline: 3.5px solid #36395a;
+    }
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .css-b62m3t-container {
+    font-size: 12px !important;
+
+    &:focus {
+        outline: 3.5px solid #36395a !important;
+    }
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .css-13cymwt-control {
+    width: 230px; // Aligné avec les autres champs
+    height: 38px; // Hauteur des autres champs
+    font-size: 12px !important; // Taille de police uniforme
+    background: #f2f2f2;
+    border: 1px solid #36395a;
+    border-radius: 4px;
+    text-align: center; // Centre le texte
+    box-shadow: none;
+
+    &:hover {
+        border-color: #36395a;
+    }
+}
+
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .css-13cymwt-container {
+    width: 230px; // Fixe la largeur globale
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .css-1okebmr-indicatorSeparator {
+    display: none; // Supprime le séparateur
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .css-13cymwt-control:not(#selectGroup .css-13cymwt-control) {
+    width: 230px;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .css-b62m3t-container:not(#selectGroup .css-b62m3t-container) {
+    border-radius: 4px;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .buttonWrapper {
+    display: flex;
+    justify-content: center;
+    gap: 4em;
+    margin-top: 1em;
+}
+
+.btnVoir {
+    display: flex;
+    justify-content: flex-end;
+    width: auto;
+    margin-right: 1rem;
+}
+
+.pdfDisplayZone {
+    text-align: center;
+    font-size: 12px;
+}
+
+#nouvellePrevisionDepenses .inputWrapper input.error {
+    border: 2px solid red !important; // Utilisez !important temporairement pour diagnostiquer
+    border-radius: 4px;
+}
+
+#nouvellePrevisionDepenses .leftSide .formContainer form .css-13cymwt-control .css-1hwfws3 {
+    display: flex;
+    justify-content: center; // Centre le contenu sélectionné
+    align-items: center;
+    text-align: center;
+}
+
+.inputWithSymbol {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 230px;
+
+    input {
+        padding-right: 1.5em; // Ajoute de l'espace pour le symbole
+        width: 100%; // Assure que l'input occupe tout l'espace
+    }
+
+    .symbol {
+        position: absolute;
+        right: 1.5em; // Positionne le symbole à droite
+        color: #36395a; // Couleur grise pour le symbole (personnalisable)
+        font-size: 1.3em; // Taille du symbole (optionnel)
+
+        @media (max-width: 1024px) {
+            font-size: 2em;
+        }
+    }
+}
+
+.tiersInput {
+    display: flex;
+    width: 230px;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+}
+
+#selectGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: space-between;
+    border: 1px solid #36395a;
+    border-radius: 4px;
+    padding: 5px;
+}

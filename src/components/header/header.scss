@@ -31,14 +31,14 @@ header nav h1 {
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
-  font-size: 1dvw;
+  font-size: 1.9em;
   font-weight: 700;
   text-transform: uppercase;
 
   @media (max-width: 768px) {
     position: unset;
     transform: unset;
-    font-size: 100%;
+    font-size: 2dvw;
   }
 }
 

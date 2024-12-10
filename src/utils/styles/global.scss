@@ -1,9 +1,10 @@
 /* reset.scss */
-@use "../../utils/styles/mixins" as mixins;
-@use "../../utils/styles/variables" as vars;
+@use "./mixins" as mixins;
+@use "./variables" as vars;
 
 // import Ubuntu font from google cdn
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
 
 /* Box sizing rules */
 *,
@@ -51,6 +52,7 @@ body {
     display: flex;
     flex-flow: column;
     min-height: 100dvh;
+
     & > footer {
       margin-top: auto;
     }

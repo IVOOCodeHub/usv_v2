@@ -1,0 +1,49 @@
+.definition-container {
+    display: flex;
+    width: 25rem;
+    max-width: 600px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+// .definition-title {
+//     font-size: 1.5rem;
+//     font-weight: bold;
+//     margin-bottom: 16px;
+//     text-align: center;
+//     color: #36395a;
+// }
+
+.definition-list {
+    margin: 0;
+    padding: 0;
+}
+
+.definition-item {
+    display: flex;
+    justify-content: space-between;
+    width: 22rem;
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.definition-label {
+    font-weight: bold;
+    color: #36395a;
+    flex: 1;
+    text-align: left;
+}
+
+.definition-value {
+    flex: 1;
+    text-align: right;
+    color: #555;
+    word-wrap: break-word;
+}

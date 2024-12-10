@@ -28,12 +28,21 @@
       0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
     outline: 3.5px solid #36395a;
   }
+
   &:active {
     box-shadow:
       inset 0 0.8px 0px -0.25px rgba(255, 255, 255, 0.2),
       0px 0.5px 1.5px rgba(54, 122, 246, 0.25),
       0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
     outline: 3.5px solid #36395a;
+  }
+
+  @media (max-width: 1024px) {
+    font-size: 1.5dvw;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 2.5dvw;
   }
 }
 
@@ -63,11 +72,20 @@
       0 0 0 3.5px rgba(58, 108, 217, 0.5);
     outline: 3.5px solid #36395a;
   }
+
   &:active {
     box-shadow:
       0 0.5px 1px rgba(0, 0, 0, 0.1),
       0 0 0 3.5px rgba(58, 108, 217, 0.5);
     outline: 3.5px solid #36395a;
+  }
+
+  @media (max-width: 1024px) {
+    font-size: 1.5dvw;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 2.5dvw;
   }
 }
 
@@ -101,12 +119,21 @@
       0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
     outline: 3.5px solid #36395a;
   }
+
   &:active {
     box-shadow:
       inset 0 0.8px 0px -0.25px rgba(255, 255, 255, 0.2),
       0px 0.5px 1px rgba(0, 0, 0, 0.1),
       0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
     outline: 3.5px solid #36395a;
+  }
+
+  @media (max-width: 1024px) {
+    font-size: 1.5dvw;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 2.5dvw;
   }
 }
 
@@ -140,12 +167,21 @@
       0px 0px 0px 3.5px rgb(0, 204, 102);
     outline: 3.5px solid #36395a;
   }
+
   &:active {
     box-shadow:
       inset 0 0.8px 0px -0.25px rgba(255, 255, 255, 0.2),
       0px 0.5px 1.5px rgb(0, 175, 89),
       0px 0px 0px 3.5px rgb(0, 204, 102);
     outline: 3.5px solid #36395a;
+  }
+
+  @media (max-width: 1024px) {
+    font-size: 1.5dvw;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 2.5dvw;
   }
 }
 
@@ -179,12 +215,21 @@
       0 0 0 3.5px rgb(177, 3, 50);
     outline: 3.5px solid #36395a;
   }
+
   &:active {
     box-shadow:
       inset 0 0.8px 0 -0.25px rgba(255, 255, 255, 0.2),
       0 0.5px 1.5px rgb(177, 3, 3),
       0 0 0 3.5px rgb(177, 3, 50);
     outline: 3.5px solid #36395a;
+  }
+
+  @media (max-width: 1024px) {
+    font-size: 1.5dvw;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 2.5dvw;
   }
 }
 

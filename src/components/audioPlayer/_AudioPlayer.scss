@@ -1,0 +1,147 @@
+@use "../../utils/styles/variables.scss" as vars;
+@use "../../utils/styles/mixins" as mix;
+
+.AudioPlayer {
+  &__container {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    @include mix.component-container-shadow;
+    padding: 1rem;
+  }
+
+  &__header {
+    background: vars.$brandColorGradient;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 10px 10px 0 0;
+  }
+
+  &__body {
+    @include mix.flex-center-row;
+    gap: 6px;
+  }
+
+  &__title {
+    @include mix.flex-center-row;
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+
+  &__trackProgress {
+    @include mix.player-audio-range(85%);
+
+    &::-webkit-slider-thumb {
+      appearance: none;
+      @include mix.player-pointer(14px);
+
+      &:hover {
+        @include mix.pointer-hover-effect;
+      }
+    }
+
+    &::-moz-range-thumb {
+      @include mix.player-pointer(14px);
+
+      &:hover {
+        @include mix.pointer-hover-effect;
+      }
+    }
+  }
+
+  &__controlsContainer {
+    @include mix.flex-cursors;
+    gap: 1rem;
+  }
+
+  &__volumeContainer {
+    @include mix.flex-cursors;
+  }
+
+  &__volumeInput {
+    @include mix.player-audio-range(100%);
+
+    &::-webkit-slider-thumb {
+      appearance: none;
+      @include mix.player-pointer(12px);
+
+      &:hover {
+        filter: invert(50%) sepia(100%) saturate(500%) hue-rotate(200deg);
+        transform: scale(1.1);
+      }
+    }
+
+    &::-moz-range-thumb {
+      @include mix.player-pointer(12px);
+
+      &:hover {
+        filter: invert(50%) sepia(100%) saturate(500%) hue-rotate(200deg);
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+button img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  transition: filter 0.2s ease;
+}
+
+button:hover img {
+  filter: invert(50%) sepia(100%) saturate(500%) hue-rotate(200deg);
+}
+
+.volume-icon-container {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.volume-icon {
+  width: 48px;
+  height: 48px;
+}
+
+.volume-icon-container .mute-icon,
+.volume-icon-container .volume-low,
+.volume-icon-container .volume-medium,
+.volume-icon-container .volume-high {
+  display: none;
+  /* Masque tous les éléments par défaut */
+}
+
+.volume-icon-container.mute .mute-icon {
+  display: inline;
+  /* Affiche uniquement la croix pour volume muet */
+}
+
+.volume-icon-container.low .volume-low {
+  display: inline;
+  /* Affiche l'arc pour volume faible */
+}
+
+.volume-icon-container.medium .volume-low,
+.volume-icon-container.medium .volume-medium {
+  display: inline;
+  /* Affiche les deux arcs pour volume moyen */
+}
+
+.volume-icon-container.high .volume-low,
+.volume-icon-container.high .volume-medium,
+.volume-icon-container.high .volume-high {
+  display: inline;
+  /* Affiche les trois arcs pour volume élevé */
+}

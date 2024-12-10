@@ -35,6 +35,7 @@ $defaultColumnSortingFullFilledColor: #36395a;
   }
 }
 
+
 #NRTL .tableHeader {
   width: 100%;
   display: flex;
@@ -114,6 +115,7 @@ $defaultColumnSortingFullFilledColor: #36395a;
   @media (max-width: 1024px) {
     white-space: normal;
     overflow: visible;
+
     .chevron svg {
       opacity: 0;
     }
@@ -165,6 +167,7 @@ $defaultColumnSortingFullFilledColor: #36395a;
     width: 10px !important;
     height: 10px !important;
   }
+
   @media (max-width: 768px) {
     width: 6px !important;
     height: 6px !important;
@@ -172,22 +175,18 @@ $defaultColumnSortingFullFilledColor: #36395a;
 }
 
 #NRTL thead th .chevron-active {
-  stroke: var(
-    --column-sorting-full-filled-color,
-    #{$defaultColumnSortingFullFilledColor}
-  );
-  fill: var(
-    --column-sorting-full-filled-color,
-    #{$defaultColumnSortingFullFilledColor}
-  );
+  stroke: var(--column-sorting-full-filled-color,
+    #{$defaultColumnSortingFullFilledColor});
+  fill: var(--column-sorting-full-filled-color,
+    #{$defaultColumnSortingFullFilledColor});
 }
 
-#NRTL thead th div > span:first-child {
+#NRTL thead th div>span:first-child {
   position: absolute;
   transform: translate(10%, 100%);
 }
 
-#NRTL thead th div > span:last-child {
+#NRTL thead th div>span:last-child {
   position: absolute;
   transform: translate(10%, 175%);
 }
@@ -209,7 +208,8 @@ $defaultColumnSortingFullFilledColor: #36395a;
 #NRTL table tbody tr:hover {
   background: var(--row-hover-color, #{$defaultHoverRowColor}) !important;
   cursor: default;
-  td {
+
+  & td {
     color: var(--row-color, #{$defaultHoverTextColor});
   }
 }
@@ -219,11 +219,11 @@ $defaultColumnSortingFullFilledColor: #36395a;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
 
-#NRTL table tbody td:hover {
-  white-space: normal;
-  overflow: visible;
+  &:hover {
+    white-space: normal;
+    overflow: visible;
+  }
 }
 
 #NRTL tbody tr:last-child td:first-child {
@@ -270,10 +270,8 @@ $defaultColumnSortingFullFilledColor: #36395a;
 }
 
 #NRTL .tableFooter .buttonContainer button:disabled {
-  background: var(
-    --default-disabled-button-color,
-    #{$defaultDisabledButtonColor}
-  ) !important;
+  background: var(--default-disabled-button-color,
+    #{$defaultDisabledButtonColor}) !important;
   cursor: not-allowed !important;
 }
 
