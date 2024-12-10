@@ -1,0 +1,47 @@
+@use '../../utils/styles/variables.scss'as vars;
+@use '../../utils/styles/mixins'as mix;
+
+.Legend {
+    display: flex;
+    justify-content: center;
+    width: 10%;
+    min-width: 100px;
+    font-family: 'Ubuntu', sans-serif;
+    color: vars.$fontColorPrimary;
+
+    &__container {
+        @include mix.component-container-shadow;
+    }
+
+    &__header {
+        background: vars.$brandColorGradient;
+        font-weight: bold;
+        text-align: center;
+        padding: 10px 0;
+        text-transform: uppercase;
+        border-radius: 10px 10px 0 0;
+    }
+
+    &__list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        font-size: 14px;
+        border: none;
+    }
+
+    &__color-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 10px;
+    }
+}
