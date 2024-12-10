@@ -81,6 +81,12 @@
     }
 }
 
+@media (min-width: 1024px) {
+    #nouvellePrevisionRecette .leftSide .formContainer form .inputWrapper.avecTVA label {
+        width: 20%;
+    }
+}
+
 .cleCourrierWrapper {
     display: flex;
     flex-direction: column-reverse;
