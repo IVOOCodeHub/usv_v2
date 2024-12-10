@@ -1,14 +1,10 @@
 /* reset.scss */
-@use './mixins'as mixins;
-@use './variables'as vars;
-@use './index'as common;
-@use '../../components/legende/LegendComponent'as legend;
-@use '../../components/audioPlayer/AudioPlayer'as audio;
-@use '../../components/definition/DefinitionComponent'as definition;
+@use "./mixins" as mixins;
+@use "./variables" as vars;
 
 // import Ubuntu font from google cdn
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
 
 /* Box sizing rules */
 *,
@@ -57,7 +53,7 @@ body {
     flex-flow: column;
     min-height: 100dvh;
 
-    &>footer {
+    & > footer {
       margin-top: auto;
     }
   }
@@ -122,21 +118,4 @@ button,
 select,
 a {
   cursor: pointer;
-}
-
-.DemoPage {
-  display: flex;
-  flex-flow: row;
-  justify-content: space-evenly;
-  align-items: center;
-  min-height: 100dvh;
-
-
-  @media (max-width: vars.$tabletWidth) {
-
-    flex-flow: column;
-    justify-content: space-evenly;
-    align-items: center;
-    min-height: 100dvh;
-  }
 }
