@@ -45,6 +45,7 @@ const NouvellePrevisionRecette = () => {
 	const [tva20, setTva20] = useState<string | ''>('') // Initialisation à une chaîne vide
 	const [dateEcheance, setDateEcheance] = useState<string>('')
 	const [dateOrdo, setDateOrdo] = useState<string>('')
+	const [commentaire, setCommentaire] = useState<string>('')
 	// États pour le groupe "Libellé"
 	const [prefixeLibelle, setPrefixeLibelle] = useState<string>('')
 	const [mois, setMois] = useState<string>('')
@@ -143,7 +144,6 @@ const NouvellePrevisionRecette = () => {
 		setHasSearched(true) // Marque qu'une recherche a été effectuée
 
 		if (!cleCourrier.trim()) {
-			setPdfZoneMessage('Veuillez entrer une clé de courrier.')
 			setPieceToDisplay(null)
 			setHasError(true)
 			return
@@ -157,7 +157,6 @@ const NouvellePrevisionRecette = () => {
 			)
 
 			if (selectedCourrier) {
-				setPdfZoneMessage('Document trouvé et prêt à afficher.')
 				setPieceToDisplay(selectedCourrier)
 				setTiers(selectedCourrier.societeEmettrice)
 				console.log('PDF sélectionné :', selectedCourrier.fileName)
@@ -165,22 +164,6 @@ const NouvellePrevisionRecette = () => {
 				return
 			}
 		}
-
-		setPdfZoneMessage('Aucun courrier trouvé pour cette clé.')
-		setPieceToDisplay(null)
-	}
-
-	// Simplified logic for displaying the PDF content
-	let pdfContent
-
-	if (!hasSearched) {
-		pdfContent = <p className='pdfDisplayZone'>Sélectionnez un courrier pour afficher le document PDF.</p>
-	} else if (pieceToDisplay?.fileName) {
-		pdfContent = (
-			<iframe title='courrier' src={`http://192.168.0.254:8080/usv_prod/courriers/${pieceToDisplay.fileName}`} />
-		)
-	} else {
-		pdfContent = <p className='pdfDisplayZone'>{pdfZoneMessage}</p>
 	}
 
 	// Fonction pour soumettre le formulaire
@@ -189,7 +172,6 @@ const NouvellePrevisionRecette = () => {
 
 		// Créer un tableau d'objets avec les données du formulaire
 		const formData = [
-			{ label: 'Clé courrier', value: cleCourrier },
 			{ label: 'Date pièce', value: datePiece },
 			{ label: 'Société', value: societe },
 			{ label: 'Tiers', value: tiers },
@@ -199,6 +181,7 @@ const NouvellePrevisionRecette = () => {
 			{ label: 'TVA 20%', value: tva20 }, // Utilisez la TVA calculée ici
 			{ label: 'Date échéance', value: dateEcheance },
 			{ label: 'Date Ordo.', value: dateOrdo },
+			{ label: 'Commentaire', value: commentaire },
 		]
 
 		// Afficher dans la console
@@ -212,12 +195,12 @@ const NouvellePrevisionRecette = () => {
 					pageURL: 'GIVOO | TRÉSORERIE | NOUVELLE PRÉVISION DE RECETTE EXTERNE',
 				}}
 			/>
-			<main id={'nouvellePrevisionDepenses'}>
+			<main id={'nouvellePrevisionRecette'}>
 				<div className={'leftSide'}>
 					<div className={'formContainer'}>
 						<form onSubmit={handleSubmit}>
 							<h3>Nouvelle prévision de recette externe</h3>
-							
+
 							<div className={'inputWrapper'}>
 								<label>Date pièce : </label>
 								<input type={'date'} value={datePiece} onChange={(e) => setDatePiece(e.target.value)} />
@@ -370,9 +353,14 @@ const NouvellePrevisionRecette = () => {
 									<span className='symbol'>€</span>
 								</div>
 							</div>
-							<div className={'inputWrapper'}>
-								<label>Avec TVA : </label>
-								<input type={'checkbox'} checked={avecTVA} onChange={(e) => setAvecTVA(e.target.checked)} />
+							<div className={'inputWrapper avecTVA'}>
+								<label htmlFor='avecTVA'>Avec TVA : </label>
+								<input
+									id='avecTVA'
+									type={'checkbox'}
+									checked={avecTVA}
+									onChange={(e) => setAvecTVA(e.target.checked)}
+								/>
 							</div>
 							<div className={'inputWrapper'}>
 								<label>TVA 20% :</label>
@@ -387,8 +375,17 @@ const NouvellePrevisionRecette = () => {
 								<input type={'date'} value={dateEcheance} onChange={(e) => setDateEcheance(e.target.value)} />
 							</div>
 							<div className={'inputWrapper'}>
-								<label>Date Ordo. : </label>
-								<input type={'date'} value={dateOrdo} onChange={(e) => setDateOrdo(e.target.value)} />
+								<label htmlFor='dateOrdo'>Date Ordo. : </label>
+								<input id='dateOrdo' type={'date'} value={dateOrdo} onChange={(e) => setDateOrdo(e.target.value)} />
+							</div>
+							<div className={'inputWrapper'}>
+								<label htmlFor='commentaire'>Commentaire :</label>
+								<textarea
+									id='commentaire'
+									value={commentaire}
+									onChange={(e) => setCommentaire(e.target.value)}
+									// style={{ resize: 'vertical', width: '50%', minHeight: '76px' }} // Ajustement possible uniquement pour la hauteur
+								/>
 							</div>
 							<div className={'buttonWrapper'}>
 								<Button
