@@ -1,8 +1,18 @@
 // styles
 import "./courrierRelance.scss";
 
+// utils
+import { convertENDateToFr } from "../../../../../utils/scripts/utils.ts";
+
 // hooks | libraries
-import { ReactElement, useContext, useEffect, useState } from "react";
+import {
+  ReactElement,
+  useContext,
+  useEffect,
+  useState,
+  ChangeEvent,
+  useRef,
+} from "react";
 import { useNavigate, NavigateFunction, useLocation } from "react-router-dom";
 
 // components
@@ -24,9 +34,20 @@ export function CourrierRelance(): ReactElement {
   const { userCredentials } = useContext(UserContext);
   const { getCourrier, courrier } = useContext(CourrierContext);
   const { getTiersPrevisions, tiersPrevisions } = useContext(TiersContext);
+  const modalPrevRef = useRef<HTMLDivElement | null>(null);
   const [firstBodyArray, setFirstBodyArray] = useState<string[][]>([]);
   const [secondBodyArray, setSecondBodyArray] = useState<string[][]>([]);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedPrevision, setSelectedPrevision] =
+    useState<ITiersPrevisions | null>(null);
+  const [filters, setFilters] = useState({
+    minDate: "",
+    maxDate: "",
+    libelle: "",
+    minAmount: "",
+    maxAmount: "",
+  });
 
   const navigate: NavigateFunction = useNavigate();
   const location = useLocation();
@@ -98,6 +119,68 @@ export function CourrierRelance(): ReactElement {
     ]);
   };
 
+  const handleFilterChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = event.target;
+    setFilters(
+      (prevFilters: {
+        minDate: string;
+        maxDate: string;
+        libelle: string;
+        minAmount: string;
+        maxAmount: string;
+      }): {
+        minDate: string;
+        maxDate: string;
+        libelle: string;
+        minAmount: string;
+        maxAmount: string;
+      } => ({
+        ...prevFilters,
+        [name]: value,
+      }),
+    );
+  };
+
+  const handleSecondTableRowClick = (
+    rowData: string[],
+    rowIndex: number,
+  ): void => {
+    if (typeof tiersPrevisions === "object") {
+      const selected: ITiersPrevisions = tiersPrevisions![rowIndex];
+      setSelectedPrevision(selected);
+      setIsDetailsModalOpen(true);
+    }
+  };
+
+  const DetailsModal: (props: {
+    prevision: ITiersPrevisions;
+    onClose: () => void;
+  }) => ReactElement | undefined = (props: {
+    prevision: ITiersPrevisions;
+    onClose: () => void;
+  }): ReactElement | undefined => {
+    const { prevision, onClose } = props;
+
+    if (courrier && typeof courrier === "object" && tiersPrevisions) {
+      return (
+        <article className={"displayDetailsModal"}>
+          <div ref={modalPrevRef}>
+            <h2>
+              Vous traitez le courrier de relance {courrier.cle}, vous avez
+              choisi la prévision {prevision.cle}, que voulez-vous faire ?
+            </h2>
+            <ul>
+              <li>Associer ce courrier à la prévision {prevision.cle}</li>
+              <li>Classer le courrier</li>
+              <li>Associer ce courrier à un dossier litige en cours</li>
+            </ul>
+            <button onClick={onClose}>Fermer</button>
+          </div>
+        </article>
+      );
+    }
+  };
+
   useEffect((): void => {
     if (userCredentials) {
       getCourrier(userCredentials, relanceInitialData.courrierID).finally();
@@ -127,6 +210,78 @@ export function CourrierRelance(): ReactElement {
     }
   }, [tiersPrevisions]);
 
+  useEffect((): void => {
+    if (Array.isArray(tiersPrevisions)) {
+      let filteredData: ITiersPrevisions[] = [...tiersPrevisions];
+
+      // filter by min Date
+      if (filters.minDate) {
+        filteredData = filteredData.filter(
+          (item: ITiersPrevisions): boolean =>
+            item.dateEcheance <= convertENDateToFr(filters.minDate),
+        );
+      }
+
+      // filter by max Date
+      if (filters.maxDate) {
+        filteredData = filteredData.filter(
+          (item: ITiersPrevisions): boolean =>
+            item.dateEcheance >= convertENDateToFr(filters.maxDate),
+        );
+      }
+
+      // filter by libelle
+      if (filters.libelle) {
+        filteredData = filteredData.filter((item: ITiersPrevisions): boolean =>
+          item.libelleEcriture
+            .toLowerCase()
+            .includes(filters.libelle.toLowerCase()),
+        );
+      }
+
+      // filter by min Amount
+      if (filters.minAmount) {
+        const minVal: number = parseFloat(filters.minAmount);
+        filteredData = filteredData.filter(
+          (item: ITiersPrevisions): boolean =>
+            parseFloat(item.credit) >= minVal,
+        );
+      }
+
+      // filter by max Amount
+      if (filters.maxAmount) {
+        const maxVal: number = parseFloat(filters.maxAmount);
+        filteredData = filteredData.filter(
+          (item: ITiersPrevisions): boolean =>
+            parseFloat(item.credit) <= maxVal,
+        );
+      }
+
+      // update table with tableFilter
+      setSecondBodyArray(convertToArrayForSecondTable(filteredData));
+    }
+  }, [tiersPrevisions, filters]);
+
+  useEffect((): (() => void) => {
+    const handleClickOutside: (event: MouseEvent) => void = (
+      event: MouseEvent,
+    ): void => {
+      event.preventDefault();
+      if (
+        modalPrevRef.current &&
+        !modalPrevRef.current.contains(event.target as Node)
+      ) {
+        setIsDetailsModalOpen(false);
+      }
+    };
+    if (isDetailsModalOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return (): void => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDetailsModalOpen]);
+
   return (
     <>
       <Header
@@ -137,6 +292,14 @@ export function CourrierRelance(): ReactElement {
       />
       {courrier && typeof courrier !== "string" && (
         <main id={"courrierRelance"}>
+          {isDetailsModalOpen && selectedPrevision && (
+            <div className={"modalContainer"}>
+              <DetailsModal
+                prevision={selectedPrevision}
+                onClose={(): void => setIsDetailsModalOpen(false)}
+              />
+            </div>
+          )}
           {isModalOpen && (
             <div className={"modalContainer"}>
               <DisplayCourrierModalWithAuth
@@ -171,7 +334,10 @@ export function CourrierRelance(): ReactElement {
                   style: "white",
                   text: "Requalifier",
                   type: "button",
-                  onClick: (): void => navigate("/commandes/tresorerie/menu"),
+                  onClick: (): void =>
+                    navigate("/commandes/tresorerie/courrier_requalification", {
+                      state: courrier,
+                    }),
                 }}
               />
               <Button
@@ -188,24 +354,44 @@ export function CourrierRelance(): ReactElement {
           <section className={"courrierRelance__bottomSection"}>
             <form>
               <div className={"inputWrapper"}>
-                <label htmlFor={"minDate"}>Date mini</label>
-                <input name={"minDate"} type={"date"} />
+                <label htmlFor={"minDate"}>Date mini : </label>
+                <input
+                  onChange={handleFilterChange}
+                  name={"minDate"}
+                  type={"date"}
+                />
               </div>
               <div className={"inputWrapper"}>
-                <label htmlFor={"maxDate"}>Date maxi</label>
-                <input name={"maxDate"} type={"date"} />
+                <label htmlFor={"maxDate"}>Date maxi : </label>
+                <input
+                  onChange={handleFilterChange}
+                  name={"maxDate"}
+                  type={"date"}
+                />
               </div>
               <div className={"inputWrapper"}>
-                <label htmlFor={"libelle"}>Libellé</label>
-                <input name={"libelle"} type={"text"} />
+                <label htmlFor={"libelle"}>Libellé : </label>
+                <input
+                  onChange={handleFilterChange}
+                  name={"libelle"}
+                  type={"text"}
+                />
               </div>
               <div className={"inputWrapper"}>
-                <label htmlFor={"minAmount"}>Montant mini</label>
-                <input name={"minAmount"} type={"text"} />
+                <label htmlFor={"minAmount"}>Montant mini : </label>
+                <input
+                  onChange={handleFilterChange}
+                  name={"minAmount"}
+                  type={"number"}
+                />
               </div>
               <div className={"inputWrapper"}>
-                <label htmlFor={"maxAmount"}>Montant maxi</label>
-                <input name={"maxAmount"} type={"text"} />
+                <label htmlFor={"maxAmount"}>Montant maxi : </label>
+                <input
+                  onChange={handleFilterChange}
+                  name={"maxAmount"}
+                  type={"number"}
+                />
               </div>
             </form>
             <NRTL
@@ -222,6 +408,9 @@ export function CourrierRelance(): ReactElement {
               itemsPerPageOptions={[5, 25, 50]}
               filterableColumns={[false, false, false, false, true, false]}
               language={"fr"}
+              onRowClick={(rowData: string[], index: number): void =>
+                handleSecondTableRowClick(rowData, index)
+              }
             />
           </section>
 

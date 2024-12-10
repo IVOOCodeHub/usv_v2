@@ -1,7 +1,11 @@
-$defaultTableBgColor: linear-gradient(to left,
-  adjust-color(#818f26ff, $lightness: 30%),
-  adjust-color(#6a782bff, $lightness: 20%));
-$defaultHeaderHoverColor: adjust-color(#818f26ff, $lightness: 10%);
+@use 'sass:color';
+
+$defaultTableBgColor: linear-gradient(
+  to left,
+  color.adjust(#818f26ff, $lightness: 30%),
+  color.adjust(#6a782bff, $lightness: 20%)
+);
+$defaultHeaderHoverColor: color.adjust(#818f26ff, $lightness: 10%);
 $defaultRowColor: #ffffff;
 $defaultHoverRowColor: #36395a;
 $defaultTextColor: #36395a;
@@ -17,8 +21,6 @@ $defaultColumnSortingFullFilledColor: #36395a;
   justify-content: center;
   font-size: 12px;
   margin-top: 2em;
-
-  // Déclaration des variables CSS avant les règles imbriquées
   --header-bg-color: #{$defaultTableBgColor};
   --header-hover-bg-color: #{$defaultHeaderHoverColor};
   --row-color: #{$defaultRowColor};
@@ -28,7 +30,6 @@ $defaultColumnSortingFullFilledColor: #36395a;
   --disable-button-color: #{$defaultDisabledButtonColor};
   --column-sorting-color: #{$defaultColumnSortingColor};
   --column-sorting-full-filled-color: #{$defaultColumnSortingFullFilledColor};
-
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -41,7 +42,6 @@ $defaultColumnSortingFullFilledColor: #36395a;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.5em;
-
   @media (max-width: 768px) {
     padding: 1em;
   }
@@ -57,7 +57,6 @@ $defaultColumnSortingFullFilledColor: #36395a;
   display: flex;
   align-items: center;
   gap: 0.5em;
-
   @media (max-width: 768px) {
     justify-content: flex-end;
   }
@@ -67,7 +66,6 @@ $defaultColumnSortingFullFilledColor: #36395a;
   border: 1px solid #36395a;
   padding: 0.5em;
   height: 1.7em;
-
   @media (max-width: 768px) {
     width: 50%;
   }
@@ -91,7 +89,6 @@ $defaultColumnSortingFullFilledColor: #36395a;
   background: var(--header-bg-color, #{$defaultTableBgColor});
   border-radius: 10px;
   table-layout: fixed;
-
   @media (max-width: 768px) {
     width: 100%;
     table-layout: auto;
@@ -104,7 +101,6 @@ $defaultColumnSortingFullFilledColor: #36395a;
   text-align: center;
   position: relative;
   font-weight: 700;
-
   @media (max-width: 1024px) {
     overflow: hidden;
     white-space: nowrap;
@@ -113,10 +109,9 @@ $defaultColumnSortingFullFilledColor: #36395a;
 }
 
 #NRTL thead th:hover {
-  background: var(--header-hover-bg-color, $defaultHeaderHoverColor);
+  background: var(--header-hover-bg-color, #{$defaultHeaderHoverColor});
   cursor: pointer;
   transition: background 150ms ease-in-out;
-
   @media (max-width: 1024px) {
     white-space: normal;
     overflow: visible;
@@ -127,10 +122,8 @@ $defaultColumnSortingFullFilledColor: #36395a;
   }
 }
 
-
 #NRTL thead th:hover:first-child {
   border-radius: 10px 0 0 0;
-
   @media (max-width: 768px) {
     border-radius: unset;
   }
@@ -138,7 +131,6 @@ $defaultColumnSortingFullFilledColor: #36395a;
 
 #NRTL thead th:hover:last-child {
   border-radius: 0 10px 0 0;
-
   @media (max-width: 768px) {
     border-radius: unset;
   }
@@ -150,7 +142,6 @@ $defaultColumnSortingFullFilledColor: #36395a;
   position: absolute;
   right: 1.3dvw;
   top: 0;
-
   @media (max-width: 768px) {
     top: -4px;
     right: 2dvw;
@@ -237,7 +228,6 @@ $defaultColumnSortingFullFilledColor: #36395a;
 
 #NRTL tbody tr:last-child td:first-child {
   border-radius: 0 0 0 10px;
-
   @media (max-width: 768px) {
     border-radius: unset;
   }
@@ -245,7 +235,6 @@ $defaultColumnSortingFullFilledColor: #36395a;
 
 #NRTL tbody tr:last-child td:last-child {
   border-radius: 0 0 10px 0;
-
   @media (max-width: 768px) {
     border-radius: unset;
   }
@@ -257,7 +246,6 @@ $defaultColumnSortingFullFilledColor: #36395a;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   @media (max-width: 768px) {
     padding: 0 1.5em;
   }
