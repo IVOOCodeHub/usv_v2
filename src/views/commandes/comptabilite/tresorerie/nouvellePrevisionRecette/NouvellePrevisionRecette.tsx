@@ -38,11 +38,12 @@ const NouvellePrevisionRecette = () => {
 	const [cleCourrier, setCleCourrier] = useState<string>('')
 	const [datePiece, setDatePiece] = useState<string>('')
 	const [societe, setSociete] = useState<string>('')
+	const [tiersOptions, setTiersOptions] = useState<Option[]>([])
 	const [tiers, setTiers] = useState<string>('')
 	const [rubrique, setRubrique] = useState<string>('')
 	const [montantTTC, setMontantTTC] = useState<string>('')
 	const [avecTVA, setAvecTVA] = useState<boolean>(false)
-	const [tva20, setTva20] = useState<string | ''>('') // Initialisation à une chaîne vide
+	const [tva20, setTva20] = useState<string>('')
 	const [dateEcheance, setDateEcheance] = useState<string>('')
 	const [dateOrdo, setDateOrdo] = useState<string>('')
 	const [commentaire, setCommentaire] = useState<string>('')
@@ -134,6 +135,27 @@ const NouvellePrevisionRecette = () => {
 			setBodyArray(convertToArray(courrierDepenses))
 		}
 	}, [getCourrierDepenses, courrierDepenses])
+
+	// Effect pour récupérer les options pour le Select "Tiers"
+	useEffect(() => {
+		if (Array.isArray(courrierDepenses)) {
+			// Extraction des valeurs uniques de "societe_emettrice"
+			const uniqueTiers = Array.from(new Set(courrierDepenses.map((item) => item.societeEmettrice))).filter(
+				(value) => value
+			) // Filtre les valeurs falsy (null, undefined, etc.)
+
+			// Tri des valeurs uniques par ordre alphabétique
+			uniqueTiers.sort((a, b) => a.localeCompare(b))
+
+			// Création des options pour le Select
+			const options = uniqueTiers.map((value) => ({
+				value,
+				label: value,
+			}))
+
+			setTiersOptions(options)
+		}
+	}, [courrierDepenses])
 
 	const searchCleCourrier = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		setCleCourrier(e.target.value)
@@ -240,7 +262,14 @@ const NouvellePrevisionRecette = () => {
 							<div className={'inputWrapper'}>
 								<label>Tiers facturé</label>
 								<div className='tiersInput'>
-									<input type={'text'} id='tiers' name='tiers' value={tiers} readOnly />
+									{/* <input type={'text'} id='tiers' name='tiers' value={tiers} readOnly /> */}
+									<Select
+										id='tiers'
+										name='tiers'
+										options={tiersOptions}
+										styles={customSelectStyles}
+										onChange={(selectedOption) => setTiers(selectedOption?.value ?? '')}
+									/>
 								</div>
 							</div>
 							<div className={'inputWrapper'}>
