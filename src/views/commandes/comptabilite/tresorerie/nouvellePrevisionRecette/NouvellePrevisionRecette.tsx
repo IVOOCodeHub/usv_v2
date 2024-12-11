@@ -176,6 +176,9 @@ const NouvellePrevisionRecette = () => {
 			{ label: 'Société', value: societe },
 			{ label: 'Tiers', value: tiers },
 			{ label: 'Rubrique', value: rubrique },
+			{ label: 'Préfixe libellé', value: prefixeLibelle },
+			{ label: 'Mois', value: mois },
+			{ label: 'Trimestre', value: trim },
 			{ label: 'Montant TTC', value: montantTTC },
 			{ label: 'Avec TVA', value: avecTVA ? 'Oui' : 'Non' },
 			{ label: 'TVA 20%', value: tva20 }, // Utilisez la TVA calculée ici
@@ -331,11 +334,11 @@ const NouvellePrevisionRecette = () => {
 											},
 										],
 
-										// onChange: (selectedOption, group) => {
-										// 	if (group === 'Préfixe libellé') setPrefixeLibelle(selectedOption?.value || '')
-										// 	else if (group === 'Mois') setMois(selectedOption?.value || '')
-										// 	else if (group === 'Trim') setTrim(selectedOption?.value || '')
-										// },
+										onChange: (selectedOption, group) => {
+											if (group === 'Préfixe libellé') setPrefixeLibelle(selectedOption?.value ?? '')
+											else if (group === 'Mois') setMois(selectedOption?.label ?? '')
+											else if (group === 'Trimestre') setTrim(selectedOption?.value ?? '')
+										},
 									}}
 								/>
 							</div>
