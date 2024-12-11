@@ -11,7 +11,7 @@ interface Option {
 	value: string
 	label: string
 }
-import withAuth from '../../../../../views/auth/withAuth'
+// import withAuth from '../../../../../views/auth/withAuth'
 import Header from '../../../../../components/header/Header'
 // import Loader from '../../../../../components/loader/Loader'
 import SelectGroup from '../../../../../components/selectGroup/SelectGroup.tsx'
@@ -45,7 +45,7 @@ const NouvellePrevisionDepenses = () => {
 	const [rubrique, setRubrique] = useState<string>('')
 	const [montantTTC, setMontantTTC] = useState<string>('')
 	const [avecTVA, setAvecTVA] = useState<boolean>(false)
-	const [tva20, setTva20] = useState<string | ''>('') // Initialisation à une chaîne vide
+	const [tva20, setTva20] = useState<string>('')
 	const [dateEcheance, setDateEcheance] = useState<string>('')
 	const [dateOrdo, setDateOrdo] = useState<string>('')
 	// États pour le groupe "Libellé"
@@ -190,14 +190,6 @@ const NouvellePrevisionDepenses = () => {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
 		e.preventDefault()
 
-		// let calculatedTva20 = 0 // Variable temporaire pour stocker la TVA calculée
-
-		// // Calcul automatique du montant de la TVA à partir du montant TTC si la case avec TVA est cochée
-		// if (avecTVA && montantTTC !== null && montantTTC !== undefined) {
-		// 	calculatedTva20 = Math.round((montantTTC / 120) * 20) // Calculez la TVA
-		// 	setTva20(calculatedTva20) // Mettez à jour l'état pour les prochains rendus
-		// }
-
 		// Créer un tableau d'objets avec les données du formulaire
 		const formData = [
 			{ label: 'Clé courrier', value: cleCourrier },
@@ -205,6 +197,9 @@ const NouvellePrevisionDepenses = () => {
 			{ label: 'Société', value: societe },
 			{ label: 'Tiers', value: tiers },
 			{ label: 'Rubrique', value: rubrique },
+			{ label: 'Préfixe libellé', value: prefixeLibelle },
+			{ label: 'Mois', value: mois },
+			{ label: 'Trimestre', value: trim },
 			{ label: 'Montant TTC', value: montantTTC },
 			{ label: 'Avec TVA', value: avecTVA ? 'Oui' : 'Non' },
 			{ label: 'TVA 20%', value: tva20 }, // Utilisez la TVA calculée ici
@@ -383,11 +378,11 @@ const NouvellePrevisionDepenses = () => {
 											},
 										],
 
-										// onChange: (selectedOption, group) => {
-										// 	if (group === 'Préfixe libellé') setPrefixeLibelle(selectedOption?.value || '')
-										// 	else if (group === 'Mois') setMois(selectedOption?.value || '')
-										// 	else if (group === 'Trim') setTrim(selectedOption?.value || '')
-										// },
+										onChange: (selectedOption, group) => {
+											if (group === 'Préfixe libellé') setPrefixeLibelle(selectedOption?.value ?? '')
+											else if (group === 'Mois') setMois(selectedOption?.label ?? '')
+											else if (group === 'Trimestre') setTrim(selectedOption?.value ?? '')
+										},
 									}}
 								/>
 							</div>
@@ -461,8 +456,8 @@ const NouvellePrevisionDepenses = () => {
 	)
 }
 
-// export default NouvellePrevisionDepenses
+export default NouvellePrevisionDepenses
 
-const NouvellePrevisionDepensesWithAuth: (props: object) => ReactElement | null = withAuth(NouvellePrevisionDepenses)
+// const NouvellePrevisionDepensesWithAuth: (props: object) => ReactElement | null = withAuth(NouvellePrevisionDepenses)
 
-export default NouvellePrevisionDepensesWithAuth
+// export default NouvellePrevisionDepensesWithAuth
