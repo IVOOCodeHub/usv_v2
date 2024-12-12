@@ -1,2 +1,104 @@
 @use "../../utils/styles/variables.scss"as vars;
 @use "../../utils/styles/mixins"as mix;
+
+.DateRange__container {
+    display: flex;
+    flex-flow: column;
+    gap: 1rem;
+    justify-content: space-between;
+    border: 1px solid #36395a;
+    border-radius: 6px;
+    padding: 1rem;
+}
+
+.dateContainer {
+    display: flex;
+    flex-flow: column;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.inputWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    @media (max-width: 1024px) {
+        flex-flow: column;
+        gap: 1rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .inputWrapper>label {
+        position: relative;
+        left: 6px;
+    }
+}
+
+
+.inputWrapper label {
+    width: 40%;
+    font-size: 1dvw;
+    text-wrap-mode: nowrap;
+
+    @media (max-width: 1024px) {
+        width: 100%;
+        text-align: center;
+        font-size: 1.5dvw;
+    }
+
+    @media (max-width: 640px) {
+        font-size: 2.2dvw;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 3dvw;
+        text-align: center;
+    }
+}
+
+input[type="date"] {
+    border: 1px solid #36395a;
+    padding: 0.8em;
+    text-align: center;
+    max-height: 38px;
+    font-size: 12px;
+    min-width: 230px;
+    color: #36395a;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+button img {
+    display: block;
+    width: 32px;
+    height: 32px;
+    transition: filter 0.2s ease;
+}
+
+button:hover img {
+    filter: invert(50%) sepia(100%) saturate(500%) hue-rotate(200deg);
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    gap: 4em;
+    margin-top: 1em;
+}
+
+.buttonWrapper {
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+}
