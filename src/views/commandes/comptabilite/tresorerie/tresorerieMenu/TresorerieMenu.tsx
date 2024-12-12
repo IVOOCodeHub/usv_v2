@@ -24,7 +24,7 @@ function TresorerieMenu(): ReactElement {
 				{ name: 'Nouvelle prévision de dépenses', link: '/commandes/tresorerie/nouvelle_prevision_depenses' },
 				{ name: 'Prévisions à valider', link: '/' },
 				{ name: 'Facturation Interco à régulariser', link: '/' },
-				{ name: 'Prévisions à ordonnancer', link: '/' },
+				{ name: 'Prévisions à ordonnancer', link: '/commandes/tresorerie/prevision_a_ordonnancer' },
 				{ name: 'Prévisions en retard', link: '/' },
 				{ name: 'Prévisions ordonnancées sans courrier', link: '/' },
 				{ name: 'Émission des titres de paiements', link: '/' },

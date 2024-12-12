@@ -11,7 +11,7 @@ interface Option {
 	value: string
 	label: string
 }
-// import withAuth from '../../../../../views/auth/withAuth'
+import withAuth from '../../../../../views/auth/withAuth'
 import Header from '../../../../../components/header/Header'
 // import Loader from '../../../../../components/loader/Loader'
 import SelectGroup from '../../../../../components/selectGroup/SelectGroup.tsx'
@@ -456,8 +456,6 @@ const NouvellePrevisionDepenses = () => {
 	)
 }
 
-export default NouvellePrevisionDepenses
+const NouvellePrevisionDepensesWithAuth: (props: object) => ReactElement | null = withAuth(NouvellePrevisionDepenses)
 
-// const NouvellePrevisionDepensesWithAuth: (props: object) => ReactElement | null = withAuth(NouvellePrevisionDepenses)
-
-// export default NouvellePrevisionDepensesWithAuth
+export default NouvellePrevisionDepensesWithAuth

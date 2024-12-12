@@ -11,7 +11,7 @@ interface Option {
 	value: string
 	label: string
 }
-// import withAuth from '../../../../../views/auth/withAuth'
+import withAuth from '../../../../../views/auth/withAuth'
 import Header from '../../../../../components/header/Header'
 // import Loader from '../../../../../components/loader/Loader'
 import SelectGroup from '../../../../../components/selectGroup/SelectGroup.tsx'
@@ -444,6 +444,7 @@ const NouvellePrevisionRecette = () => {
 		</>
 	)
 }
-export default NouvellePrevisionRecette
 
-// PENSER A IMPLEMENTER LA WITH AUTH POUR CETTE PAGE
+const NouvellePrevisionRecetteWithAuth: (props: object) => ReactElement | null = withAuth(NouvellePrevisionRecette)
+
+export default NouvellePrevisionRecetteWithAuth
