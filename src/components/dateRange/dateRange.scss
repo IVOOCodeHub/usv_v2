@@ -21,7 +21,9 @@
 .inputWrapper {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    gap: 1rem;
+    /* Ajout d'un espace constant entre le label et l'input */
 
     @media (max-width: 1024px) {
         flex-flow: column;
@@ -29,32 +31,20 @@
     }
 }
 
-@media (min-width: 1024px) {
-    .inputWrapper>label {
-        position: relative;
-        left: 6px;
-    }
-}
-
-
 .inputWrapper label {
-    width: 40%;
-    font-size: 1dvw;
-    text-wrap-mode: nowrap;
+    width: 30%;
+    /* Maintien de la largeur réduite */
+    font-size: 1rem;
+    text-align: left;
+    white-space: nowrap;
+    margin-right: 1rem;
+    /* Ajout d'un espace entre le label et l'input */
 
     @media (max-width: 1024px) {
         width: 100%;
         text-align: center;
-        font-size: 1.5dvw;
-    }
-
-    @media (max-width: 640px) {
-        font-size: 2.2dvw;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 3dvw;
-        text-align: center;
+        margin-right: 0;
+        /* Supprime l'espace en mode mobile */
     }
 }
 
@@ -70,24 +60,6 @@ input[type="date"] {
     &:hover {
         cursor: pointer;
     }
-}
-
-button {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-}
-
-button img {
-    display: block;
-    width: 32px;
-    height: 32px;
-    transition: filter 0.2s ease;
-}
-
-button:hover img {
-    filter: invert(50%) sepia(100%) saturate(500%) hue-rotate(200deg);
 }
 
 .buttonContainer {
