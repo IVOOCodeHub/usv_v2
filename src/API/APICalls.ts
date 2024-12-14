@@ -1,20 +1,19 @@
-// types
-import { AxiosResponse } from "axios";
+// libraries
+import axios, { AxiosResponse } from "axios";
 
 // utils
 import { isOnProduction } from "../utils/scripts/utils.ts";
 
-// libraries
-import axios from "axios";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.timeout = 10000;
+axios.defaults.withCredentials = isOnProduction;
 axios.defaults.baseURL = isOnProduction
   ? "http://192.168.0.112:8800/api"
   : "http://192.168.0.112/Public/usv--v2/php";
 
 export const getRequest: (url: string) => Promise<AxiosResponse> = async (
-  url: string,
+    url: string,
 ): Promise<AxiosResponse> => {
   return await axios.get(url);
 };

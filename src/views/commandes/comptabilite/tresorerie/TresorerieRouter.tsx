@@ -20,7 +20,7 @@ export default function TresorerieRouter(): ReactElement {
       <Route path={"courrier_relance"} element={<CourrierRelanceWithAuth />} />
       <Route path={"courrier_requalification"} element={<CourrierRequalificationWithAuth />} />
       <Route path={'nouvelle_prevision_depenses'} element={<NouvellePrevisionDepenses />} />
-			<Route path={'nouvelle_prevision_recette'} element={<NouvellePrevisionRecette />} />
+      <Route path={'nouvelle_prevision_recette'} element={<NouvellePrevisionRecette />} />
     </Routes>
   );
 }

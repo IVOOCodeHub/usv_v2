@@ -79,7 +79,7 @@ function MenuGeneral(): ReactElement {
       items: [
         {
           name: "Gestion des courriers",
-          link: "/menu_general",
+          link: "/commandes/gestion_des_courriers",
           isCheckable: false,
         },
         {

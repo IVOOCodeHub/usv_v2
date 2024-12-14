@@ -112,9 +112,13 @@ function CourrierDepenses(): ReactElement {
               showPagination={true}
               enableColumnSorting={true}
               itemsPerPageOptions={[10, 25, 50]}
-              onRowClick={(rowData: string[]): void =>
-                goTo(rowData[4], rowData)
-              }
+              onRowClick={(
+                index: number,
+                rowData: string[] | undefined,
+              ): void => {
+                console.log(`clicked row : ${index}`);
+                goTo(rowData![4], rowData!);
+              }}
               language={"fr"}
             />
           )}
