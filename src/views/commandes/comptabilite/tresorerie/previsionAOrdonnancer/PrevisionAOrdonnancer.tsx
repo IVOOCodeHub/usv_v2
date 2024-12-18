@@ -54,7 +54,7 @@ const PrevisionAOrdonnancer = () => {
 		])
 	}
 
-	const testDate = new Date('2024-12-18')
+	const testDate = '2024-12-18'
 	// Charge les données à l'initialisation
 	useEffect((): void => {
 		startLoading()
