@@ -4,15 +4,20 @@ import { isOnProduction } from "../../utils/scripts/utils.ts";
 // hooks | libraries
 import { AxiosResponse } from "axios";
 
+// types
+import { IUserCredentials } from "../../utils/types/user.interface.ts";
+import { IServerPrevision, previsionModel } from "../models/prevision.model.ts";
+import { IPrevision } from "../../utils/types/prevision.interface.ts";
+
 // API
 import { postRequest } from "../APICalls.ts";
 
-export const getPrevisionOrdonanceService = async (
-  userCredentials,
-  dateEcheance,
-) => {
+export const getPrevisionOrdonnanceService = async (
+  userCredentials: IUserCredentials,
+  dateEcheance: string,
+): Promise<IPrevision[] | string> => {
   const endpoint: string = isOnProduction
-    ? "mdr"
+    ? "omegalol"
     : "/tresorerie/getPrevisionOrdonancer.php";
 
   const data = {
@@ -30,16 +35,16 @@ export const getPrevisionOrdonanceService = async (
   if ("errorMessage" in res) {
     console.error(new Error(res.errorMessage));
     switch (res.errorMessage) {
-      case "invalid_credentials":
-        return { errorMessage: "invalid_credentials" };
-      case "invalid_user":
-        return { errorMessage: "invalid_user" };
-      case "invalid_password":
-        return { errorMessage: "invalid_password" };
+      case "Invalid credentials":
+        return "Identifiants ou mot de passe incorrects";
+      case "User not found":
+        return "Utilisateur non trouvé.";
       default:
-        return { errorMessage: "unexpected error" };
+        return "Une erreur inattendue c'est produite.";
     }
   }
 
-  return res.data;
+  return res.data.map((prevision: IServerPrevision): IPrevision => {
+    return previsionModel(prevision);
+  });
 };
