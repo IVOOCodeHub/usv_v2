@@ -1,36 +1,47 @@
 // hooks \ libraries
 import { useState, useMemo, ReactElement } from "react";
 
+// custom types
+import { IUserCredentials } from "../../utils/types/user.interface.ts";
+import { IPrevision } from "../../utils/types/prevision.interface.ts";
+
 // context
 import { PrevisionContext } from "./PrevisionContext.tsx";
 
 // services
-import { getPrevisionOrdonanceService } from "../../API/services/Prevision.service.ts";
+import { getPrevisionOrdonnanceService } from "../../API/services/Prevision.service.ts";
 
-export const PrevisionProvider = ({ children }): ReactElement => {
-  const [previsions, setPrevisions] = useState([]);
+export const PrevisionProvider = ({
+  children,
+}: {
+  children: ReactElement;
+}): ReactElement => {
+  const [previsionsOrdonnance, setPrevisionsOrdonnance] = useState<
+    IPrevision[] | string | null
+  >(null);
 
-  const getPrevisionOrdonance = async (userCredentials, dateEcheance) => {
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
-    try {
-      const res = await getPrevisionOrdonanceService(
-        userCredentials,
-        dateEcheance,
-      );
-      setPrevisions(res);
-    } catch (error) {
-      console.error("Error while getting file :", error);
-      setPrevisions(null);
-    }
+  const getPrevisionOrdonnance: (
+    userCredentials: IUserCredentials,
+    dateEcheance: string,
+  ) => Promise<IPrevision[] | string> = async (
+    userCredentials: IUserCredentials,
+    dateEcheance: string,
+  ): Promise<IPrevision[] | string> => {
+    const res: IPrevision[] | string = await getPrevisionOrdonnanceService(
+      userCredentials,
+      dateEcheance,
+    );
+    setPrevisionsOrdonnance(res);
+    return res;
   };
 
   const contextValue = useMemo(
     () => ({
-      previsions,
-      getPrevisionOrdonance,
+      previsionsOrdonnance,
+      setPrevisionsOrdonnance,
+      getPrevisionOrdonnance,
     }),
-    [previsions],
+    [previsionsOrdonnance],
   );
 
   return (

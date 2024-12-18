@@ -19,3 +19,9 @@ export const convertFrDateToEn = (dateString: string): string => {
 
   return `${year}-${day}-${month}`;
 };
+
+export const convertFrDateToServerDate = (dateString: string): string => {
+  const [day, month, year] = dateString.split("/");
+
+  return `${year}-${month}-${day}`;
+};

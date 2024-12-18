@@ -1,5 +1,5 @@
 import { ITiersPrevisions } from "../../utils/types/tiers.interface.ts";
-import {convertENDateToFr} from "../../utils/scripts/utils.ts";
+import { convertENDateToFr } from "../../utils/scripts/utils.ts";
 
 export interface IServerTiersPrevisions {
   auteur_saisie: string;
