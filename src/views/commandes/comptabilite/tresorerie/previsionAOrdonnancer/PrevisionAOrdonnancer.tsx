@@ -41,7 +41,7 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 
 	const convertToArray: (datas: IPrevision[]) => string[][] = (datas: IPrevision[]): string[][] => {
 		return datas.map((data: IPrevision): string[] => [
-			data.cleCourrier,
+			data.cle,
 			data.dateEcheance,
 			data.dateOrdo,
 			data.libelleCompteTiers,
