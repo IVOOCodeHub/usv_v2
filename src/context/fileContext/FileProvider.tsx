@@ -7,7 +7,7 @@ import { FileContext } from "./FileContext.tsx";
 // services
 import { getFileService } from "../../API/services/File.service.ts";
 
-export const FileProvider = ({ children }) => {
+export const FileProvider = ({ children }): ReactElement => {
   const [files, setFiles] = useState([]);
 
   const getFiles = async () => {
