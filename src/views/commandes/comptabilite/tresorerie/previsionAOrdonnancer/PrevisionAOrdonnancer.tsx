@@ -16,17 +16,20 @@ import Footer from '../../../../../components/footer/Footer'
 // context
 import { UserContext } from '../../../../../context/userContext.tsx'
 import { LoaderContext } from '../../../../../context/loaderContext.tsx'
+import { PrevisionContext } from '../../../../../context/previsionContext/PrevisionContext.tsx'
 import { CourrierContext } from '../../../../../context/courrierContext.tsx'
 import { TiersContext } from '../../../../../context/tiersContext.tsx'
 import { ITiersPrevisions } from '../../../../../utils/types/tiers.interface.ts'
+
 import { ICourrierDepenses } from '../../../../../utils/types/courrier.interface.ts'
 // import { ICourrier } from '../../../../../utils/types/courrier.interface.ts'
 
 const PrevisionAOrdonnancer = () => {
 	// Contexts
 	const { userCredentials } = useContext(UserContext)
-	const { getTiersPrevisions, tiersPrevisions } = useContext(TiersContext)
+	// const { getTiersPrevisions, tiersPrevisions } = useContext(TiersContext)
 	const { startLoading, stopLoading } = useContext(LoaderContext)
+	const { previsions, getPrevisionOrdonance } = useContext(PrevisionContext)
 
 	// États
 	const [bodyArray, setBodyArray] = useState<string[][]>([])
@@ -51,20 +54,21 @@ const PrevisionAOrdonnancer = () => {
 		])
 	}
 
+	const testDate = new Date('2024-12-18')
 	// Charge les données à l'initialisation
 	useEffect((): void => {
 		startLoading()
 		if (userCredentials) {
-			getTiersPrevisions(userCredentials).finally(stopLoading)
+			getPrevisionOrdonance(userCredentials, testDate).finally(stopLoading)
 		}
 	}, [])
 
 	// Met à jour le tableau lorsque les données changent
 	useEffect((): void => {
-		if (Array.isArray(tiersPrevisions)) {
-			setBodyArray(convertToArray(tiersPrevisions))
+		if (Array.isArray(previsions)) {
+			setBodyArray(convertToArray(previsions))
 		}
-	}, [tiersPrevisions])
+	}, [previsions])
 
 	// Formate les nombres pour avoir 2 décimales
 	const keepTwoDecimals = (number: number): string => {
@@ -147,13 +151,13 @@ const PrevisionAOrdonnancer = () => {
 						language={'fr'}
 					/>
 					<Button
-										props={{
-											style: 'grey',
-											text: 'Retour',
-											type: 'button',
-											onClick: (): void => navigate('/commandes/tresorerie/menu'),
-										}}
-									/>
+						props={{
+							style: 'grey',
+							text: 'Retour',
+							type: 'button',
+							onClick: (): void => navigate('/commandes/tresorerie/menu'),
+						}}
+					/>
 				</section>
 			</main>
 			<Footer />
