@@ -130,11 +130,11 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 							<input name={'maxDate'} type={'date'} value={filters.maxDate} onChange={handleFilterChange} />
 						</div>
 						<div className={'inputWrapper'}>
-							<label htmlFor={'cle'}>Clé courrier : </label>
+							<label htmlFor={'cle'}>Code : </label>
 							<input
 								name={'cle'}
 								type={'text'}
-								placeholder='Filtrer par clé'
+								placeholder='Filtrer par code'
 								value={filters.cle}
 								onChange={handleFilterChange}
 							/>
