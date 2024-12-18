@@ -141,15 +141,13 @@ export function CourrierRelance(): ReactElement {
     );
   };
 
-  const handleSecondTableRowClick = (
-    rowData: string[],
-    rowIndex: number,
-  ): void => {
+  const handleSecondTableRowClick = (rowIndex: number): void => {
     if (typeof tiersPrevisions === "object") {
       const selected: ITiersPrevisions = tiersPrevisions![rowIndex];
       setSelectedPrevision(selected);
       setIsDetailsModalOpen(true);
     }
+    console.log("selectedPrevision =>", selectedPrevision);
   };
 
   const DetailsModal: (props: {
@@ -170,11 +168,47 @@ export function CourrierRelance(): ReactElement {
               choisi la prévision {prevision.cle}, que voulez-vous faire ?
             </h2>
             <ul>
-              <li>Associer ce courrier à la prévision {prevision.cle}</li>
-              <li>Classer le courrier</li>
-              <li>Associer ce courrier à un dossier litige en cours</li>
+              <li>
+                <Button
+                  props={{
+                    style: "blue",
+                    text: `Associer ce courrier à la prévision ${prevision.cle}`,
+                    type: "button",
+                    onClick: () => null,
+                  }}
+                />
+              </li>
+              <li>
+                <Button
+                  props={{
+                    style: "blue",
+                    text: "Classer le courrier",
+                    type: "button",
+                    onClick: () => null,
+                  }}
+                />
+              </li>
+              <li>
+                <Button
+                  props={{
+                    style: "blue",
+                    text: "Associer ce courrier à un dossier litige en cours",
+                    type: "button",
+                    onClick: () => null,
+                  }}
+                />
+              </li>
             </ul>
-            <button onClick={onClose}>Fermer</button>
+            <Button
+              props={{
+                style: "grey",
+                text: "Fermer",
+                type: "button",
+                onClick: (): void => {
+                  onClose();
+                },
+              }}
+            />
           </div>
         </article>
       );
@@ -408,8 +442,8 @@ export function CourrierRelance(): ReactElement {
               itemsPerPageOptions={[5, 25, 50]}
               filterableColumns={[false, false, false, false, true, false]}
               language={"fr"}
-              onRowClick={(rowData: string[], index: number): void =>
-                handleSecondTableRowClick(rowData, index)
+              onRowClick={(index: number): void =>
+                handleSecondTableRowClick(index)
               }
             />
           </section>

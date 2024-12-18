@@ -13,16 +13,22 @@ import { UserProvider } from "./context/userContext.tsx";
 import { SiteProvider } from "./context/siteContext.tsx";
 import { CourrierProvider } from "./context/courrierContext.tsx";
 import { TiersProvider } from "./context/tiersContext.tsx";
+import { PrevisionProvider } from "./context/previsionContext/PrevisionProvider.tsx";
+import { FileProvider } from "./context/fileContext/FileProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <LoaderProvider>
     <UserProvider>
       <SiteProvider>
-        <CourrierProvider>
-          <TiersProvider>
-            <App />
-          </TiersProvider>
-        </CourrierProvider>
+        <TiersProvider>
+          <PrevisionProvider>
+            <FileProvider>
+              <CourrierProvider>
+                <App />
+              </CourrierProvider>
+            </FileProvider>
+          </PrevisionProvider>
+        </TiersProvider>
       </SiteProvider>
     </UserProvider>
   </LoaderProvider>,

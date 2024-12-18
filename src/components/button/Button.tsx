@@ -17,7 +17,7 @@ interface IButtonProps {
   };
 }
 
-export default function Button({ props }: IButtonProps): ReactElement | null {
+export default function Button({ props }: Readonly<IButtonProps>): ReactElement | null {
   const { style, text, type, disabled, onClick } = props;
 
   const handleClick: () => void = (): void => {

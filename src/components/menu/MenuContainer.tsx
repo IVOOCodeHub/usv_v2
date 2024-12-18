@@ -15,9 +15,9 @@ import MenuSection from "./MenuSection";
 
 export default function MenuContainer({
   menuData,
-}: {
+}: Readonly<{
   menuData: IMenuContainerProps[];
-}): ReactElement {
+}>): ReactElement {
   return (
     <section id={"menuContainer"}>
       {menuData.map(
