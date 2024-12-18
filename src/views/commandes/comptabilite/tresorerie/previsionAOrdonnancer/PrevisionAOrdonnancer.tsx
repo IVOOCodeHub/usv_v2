@@ -47,7 +47,7 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 			data.libelleCompteTiers,
 			data.libelleEcriture,
 			data.societe,
-			keepTwoDecimals(Number(data.debit)),
+			keepTwoDecimals(Number(data.credit)),
 		])
 	}
 
@@ -66,7 +66,7 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 		if (Array.isArray(previsionsOrdonnance)) {
 			setBodyArray(convertToArray(previsionsOrdonnance))
 		}
-	}, [previsionsOrdonnance])
+	}, [getPrevisionOrdonnance, previsionsOrdonnance])
 
 	const keepTwoDecimals: (number: number) => string = (number: number): string => {
 		return new Intl.NumberFormat('fr-FR', {
