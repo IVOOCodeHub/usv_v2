@@ -10,54 +10,29 @@
     width: 100%;
     padding: 1em 1em;
 
-    .leftSide {
-        flex: 1;
-    }
-
-    .rightSide {
-        flex: 1;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        padding: 8px;
-        background-color: #f9f9f9;
-
-        @media (max-width: 768px) {
-            margin: 1.5rem 0;
-        }
-    }
-
-    iframe {
-        width: 100%;
-        height: 100%;
-        min-height: 77dvh;
-        border: 1px solid #36395a;
-        border-radius: 0 0 6px 6px;
-    }
-
     @media (max-width: 768px) {
         flex-flow: column;
     }
 }
 
-#nouvellePrevisionRecette .leftSide,
-#nouvellePrevisionConsult .rightSide {
-    width: 50%;
-    min-height: 50dvh;
+#nouvellePrevisionRecette .leftSide {
+    // width: 50%;
+    // min-height: 50dvh;
     display: flex;
     flex-flow: column;
     align-items: center;
     justify-content: center;
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer {
+#nouvellePrevisionRecette .leftSide .formContainer {
     width: 75%;
 }
 
-#nouvellePrevisionDepenses .leftSide form .buttonWrapper {
+#nouvellePrevisionRecette .leftSide form .buttonWrapper {
     width: 100%;
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form {
+#nouvellePrevisionRecette .leftSide .formContainer form {
     display: flex;
     flex-flow: column;
     gap: 1em;
@@ -65,6 +40,7 @@
     padding: 1em;
     border-radius: 6px;
     width: 100%;
+    min-width: 600px;
     background: #ffffff;
 
     @media (max-width: 768px) {
@@ -73,7 +49,7 @@
     }
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form h3 {
+#nouvellePrevisionRecette .leftSide .formContainer form h3 {
     font-size: 1.5em;
     text-align: center;
     margin-bottom: 1em;
@@ -87,20 +63,27 @@
     }
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form .inputWrapper {
+#nouvellePrevisionRecette .leftSide .formContainer form .inputWrapper {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
 
     @media (max-width: 1024px) {
         flex-flow: column;
         gap: 1rem;
     }
+}
 
-    @media (min-width: 1024px) {
-        &.selectGroup {
-            margin-right: -6px;
-        }
+@media (min-width: 1024px) {
+    #nouvellePrevisionRecette .inputWrapper.selectGroup>label {
+        position: relative;
+        left: 6px;
+    }
+}
+
+@media (min-width: 1024px) {
+    #nouvellePrevisionRecette .leftSide .formContainer form .inputWrapper.avecTVA label {
+        width: 15%;
     }
 }
 
@@ -116,7 +99,7 @@
     }
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form .inputWrapper label {
+#nouvellePrevisionRecette .leftSide .formContainer form .inputWrapper label {
     width: 40%;
     font-size: 1dvw;
     text-wrap-mode: nowrap;
@@ -137,11 +120,12 @@
     }
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form input[type="text"],
-#nouvellePrevisionDepenses .leftSide .formContainer form input[type="email"],
-#nouvellePrevisionDepenses .leftSide .formContainer form input[type="number"],
-#nouvellePrevisionDepenses .leftSide .formContainer form input[type="password"],
-#nouvellePrevisionDepenses .leftSide .formContainer form input[type="date"] {
+#nouvellePrevisionRecette .leftSide .formContainer form input[type="text"],
+#nouvellePrevisionRecette .leftSide .formContainer form input[type="email"],
+#nouvellePrevisionRecette .leftSide .formContainer form input[type="number"],
+#nouvellePrevisionRecette .leftSide .formContainer form input[type="password"],
+#nouvellePrevisionRecette .leftSide .formContainer form input[type="date"],
+#nouvellePrevisionRecette .leftSide .formContainer form input[type="textarea"] {
     border: 1px solid #36395a;
     padding: 0.8em;
     text-align: center;
@@ -149,7 +133,7 @@
     font-size: 12px;
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form input[type="date"] {
+#nouvellePrevisionRecette .leftSide .formContainer form input[type="date"] {
     min-width: 230px;
     max-height: 38px;
     color: #36395a;
@@ -159,27 +143,49 @@
     }
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form input:not([type="file"]) {
+#nouvellePrevisionRecette .leftSide .formContainer form input:not([type="file"]) {
     background: #f2f2f2;
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form input[type="text"] {
+#nouvellePrevisionRecette .leftSide .formContainer form input[type="text"] {
     min-width: 230px;
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form input[type="number"] {
+#nouvellePrevisionRecette .leftSide .formContainer form input[type="number"] {
     @media (max-width: 1024px) {
         min-width: 230px;
     }
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form input {
+#nouvellePrevisionRecette .leftSide .formContainer form textarea {
+    min-width: 230px;
+    min-height: 76px;
+    max-height: 38px;
+    font-size: 12px;
+    color: #36395a;
+    background: #f2f2f2;
+    border: 1px solid #36395a;
+    padding: 5px;
+}
+
+.avecTVA {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: flex-start;
+
+    input[type="checkbox"] {
+        margin-left: 10px;
+    }
+}
+
+#nouvellePrevisionRecette .leftSide .formContainer form input {
     &:focus {
         outline: 3.5px solid #36395a;
     }
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form .css-b62m3t-container {
+#nouvellePrevisionRecette .leftSide .formContainer form .css-b62m3t-container {
     font-size: 12px !important;
 
     &:focus {
@@ -187,7 +193,7 @@
     }
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form .css-13cymwt-control {
+#nouvellePrevisionRecette .leftSide .formContainer form .css-13cymwt-control {
     width: 230px; // Aligné avec les autres champs
     height: 38px; // Hauteur des autres champs
     font-size: 12px !important; // Taille de police uniforme
@@ -203,23 +209,23 @@
 }
 
 
-#nouvellePrevisionDepenses .leftSide .formContainer form .css-13cymwt-container {
+#nouvellePrevisionRecette .leftSide .formContainer form .css-13cymwt-container {
     width: 230px; // Fixe la largeur globale
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form .css-1okebmr-indicatorSeparator {
+#nouvellePrevisionRecette .leftSide .formContainer form .css-1okebmr-indicatorSeparator {
     display: none; // Supprime le séparateur
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form .css-13cymwt-control:not(#selectGroup .css-13cymwt-control) {
+#nouvellePrevisionRecette .leftSide .formContainer form .css-13cymwt-control:not(#selectGroup .css-13cymwt-control) {
     width: 230px;
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form .css-b62m3t-container:not(#selectGroup .css-b62m3t-container) {
+#nouvellePrevisionRecette .leftSide .formContainer form .css-b62m3t-container:not(#selectGroup .css-b62m3t-container) {
     border-radius: 4px;
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form .buttonWrapper {
+#nouvellePrevisionRecette .leftSide .formContainer form .buttonWrapper {
     display: flex;
     justify-content: center;
     gap: 4em;
@@ -238,12 +244,12 @@
     font-size: 12px;
 }
 
-#nouvellePrevisionDepenses .inputWrapper input.error {
+#nouvellePrevisionRecette .inputWrapper input.error {
     border: 2px solid red !important; // Utilisez !important temporairement pour diagnostiquer
     border-radius: 4px;
 }
 
-#nouvellePrevisionDepenses .leftSide .formContainer form .css-13cymwt-control .css-1hwfws3 {
+#nouvellePrevisionRecette .leftSide .formContainer form .css-13cymwt-control .css-1hwfws3 {
     display: flex;
     justify-content: center; // Centre le contenu sélectionné
     align-items: center;

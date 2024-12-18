@@ -11,7 +11,7 @@ interface Option {
 	value: string
 	label: string
 }
-// import withAuth from '../../../../../views/auth/withAuth'
+import withAuth from '../../../../../views/auth/withAuth'
 import Header from '../../../../../components/header/Header'
 // import Loader from '../../../../../components/loader/Loader'
 import SelectGroup from '../../../../../components/selectGroup/SelectGroup.tsx'
@@ -38,13 +38,15 @@ const NouvellePrevisionRecette = () => {
 	const [cleCourrier, setCleCourrier] = useState<string>('')
 	const [datePiece, setDatePiece] = useState<string>('')
 	const [societe, setSociete] = useState<string>('')
+	const [tiersOptions, setTiersOptions] = useState<Option[]>([])
 	const [tiers, setTiers] = useState<string>('')
 	const [rubrique, setRubrique] = useState<string>('')
 	const [montantTTC, setMontantTTC] = useState<string>('')
 	const [avecTVA, setAvecTVA] = useState<boolean>(false)
-	const [tva20, setTva20] = useState<string | ''>('') // Initialisation à une chaîne vide
+	const [tva20, setTva20] = useState<string>('')
 	const [dateEcheance, setDateEcheance] = useState<string>('')
 	const [dateOrdo, setDateOrdo] = useState<string>('')
+	const [commentaire, setCommentaire] = useState<string>('')
 	// États pour le groupe "Libellé"
 	const [prefixeLibelle, setPrefixeLibelle] = useState<string>('')
 	const [mois, setMois] = useState<string>('')
@@ -134,6 +136,27 @@ const NouvellePrevisionRecette = () => {
 		}
 	}, [getCourrierDepenses, courrierDepenses])
 
+	// Effect pour récupérer les options pour le Select "Tiers"
+	useEffect(() => {
+		if (Array.isArray(courrierDepenses)) {
+			// Extraction des valeurs uniques de "societe_emettrice"
+			const uniqueTiers = Array.from(new Set(courrierDepenses.map((item) => item.societeEmettrice))).filter(
+				(value) => value
+			) // Filtre les valeurs falsy (null, undefined, etc.)
+
+			// Tri des valeurs uniques par ordre alphabétique
+			uniqueTiers.sort((a, b) => a.localeCompare(b))
+
+			// Création des options pour le Select
+			const options = uniqueTiers.map((value) => ({
+				value,
+				label: value,
+			}))
+
+			setTiersOptions(options)
+		}
+	}, [courrierDepenses])
+
 	const searchCleCourrier = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		setCleCourrier(e.target.value)
 		console.log('clé courrier : ', cleCourrier)
@@ -143,7 +166,6 @@ const NouvellePrevisionRecette = () => {
 		setHasSearched(true) // Marque qu'une recherche a été effectuée
 
 		if (!cleCourrier.trim()) {
-			setPdfZoneMessage('Veuillez entrer une clé de courrier.')
 			setPieceToDisplay(null)
 			setHasError(true)
 			return
@@ -157,7 +179,6 @@ const NouvellePrevisionRecette = () => {
 			)
 
 			if (selectedCourrier) {
-				setPdfZoneMessage('Document trouvé et prêt à afficher.')
 				setPieceToDisplay(selectedCourrier)
 				setTiers(selectedCourrier.societeEmettrice)
 				console.log('PDF sélectionné :', selectedCourrier.fileName)
@@ -165,22 +186,6 @@ const NouvellePrevisionRecette = () => {
 				return
 			}
 		}
-
-		setPdfZoneMessage('Aucun courrier trouvé pour cette clé.')
-		setPieceToDisplay(null)
-	}
-
-	// Simplified logic for displaying the PDF content
-	let pdfContent
-
-	if (!hasSearched) {
-		pdfContent = <p className='pdfDisplayZone'>Sélectionnez un courrier pour afficher le document PDF.</p>
-	} else if (pieceToDisplay?.fileName) {
-		pdfContent = (
-			<iframe title='courrier' src={`http://192.168.0.254:8080/usv_prod/courriers/${pieceToDisplay.fileName}`} />
-		)
-	} else {
-		pdfContent = <p className='pdfDisplayZone'>{pdfZoneMessage}</p>
 	}
 
 	// Fonction pour soumettre le formulaire
@@ -189,16 +194,19 @@ const NouvellePrevisionRecette = () => {
 
 		// Créer un tableau d'objets avec les données du formulaire
 		const formData = [
-			{ label: 'Clé courrier', value: cleCourrier },
 			{ label: 'Date pièce', value: datePiece },
 			{ label: 'Société', value: societe },
 			{ label: 'Tiers', value: tiers },
 			{ label: 'Rubrique', value: rubrique },
+			{ label: 'Préfixe libellé', value: prefixeLibelle },
+			{ label: 'Mois', value: mois },
+			{ label: 'Trimestre', value: trim },
 			{ label: 'Montant TTC', value: montantTTC },
 			{ label: 'Avec TVA', value: avecTVA ? 'Oui' : 'Non' },
 			{ label: 'TVA 20%', value: tva20 }, // Utilisez la TVA calculée ici
 			{ label: 'Date échéance', value: dateEcheance },
 			{ label: 'Date Ordo.', value: dateOrdo },
+			{ label: 'Commentaire', value: commentaire },
 		]
 
 		// Afficher dans la console
@@ -212,12 +220,12 @@ const NouvellePrevisionRecette = () => {
 					pageURL: 'GIVOO | TRÉSORERIE | NOUVELLE PRÉVISION DE RECETTE EXTERNE',
 				}}
 			/>
-			<main id={'nouvellePrevisionDepenses'}>
+			<main id={'nouvellePrevisionRecette'}>
 				<div className={'leftSide'}>
 					<div className={'formContainer'}>
 						<form onSubmit={handleSubmit}>
 							<h3>Nouvelle prévision de recette externe</h3>
-							
+
 							<div className={'inputWrapper'}>
 								<label>Date pièce : </label>
 								<input type={'date'} value={datePiece} onChange={(e) => setDatePiece(e.target.value)} />
@@ -254,7 +262,14 @@ const NouvellePrevisionRecette = () => {
 							<div className={'inputWrapper'}>
 								<label>Tiers facturé</label>
 								<div className='tiersInput'>
-									<input type={'text'} id='tiers' name='tiers' value={tiers} readOnly />
+									{/* <input type={'text'} id='tiers' name='tiers' value={tiers} readOnly /> */}
+									<Select
+										id='tiers'
+										name='tiers'
+										options={tiersOptions}
+										styles={customSelectStyles}
+										onChange={(selectedOption) => setTiers(selectedOption?.value ?? '')}
+									/>
 								</div>
 							</div>
 							<div className={'inputWrapper'}>
@@ -348,11 +363,11 @@ const NouvellePrevisionRecette = () => {
 											},
 										],
 
-										// onChange: (selectedOption, group) => {
-										// 	if (group === 'Préfixe libellé') setPrefixeLibelle(selectedOption?.value || '')
-										// 	else if (group === 'Mois') setMois(selectedOption?.value || '')
-										// 	else if (group === 'Trim') setTrim(selectedOption?.value || '')
-										// },
+										onChange: (selectedOption, group) => {
+											if (group === 'Préfixe libellé') setPrefixeLibelle(selectedOption?.value ?? '')
+											else if (group === 'Mois') setMois(selectedOption?.label ?? '')
+											else if (group === 'Trimestre') setTrim(selectedOption?.value ?? '')
+										},
 									}}
 								/>
 							</div>
@@ -370,9 +385,14 @@ const NouvellePrevisionRecette = () => {
 									<span className='symbol'>€</span>
 								</div>
 							</div>
-							<div className={'inputWrapper'}>
-								<label>Avec TVA : </label>
-								<input type={'checkbox'} checked={avecTVA} onChange={(e) => setAvecTVA(e.target.checked)} />
+							<div className={'inputWrapper avecTVA'}>
+								<label htmlFor='avecTVA'>Avec TVA : </label>
+								<input
+									id='avecTVA'
+									type={'checkbox'}
+									checked={avecTVA}
+									onChange={(e) => setAvecTVA(e.target.checked)}
+								/>
 							</div>
 							<div className={'inputWrapper'}>
 								<label>TVA 20% :</label>
@@ -387,8 +407,17 @@ const NouvellePrevisionRecette = () => {
 								<input type={'date'} value={dateEcheance} onChange={(e) => setDateEcheance(e.target.value)} />
 							</div>
 							<div className={'inputWrapper'}>
-								<label>Date Ordo. : </label>
-								<input type={'date'} value={dateOrdo} onChange={(e) => setDateOrdo(e.target.value)} />
+								<label htmlFor='dateOrdo'>Date Ordo. : </label>
+								<input id='dateOrdo' type={'date'} value={dateOrdo} onChange={(e) => setDateOrdo(e.target.value)} />
+							</div>
+							<div className={'inputWrapper'}>
+								<label htmlFor='commentaire'>Commentaire :</label>
+								<textarea
+									id='commentaire'
+									value={commentaire}
+									onChange={(e) => setCommentaire(e.target.value)}
+									// style={{ resize: 'vertical', width: '50%', minHeight: '76px' }} // Ajustement possible uniquement pour la hauteur
+								/>
 							</div>
 							<div className={'buttonWrapper'}>
 								<Button
@@ -415,6 +444,7 @@ const NouvellePrevisionRecette = () => {
 		</>
 	)
 }
-export default NouvellePrevisionRecette
 
-// PENSER A IMPLEMENTER LA WITH AUTH POUR CETTE PAGE
+const NouvellePrevisionRecetteWithAuth: (props: object) => ReactElement | null = withAuth(NouvellePrevisionRecette)
+
+export default NouvellePrevisionRecetteWithAuth
