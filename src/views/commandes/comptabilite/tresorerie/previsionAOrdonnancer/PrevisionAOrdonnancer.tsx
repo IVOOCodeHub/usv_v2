@@ -6,9 +6,10 @@ import { useNavigate, NavigateFunction, useLocation } from 'react-router-dom'
 // components
 // import withAuth from "../../../../../views/auth/withAuth";
 import Header from '../../../../../components/header/Header'
-import DateRange from '../../../../../components/dateRange/DateRange.tsx'
+// import DateRange from '../../../../../components/dateRange/DateRange.tsx'
 
 import NRTL from '../../../../../components/NRTL/NRTL'
+import Button from '../../../../../components/button/Button.tsx'
 // import DisplayCourrierModalWithAuth from "../../../../../components/displayCourrierModal/DisplayCourrierModal.tsx";
 import Footer from '../../../../../components/footer/Footer'
 
@@ -19,94 +20,53 @@ import { CourrierContext } from '../../../../../context/courrierContext.tsx'
 import { TiersContext } from '../../../../../context/tiersContext.tsx'
 import { ITiersPrevisions } from '../../../../../utils/types/tiers.interface.ts'
 import { ICourrierDepenses } from '../../../../../utils/types/courrier.interface.ts'
-import { ICourrier } from '../../../../../utils/types/courrier.interface.ts'
+// import { ICourrier } from '../../../../../utils/types/courrier.interface.ts'
 
 const PrevisionAOrdonnancer = () => {
+	// Contexts
 	const { userCredentials } = useContext(UserContext)
-	const { user } = useContext(UserContext)
-	const { getCourrier, courrier } = useContext(CourrierContext)
-	const { courrierDepenses, getCourrierDepenses } = useContext(CourrierContext)
 	const { getTiersPrevisions, tiersPrevisions } = useContext(TiersContext)
-	const { isLoading, startLoading, stopLoading } = useContext(LoaderContext)
+	const { startLoading, stopLoading } = useContext(LoaderContext)
+
+	// États
 	const [bodyArray, setBodyArray] = useState<string[][]>([])
-	const modalPrevRef = useRef<HTMLDivElement | null>(null)
-	const [firstBodyArray, setFirstBodyArray] = useState<string[][]>([])
-	const [secondBodyArray, setSecondBodyArray] = useState<string[][]>([])
-	const [isDetailsModalOpen, setIsDetailsModalOpen] = useState<boolean>(false)
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-	const [selectedPrevision, setSelectedPrevision] = useState<ITiersPrevisions | null>(null)
 	const [filters, setFilters] = useState({
 		minDate: '',
 		maxDate: '',
-		libelle: '',
-		minAmount: '',
-		maxAmount: '',
+		cle: '',
 	})
 
 	const navigate: NavigateFunction = useNavigate()
-	// const location = useLocation()
-	// const { rowData } = location.state
-	// const relanceInitialData = {
-	// 	courrierID: rowData[0],
-	// 	dateReception: rowData[1],
-	// 	tiers: rowData[2],
-	// 	societe: rowData[3],
-	// 	nature: rowData[4],
-	// 	action: rowData[5],
-	// 	commentaire: rowData[6],
-	// }
 
-	const convertToArray: (datas: ICourrierDepenses[]) => string[][] = (datas: ICourrierDepenses[]): string[][] => {
-		return datas.map((data: ICourrierDepenses): string[] => [
-			data.index,
-			data.dhSaisie,
-			data.societeEmettrice,
-			data.societe,
-			data.nature,
-			data.action,
-			data.commentaire,
+	// Convertit les données reçues en tableau compatible
+	const convertToArray = (datas: ITiersPrevisions[]): string[][] => {
+		return datas.map((data: ITiersPrevisions): string[] => [
+			data.cleCourrier, // Colonne 'Code'
+			data.dateEcheance, // Colonne 'Échéance'
+			data.dateOrdo, // Colonne 'Ordo'
+			data.libelleCompteTiers, // Colonne 'Fournisseur'
+			data.libelleEcriture, // Colonne 'Libellé'
+			data.societe, // Colonne 'Destinataire'
+			keepTwoDecimals(Number(data.debit)), // Colonne 'Montant'
 		])
 	}
 
+	// Charge les données à l'initialisation
 	useEffect((): void => {
 		startLoading()
 		if (userCredentials) {
-			getCourrierDepenses(userCredentials).finally(stopLoading)
+			getTiersPrevisions(userCredentials).finally(stopLoading)
 		}
 	}, [])
 
+	// Met à jour le tableau lorsque les données changent
 	useEffect((): void => {
-		if (Array.isArray(courrierDepenses)) {
-			setBodyArray(convertToArray(courrierDepenses))
+		if (Array.isArray(tiersPrevisions)) {
+			setBodyArray(convertToArray(tiersPrevisions))
 		}
-	}, [getCourrierDepenses, courrierDepenses])
+	}, [tiersPrevisions])
 
-	const tableData = {
-		tableHead: ['Clé courrier', 'Date réception', 'Émetteur', 'Destinataire', 'Nature', 'Action', 'Commentaire'],
-		tableBody: bodyArray,
-	}
-
-	// const firstTableData = {
-	// 	tableHead: ['Courrier', 'Émetteur', 'Destinataire', 'Nature', 'Service', 'Commentaire'],
-	// 	tableBody: firstBodyArray,
-	// }
-
-	// const convertToArrayForFirstTable = (courriers: ICourrier[]): string[][] => {
-	// 	return courriers.map((courrier: ICourrier): string[] => [
-	// 		courrier.cle,
-	// 		courrier.societeEmettrice,
-	// 		courrier.societe,
-	// 		courrier.nature,
-	// 		courrier.service,
-	// 		courrier.commentaire,
-	// 	])
-	// }
-
-	// const secondTableData = {
-	// 	tableHead: ['Clé prévision', 'Date échéance', 'Libellé', 'Montant', 'Statut', 'Réf. paiement'],
-	// 	tableBody: secondBodyArray,
-	// }
-
+	// Formate les nombres pour avoir 2 décimales
 	const keepTwoDecimals = (number: number): string => {
 		return new Intl.NumberFormat('fr-FR', {
 			minimumFractionDigits: 2,
@@ -114,46 +74,37 @@ const PrevisionAOrdonnancer = () => {
 		}).format(number)
 	}
 
-	// const convertToArrayForSecondTable = (previsions: ITiersPrevisions[]): string[][] => {
-	// 	return previsions.map((previsions: ITiersPrevisions): string[] => [
-	// 		previsions.cle,
-	// 		previsions.dateEcheance,
-	// 		previsions.libelleEcriture,
-	// 		keepTwoDecimals(parseFloat(previsions.credit)) + ' €',
-	// 		previsions.statut,
-	// 		previsions.referencePaiement === '0' ? 'Aucune' : previsions.referencePaiement,
-	// 	])
-	// }
+	// Filtrage des données
+	const applyFilters = (): string[][] => {
+		return bodyArray.filter((row) => {
+			const dateReception = new Date(row[1]) // Colonne 'Échéance'
+			const minDate = filters.minDate ? new Date(filters.minDate) : null
+			const maxDate = filters.maxDate ? new Date(filters.maxDate) : null
+			const filterCle = filters.cle ? filters.cle : ''
 
-	// const handleFilterChange = (event: ChangeEvent<HTMLInputElement>): void => {
-	// 	const { name, value } = event.target
-	// 	setFilters(
-	// 		(prevFilters: {
-	// 			minDate: string
-	// 			maxDate: string
-	// 			libelle: string
-	// 			minAmount: string
-	// 			maxAmount: string
-	// 		}): {
-	// 			minDate: string
-	// 			maxDate: string
-	// 			libelle: string
-	// 			minAmount: string
-	// 			maxAmount: string
-	// 		} => ({
-	// 			...prevFilters,
-	// 			[name]: value,
-	// 		})
-	// 	)
-	// }
+			return (
+				(!minDate || dateReception >= minDate) &&
+				(!maxDate || dateReception <= maxDate) &&
+				(!filterCle || row[0].includes(filterCle)) // Filtre sur la colonne 'Code'
+			)
+		})
+	}
 
-	// const handleSecondTableRowClick = (rowData: string[], rowIndex: number): void => {
-	// 	if (typeof tiersPrevisions === 'object') {
-	// 		const selected: ITiersPrevisions = tiersPrevisions![rowIndex]
-	// 		setSelectedPrevision(selected)
-	// 		setIsDetailsModalOpen(true)
-	// 	}
-	// }
+	// Gestion des changements dans les filtres
+	const handleFilterChange = (event: ChangeEvent<HTMLInputElement>): void => {
+		const { name, value } = event.target
+		setFilters((prevFilters) => ({
+			...prevFilters,
+			[name]: value,
+		}))
+	}
+
+	// Configuration des données du tableau
+	const tableData = {
+		tableHead: ['Code', 'Échéance', 'Ordo', 'Fournisseur', 'Libellé', 'Destinataire', 'Montant'],
+		tableBody: applyFilters(),
+	}
+
 	return (
 		<>
 			<Header
@@ -162,52 +113,28 @@ const PrevisionAOrdonnancer = () => {
 				}}
 			/>
 			<main id={'previsionAOrdonnancer'}>
-				<div className={'dateRangeContainer'}>
-					<DateRange />
-				</div>
 				<section className={'previsionAOrdonnancer__bottomSection'}>
 					<form>
 						<div className={'inputWrapper'}>
 							<label htmlFor={'minDate'}>Date mini : </label>
-							<input
-								// onChange={handleFilterChange}
-								name={'minDate'}
-								type={'date'}
-							/>
+							<input name={'minDate'} type={'date'} value={filters.minDate} onChange={handleFilterChange} />
 						</div>
 						<div className={'inputWrapper'}>
 							<label htmlFor={'maxDate'}>Date maxi : </label>
-							<input
-								// onChange={handleFilterChange}
-								name={'maxDate'}
-								type={'date'}
-							/>
+							<input name={'maxDate'} type={'date'} value={filters.maxDate} onChange={handleFilterChange} />
 						</div>
 						<div className={'inputWrapper'}>
-							<label htmlFor={'libelle'}>Libellé : </label>
+							<label htmlFor={'cle'}>Clé courrier : </label>
 							<input
-								// onChange={handleFilterChange}
-								name={'libelle'}
+								name={'cle'}
 								type={'text'}
-							/>
-						</div>
-						<div className={'inputWrapper'}>
-							<label htmlFor={'minAmount'}>Montant mini : </label>
-							<input
-								// onChange={handleFilterChange}
-								name={'minAmount'}
-								type={'number'}
-							/>
-						</div>
-						<div className={'inputWrapper'}>
-							<label htmlFor={'maxAmount'}>Montant maxi : </label>
-							<input
-								// onChange={handleFilterChange}
-								name={'maxAmount'}
-								type={'number'}
+								placeholder='Filtrer par clé'
+								value={filters.cle}
+								onChange={handleFilterChange}
 							/>
 						</div>
 					</form>
+
 					<NRTL
 						datas={tableData}
 						headerBackgroundColor={'linear-gradient(to left, #84CDE4FF, #1092B8)'}
@@ -215,17 +142,23 @@ const PrevisionAOrdonnancer = () => {
 						showPreviousNextButtons={true}
 						enableColumnSorting={true}
 						showItemsPerPageSelector={true}
-						showSearchBar={true}
 						showPagination={true}
 						itemsPerPageOptions={[5, 25, 50]}
-						filterableColumns={[false, false, false, false, true, false]}
 						language={'fr'}
-						// onRowClick={(rowData: string[], index: number): void => handleSecondTableRowClick(rowData, index)}
 					/>
+					<Button
+										props={{
+											style: 'grey',
+											text: 'Retour',
+											type: 'button',
+											onClick: (): void => navigate('/commandes/tresorerie/menu'),
+										}}
+									/>
 				</section>
 			</main>
 			<Footer />
 		</>
 	)
 }
+
 export default PrevisionAOrdonnancer

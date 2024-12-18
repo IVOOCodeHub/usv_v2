@@ -3,26 +3,35 @@ import Button from '../button/Button'
 import { useNavigate, NavigateFunction } from 'react-router-dom'
 import { useState } from 'react'
 
-const DateRange = () => {
-	const navigate: NavigateFunction = useNavigate()
+interface DateRangeProps {
+	onFilter: (minDate: string, maxDate: string) => void
+	onCancel?: () => void
+	buttonLabels?: { validate: string; cancel: string }
+}
 
+const DateRange = ({ onFilter, onCancel, buttonLabels }: DateRangeProps) => {
 	const [minDate, setMinDate] = useState<string>('')
 	const [maxDate, setMaxDate] = useState<string>('')
-
+	const navigate: NavigateFunction = useNavigate()
 	const handleDateSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
 		e.preventDefault()
 
-		// Vérifiez que les dates sont valides avant de les utiliser
 		if (!minDate || !maxDate) {
 			console.error('Veuillez sélectionner les deux dates.')
+			return
+		}
+
+		if (new Date(minDate) > new Date(maxDate)) {
+			alert('La date minimale ne peut pas être supérieure à la date maximale.')
 			return
 		}
 
 		console.log('minDate : ', minDate)
 		console.log('maxDate : ', maxDate)
 
-		// Naviguer vers une autre page avec les dates 
-		navigate('/commandes/tresorerie/prevision_a_ordonnancer', { state: { minDate, maxDate } })
+		onFilter(minDate, maxDate)
+		// Naviguer vers une autre page avec les dates
+		// navigate('/commandes/tresorerie/prevision_a_ordonnancer', { state: { minDate, maxDate } })
 	}
 
 	return (
