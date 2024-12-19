@@ -113,6 +113,11 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 		)
 	}
 
+	const handleRowClick = (rowData: string[]): void => {
+		console.log('Données de la ligne cliquée :', rowData)
+		// À terme, utilisation de `navigate` prévue pour rediriger vers une autre page
+	}
+
 	const tableData = {
 		tableHead: ['Code', 'Échéance', 'Ordo', 'Fournisseur', 'Libellé', 'Destinataire', 'Montant'],
 		tableBody: applyFilters(),
