@@ -17,7 +17,7 @@ export const getPrevisionOrdonnanceService = async (
   dateEcheance: string,
 ): Promise<IPrevision[] | string> => {
   const endpoint: string = isOnProduction
-    ? "omegalol"
+    ? "/storedProcedure"
     : "/tresorerie/getPrevisionOrdonancer.php";
 
   const data = {
