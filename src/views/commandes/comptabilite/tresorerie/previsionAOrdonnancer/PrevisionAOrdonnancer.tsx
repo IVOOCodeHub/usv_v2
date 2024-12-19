@@ -60,7 +60,7 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 		if (userCredentials) {
 			getPrevisionOrdonnance(userCredentials, convertedDate).finally(stopLoading)
 		}
-	}, [])
+	}, [userCredentials])
 
 	useEffect((): void => {
 		if (Array.isArray(previsionsOrdonnance)) {
@@ -150,7 +150,7 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 						showItemsPerPageSelector={true}
 						showPagination={true}
 						itemsPerPageOptions={[5, 25, 50]}
-						filterableColumns={[false, false, false, true, true, true, false]}
+						filterableColumns={[false, false, false, true, false, true, false]}
 						language={'fr'}
 					/>
 					<Button
