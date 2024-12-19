@@ -113,9 +113,13 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 		)
 	}
 
-	const handleRowClick = (rowData: string[]): void => {
-		console.log('Données de la ligne cliquée :', rowData)
-		// À terme, utilisation de `navigate` prévue pour rediriger vers une autre page
+	const handleRowClick = (index: number, rowData?: string[]): void => {
+		if (rowData) {
+			console.log('Données de la ligne cliquée :', rowData)
+			navigate('/commandes/tresorerie/details_prevision_ordo', { state: { rowData } })
+		} else {
+			console.warn('Aucune donnée disponible pour cette ligne.')
+		}
 	}
 
 	const tableData = {
@@ -164,6 +168,7 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 						itemsPerPageOptions={[5, 25, 50]}
 						filterableColumns={[false, false, false, true, false, true, false]}
 						language={'fr'}
+						onRowClick={(index: number, rowData?: string[]) => handleRowClick(index, rowData)}
 					/>
 					<Button
 						props={{

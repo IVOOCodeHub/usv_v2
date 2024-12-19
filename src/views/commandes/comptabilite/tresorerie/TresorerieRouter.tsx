@@ -11,6 +11,7 @@ import CourrierRequalificationWithAuth from './courrierRequalification/CourrierR
 import NouvellePrevisionDepensesWithAuth from './nouvellePrevisionDepenses/NouvellePrevisionDepenses.tsx'
 import NouvellePrevisionRecetteWithAuth from './nouvellePrevisionRecette/NouvellePrevisionRecette.tsx'
 import PrevisionAOrdonnancer from './previsionAOrdonnancer/PrevisionAOrdonnancer.tsx'
+import DetailsPrevisionOrdo from './previsionAOrdonnancer/DetailsPrevisionOrdo.tsx'
 
 export default function TresorerieRouter(): ReactElement {
 	return (
@@ -23,6 +24,7 @@ export default function TresorerieRouter(): ReactElement {
 			<Route path={'nouvelle_prevision_depenses'} element={<NouvellePrevisionDepensesWithAuth />} />
 			<Route path={'nouvelle_prevision_recette'} element={<NouvellePrevisionRecetteWithAuth />} />
 			<Route path={'prevision_a_ordonnancer'} element={<PrevisionAOrdonnancer />} />
+			<Route path={'details_prevision_ordo'} element={<DetailsPrevisionOrdo />} />
 		</Routes>
 	)
 }
