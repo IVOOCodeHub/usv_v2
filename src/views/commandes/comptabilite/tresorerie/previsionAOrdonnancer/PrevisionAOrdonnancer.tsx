@@ -153,7 +153,6 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 							/>
 						</div>
 					</form>
-
 					<NRTL
 						datas={tableData}
 						headerBackgroundColor={'linear-gradient(to left, #84CDE4FF, #1092B8)'}
@@ -167,14 +166,16 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 						language={'fr'}
 						onRowClick={(index: number, rowData?: string[]) => handleRowClick(index, rowData)}
 					/>
-					<Button
-						props={{
-							style: 'grey',
-							text: 'Retour',
-							type: 'button',
-							onClick: (): void => navigate(-1),
-						}}
-					/>
+					<div className='greyButtonWrapper'>
+						<Button
+							props={{
+								style: 'grey',
+								text: 'Retour',
+								type: 'button',
+								onClick: (): void => navigate(-1),
+							}}
+						/>
+					</div>
 				</section>
 			</main>
 			<Footer />
