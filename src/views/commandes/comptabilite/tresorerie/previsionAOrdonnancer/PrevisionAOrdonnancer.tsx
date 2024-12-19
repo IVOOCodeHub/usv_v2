@@ -42,8 +42,8 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 	const convertToArray: (datas: IPrevision[]) => string[][] = (datas: IPrevision[]): string[][] => {
 		return datas.map((data: IPrevision): string[] => [
 			data.cle,
-			data.dateEcheance,
-			data.dateOrdo,
+			data.dateEcheance.split('/').reverse().join('-'), // Convertit DD/MM/YYYY -> YYYY-MM-DD
+			data.dateOrdo.split('/').reverse().join('-'), // Convertit DD/MM/YYYY -> YYYY-MM-DD
 			data.libelleCompteTiers,
 			data.libelleEcriture,
 			data.societe,
@@ -51,7 +51,7 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 		])
 	}
 
-	const testDate: string = '18/12/2024'
+	const testDate: string = '15/01/2025'
 	const convertedDate: string = convertFrDateToServerDate(testDate)
 	console.log('testDate –>', testDate)
 	console.log('convertedDate –>', convertedDate)
@@ -77,14 +77,21 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 
 	const applyFilters: () => string[][] = (): string[][] => {
 		return bodyArray.filter((row: string[]): boolean => {
-			const dateReception = new Date(row[1])
+			// Convertit la date de la colonne 'Échéance' en objet Date
+			const dateEcheance = new Date(row[1])
+
+			// Convertit les filtres en objets Date si définis
 			const minDate: Date | null = filters.minDate ? new Date(filters.minDate) : null
 			const maxDate: Date | null = filters.maxDate ? new Date(filters.maxDate) : null
 			const filterCle: string = filters.cle ? filters.cle : ''
 
+			console.log('Date échéance:', dateEcheance)
+			console.log('Min Date:', minDate)
+			console.log('Max Date:', maxDate)
+			// Effectue les comparaisons
 			return (
-				(!minDate || dateReception >= minDate) &&
-				(!maxDate || dateReception <= maxDate) &&
+				(!minDate || dateEcheance >= minDate) &&
+				(!maxDate || dateEcheance <= maxDate) &&
 				(!filterCle || row[0].includes(filterCle))
 			)
 		})
@@ -158,7 +165,7 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 							style: 'grey',
 							text: 'Retour',
 							type: 'button',
-							onClick: (): void => navigate('/commandes/tresorerie/menu'),
+							onClick: (): void => navigate(-1),
 						}}
 					/>
 				</section>
