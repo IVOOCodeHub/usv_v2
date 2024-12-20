@@ -2,8 +2,7 @@
 import './previsionAOrdonnancer.scss'
 
 // utils
-import { convertFrDateToServerDate } from '../../../../../utils/scripts/utils.ts'
-import { convertENDateToFr } from '../../../../../utils/scripts/utils.ts'
+import { convertFrDateToServerDate, convertENDateToFr } from '../../../../../utils/scripts/utils.ts'
 
 // hooks | libraries
 import { ReactElement, useContext, useEffect, useState, ChangeEvent } from 'react'
@@ -18,7 +17,6 @@ import Header from '../../../../../components/header/Header'
 // import DateRange from '../../../../../components/dateRange/DateRange.tsx'
 import NRTL from '../../../../../components/NRTL/NRTL'
 import Button from '../../../../../components/button/Button.tsx'
-// import DisplayCourrierModalWithAuth from "../../../../../components/displayCourrierModal/DisplayCourrierModal.tsx";
 import Footer from '../../../../../components/footer/Footer'
 
 // context
@@ -37,6 +35,8 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 		maxDate: '',
 		cle: '',
 	})
+	const [dateMin, setDateMin] = useState<string>(convertFrDateToServerDate('01/01/2022'))
+	const [dateMax, setDateMax] = useState<string>(convertFrDateToServerDate('31/12/2022'))
 
 	const navigate: NavigateFunction = useNavigate()
 
@@ -52,23 +52,15 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 		])
 	}
 
-  const dateMin: string = convertFrDateToServerDate("01/01/2022");
-  const dateMax: string = convertFrDateToServerDate("31/12/2022");
-  useEffect((): void => {
-    startLoading();
-    if (userCredentials) {
-      getPrevisionOrdonnance(userCredentials, dateMin, dateMax).finally(
-        stopLoading,
-      );
-    }
-  }, []);
+	// const dateMin: string = convertFrDateToServerDate('01/01/2022')
+	// const dateMax: string = convertFrDateToServerDate('31/12/2022')
 
 	useEffect((): void => {
 		startLoading()
 		if (userCredentials) {
-			getPrevisionOrdonnance(userCredentials, convertedDate).finally(stopLoading)
+			getPrevisionOrdonnance(userCredentials, dateMin, dateMax).finally(stopLoading)
 		}
-	}, [userCredentials])
+	}, [])
 
 	useEffect((): void => {
 		if (Array.isArray(previsionsOrdonnance)) {
