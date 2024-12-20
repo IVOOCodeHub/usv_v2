@@ -13,7 +13,7 @@ import MenuContainer, {
   IMenuContainerProps,
 } from "../../../components/menu/MenuContainer.tsx";
 import Footer from "../../../components/footer/Footer";
-import withAuth from "../../auth/withAuth.tsx";
+import withAuth from "../../auth/WithAuth.tsx";
 import Button from "../../../components/button/Button.tsx";
 
 function GestionDesCourriersMenu(): ReactElement {
@@ -30,7 +30,7 @@ function GestionDesCourriersMenu(): ReactElement {
     },
     {
       title: "A distribuer",
-      items: [{ name: "Courriers à distribuer", link: "/" }],
+      items: [{ name: "Courriers à distribuer", link: "/commandes/gestion_des_courriers/courrier_a_distribuer" }],
     },
     {
       title: "Distribués",

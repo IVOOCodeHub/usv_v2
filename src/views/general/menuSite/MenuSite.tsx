@@ -13,7 +13,7 @@ import { useNavigate, NavigateFunction } from "react-router-dom";
 import Select from "react-select"; // https://www.npmjs.com/package/react-select
 
 // components
-import withAuth from "../../auth/withAuth.tsx";
+import withAuth from "../../auth/WithAuth.tsx";
 import Header from "../../../components/header/Header";
 import Button from "../../../components/button/Button";
 import Footer from "../../../components/footer/Footer";

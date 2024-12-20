@@ -9,7 +9,7 @@ import { useNavigate, NavigateFunction } from "react-router-dom";
 import { SiteContext } from "../../../context/siteContext.tsx";
 
 // components
-import withAuth from "../../auth/withAuth.tsx";
+import withAuth from "../../auth/WithAuth.tsx";
 import Header from "../../../components/header/Header";
 import MenuContainer, {
   IMenuContainerProps,

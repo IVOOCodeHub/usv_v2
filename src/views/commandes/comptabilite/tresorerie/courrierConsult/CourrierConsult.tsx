@@ -1,5 +1,5 @@
 // auth Middleware
-import withAuth from "../../../../auth/withAuth.tsx";
+import withAuth from "../../../../auth/WithAuth.tsx";
 
 // styles
 import "./courrierConsult.scss";

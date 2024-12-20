@@ -7,7 +7,7 @@ import NRTL from "../../../../../components/NRTL/NRTL.tsx";
 import { useEffect, useState, useContext, ReactElement } from "react";
 
 // components
-import withAuth from "../../../../../views/auth/withAuth";
+import WithAuth from "../../../../auth/WithAuth.tsx";
 import Header from "../../../../../components/header/Header";
 import Loader from "../../../../../components/loader/Loader";
 import Button from "../../../../../components/button/Button";
@@ -138,5 +138,5 @@ function CourrierDepenses(): ReactElement {
 }
 
 const CourrierDepensesWithAuth: (props: object) => ReactElement | null =
-  withAuth(CourrierDepenses);
+    WithAuth(CourrierDepenses);
 export default CourrierDepensesWithAuth;

@@ -2,7 +2,7 @@
 import "./displayCourrierModal.scss";
 
 // hooks | library
-import withAuth from "../../views/auth/withAuth.tsx";
+import withAuth from "../../views/auth/WithAuth.tsx";
 import { Dispatch, ReactElement, useEffect, useRef } from "react";
 import { ICourrier } from "../../utils/types/courrier.interface.ts";
 

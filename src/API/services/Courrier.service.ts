@@ -50,10 +50,6 @@ export const getCourrierDepensesService = async (
   userCredentials: IUserCredentials,
 ): Promise<ICourrierDepenses[] | string> => {
 
-  // const endpoint: string = isOnProduction
-  //   ? "lol"
-  //   : "/tresorerie/getCourrierDepenses.php";
-
   const endpoint: string = "http://192.168.0.112:8800/api/storedProcedure";
 
   const reqBody = {
