@@ -9,9 +9,9 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 			<h2>
 				Prévision {rowData[0]} pour {rowData[1]}
 			</h2>
-			<p>Date échéance : {rowData[2]}</p>
-			<p>Libellé : {rowData[3]}</p>
-			<p>Montant : {rowData[4]}</p>
+			<p>Date échéance : {rowData[1]}</p>
+			<p>Libellé : {rowData[4]}</p>
+			<p>Montant : {rowData[6]}</p>
 		</div>
 	)
 }

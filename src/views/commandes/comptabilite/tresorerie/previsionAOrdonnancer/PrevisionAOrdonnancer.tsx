@@ -54,8 +54,7 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 
 	const testDate: string = '15/01/2025'
 	const convertedDate: string = convertFrDateToServerDate(testDate)
-	console.log('testDate –>', testDate)
-	console.log('convertedDate –>', convertedDate)
+
 	useEffect((): void => {
 		startLoading()
 		if (userCredentials) {
