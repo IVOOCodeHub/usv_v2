@@ -6,7 +6,7 @@ import { ReactElement, useContext, useState, useEffect } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 
 // components
-import withAuth from "../../../auth/withAuth.tsx";
+import withAuth from "../../../auth/WithAuth.tsx";
 import NRTL from "../../../../components/NRTL/NRTL.tsx";
 import Header from "../../../../components/header/Header";
 import Footer from "../../../../components/footer/Footer";

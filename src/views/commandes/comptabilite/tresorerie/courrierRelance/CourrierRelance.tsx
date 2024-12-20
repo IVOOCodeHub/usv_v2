@@ -16,7 +16,7 @@ import {
 import { useNavigate, NavigateFunction, useLocation } from "react-router-dom";
 
 // components
-import withAuth from "../../../../../views/auth/withAuth";
+import withAuth from "../../../../auth/WithAuth.tsx";
 import Header from "../../../../../components/header/Header";
 import Button from "../../../../../components/button/Button";
 import NRTL from "../../../../../components/NRTL/NRTL";

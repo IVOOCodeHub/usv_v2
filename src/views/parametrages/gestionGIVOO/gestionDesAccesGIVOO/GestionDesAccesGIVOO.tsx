@@ -12,7 +12,7 @@ import { useNavigate, NavigateFunction } from "react-router-dom";
 import { useState, ReactElement, FormEvent } from "react";
 
 // components
-import withAuth from "../../../auth/withAuth.tsx";
+import withAuth from "../../../auth/WithAuth.tsx";
 import Header from "../../../../components/header/Header";
 import Select from "react-select";
 import Button from "../../../../components/button/Button";

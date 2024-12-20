@@ -8,7 +8,7 @@ import { ReactElement } from "react";
 import { useNavigate, NavigateFunction } from "react-router-dom";
 
 // components
-import withAuth from "../../auth/withAuth.tsx";
+import withAuth from "../../auth/WithAuth.tsx";
 import Header from "../../../components/header/Header";
 import Button from "../../../components/button/Button.tsx";
 import MenuContainer, {

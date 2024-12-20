@@ -6,7 +6,7 @@ import { ReactElement, useContext } from "react";
 import { useNavigate, NavigateFunction } from "react-router-dom";
 
 // components
-import WithAuth from "../../../../auth/withAuth";
+import WithAuth from "../../../../auth/WithAuth.tsx";
 import Header from "../../../../../components/header/Header";
 import Select from "react-select";
 import Button from "../../../../../components/button/Button.tsx";
