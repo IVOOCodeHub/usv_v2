@@ -7,7 +7,8 @@ interface IPrevisionContext {
   setPrevisionsOrdonnance: (previsions: IPrevision[] | null) => void;
   getPrevisionOrdonnance: (
     userCredentials: IUserCredentials,
-    dateEcheance: string,
+    dateMin: string,
+    dateMax: string,
   ) => Promise<IPrevision[] | string>;
 }
 

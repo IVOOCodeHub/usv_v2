@@ -60,14 +60,12 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
     ]);
   };
 
-  const testDate: string = "18/12/2024";
-  const convertedDate: string = convertFrDateToServerDate(testDate);
-  console.log("testDate –>", testDate);
-  console.log("convertedDate –>", convertedDate);
+  const dateMin: string = convertFrDateToServerDate("01/01/2022");
+  const dateMax: string = convertFrDateToServerDate("31/12/2022");
   useEffect((): void => {
     startLoading();
     if (userCredentials) {
-      getPrevisionOrdonnance(userCredentials, convertedDate).finally(
+      getPrevisionOrdonnance(userCredentials, dateMin, dateMax).finally(
         stopLoading,
       );
     }
