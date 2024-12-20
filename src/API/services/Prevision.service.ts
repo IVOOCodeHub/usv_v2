@@ -1,6 +1,3 @@
-// utils
-import { isOnProduction } from "../../utils/scripts/utils.ts";
-
 // hooks | libraries
 import { AxiosResponse } from "axios";
 
@@ -14,11 +11,9 @@ import { postRequest } from "../APICalls.ts";
 
 export const getPrevisionOrdonnanceService = async (
   userCredentials: IUserCredentials,
-  dateEcheance: string,
+  dateMin: string,
+  dateMax: string,
 ): Promise<IPrevision[] | string> => {
-  /* const endpoint: string = isOnProduction
-    ? "read_previsions_a_ordonnancer"
-    : "/tresorerie/getPrevisionOrdonancer.php"; */
 
   const endpoint: string = "http://192.168.0.112:8800/api/storedProcedure";
 
@@ -54,7 +49,7 @@ export const getPrevisionOrdonnanceService = async (
     }
   }
 
-  return res.data.map((prevision: IServerPrevision): IPrevision => {
+  return res.data['data']['rows'].map((prevision: IServerPrevision): IPrevision => {
     return previsionModel(prevision);
   });
 };

@@ -22,14 +22,17 @@ export const PrevisionProvider = ({
 
   const getPrevisionOrdonnance: (
     userCredentials: IUserCredentials,
-    dateEcheance: string,
+    dateMin: string,
+    dateMax: string,
   ) => Promise<IPrevision[] | string> = async (
     userCredentials: IUserCredentials,
-    dateEcheance: string,
+    dateMin: string,
+    dateMax: string,
   ): Promise<IPrevision[] | string> => {
     const res: IPrevision[] | string = await getPrevisionOrdonnanceService(
       userCredentials,
-      dateEcheance,
+        dateMin,
+        dateMax
     );
     setPrevisionsOrdonnance(res);
     return res;
