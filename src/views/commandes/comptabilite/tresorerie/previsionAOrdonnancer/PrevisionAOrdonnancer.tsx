@@ -35,8 +35,11 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 		maxDate: '',
 		cle: '',
 	})
-	const [dateMin, setDateMin] = useState<string>(convertFrDateToServerDate('01/01/2022'))
-	const [dateMax, setDateMax] = useState<string>(convertFrDateToServerDate('31/12/2022'))
+	const getDefaultDateMin = (): string => convertFrDateToServerDate('01/01/2022')
+	const getDefaultDateMax = (): string => convertFrDateToServerDate('31/12/2022')
+
+	const [dateMin, setDateMin] = useState<string>(getDefaultDateMin())
+	const [dateMax, setDateMax] = useState<string>(getDefaultDateMax())
 
 	const navigate: NavigateFunction = useNavigate()
 
@@ -52,21 +55,25 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 		])
 	}
 
-	// const dateMin: string = convertFrDateToServerDate('01/01/2022')
-	// const dateMax: string = convertFrDateToServerDate('31/12/2022')
+	useEffect(() => {
+		if (filters.minDate || filters.maxDate) {
+			setDateMin(filters.minDate ? convertFrDateToServerDate(filters.minDate) : getDefaultDateMin())
+			setDateMax(filters.maxDate ? convertFrDateToServerDate(filters.maxDate) : getDefaultDateMax())
+		}
+	}, [filters.minDate, filters.maxDate])
 
 	useEffect((): void => {
-		startLoading()
-		if (userCredentials) {
+		if (userCredentials && Date.parse(dateMin) && Date.parse(dateMax)) {
+			startLoading()
 			getPrevisionOrdonnance(userCredentials, dateMin, dateMax).finally(stopLoading)
 		}
-	}, [])
+	}, [userCredentials, dateMin, dateMax])
 
 	useEffect((): void => {
 		if (Array.isArray(previsionsOrdonnance)) {
 			setBodyArray(convertToArray(previsionsOrdonnance))
 		}
-	}, [getPrevisionOrdonnance, previsionsOrdonnance])
+	}, [previsionsOrdonnance])
 
 	const keepTwoDecimals = (number: number): string => {
 		return new Intl.NumberFormat('fr-FR', {
