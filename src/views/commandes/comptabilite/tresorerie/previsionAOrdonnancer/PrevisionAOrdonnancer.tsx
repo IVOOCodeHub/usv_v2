@@ -55,7 +55,7 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 	// }
 
 	const dateMin: string = convertFrDateToServerDate('01/01/2022')
-	const dateMax: string = convertFrDateToServerDate('31/12/2022')
+	const dateMax: string = convertFrDateToServerDate('31/12/2024')
 	useEffect((): void => {
 		startLoading()
 		if (userCredentials) {
