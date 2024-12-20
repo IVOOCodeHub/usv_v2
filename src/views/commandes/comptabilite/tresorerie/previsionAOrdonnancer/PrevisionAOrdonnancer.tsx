@@ -69,8 +69,10 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 		}
 	}, [getPrevisionOrdonnance, previsionsOrdonnance])
 
-	const keepTwoDecimals: (number: number) => string = (number: number): string => {
+	const keepTwoDecimals = (number: number): string => {
 		return new Intl.NumberFormat('fr-FR', {
+			style: 'currency',
+			currency: 'EUR',
 			minimumFractionDigits: 2,
 			maximumFractionDigits: 2,
 		}).format(number)
@@ -85,9 +87,9 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 			const minDate: Date | null = filters.minDate ? new Date(filters.minDate) : null
 			const maxDate: Date | null = filters.maxDate ? new Date(filters.maxDate) : null
 
-			console.log('Date échéance:', dateEcheance)
-			console.log('Min Date:', minDate)
-			console.log('Max Date:', maxDate)
+			// console.log('Date échéance:', dateEcheance)
+			// console.log('Min Date:', minDate)
+			// console.log('Max Date:', maxDate)
 
 			// Effectue les comparaisons
 			return (!minDate || dateEcheance >= minDate) && (!maxDate || dateEcheance <= maxDate)
