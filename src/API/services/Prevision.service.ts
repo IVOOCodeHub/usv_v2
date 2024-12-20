@@ -16,20 +16,30 @@ export const getPrevisionOrdonnanceService = async (
   userCredentials: IUserCredentials,
   dateEcheance: string,
 ): Promise<IPrevision[] | string> => {
-  const endpoint: string = isOnProduction
-    ? "omegalol"
-    : "/tresorerie/getPrevisionOrdonancer.php";
+  /* const endpoint: string = isOnProduction
+    ? "read_previsions_a_ordonnancer"
+    : "/tresorerie/getPrevisionOrdonancer.php"; */
+
+  const endpoint: string = "http://192.168.0.112:8800/api/storedProcedure";
 
   const data = {
     userCredentials,
-    dateEcheance: dateEcheance,
+    date_min: dateMin,
+    date_max: dateMax,
   };
 
   console.log("data –>", data);
+  const reqBody = {
+    userID: userCredentials.matricule,
+    password: userCredentials.password,
+    request: "read_previsions_a_ordonnancer",
+    args: data,
+    test: true,
+  };
 
   const res: AxiosResponse | { errorMessage: string } = await postRequest(
     endpoint,
-    data,
+    reqBody,
   );
 
   if ("errorMessage" in res) {
