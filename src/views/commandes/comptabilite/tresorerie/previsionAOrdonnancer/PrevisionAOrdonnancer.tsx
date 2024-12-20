@@ -35,8 +35,16 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 		maxDate: '',
 		cle: '',
 	})
-	const getDefaultDateMin = (): string => convertFrDateToServerDate('01/01/2022')
-	const getDefaultDateMax = (): string => convertFrDateToServerDate('31/12/2022')
+	const getDefaultDateMin = (): string => {
+		const now = new Date()
+		const firstDayOfYear = new Date(now.getFullYear(), 0, 1) // 1er janvier de l'année en cours
+		return firstDayOfYear.toISOString().split('T')[0] // Format 'YYYY-MM-DD'
+	}
+
+	const getDefaultDateMax = (): string => {
+		const now = new Date()
+		return now.toISOString().split('T')[0] // Aujourd'hui, format 'YYYY-MM-DD'
+	}
 
 	const [dateMin, setDateMin] = useState<string>(getDefaultDateMin())
 	const [dateMax, setDateMax] = useState<string>(getDefaultDateMax())
