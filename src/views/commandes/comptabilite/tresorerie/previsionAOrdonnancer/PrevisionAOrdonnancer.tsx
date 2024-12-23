@@ -35,26 +35,7 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 		return dateMin <= dateMax
 	}
 
-	// Fonction pour lancer la requête API avec les dates
-	// const handleFilterClick = (): void => {
-	// 	// const validMinDate = convertFrDateToServerDate(filters.minDate)
-	// 	// const validMaxDate = convertFrDateToServerDate(filters.maxDate)
-	// 	const validMinDate: string = convertFrDateToServerDate('01/01/2022')
-	// 	const validMaxDate: string = convertFrDateToServerDate('31/12/2024')
-
-	// 	if (!isDateRangeValid(validMinDate, validMaxDate)) {
-	// 		console.warn('Plage de dates incohérente :', { minDate: validMinDate, maxDate: validMaxDate })
-	// 		return
-	// 	}
-
-	// 	if (userCredentials) {
-	// 		console.log('Envoi de la requête API avec :', { minDate: validMinDate, maxDate: validMaxDate })
-	// 		startLoading()
-	// 		getPrevisionOrdonnance(userCredentials, validMinDate, validMaxDate).finally(stopLoading)
-	// 	}
-	// }
-
-	const dateMin: string = convertFrDateToServerDate('01/01/2022')
+	const dateMin: string = convertFrDateToServerDate('01/01/2023')
 	const dateMax: string = convertFrDateToServerDate('31/12/2024')
 	useEffect((): void => {
 		startLoading()
