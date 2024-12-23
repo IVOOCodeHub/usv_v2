@@ -17,11 +17,23 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 	const { startLoading, stopLoading } = useContext(LoaderContext)
 	const { previsionsOrdonnance, getPrevisionOrdonnance } = useContext(PrevisionContext)
 
+	// // Calcul des dates par défaut
+	// const getDefaultDateMin = (): string => {
+	// 	const now = new Date()
+	// 	const lastYear = now.getFullYear() - 1
+	// 	return new Date(lastYear, 0, 1).toISOString().split('T')[0] // 1er janvier de l'année précédente
+	// }
+
+	// const getDefaultDateMax = (): string => {
+	// 	const now = new Date()
+	// 	return new Date(now.getFullYear(), 11, 31).toISOString().split('T')[0] // 31 décembre de l'année en cours
+	// }
+
 	// États pour les données du tableau et les filtres
 	const [bodyArray, setBodyArray] = useState<string[][]>([])
 	const [filters, setFilters] = useState({
-		minDate: new Date(new Date().getFullYear(), 0, 1).toISOString().split('T')[0], // 1er janvier
-		maxDate: new Date().toISOString().split('T')[0], // Aujourd'hui
+		minDate: new Date(new Date().getFullYear() - 1, 0, 1).toISOString().split('T')[0], // 1er janvier de l'année précédente
+		maxDate: new Date(new Date().getFullYear(), 11, 31).toISOString().split('T')[0], // 31 décembre de l'année en cours
 		cle: '', // Filtre par "Code"
 	})
 
@@ -30,19 +42,61 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 
 	// Vérifie si une plage de dates est valide
 	const isDateRangeValid = (min: string, max: string): boolean => {
+		// Vérifiez que les dates sont valides
+		if (!Date.parse(min) || !Date.parse(max)) {
+			console.warn('Une ou plusieurs dates sont invalides.', { min, max })
+			return false
+		}
+
 		const dateMin = new Date(min)
 		const dateMax = new Date(max)
 		return dateMin <= dateMax
 	}
 
-	const dateMin: string = convertFrDateToServerDate('01/01/2023')
-	const dateMax: string = convertFrDateToServerDate('31/12/2024')
+	// Charger les données au démarrage avec les dates par défaut
 	useEffect((): void => {
+		// const validMinDate = convertFrDateToServerDate(filters.minDate)
+		// const validMaxDate = convertFrDateToServerDate(filters.maxDate)
 		startLoading()
 		if (userCredentials) {
-			getPrevisionOrdonnance(userCredentials, dateMin, dateMax).finally(stopLoading)
+			getPrevisionOrdonnance(userCredentials, filters.minDate, filters.maxDate).finally(stopLoading)
 		}
-	}, [])
+	}, [userCredentials])
+
+	// Charger les données lors du clic sur "Filtrer"
+	const handleFilterClick = (): void => {
+		// Log pour déboguer les filtres avant conversion
+		console.log('Filtres actuels :', filters)
+
+		// Vérifiez si les dates sont définies
+		if (!filters.minDate || !filters.maxDate) {
+			console.warn('Une ou plusieurs dates sont vides.')
+			return
+		}
+
+		const validMinDate = convertFrDateToServerDate(filters.minDate)
+		const validMaxDate = convertFrDateToServerDate(filters.maxDate)
+
+		// Vérifiez si les dates après conversion sont valides
+		if (!validMinDate || !validMaxDate || !Date.parse(validMinDate) || !Date.parse(validMaxDate)) {
+			console.warn('Une ou plusieurs dates sont invalides après conversion.', { validMinDate, validMaxDate })
+			return
+		}
+
+		// Vérifiez la cohérence des dates
+		if (!isDateRangeValid(validMinDate, validMaxDate)) {
+			console.warn('Plage de dates incohérente.', { validMinDate, validMaxDate })
+			return
+		}
+
+		// Si tout est valide, faites l'appel API
+		if (userCredentials) {
+			startLoading()
+			getPrevisionOrdonnance(userCredentials, validMinDate, validMaxDate)
+				.finally(() => stopLoading())
+				.catch((err) => console.error("Erreur lors de l'appel API :", err))
+		}
+	}
 
 	// Convertir les données reçues pour le tableau
 	const convertToArray = (datas: IPrevision[]): string[][] =>
@@ -121,7 +175,7 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 									style: 'blue',
 									text: 'Filtrer',
 									type: 'button',
-									// onClick: handleFilterClick,
+									onClick: handleFilterClick,
 								}}
 							/>
 						</div>

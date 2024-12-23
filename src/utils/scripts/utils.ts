@@ -20,17 +20,19 @@ export const convertFrDateToEn = (dateString: string): string => {
 	return `${year}-${day}-${month}`
 }
 
-// export const convertFrDateToServerDate = (dateString: string): string => {
-//   const [day, month, year] = dateString.split("/");
-
-//   return `${year}-${month}-${day}`;
-// };
-
-// modif apportée par Laurent pour éviter plantage si date pas encore définie complètement dans le selecteur de date
-
+// modification de la fonction pour accepter les dates au format DD/MM/YYYY, LT 23/12/2024
 export const convertFrDateToServerDate = (dateString: string): string => {
 	if (!dateString) return '' // Retourne une chaîne vide si la date est vide
+
+	// Si la date est déjà au format YYYY-MM-DD
+	if (dateString.includes('-')) {
+		const [year, month, day] = dateString.split('-')
+		if (!year || !month || !day) return ''
+		return `${year}-${month}-${day}`
+	}
+
+	// Si la date est au format DD/MM/YYYY
 	const [day, month, year] = dateString.split('/')
-	if (!day || !month || !year) return '' // Vérifie si les composants sont valides
+	if (!day || !month || !year) return ''
 	return `${year}-${month}-${day}`
 }
