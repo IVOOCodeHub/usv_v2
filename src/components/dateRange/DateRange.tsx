@@ -1,18 +1,27 @@
 import './dateRange.scss'
 import Button from '../button/Button'
-import { useNavigate, NavigateFunction } from 'react-router-dom'
 import { useState } from 'react'
 
 interface DateRangeProps {
-	onFilter: (minDate: string, maxDate: string) => void
-	onCancel?: () => void
-	buttonLabels?: { validate: string; cancel: string }
+	onFilter: (minDate: string, maxDate: string) => void // Fonction appelée avec les dates validées
+	defaultMinDate?: string // Date mini par défaut
+	defaultMaxDate?: string // Date maxi par défaut
+	onCancel?: () => void // Fonction appelée lors de l'annulation
+	buttonLabels?: { validate: string; cancel: string } // Libellés personnalisés des boutons
 }
 
-const DateRange = ({ onFilter, onCancel, buttonLabels }: DateRangeProps) => {
-	const [minDate, setMinDate] = useState<string>('')
-	const [maxDate, setMaxDate] = useState<string>('')
-	const navigate: NavigateFunction = useNavigate()
+const DateRange = ({
+	onFilter,
+	defaultMinDate,
+	defaultMaxDate,
+	onCancel,
+	buttonLabels = { validate: 'Valider', cancel: 'Annuler' },
+}: DateRangeProps) => {
+	// États pour les dates
+	const [minDate, setMinDate] = useState<string>(defaultMinDate ?? '')
+	const [maxDate, setMaxDate] = useState<string>(defaultMaxDate ?? '')
+
+	// Fonction pour valider les dates et appeler la méthode onFilter
 	const handleDateSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
 		e.preventDefault()
 
@@ -26,17 +35,13 @@ const DateRange = ({ onFilter, onCancel, buttonLabels }: DateRangeProps) => {
 			return
 		}
 
-		console.log('minDate : ', minDate)
-		console.log('maxDate : ', maxDate)
-
-		onFilter(minDate, maxDate)
-		// Naviguer vers une autre page avec les dates
-		// navigate('/commandes/tresorerie/prevision_a_ordonnancer', { state: { minDate, maxDate } })
+		console.log('Dates validées :', { minDate, maxDate })
+		onFilter(minDate, maxDate) // Appelle la fonction parent avec les dates validées
 	}
 
 	return (
-		<div>
-			<form onSubmit={handleDateSubmit} className='DateRange__container'>
+		<div className='DateRange__container'>
+			<form onSubmit={handleDateSubmit} className='DateRange__form'>
 				<div className='dateContainer'>
 					<div className='inputWrapper'>
 						<label htmlFor='minDate'>Date mini : </label>
@@ -45,7 +50,7 @@ const DateRange = ({ onFilter, onCancel, buttonLabels }: DateRangeProps) => {
 							name='minDate'
 							type='date'
 							value={minDate}
-							onChange={(e) => setMinDate(e.target.value)} // Met à jour l'état `minDate`
+							onChange={(e) => setMinDate(e.target.value)}
 						/>
 					</div>
 					<div className='inputWrapper'>
@@ -55,7 +60,7 @@ const DateRange = ({ onFilter, onCancel, buttonLabels }: DateRangeProps) => {
 							name='maxDate'
 							type='date'
 							value={maxDate}
-							onChange={(e) => setMaxDate(e.target.value)} // Met à jour l'état `maxDate`
+							onChange={(e) => setMaxDate(e.target.value)}
 						/>
 					</div>
 				</div>
@@ -64,18 +69,20 @@ const DateRange = ({ onFilter, onCancel, buttonLabels }: DateRangeProps) => {
 						<Button
 							props={{
 								style: 'blue',
-								text: 'Valider',
-								type: 'submit', // Déclenche l'envoi du formulaire
+								text: buttonLabels.validate,
+								type: 'submit',
 							}}
 						/>
-						<Button
-							props={{
-								style: 'grey',
-								text: 'Annuler',
-								type: 'button',
-								onClick: (): void => navigate(-1), // Retourne à la page précédente
-							}}
-						/>
+						{onCancel && (
+							<Button
+								props={{
+									style: 'grey',
+									text: buttonLabels.cancel,
+									type: 'button',
+									onClick: onCancel, // Appelle la fonction `onCancel` si définie
+								}}
+							/>
+						)}
 					</div>
 				</div>
 			</form>
