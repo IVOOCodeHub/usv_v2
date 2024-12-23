@@ -17,24 +17,26 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 	const { startLoading, stopLoading } = useContext(LoaderContext)
 	const { previsionsOrdonnance, getPrevisionOrdonnance } = useContext(PrevisionContext)
 
-	// // Calcul des dates par défaut
-	// const getDefaultDateMin = (): string => {
-	// 	const now = new Date()
-	// 	const lastYear = now.getFullYear() - 1
-	// 	return new Date(lastYear, 0, 1).toISOString().split('T')[0] // 1er janvier de l'année précédente
-	// }
+	// Calcul des dates par défaut
+	const getDefaultDateMin = (): string => {
+		const now = new Date()
+		const lastYear = now.getFullYear() - 1 // Année précédente
+		const firstDayLastYear = new Date(Date.UTC(lastYear, 0, 1, 0, 0, 0)) // 1er janvier de l'année précédente
+		return firstDayLastYear.toISOString().split('T')[0]
+	}
 
-	// const getDefaultDateMax = (): string => {
-	// 	const now = new Date()
-	// 	return new Date(now.getFullYear(), 11, 31).toISOString().split('T')[0] // 31 décembre de l'année en cours
-	// }
+	const getDefaultDateMax = (): string => {
+		const now = new Date()
+		const lastDayCurrentYear = new Date(Date.UTC(now.getFullYear(), 11, 31, 23, 59, 59)) // 31 décembre de l'année en cours
+		return lastDayCurrentYear.toISOString().split('T')[0]
+	}
 
 	// États pour les données du tableau et les filtres
 	const [bodyArray, setBodyArray] = useState<string[][]>([])
 	const [filters, setFilters] = useState({
-		minDate: new Date(new Date().getFullYear() - 1, 0, 1).toISOString().split('T')[0], // 1er janvier de l'année précédente
-		maxDate: new Date(new Date().getFullYear(), 11, 31).toISOString().split('T')[0], // 31 décembre de l'année en cours
-		cle: '', // Filtre par "Code"
+		minDate: getDefaultDateMin(), // Utilisation des fonctions par défaut
+		maxDate: getDefaultDateMax(),
+		cle: '',
 	})
 
 	// Navigation pour rediriger vers les détails
@@ -55,20 +57,23 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 
 	// Charger les données au démarrage avec les dates par défaut
 	useEffect((): void => {
-		// const validMinDate = convertFrDateToServerDate(filters.minDate)
-		// const validMaxDate = convertFrDateToServerDate(filters.maxDate)
-		startLoading()
-		if (userCredentials) {
-			getPrevisionOrdonnance(userCredentials, filters.minDate, filters.maxDate).finally(stopLoading)
+		const loadData = async (): Promise<void> => {
+			if (userCredentials) {
+				const validMinDate = convertFrDateToServerDate(filters.minDate)
+				const validMaxDate = convertFrDateToServerDate(filters.maxDate)
+
+				startLoading()
+				await getPrevisionOrdonnance(userCredentials, validMinDate, validMaxDate).finally(stopLoading)
+			}
 		}
+
+		loadData()
 	}, [userCredentials])
 
 	// Charger les données lors du clic sur "Filtrer"
 	const handleFilterClick = (): void => {
-		// Log pour déboguer les filtres avant conversion
 		console.log('Filtres actuels :', filters)
 
-		// Vérifiez si les dates sont définies
 		if (!filters.minDate || !filters.maxDate) {
 			console.warn('Une ou plusieurs dates sont vides.')
 			return
@@ -77,23 +82,20 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 		const validMinDate = convertFrDateToServerDate(filters.minDate)
 		const validMaxDate = convertFrDateToServerDate(filters.maxDate)
 
-		// Vérifiez si les dates après conversion sont valides
 		if (!validMinDate || !validMaxDate || !Date.parse(validMinDate) || !Date.parse(validMaxDate)) {
 			console.warn('Une ou plusieurs dates sont invalides après conversion.', { validMinDate, validMaxDate })
 			return
 		}
 
-		// Vérifiez la cohérence des dates
 		if (!isDateRangeValid(validMinDate, validMaxDate)) {
 			console.warn('Plage de dates incohérente.', { validMinDate, validMaxDate })
 			return
 		}
 
-		// Si tout est valide, faites l'appel API
 		if (userCredentials) {
 			startLoading()
 			getPrevisionOrdonnance(userCredentials, validMinDate, validMaxDate)
-				.finally(() => stopLoading())
+				.finally(stopLoading)
 				.catch((err) => console.error("Erreur lors de l'appel API :", err))
 		}
 	}
