@@ -5,147 +5,164 @@
     justify-content: space-between;
     min-height: 90dvh;
     background: #f2f2f2;
-}
 
-#previsionAOrdonnancer .previsionAOrdonnancer__topSection .buttonWrapper {
-    padding: 2em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2em;
-}
+    .previsionAOrdonnancer__topSection .buttonWrapper {
+        padding: 2em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2em;
+    }
 
-#previsionAOrdonnancer .previsionAOrdonnancer__topSection {
-    margin-bottom: 4em;
-}
+    .previsionAOrdonnancer__topSection {
+        margin-bottom: 4em;
+    }
 
-#previsionAOrdonnancer .previsionAOrdonnancer__bottomSection {
-    display: flex;
-    flex-flow: column;
-    gap: 2em;
-    position: relative;
-}
-
-#previsionAOrdonnancer .previsionAOrdonnancer__bottomSection form {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: -2em;
-    margin-top: 2em;
-}
-
-#previsionAOrdonnancer .previsionAOrdonnancer__bottomSection form label {
-    margin-right: 5px;
-}
-
-#previsionAOrdonnancer .previsionAOrdonnancer__bottomSection form input {
-    border: 1px solid #36395a;
-    padding: 0.4em;
-    text-align: center;
-    min-width: 75px;
-}
-
-#previsionAOrdonnancer .goBackBtnWrapper {
-    padding-bottom: 2em;
-}
-
-.modalContainer {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.displayDetailsModal {
-    width: 100dvw;
-    height: 89.5dvh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 10.5dvh;
-    left: 0;
-    z-index: 9999;
-    background: rgba(242, 242, 242, 0.5);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-}
-
-.displayDetailsModal div {
-    background: #ffffff;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2em;
-    padding: 1em;
-    border: 1px solid #36395a;
-    border-radius: 8px;
-}
-
-.displayDetailsModal div ul {
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2em;
-}
-
-#previsionAOrdonnancer .inputWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-
-    @media (max-width: 1024px) {
+    .previsionAOrdonnancer__bottomSection {
+        display: flex;
         flex-flow: column;
-        gap: 1rem;
+        gap: 2em;
+        position: relative;
+
+        form {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: -2em;
+            margin-top: 2em;
+        }
+
+        form label {
+            margin-right: 5px;
+        }
+
+        form input {
+            border: 1px solid #36395a;
+            padding: 0.4em;
+            text-align: center;
+            min-width: 75px;
+        }
     }
-}
 
-#previsionAOrdonnancer .inputWrapper label {
-    width: 40%;
-    font-size: 1dvw;
-    text-wrap-mode: nowrap;
+    .filtersWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 1.5rem;
+        margin: 1em 0;
 
-    @media (max-width: 1024px) {
-        width: 100%;
+        .DateRange__container {
+            flex: 1;
+            max-width: 50%;
+        }
+
+        .codeInputWrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex: 0 1 25%;
+            max-width: 300px;
+
+            label {
+                font-size: 1rem;
+                font-weight: 500;
+                color: #36395a;
+            }
+
+            input {
+                border: 1px solid #36395a;
+                border-radius: 4px;
+                padding: 0.8em;
+                font-size: 14px;
+                text-align: center;
+                width: 100%;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .filterButtonWrapper {
+            display: flex;
+            align-items: flex-end;
+            flex: 0 1 20%;
+            justify-content: flex-end;
+
+            button {
+                min-width: 120px;
+            }
+        }
+    }
+
+    .goBackBtnWrapper {
+        padding-bottom: 2em;
+    }
+
+    .modalContainer {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .displayDetailsModal {
+        width: 100dvw;
+        height: 89.5dvh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 10.5dvh;
+        left: 0;
+        z-index: 9999;
+        background: rgba(242, 242, 242, 0.5);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+
+        div {
+            background: #ffffff;
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2em;
+            padding: 1em;
+            border: 1px solid #36395a;
+            border-radius: 8px;
+
+            ul {
+                display: flex;
+                flex-flow: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2em;
+            }
+        }
+    }
+
+    input[type="date"] {
+        border: 1px solid #36395a;
+        padding: 0.8em;
         text-align: center;
-        font-size: 1.5dvw;
+        max-height: 38px;
+        font-size: 12px;
+        min-width: 230px;
+        color: #36395a;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &:focus {
+            outline: 3.5px solid #36395a;
+        }
     }
 
-    @media (max-width: 640px) {
-        font-size: 2.2dvw;
+    .greyButtonWrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2em;
     }
-
-    @media (max-width: 480px) {
-        font-size: 3dvw;
-        text-align: center;
-    }
-}
-
-
-#previsionAOrdonnancer input[type="date"] {
-    border: 1px solid #36395a;
-    padding: 0.8em;
-    text-align: center;
-    max-height: 38px;
-    font-size: 12px;
-    min-width: 230px;
-    color: #36395a;
-
-    &:hover {
-        cursor: pointer;
-    }
-}
-
-#previsionAOrdonnancer .leftSide .formContainer form input {
-    &:focus {
-        outline: 3.5px solid #36395a;
-    }
-}
-
-.greyButtonWrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2em;
 }
