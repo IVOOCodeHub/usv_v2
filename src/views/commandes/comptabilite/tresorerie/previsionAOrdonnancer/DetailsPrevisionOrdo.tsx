@@ -13,6 +13,9 @@ import Footer from '../../../../../components/footer/Footer'
 // context
 import { UserContext } from '../../../../../context/userContext.tsx'
 
+// services
+import { getPrevisionDetailsService } from '../../../../../API/services/Prevision.service.ts'
+
 // types
 interface ILocationState {
 	state: {
@@ -31,52 +34,58 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 	const [details, setDetails] = useState<Record<string, string | number>>({})
 	const [previsionCode, setPrevisionCode] = useState<string>('')
 
-	const extractNumericValue = (formattedValue: string): number => {
-		const numericString = formattedValue.replace(/[^\d.,-]/g, '').replace(',', '.')
-		return parseFloat(numericString)
-	}
-
-	// Fetch data et initialisation
-	useEffect(() => {
-		if (location.state && location.state.rowData) {
-			const rowData = location.state.rowData
-
-			console.log('rowData de la ligne cliquée :', rowData)
-
-			const montantBrut = extractNumericValue(rowData[6]) // Extraire la valeur brute
-			const montantFormate = keepTwoDecimals(montantBrut) // Formater correctement
-
-			const extractedDetails = {
-				code: rowData[0],
-				echeance: rowData[1],
-				ordo: rowData[2],
-				fournisseur: rowData[3],
-				libelle: rowData[4],
-				destinataire: rowData[5],
-				montant: montantFormate,
-				nom_fichier: '2023_10\\20231009_15_43_24.pdf', // Ajout temporaire
-			}
-
-			setDetails(extractedDetails)
-			setPrevisionCode(rowData[0])
-			setCourrier(`http://192.168.0.254:8080/usv_prod/courriers/${extractedDetails.nom_fichier}`)
-		}
-	}, [location.state])
-
-	// Ajoutez ici la logique qui utilise `userCredentials` pour récupérer des données supplémentaires
-	useEffect(() => {
-		if (!userCredentials) {
-			console.error('Les userCredentials sont manquants.')
+	// Fonction pour charger les détails de la prévision
+	const loadPrevisionDetails = async (): Promise<void> => {
+		if (!userCredentials || !previsionCode) {
+			console.error('Les userCredentials ou la clé de la prévision sont manquants.')
 			return
 		}
 
-		console.log('User credentials disponibles :', userCredentials)
+		try {
+			const data = await getPrevisionDetailsService(userCredentials, previsionCode)
 
-		// Exemple d'appel à un service avec les credentials
-		// fetchPrevisionDetails(userCredentials, previsionCode).then((data) => {
-		//   console.log("Données reçues :", data)
-		// })
-	}, [userCredentials, previsionCode])
+			if (typeof data === 'string') {
+				console.error('Erreur lors de la récupération des détails :', data)
+				alert(data) // Afficher l'erreur à l'utilisateur
+				return
+			}
+
+			console.log('Données reçues :', data)
+
+			const montantFormate = keepTwoDecimals(Number(data.credit))
+
+			setDetails({
+				code: data.cle,
+				echeance: data.dateEcheance,
+				ordo: data.dateOrdo,
+				fournisseur: data.libelleCompteTiers,
+				libelle: data.libelleEcriture,
+				destinataire: data.societe,
+				montant: montantFormate,
+				nom_fichier: data.nomFichier || 'Aucun fichier disponible',
+			})
+
+			setCourrier(`http://192.168.0.254:8080/usv_prod/courriers/${data.nomFichier}`)
+		} catch (error) {
+			console.error("Erreur lors de l'appel à la procédure stockée :", error)
+			alert("Une erreur s'est produite lors de la récupération des données. Veuillez réessayer.")
+		}
+	}
+
+	// Effect pour charger les données au montage du composant
+	useEffect(() => {
+		if (location.state && location.state.rowData) {
+			const rowData = location.state.rowData
+			setPrevisionCode(rowData[0]) // Clé de la prévision (ex. "23056")
+		}
+	}, [location.state])
+
+	// Effect pour charger les détails une fois la clé de la prévision définie
+	useEffect(() => {
+		if (previsionCode) {
+			loadPrevisionDetails()
+		}
+	}, [previsionCode])
 
 	return (
 		<>
