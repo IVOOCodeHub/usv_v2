@@ -2,7 +2,7 @@ import './previsionAOrdonnancer.scss'
 
 // hooks | libraries
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useEffect, useState, ReactElement, useContext } from 'react'
+import { useEffect, useState, ReactElement, useContext, useCallback } from 'react'
 import { keepTwoDecimals } from '../../../../../utils/scripts/utils.ts'
 
 // components
@@ -34,8 +34,8 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 	const [details, setDetails] = useState<Record<string, string | number>>({})
 	const [previsionCode, setPrevisionCode] = useState<string>('')
 
-	// Fonction pour charger les détails de la prévision
-	const loadPrevisionDetails = async (): Promise<void> => {
+	// Fonction pour charger les détails de la prévision avec useCallback
+	const loadPrevisionDetails = useCallback(async (): Promise<void> => {
 		if (!userCredentials || !previsionCode) {
 			console.error('Les userCredentials ou la clé de la prévision sont manquants.')
 			return
@@ -46,7 +46,6 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 
 			if (typeof data === 'string') {
 				console.error('Erreur lors de la récupération des détails :', data)
-				alert(data) // Afficher l'erreur à l'utilisateur
 				return
 			}
 
@@ -62,7 +61,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 				libelle: data.libelleEcriture,
 				destinataire: data.societe,
 				montant: montantFormate,
-				nom_fichier: data.nomFichier || 'Aucun fichier disponible',
+				nom_fichier: data.nomFichier ?? 'Aucun fichier disponible',
 			})
 
 			setCourrier(`http://192.168.0.254:8080/usv_prod/courriers/${data.nomFichier}`)
@@ -70,22 +69,22 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 			console.error("Erreur lors de l'appel à la procédure stockée :", error)
 			alert("Une erreur s'est produite lors de la récupération des données. Veuillez réessayer.")
 		}
-	}
+	}, [userCredentials, previsionCode])
 
-	// Effect pour charger les données au montage du composant
+	// Effect pour charger la clé de prévision à partir de la ligne cliquée
 	useEffect(() => {
-		if (location.state && location.state.rowData) {
-			const rowData = location.state.rowData
+		const rowData = location?.state?.rowData
+		if (rowData) {
 			setPrevisionCode(rowData[0]) // Clé de la prévision (ex. "23056")
 		}
-	}, [location.state])
+	}, [location?.state?.rowData])
 
 	// Effect pour charger les détails une fois la clé de la prévision définie
 	useEffect(() => {
 		if (previsionCode) {
 			loadPrevisionDetails()
 		}
-	}, [previsionCode])
+	}, [previsionCode, loadPrevisionDetails])
 
 	return (
 		<>
