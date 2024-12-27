@@ -2,13 +2,16 @@ import './previsionAOrdonnancer.scss'
 
 // hooks | libraries
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useEffect, useState, ReactElement } from 'react'
+import { useEffect, useState, ReactElement, useContext } from 'react'
 import { keepTwoDecimals } from '../../../../../utils/scripts/utils.ts'
 
 // components
 import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
+
+// context
+import { UserContext } from '../../../../../context/userContext.tsx'
 
 // types
 interface ILocationState {
@@ -20,18 +23,20 @@ interface ILocationState {
 const DetailsPrevisionOrdo = (): ReactElement => {
 	const navigate = useNavigate()
 	const location = useLocation() as ILocationState
+
+	// Récupérer les userCredentials depuis le UserContext
+	const { userCredentials } = useContext(UserContext)
+
 	const [courrier, setCourrier] = useState<string | null>(null)
 	const [details, setDetails] = useState<Record<string, string | number>>({})
 	const [previsionCode, setPrevisionCode] = useState<string>('')
-	const [dataTable, setDataTable] = useState<Array<Record<string, string | number>>>([])
 
 	const extractNumericValue = (formattedValue: string): number => {
-		// Remplace les espaces et les caractères non numériques (hors virgule et point) pour convertir en nombre
 		const numericString = formattedValue.replace(/[^\d.,-]/g, '').replace(',', '.')
 		return parseFloat(numericString)
 	}
 
-	// Extract rowData from location state
+	// Fetch data et initialisation
 	useEffect(() => {
 		if (location.state && location.state.rowData) {
 			const rowData = location.state.rowData
@@ -57,6 +62,21 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 			setCourrier(`http://192.168.0.254:8080/usv_prod/courriers/${extractedDetails.nom_fichier}`)
 		}
 	}, [location.state])
+
+	// Ajoutez ici la logique qui utilise `userCredentials` pour récupérer des données supplémentaires
+	useEffect(() => {
+		if (!userCredentials) {
+			console.error('Les userCredentials sont manquants.')
+			return
+		}
+
+		console.log('User credentials disponibles :', userCredentials)
+
+		// Exemple d'appel à un service avec les credentials
+		// fetchPrevisionDetails(userCredentials, previsionCode).then((data) => {
+		//   console.log("Données reçues :", data)
+		// })
+	}, [userCredentials, previsionCode])
 
 	return (
 		<>
