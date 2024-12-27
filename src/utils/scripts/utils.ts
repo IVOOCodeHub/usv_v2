@@ -36,3 +36,12 @@ export const convertFrDateToServerDate = (dateString: string): string => {
 	if (!day || !month || !year) return ''
 	return `${year}-${month}-${day}`
 }
+
+// Formater les montants en euros
+export const keepTwoDecimals = (number: number): string =>
+    new Intl.NumberFormat('fr-FR', {
+        style: 'currency',
+        currency: 'EUR',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    }).format(number);

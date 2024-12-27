@@ -71,3 +71,4 @@ export const getCourrierDepensesService = async (
 		return courrierDepensesModel(courrier)
 	})
 }
+
