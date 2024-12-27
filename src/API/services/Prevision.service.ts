@@ -97,41 +97,44 @@ export const getPrevisionOrdonnanceService = async (
 
 export const getPrevisionDetailsService = async (
 	userCredentials: IUserCredentials,
-	cle: string
+	previsionCode: string
 ): Promise<IPrevision | string> => {
 	const endpoint: string = 'http://192.168.0.112:8800/api/storedProcedure'
 
 	const data = {
 		userCredentials,
-		cle, // Clé de la prévision
+		prevision_code: previsionCode,
 	}
 
+	console.log('Requête envoyée –>', data)
 	const reqBody = {
 		userID: userCredentials.matricule,
 		password: userCredentials.password,
-		request: 'read_only_one_prevision_a_ordonnancer', // Nom de la procédure stockée
+		request: 'read_only_one_prevision_a_ordonnancer',
 		args: data,
 		test: true,
 	}
 
 	const res: AxiosResponse | { errorMessage: string } = await postRequest(endpoint, reqBody)
 
-	console.log("Réponse brute de l'API :", res) // Log de la réponse brute
-
 	if ('errorMessage' in res) {
 		console.error(new Error(res.errorMessage))
-		return `Erreur API : ${res.errorMessage}`
+		switch (res.errorMessage) {
+			case 'Invalid credentials':
+				return 'Identifiants ou mot de passe incorrects'
+			case 'User not found':
+				return 'Utilisateur non trouvé.'
+			default:
+				return "Une erreur inattendue s'est produite."
+		}
 	}
 
-	// Vérifiez si 'data', 'data.rows' existent dans la réponse
-	if (!res.data || !res.data['data']) {
-		console.error('Structure inattendue dans la réponse API :', res.data)
-		return 'Erreur lors de la récupération des données.'
+	// Vérification de la structure de la réponse
+	if (!res.data?.data?.rows?.length) {
+		console.error('Structure inattendue ou aucune donnée trouvée :', res.data)
+		return 'Aucune donnée trouvée.'
 	}
 
-	// Si 'rows' n'existe pas, retournez les données directement
-	const prevision: IServerPrevision = Array.isArray(res.data['data'])
-		? res.data['data'][0] // Si c'est un tableau
-		: res.data['data'] // Si c'est un objet unique
-	return previsionModel(prevision)
+	// Mapper les données en IPrevision
+	return previsionModel(res.data['data']['rows'][0])
 }
