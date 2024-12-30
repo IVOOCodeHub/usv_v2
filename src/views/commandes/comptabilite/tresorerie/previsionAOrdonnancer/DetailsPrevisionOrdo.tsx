@@ -196,7 +196,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 							</div>
 							<div>
 								<strong>Mode règlement :</strong>
-								<div>
+								<div className='modeReglement'>
 									<Button
 										props={{
 											style: details.mode_reglement === 'PRELEV' ? 'blue' : 'grey',
