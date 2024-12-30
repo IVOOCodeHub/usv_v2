@@ -1,97 +1,124 @@
-// hooks | libraries
 import { AxiosResponse } from 'axios'
-
-// types
 import { IUserCredentials } from '../../utils/types/user.interface.ts'
 import { IServerPrevision, previsionModel } from '../models/prevision.model.ts'
 import { IPrevision } from '../../utils/types/prevision.interface.ts'
-
-// API
 import { postRequest } from '../APICalls.ts'
 
+interface ApiResponseData {
+	data: {
+		data: {
+			data: {
+				prevision: IServerPrevision
+				courrier: Record<string, string>
+			}
+		}
+	}
+}
+
+// Fonction pour récupérer les prévisions à ordonnancer
 export const getPrevisionOrdonnanceService = async (
 	userCredentials: IUserCredentials,
 	dateMin: string,
 	dateMax: string
 ): Promise<IPrevision[] | string> => {
-	const endpoint: string = 'http://192.168.0.112:8800/api/storedProcedure'
-
-	const data = {
-		userCredentials,
-		date_min: dateMin,
-		date_max: dateMax,
-	}
-
-	console.log('data –>', data)
+	const endpoint = 'http://192.168.0.112:8800/api/storedProcedure'
 	const reqBody = {
 		userID: userCredentials.matricule,
 		password: userCredentials.password,
 		request: 'read_previsions_a_ordonnancer',
-		args: data,
+		args: { userCredentials, date_min: dateMin, date_max: dateMax },
 		test: true,
 	}
 
-	const res: AxiosResponse | { errorMessage: string } = await postRequest(endpoint, reqBody)
+	try {
+		const res = (await postRequest(endpoint, reqBody)) as AxiosResponse<{ data: { rows: IServerPrevision[] } }>
 
-	if ('errorMessage' in res) {
-		console.error(new Error(res.errorMessage))
-		switch (res.errorMessage) {
-			case 'Invalid credentials':
-				return 'Identifiants ou mot de passe incorrects'
-			case 'User not found':
-				return 'Utilisateur non trouvé.'
-			default:
-				return "Une erreur inattendue c'est produite."
+		const rows = res.data?.data?.rows
+		if (!rows || rows.length === 0) {
+			console.error('Aucune donnée trouvée.')
+			return 'Aucune donnée trouvée.'
 		}
-	}
 
-	return res.data['data']['rows'].map((prevision: IServerPrevision): IPrevision => {
-		return previsionModel(prevision)
-	})
+		return rows.map((prevision: IServerPrevision) => previsionModel(prevision))
+	} catch (error) {
+		console.error('Erreur API détectée :', error)
+		return "Une erreur inattendue s'est produite."
+	}
 }
 
-// fonction pour récupérer les détails d'une prévision
-
+// Fonction pour récupérer les détails d'une prévision
 export const getPrevisionDetailsService = async (
 	userCredentials: IUserCredentials,
 	previsionCode: string
-): Promise<IPrevision | string> => {
-	const endpoint: string = 'http://192.168.0.112:8800/api/storedProcedure'
-
-	const data = {
-		userCredentials,
-		prevision_code: previsionCode,
-	}
-
-	console.log('Requête envoyée –>', data)
+): Promise<{ courrier: Record<string, string>; prevision: IServerPrevision } | string> => {
+	const endpoint = 'http://192.168.0.112:8800/api/storedProcedure'
 	const reqBody = {
 		userID: userCredentials.matricule,
 		password: userCredentials.password,
 		request: 'read_only_one_prevision_a_ordonnancer',
-		args: data,
+		args: { userCredentials, cle_prevision: previsionCode },
 		test: true,
 	}
 
-	const res: AxiosResponse | { errorMessage: string } = await postRequest(endpoint, reqBody)
+	try {
+		const res = (await postRequest(endpoint, reqBody)) as AxiosResponse<ApiResponseData>
 
-	if ('errorMessage' in res) {
-		console.error(new Error(res.errorMessage))
-		switch (res.errorMessage) {
-			case 'Invalid credentials':
-				return 'Identifiants ou mot de passe incorrects'
-			case 'User not found':
-				return 'Utilisateur non trouvé.'
-			default:
-				return "Une erreur inattendue s'est produite."
+		const prevision = res.data.data.data.data.prevision
+		const courrier = res.data.data.data.courrier
+
+		if (!prevision || !courrier) {
+			console.error('Structure inattendue ou données manquantes :', res)
+			return 'Aucune donnée trouvée.'
 		}
-	}
 
-	// Vérification de la structure de la réponse
-	if (!res.data?.data?.rows?.length) {
-		console.error('Structure inattendue ou aucune donnée trouvée :', res.data)
-		return 'Aucune donnée trouvée.'
+		return { prevision, courrier }
+	} catch (error) {
+		console.error('Erreur API détectée :', error)
+		return 'Erreur lors de la récupération des données.'
 	}
-
-	// Mapper les données en IPrevision
-	return previsionModel(res.data['data']['rows'][0])
 }
+////////////////////////////
+
+// export const getPrevisionDetailsService = async (
+// 	userCredentials: IUserCredentials,
+// 	previsionCode: string
+// ): Promise<IPrevision | string> => {
+// 	const endpoint: string = 'http://192.168.0.112:8800/api/storedProcedure'
+
+// 	const data = {
+// 		userCredentials,
+// 		cle_courrier: previsionCode,
+// 	}
+
+// 	console.log('Requête envoyée –>', data)
+// 	const reqBody = {
+// 		userID: userCredentials.matricule,
+// 		password: userCredentials.password,
+// 		request: 'read_only_one_prevision_courrier_associe',
+// 		args: data,
+// 		test: true,
+// 	}
+
+// 	const res: AxiosResponse | { errorMessage: string } = await postRequest(endpoint, reqBody)
+
+// 	if ('errorMessage' in res) {
+// 		console.error(new Error(res.errorMessage))
+// 		switch (res.errorMessage) {
+// 			case 'Invalid credentials':
+// 				return 'Identifiants ou mot de passe incorrects'
+// 			case 'User not found':
+// 				return 'Utilisateur non trouvé.'
+// 			default:
+// 				return "Une erreur inattendue s'est produite."
+// 		}
+// 	}
+
+// 	// Vérification de la structure de la réponse
+// 	if (!res.data?.data?.rows?.length) {
+// 		console.error('Structure inattendue ou aucune donnée trouvée :', res.data)
+// 		return 'Aucune donnée trouvée.'
+// 	}
+
+// 	// Mapper les données en IPrevision
+// 	return previsionModel(res.data['data']['rows'][0])
+// }
