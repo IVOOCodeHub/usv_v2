@@ -84,7 +84,9 @@ export const getPrevisionDetailsService = async (
 		console.log('Réponse brute de l’API :', res)
 
 		const prevision = res.data?.data?.data?.data?.prevision
-		const courrier = res.data?.data?.data?.courrier?.courrier
+		const courrier = res.data?.data?.data?.courrier?.courrier || null
+
+		console.log('Valeur de courrier:', courrier)
 
 		if (!prevision) {
 			console.error('Aucune prévision trouvée dans la réponse.')

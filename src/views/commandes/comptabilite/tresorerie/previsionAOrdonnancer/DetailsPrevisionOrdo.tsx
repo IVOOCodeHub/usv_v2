@@ -124,15 +124,17 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 					{/* Right side: Details and actions */}
 					<div className='rightSide'>
 						<h3>
-							Prévision {details.cle}{' '}
-							<Button
-								props={{
-									style: 'blue',
-									text: 'Associer un courrier',
-									type: 'button',
-									onClick: () => alert('Fonction à définir'),
-								}}
-							/>
+							Prévision {details.code}{' '}
+							{courrier === null && (
+								<Button
+									props={{
+										style: 'blue',
+										text: 'Associer un courrier',
+										type: 'button',
+										onClick: () => alert('Fonction à définir'),
+									}}
+								/>
+							)}
 						</h3>
 						<div className='detailsWrapper'>
 							<div>
