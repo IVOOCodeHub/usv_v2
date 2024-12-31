@@ -66,13 +66,27 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 
 				const { prevision, courrier: courrierData } = response
 
-				const montantFormate = keepTwoDecimals(Number(prevision.commentaire?.split(' ')[0]?.replace(',', '.')) || 0)
+				// Transform and map IServerPrevision to IPrevision
+				const mappedPrevision: IPrevision = {
+					cle: prevision.cle,
+					societe: prevision.societe,
+					journal: prevision.code_journal,
+					date_piece: prevision.date_piece,
+					date_saisie: prevision.date_saisie,
+					tiers: prevision.libelle_compte_tiers,
+					rubrique: prevision.rubrique_treso,
+					libelle: prevision.libelle_ecriture,
+					echeance: prevision.date_echeance,
+					ordo: prevision.date_ordo,
+					banque_reglement: prevision.no_compte_tiers ?? 'Non défini',
+					mode_reglement: prevision.mode_reglement,
+					montant: keepTwoDecimals(Number(prevision.commentaire?.split(' ')[0]?.replace(',', '.')) || 0),
+					statut: prevision.statut,
+				}
 
-				setDetails({
-					...prevision,
-					montant: montantFormate,
-				})
+				setDetails(mappedPrevision)
 
+				// Handle courrier
 				if (courrierData?.nom_fichier) {
 					setCourrier(`http://192.168.0.254:8080/usv_prod/courriers/${courrierData.nom_fichier.replace(/\\/g, '/')}`)
 				} else {
@@ -122,7 +136,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 					{/* Right side: Details and actions */}
 					<div className='rightSide'>
 						<h3>
-							Prévision {details.code}{' '}
+							Prévision {details.cle}{' '}
 							<Button
 								props={{
 									style: 'blue',

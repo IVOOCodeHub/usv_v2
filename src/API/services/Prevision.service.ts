@@ -4,12 +4,17 @@ import { IServerPrevision, previsionModel } from '../models/prevision.model.ts'
 import { IPrevision } from '../../utils/types/prevision.interface.ts'
 import { postRequest } from '../APICalls.ts'
 
-interface ApiResponseData {
+interface ApiResponse {
 	data: {
 		data: {
-			data: {
-				prevision: IServerPrevision
-				courrier: Record<string, string>
+			prevision: IServerPrevision
+			courrier?: {
+				courrier?: {
+					nom_fichier: string
+					nature: string
+					action: string
+					commentaire: string
+				}
 			}
 		}
 	}
@@ -50,7 +55,13 @@ export const getPrevisionOrdonnanceService = async (
 export const getPrevisionDetailsService = async (
 	userCredentials: IUserCredentials,
 	previsionCode: string
-): Promise<{ prevision: IServerPrevision; courrier?: Record<string, string> } | string> => {
+): Promise<
+	| {
+			prevision: IServerPrevision
+			courrier?: { nom_fichier: string; nature: string; action: string; commentaire: string }
+	  }
+	| string
+> => {
 	const endpoint = 'http://192.168.0.112:8800/api/storedProcedure'
 	const reqBody = {
 		userID: userCredentials.matricule,
@@ -61,7 +72,7 @@ export const getPrevisionDetailsService = async (
 	}
 
 	try {
-		const res = (await postRequest(endpoint, reqBody)) as AxiosResponse<any>
+		const res = (await postRequest(endpoint, reqBody)) as AxiosResponse<ApiResponse>
 
 		// Logs pour débogage
 		console.log('Réponse brute de l’API :', res)
@@ -73,6 +84,13 @@ export const getPrevisionDetailsService = async (
 		if (!prevision) {
 			console.error('Aucune prévision trouvée dans la réponse.')
 			return 'Aucune donnée trouvée.'
+		}
+
+		// Vérification conditionnelle du courrier
+		if (courrier && typeof courrier === 'object' && 'nom_fichier' in courrier) {
+			console.log('Courrier valide détecté:', courrier)
+		} else {
+			console.log('Courrier introuvable ou structure inattendue.')
 		}
 
 		// Retourne la prévision et le courrier (s'il existe)
