@@ -18,7 +18,6 @@ import { getPrevisionDetailsService } from '../../../../../API/services/Previsio
 
 // types
 import { IPrevision } from '../../../../../utils/types/prevision.interface'
-import { ICourrier } from '../../../../../utils/types/courrier.interface'
 
 interface ILocationState {
 	state: {
@@ -30,23 +29,22 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 	const navigate = useNavigate()
 	const location = useLocation() as ILocationState
 
-	// Récupérer les userCredentials depuis le UserContext
 	const { userCredentials } = useContext(UserContext)
 
-	const [courrier, setCourrier] = useState<ICourrier | null>(null)
+	const [courrier, setCourrier] = useState<string | null>(null)
 	const [details, setDetails] = useState<IPrevision | null>(null)
 	const [previsionCode, setPrevisionCode] = useState<string>('')
 	const [loading, setLoading] = useState<boolean>(true)
 
-	// Effect pour charger la clé de la prévision depuis la ligne cliquée
+	// Extract prevision code from location
 	useEffect(() => {
 		const rowData = location?.state?.rowData
 		if (rowData) {
-			setPrevisionCode(rowData[0]) // Clé de la prévision
+			setPrevisionCode(rowData[0])
 		}
 	}, [location?.state?.rowData])
 
-	// Charger les détails de la prévision
+	// Load prevision details
 	useEffect(() => {
 		const loadPrevisionDetails = async (): Promise<void> => {
 			if (!userCredentials || !previsionCode) {
@@ -60,48 +58,29 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 
 				if (typeof response === 'string') {
 					console.error('Erreur lors de la récupération des détails :', response)
+					setDetails(null)
+					setCourrier(null)
 					setLoading(false)
 					return
 				}
 
-				// Vérifiez et extrayez correctement les données
-				const prevision = response.prevision
-				const courrier = response.courrier?.courrier ?? response.data?.data?.courrier?.courrier
+				const { prevision, courrier: courrierData } = response
 
 				const montantFormate = keepTwoDecimals(Number(prevision.commentaire?.split(' ')[0]?.replace(',', '.')) || 0)
 
-				const detailsData = {
-					code: prevision.cle,
-					societe: prevision.societe,
-					journal: prevision.code_journal,
-					date_piece: prevision.date_piece,
-					date_saisie: prevision.date_saisie,
-					tiers: prevision.libelle_compte_tiers,
-					rubrique: prevision.rubrique_treso,
-					libelle: prevision.libelle_ecriture,
-					echeance: prevision.date_echeance,
-					ordo: prevision.date_ordo,
-					banque_reglement: prevision.no_compte_tiers ?? 'Non défini',
-					mode_reglement: prevision.mode_reglement,
+				setDetails({
+					...prevision,
 					montant: montantFormate,
-					statut: prevision.statut,
-					courrier_nom_fichier: courrier?.nom_fichier ?? 'Non défini',
-					courrier_nature: courrier?.nature,
-					courrier_action: courrier?.action ?? 'Non défini',
-					commentaire: courrier?.commentaire,
-				}
+				})
 
-				setDetails(detailsData)
-
-				if (courrier?.nom_fichier) {
-					setCourrier(`http://192.168.0.254:8080/usv_prod/courriers/${courrier.nom_fichier.replace(/\\/g, '/')}`)
+				if (courrierData?.nom_fichier) {
+					setCourrier(`http://192.168.0.254:8080/usv_prod/courriers/${courrierData.nom_fichier.replace(/\\/g, '/')}`)
 				} else {
-					console.error('Le fichier courrier.nom_fichier est introuvable ou non défini :', courrier)
 					setCourrier(null)
 				}
 			} catch (error) {
-				console.error("Erreur lors de l'appel à la procédure stockée :", error)
-				alert("Une erreur s'est produite lors de la récupération des données. Veuillez réessayer.")
+				console.error('Erreur lors de la récupération des données :', error)
+				alert('Une erreur est survenue lors de la récupération des données.')
 			} finally {
 				setLoading(false)
 			}
@@ -110,8 +89,14 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 		if (previsionCode) loadPrevisionDetails()
 	}, [previsionCode, userCredentials])
 
+	// Gestion du chargement
 	if (loading) {
 		return <p>Chargement des détails...</p>
+	}
+
+	// Gestion des données manquantes
+	if (!details) {
+		return <p>Aucune prévision disponible pour la clé sélectionnée.</p>
 	}
 
 	return (
@@ -148,31 +133,35 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 							/>
 						</h3>
 						<div className='detailsWrapper'>
-							{/* Toutes les balises <div> qui étaient imbriquées dans des <p> ont été corrigées */}
 							<div>
-								<strong>Date saisie :</strong> {details.date_saisie}
+								<strong>Date saisie :</strong> {details.date_saisie || 'Non défini'}
 							</div>
 							<div>
-								<strong>Société :</strong> {details.societe}
+								<strong>Société :</strong> {details.societe || 'Non défini'}
 							</div>
 							<div>
 								<strong>Tiers :</strong>{' '}
 								<Button
-									props={{ style: 'blue', text: 'Modif', type: 'button', onClick: () => alert('Modifier le tiers') }}
+									props={{
+										style: 'blue',
+										text: 'Modif',
+										type: 'button',
+										onClick: () => alert('Modifier le tiers'),
+									}}
 								/>{' '}
-								{details.tiers}
+								{details.tiers || 'Non défini'}
 							</div>
 							<div>
-								<strong>Rubrique :</strong> {details.rubrique}
+								<strong>Rubrique :</strong> {details.rubrique || 'Non défini'}
 							</div>
 							<div>
-								<strong>Libellé :</strong> {details.libelle}
+								<strong>Libellé :</strong> {details.libelle || 'Non défini'}
 							</div>
 							<div>
 								<strong>Date échéance :</strong>{' '}
 								<input
 									type='date'
-									value={details.echeance as string}
+									value={details.echeance || ''}
 									onChange={(e) => setDetails({ ...details, echeance: e.target.value })}
 								/>
 							</div>
@@ -180,14 +169,14 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 								<strong>Date ordo. :</strong>{' '}
 								<input
 									type='date'
-									value={details.ordo as string}
+									value={details.ordo || ''}
 									onChange={(e) => setDetails({ ...details, ordo: e.target.value })}
 								/>
 							</div>
 							<div>
 								<strong>Banq. règlement :</strong>{' '}
 								<select
-									value={details.banque_reglement as string}
+									value={details.banque_reglement || ''}
 									onChange={(e) => setDetails({ ...details, banque_reglement: e.target.value })}
 								>
 									<option value='000257117126 - SOCIETE GENERALE'>000257117126 - SOCIETE GENERALE</option>
@@ -234,7 +223,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 							<div>
 								<strong>Statut :</strong>{' '}
 								<select
-									value={details.statut as string}
+									value={details.statut || ''}
 									onChange={(e) => setDetails({ ...details, statut: e.target.value })}
 								>
 									<option value='Enregistrer (reste au même stade)'>Enregistrer (reste au même stade)</option>
@@ -264,7 +253,12 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 						</div>
 						<div className='buttonWrapper'>
 							<Button
-								props={{ style: 'blue', text: 'Ok', type: 'button', onClick: () => alert('Prévision validée') }}
+								props={{
+									style: 'blue',
+									text: 'Ok',
+									type: 'button',
+									onClick: () => alert('Prévision validée'),
+								}}
 							/>
 							<Button props={{ style: 'grey', text: 'Annuler', type: 'button', onClick: () => navigate(-1) }} />
 						</div>

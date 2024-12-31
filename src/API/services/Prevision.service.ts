@@ -50,7 +50,7 @@ export const getPrevisionOrdonnanceService = async (
 export const getPrevisionDetailsService = async (
 	userCredentials: IUserCredentials,
 	previsionCode: string
-): Promise<{ courrier: Record<string, string>; prevision: IServerPrevision } | string> => {
+): Promise<{ prevision: IServerPrevision; courrier?: Record<string, string> } | string> => {
 	const endpoint = 'http://192.168.0.112:8800/api/storedProcedure'
 	const reqBody = {
 		userID: userCredentials.matricule,
@@ -61,19 +61,24 @@ export const getPrevisionDetailsService = async (
 	}
 
 	try {
-		const res = (await postRequest(endpoint, reqBody)) as AxiosResponse<ApiResponseData>
+		const res = (await postRequest(endpoint, reqBody)) as AxiosResponse<any>
 
-		const prevision = res.data.data.data.data.prevision
-		const courrier = res.data.data.data.courrier
+		// Logs pour débogage
+		console.log('Réponse brute de l’API :', res)
 
-		if (!prevision || !courrier) {
-			console.error('Structure inattendue ou données manquantes :', res)
+		// Extraction des données
+		const prevision = res.data?.data?.data?.data?.prevision
+		const courrier = res.data?.data?.data?.courrier?.courrier
+
+		if (!prevision) {
+			console.error('Aucune prévision trouvée dans la réponse.')
 			return 'Aucune donnée trouvée.'
 		}
 
+		// Retourne la prévision et le courrier (s'il existe)
 		return { prevision, courrier }
 	} catch (error) {
-		console.error('Erreur API détectée :', error)
+		console.error('Erreur lors de la récupération des détails :', error)
 		return 'Erreur lors de la récupération des données.'
 	}
 }
