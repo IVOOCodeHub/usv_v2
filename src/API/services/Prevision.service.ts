@@ -7,14 +7,16 @@ import { postRequest } from '../APICalls.ts'
 interface ApiResponse {
 	data: {
 		data: {
-			prevision: IServerPrevision
-			courrier?: {
+			data: {
+				prevision: IServerPrevision
 				courrier?: {
-					nom_fichier: string
-					nature: string
-					action: string
-					commentaire: string
-				}
+					courrier?: {
+						nom_fichier?: string
+						nature?: string
+						action?: string
+						commentaire?: string
+					} | null
+				} | null
 			}
 		}
 	}
@@ -58,7 +60,12 @@ export const getPrevisionDetailsService = async (
 ): Promise<
 	| {
 			prevision: IServerPrevision
-			courrier?: { nom_fichier: string; nature: string; action: string; commentaire: string }
+			courrier?: {
+				nom_fichier?: string
+				nature?: string
+				action?: string
+				commentaire?: string
+			} | null
 	  }
 	| string
 > => {
@@ -74,10 +81,8 @@ export const getPrevisionDetailsService = async (
 	try {
 		const res = (await postRequest(endpoint, reqBody)) as AxiosResponse<ApiResponse>
 
-		// Logs pour débogage
 		console.log('Réponse brute de l’API :', res)
 
-		// Extraction des données
 		const prevision = res.data?.data?.data?.data?.prevision
 		const courrier = res.data?.data?.data?.courrier?.courrier
 
@@ -86,14 +91,6 @@ export const getPrevisionDetailsService = async (
 			return 'Aucune donnée trouvée.'
 		}
 
-		// Vérification conditionnelle du courrier
-		if (courrier && typeof courrier === 'object' && 'nom_fichier' in courrier) {
-			console.log('Courrier valide détecté:', courrier)
-		} else {
-			console.log('Courrier introuvable ou structure inattendue.')
-		}
-
-		// Retourne la prévision et le courrier (s'il existe)
 		return { prevision, courrier }
 	} catch (error) {
 		console.error('Erreur lors de la récupération des détails :', error)
