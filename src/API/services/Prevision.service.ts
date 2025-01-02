@@ -59,7 +59,7 @@ export const getPrevisionDetailsService = async (
 	previsionCode: string
 ): Promise<
 	| {
-			prevision: IServerPrevision
+			prevision: IPrevision
 			courrier?: {
 				nom_fichier?: string
 				nature?: string
@@ -82,18 +82,27 @@ export const getPrevisionDetailsService = async (
 		const res = (await postRequest(endpoint, reqBody)) as AxiosResponse<ApiResponse>
 
 		console.log('Réponse brute de l’API :', res)
+		
 
-		const prevision = res.data?.data?.data?.data?.prevision
+		// Extraction sécurisée des données
+		// const prevision = res.data?.data?.data?.data?.prevision || null
+		const prevision: IServerPrevision = res.data?.data?.data?.data?.prevision
 		const courrier = res.data?.data?.data?.courrier?.courrier || null
 
-		console.log('Valeur de courrier:', courrier)
-
+		console.log('Avant transformation :', prevision)
+		console.log('Après transformation :', previsionModel(prevision))
+		// Vérification des données extraites
 		if (!prevision) {
 			console.error('Aucune prévision trouvée dans la réponse.')
 			return 'Aucune donnée trouvée.'
 		}
 
-		return { prevision, courrier }
+		console.log('Détails de la prévision :', prevision)
+		console.log('Courrier associé :', courrier)
+
+		const transformedPrevision = previsionModel(prevision)
+
+		return { prevision: transformedPrevision, courrier }
 	} catch (error) {
 		console.error('Erreur lors de la récupération des détails :', error)
 		return 'Erreur lors de la récupération des données.'

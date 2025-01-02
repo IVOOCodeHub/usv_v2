@@ -3,7 +3,7 @@ import './previsionAOrdonnancer.scss'
 // hooks | libraries
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useState, ReactElement, useContext } from 'react'
-import { keepTwoDecimals } from '../../../../../utils/scripts/utils.ts'
+import { keepTwoDecimals, convertENDateToFr } from '../../../../../utils/scripts/utils.ts'
 
 // components
 import Header from '../../../../../components/header/Header'
@@ -36,11 +36,20 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 	const [previsionCode, setPrevisionCode] = useState<string>('')
 	const [loading, setLoading] = useState<boolean>(true)
 
+	// Debugging useEffect to log changes to details
+	useEffect(() => {
+		console.log('Changement détecté dans details :', details)
+	}, [details])
+
 	// Extract prevision code from location
 	useEffect(() => {
 		const rowData = location?.state?.rowData
+		console.log('Extraction de rowData :', rowData)
+
 		if (rowData) {
 			setPrevisionCode(rowData[0])
+		} else {
+			console.error('Aucune donnée de ligne trouvée dans location.state.rowData.')
 		}
 	}, [location?.state?.rowData])
 
@@ -56,7 +65,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 			try {
 				const response = await getPrevisionDetailsService(userCredentials, previsionCode)
 
-				if (typeof response === 'string') {
+				if (!response || typeof response === 'string') {
 					console.error('Erreur lors de la récupération des détails :', response)
 					setDetails(null)
 					setCourrier(null)
@@ -65,15 +74,22 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 				}
 
 				const { prevision, courrier } = response
+				console.log('Réponse récupérée :', response)
 
-				// Formater le montant
-				const montantFormate = keepTwoDecimals(Number(prevision.commentaire?.split(' ')[0]?.replace(',', '.')) || 0)
+				// Formater les données (similaire à PrevisionAOrdonnancer.tsx)
+				const formattedDetails = {
+					cle: prevision.cle || 'Non défini',
+					dateEcheance: convertENDateToFr(prevision.date_echeance) || 'Non défini',
+					dateOrdo: convertENDateToFr(prevision.date_ordo) || 'Non défini',
+					societe: prevision.societe || 'Non défini',
+					tiers: prevision.libelleCompteTiers || 'Non défini',
+					libelle: prevision.libelleEcriture || 'Non défini',
+					montant: keepTwoDecimals(Number(prevision.credit)) || '0,00 €',
+					statut: prevision.statut || 'Non défini',
+				}
+				console.log('Details formatés :', formattedDetails)
 
-				// Mettre à jour l'état
-				setDetails({
-					...prevision,
-					montant: montantFormate,
-				})
+				setDetails(formattedDetails)
 
 				if (courrier?.nom_fichier) {
 					setCourrier(`http://192.168.0.254:8080/usv_prod/courriers/${courrier.nom_fichier.replace(/\\/g, '/')}`)
@@ -88,13 +104,11 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 			}
 		}
 
-		if (previsionCode) loadPrevisionDetails()
+		if (previsionCode) {
+			console.log('Chargement des détails en cours...')
+			loadPrevisionDetails()
+		}
 	}, [previsionCode, userCredentials])
-
-	// Gestion du chargement
-	if (loading) {
-		return <p>Chargement des détails...</p>
-	}
 
 	// Gestion des données manquantes
 	if (!details) {
@@ -124,7 +138,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 					{/* Right side: Details and actions */}
 					<div className='rightSide'>
 						<h3>
-							Prévision {details.code}{' '}
+							Prévision {details.cle}{' '}
 							{courrier === null && (
 								<Button
 									props={{
@@ -138,7 +152,8 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 						</h3>
 						<div className='detailsWrapper'>
 							<div>
-								<strong>Date saisie :</strong> {details.date_saisie || 'Non défini'}
+								<strong>Date saisie :</strong>
+								{details.datePiece || 'Non défini'}
 							</div>
 							<div>
 								<strong>Société :</strong> {details.societe || 'Non défini'}
