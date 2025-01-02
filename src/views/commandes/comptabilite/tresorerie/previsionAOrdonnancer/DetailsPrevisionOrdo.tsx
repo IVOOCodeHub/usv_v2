@@ -74,21 +74,30 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 				}
 
 				const { prevision, courrier } = response
-				console.log('Réponse récupérée :', response)
+				console.log("Réponse brute de l'API :", response)
+				console.log('Champs bruts de la prévision :', prevision)
 
 				// Formater les données (similaire à PrevisionAOrdonnancer.tsx)
 				const formattedDetails = {
 					cle: prevision.cle || 'Non défini',
-					dateEcheance: convertENDateToFr(prevision.date_echeance) || 'Non défini',
-					dateOrdo: convertENDateToFr(prevision.date_ordo) || 'Non défini',
+					datePiece: prevision.datePiece ? convertENDateToFr(prevision.datePiece) : 'Non défini',
+					dateSaisie: prevision.dateSaisie ? convertENDateToFr(prevision.dateSaisie) : 'Non défini',
 					societe: prevision.societe || 'Non défini',
 					tiers: prevision.libelleCompteTiers || 'Non défini',
+					rubrique: prevision.rubriqueTreso || 'Non défini',
 					libelle: prevision.libelleEcriture || 'Non défini',
-					montant: keepTwoDecimals(Number(prevision.credit)) || '0,00 €',
+					dateEcheance: prevision.date_echeance ? convertENDateToFr(prevision.date_echeance) : '',
+					dateOrdo: prevision.date_ordo ? convertENDateToFr(prevision.date_ordo) : '',
+					banque_reglement: prevision.no_compte_banque || '',
+					mode_reglement: prevision.modeReglement || '',
+					montant: prevision.credit ? keepTwoDecimals(Number(prevision.credit)) : '',
 					statut: prevision.statut || 'Non défini',
 				}
 				console.log('Details formatés :', formattedDetails)
-
+				console.log('Montant formaté :', keepTwoDecimals(Number(prevision.credit)))
+				console.log('Date avant conversion (échéance) :', prevision.date_echeance)
+				console.log('Date après conversion (échéance) :', convertENDateToFr(prevision.date_echeance))
+				console.log('Date brute (échéance) :', prevision.date_echeance)
 				setDetails(formattedDetails)
 
 				if (courrier?.nom_fichier) {
