@@ -3,7 +3,7 @@ import './previsionAOrdonnancer.scss'
 // hooks | libraries
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useState, ReactElement, useContext } from 'react'
-import { keepTwoDecimals, convertENDateToFr } from '../../../../../utils/scripts/utils.ts'
+import { keepTwoDecimals, convertENDateToFr, formatDateToHtml } from '../../../../../utils/scripts/utils.ts'
 
 // components
 import Header from '../../../../../components/header/Header'
@@ -86,8 +86,8 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 					tiers: prevision.libelleCompteTiers || 'Non défini',
 					rubrique: prevision.rubriqueTreso || 'Non défini',
 					libelle: prevision.libelleEcriture || 'Non défini',
-					dateEcheance: prevision.date_echeance ? convertENDateToFr(prevision.date_echeance) : '',
-					dateOrdo: prevision.date_ordo ? convertENDateToFr(prevision.date_ordo) : '',
+					dateEcheance: prevision.dateEcheance ? formatDateToHtml(prevision.dateEcheance) : '', // Convertit en YYYY-MM-DD
+					dateOrdo: prevision.dateOrdo ? formatDateToHtml(prevision.dateOrdo) : '', // Convertit en YYYY-MM-DD
 					banque_reglement: prevision.no_compte_banque || '',
 					mode_reglement: prevision.modeReglement || '',
 					montant: prevision.credit ? keepTwoDecimals(Number(prevision.credit)) : '',
@@ -95,7 +95,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 				}
 				console.log('Details formatés :', formattedDetails)
 				console.log('Montant formaté :', keepTwoDecimals(Number(prevision.credit)))
-				console.log('Date avant conversion (échéance) :', prevision.date_echeance)
+				console.log('Date avant conversion (échéance) :', prevision.dateEcheance)
 				console.log('Date après conversion (échéance) :', convertENDateToFr(prevision.date_echeance))
 				console.log('Date brute (échéance) :', prevision.date_echeance)
 				setDetails(formattedDetails)
@@ -189,16 +189,26 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 								<strong>Date échéance :</strong>{' '}
 								<input
 									type='date'
-									value={details.echeance || ''}
-									onChange={(e) => setDetails({ ...details, echeance: e.target.value })}
+									value={details.dateEcheance ?? ''}
+									onChange={(e) =>
+										setDetails({
+											...details,
+											dateEcheance: e.target.value, // Stocke la valeur brute (YYYY-MM-DD)
+										})
+									}
 								/>
 							</div>
 							<div>
 								<strong>Date ordo. :</strong>{' '}
 								<input
 									type='date'
-									value={details.ordo || ''}
-									onChange={(e) => setDetails({ ...details, ordo: e.target.value })}
+									value={details.dateOrdo ?? ''}
+									onChange={(e) =>
+										setDetails({
+											...details,
+											dateOrdo: e.target.value, // Stocke la valeur brute (YYYY-MM-DD)
+										})
+									}
 								/>
 							</div>
 							<div>

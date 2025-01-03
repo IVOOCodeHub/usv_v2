@@ -39,9 +39,20 @@ export const convertFrDateToServerDate = (dateString: string): string => {
 
 // Formater les montants en euros
 export const keepTwoDecimals = (number: number): string =>
-    new Intl.NumberFormat('fr-FR', {
-        style: 'currency',
-        currency: 'EUR',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-    }).format(number);
+	new Intl.NumberFormat('fr-FR', {
+		style: 'currency',
+		currency: 'EUR',
+		minimumFractionDigits: 2,
+		maximumFractionDigits: 2,
+	}).format(number)
+
+// formater les dates pour remplir les inputs de type date
+export const formatDateToHtml = (date: string): string => {
+	if (!date) return ''
+	const parts = date.split('/') // bien s'assurer que la date est au format DD/MM/YYYY
+	if (parts.length === 3) {
+		const [day, month, year] = parts
+		return `${year}-${month}-${day}` // Retourne YYYY-MM-DD
+	}
+	return '' // Retourne une chaîne vide si le format est incorrect
+}
