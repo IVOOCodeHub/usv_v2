@@ -14,6 +14,7 @@ import {
 import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
+import ModalCourriers from './ModalCourriers.tsx'
 
 // context
 import { UserContext } from '../../../../../context/userContext.tsx'
@@ -40,6 +41,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 	const [details, setDetails] = useState<IPrevision | null>(null)
 	const [previsionCode, setPrevisionCode] = useState<string>('')
 	const [loading, setLoading] = useState<boolean>(true)
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
 	// Debugging useEffect to log changes to details
 	useEffect(() => {
@@ -171,11 +173,19 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 										style: 'blue',
 										text: 'Associer un courrier',
 										type: 'button',
-										onClick: () => alert('Fonction à définir'),
+										onClick: () => setIsModalOpen(true),
 									}}
 								/>
 							)}
 						</h3>
+						{isModalOpen && userCredentials && (
+							<ModalCourriers
+								isOpen={isModalOpen}
+								onClose={() => setIsModalOpen(false)}
+								userCredentials={userCredentials}
+								previsionCode={previsionCode}
+							/>
+						)}
 						<div className='detailsWrapper'>
 							<div>
 								<strong>Date saisie :</strong>
