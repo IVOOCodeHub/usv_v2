@@ -3,7 +3,12 @@ import './previsionAOrdonnancer.scss'
 // hooks | libraries
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useState, ReactElement, useContext } from 'react'
-import { keepTwoDecimals, convertENDateToFr, formatDateToHtml } from '../../../../../utils/scripts/utils.ts'
+import {
+	keepTwoDecimals,
+	convertENDateToFr,
+	formatDateToHtml,
+	validateAndConvertDateForApi,
+} from '../../../../../utils/scripts/utils.ts'
 
 // components
 import Header from '../../../../../components/header/Header'
@@ -80,7 +85,6 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 				// Formater les données (similaire à PrevisionAOrdonnancer.tsx)
 				const formattedDetails = {
 					cle: prevision.cle || 'Non défini',
-					datePiece: prevision.datePiece ? convertENDateToFr(prevision.datePiece) : 'Non défini',
 					dateSaisie: prevision.dateSaisie ? convertENDateToFr(prevision.dateSaisie) : 'Non défini',
 					societe: prevision.societe || 'Non défini',
 					tiers: prevision.libelleCompteTiers || 'Non défini',
@@ -95,9 +99,8 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 				}
 				console.log('Details formatés :', formattedDetails)
 				console.log('Montant formaté :', keepTwoDecimals(Number(prevision.credit)))
-				console.log('Date avant conversion (échéance) :', prevision.dateEcheance)
-				console.log('Date après conversion (échéance) :', convertENDateToFr(prevision.date_echeance))
-				console.log('Date brute (échéance) :', prevision.date_echeance)
+				console.log("Date brute reçue de l'API (dateEcheance) :", prevision.date_echeance)
+				console.log("Date brute reçue de l'API (dateOrdo) :", prevision.date_ordo)
 				setDetails(formattedDetails)
 
 				if (courrier?.nom_fichier) {
@@ -124,6 +127,20 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 		return <p>Aucune prévision disponible pour la clé sélectionnée.</p>
 	}
 
+	const handleSave = (updatedDetails: IPrevision) => {
+		const dataForApi = {
+			...updatedDetails,
+			dateSaisie: validateAndConvertDateForApi(updatedDetails.dateSaisie ?? ''),
+			dateEcheance: validateAndConvertDateForApi(updatedDetails.dateEcheance ?? ''),
+			dateOrdo: validateAndConvertDateForApi(updatedDetails.dateOrdo ?? ''),
+		}
+		console.log('Valeur brute dateEcheance avant transformation :', updatedDetails.dateEcheance)
+		console.log('Valeur brute dateOrdo avant transformation :', updatedDetails.dateOrdo)
+		console.log("Données prêtes pour l'API :", dataForApi)
+
+		// Appel API ou traitement des données ici
+		// await saveDetailsService(dataForApi);
+	}
 	return (
 		<>
 			<Header
@@ -162,7 +179,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 						<div className='detailsWrapper'>
 							<div>
 								<strong>Date saisie :</strong>
-								{details.datePiece || 'Non défini'}
+								{details.dateSaisie || 'Non défini'}
 							</div>
 							<div>
 								<strong>Société :</strong> {details.societe || 'Non défini'}
@@ -189,26 +206,36 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 								<strong>Date échéance :</strong>{' '}
 								<input
 									type='date'
-									value={details.dateEcheance ?? ''}
-									onChange={(e) =>
+									value={details.dateEcheance ?? ''} // Affiche la date brute (YYYY-MM-DD) correctement
+									onChange={(e) => {
+										const newValue = e.target.value // Nouvelle valeur brute entrée par l'utilisateur
 										setDetails({
 											...details,
-											dateEcheance: e.target.value, // Stocke la valeur brute (YYYY-MM-DD)
+											dateEcheance: newValue, // Met à jour dans l'état
 										})
-									}
+									}}
+									onBlur={(e) => {
+										const updatedDate = e.target.value // Date après modification
+										handleSave({ ...details, dateEcheance: updatedDate }) // Sauvegarde avec handleSave
+									}}
 								/>
 							</div>
 							<div>
 								<strong>Date ordo. :</strong>{' '}
 								<input
 									type='date'
-									value={details.dateOrdo ?? ''}
-									onChange={(e) =>
+									value={details.dateOrdo ?? ''} // Affiche la date brute (YYYY-MM-DD) correctement
+									onChange={(e) => {
+										const newValue = e.target.value // Nouvelle valeur brute entrée par l'utilisateur
 										setDetails({
 											...details,
-											dateOrdo: e.target.value, // Stocke la valeur brute (YYYY-MM-DD)
+											dateOrdo: newValue, // Met à jour dans l'état
 										})
-									}
+									}}
+									onBlur={(e) => {
+										const updatedDate = e.target.value // Date après modification
+										handleSave({ ...details, dateOrdo: updatedDate }) // Sauvegarde avec handleSave
+									}}
 								/>
 							</div>
 							<div>

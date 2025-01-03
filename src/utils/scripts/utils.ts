@@ -48,11 +48,33 @@ export const keepTwoDecimals = (number: number): string =>
 
 // formater les dates pour remplir les inputs de type date
 export const formatDateToHtml = (date: string): string => {
-	if (!date) return ''
-	const parts = date.split('/') // bien s'assurer que la date est au format DD/MM/YYYY
-	if (parts.length === 3) {
-		const [day, month, year] = parts
-		return `${year}-${month}-${day}` // Retourne YYYY-MM-DD
+	if (!date || !date.includes('/')) return '' // Vérifie que la date est au format attendu DD/MM/YYYY
+	const [day, month, year] = date.split('/')
+	if (day && month && year) {
+		return `${year}-${month}-${day}` // Convertit au format YYYY-MM-DD
 	}
-	return '' // Retourne une chaîne vide si le format est incorrect
+	console.warn('Format de date invalide pour HTML :', date)
+	return '' // Retourne une chaîne vide en cas de format invalide
+}
+
+// Validation et conversion de la date pour l'envoie de la requête à l'API
+export const validateAndConvertDateForApi = (dateString: string): string => {
+	if (!dateString) return '' // Si vide, retourne une chaîne vide
+
+	if (dateString.includes('-')) {
+		// Format YYYY-MM-DD attendu
+		const [year, month, day] = dateString.split('-')
+		if (year && month && day) {
+			return `${year}-${month}-${day}`
+		}
+	} else if (dateString.includes('/')) {
+		// Format DD/MM/YYYY attendu
+		const [day, month, year] = dateString.split('/')
+		if (day && month && year) {
+			return `${year}-${month}-${day}`
+		}
+	}
+
+	console.warn(`Date invalide : ${dateString}`)
+	return '' // Retourne une chaîne vide si format non reconnu
 }
