@@ -287,14 +287,34 @@
     overflow-y: auto;
 }
 
+.modal-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
 .modalCloseButton {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 1rem;
+    right: 1rem;
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 24px;
+    color: #36395a;
     cursor: pointer;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: #000;
+    }
+
+    &:focus {
+        outline: none;
+    }
 }
 
 .tiersWrapper {

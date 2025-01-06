@@ -22,7 +22,8 @@ const ModalCourriers: React.FC<ModalCourriersProps> = ({ isOpen, onClose, userCr
 		if (isOpen) {
 			const fetchCourriers = async () => {
 				setIsLoading(true)
-				const response = await getCourrierTiersPrevisionService(userCredentials)
+				// const response = await getCourrierTiersPrevisionService(userCredentials)
+				const response = await getCourrierDepensesService(userCredentials)
 				if (typeof response === 'string') {
 					console.error('Erreur lors de la récupération des courriers :', response)
 				} else {
@@ -58,14 +59,16 @@ const ModalCourriers: React.FC<ModalCourriersProps> = ({ isOpen, onClose, userCr
 	return (
 		<div className='modal'>
 			<div className='modalContent'>
-				<button className='modalCloseButton' onClick={onClose}>
-					X
-				</button>
 				{isLoading ? (
 					<p>Chargement...</p>
 				) : (
 					<>
-						<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | LISTE DES COURRIERS' }} />
+						<div className='modal-header'>
+							<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | LISTE DES COURRIERS' }} />
+							<button className='modalCloseButton' onClick={onClose}>
+								X
+							</button>
+						</div>
 						<NRTL
 							datas={tableData}
 							headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
