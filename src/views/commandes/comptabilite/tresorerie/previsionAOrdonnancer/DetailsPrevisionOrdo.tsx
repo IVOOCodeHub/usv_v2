@@ -194,17 +194,25 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 							<div>
 								<strong>Société :</strong> {details.societe || 'Non défini'}
 							</div>
-							<div>
-								<strong>Tiers :</strong>{' '}
+							<div className='tiersWrapper'>
+								<strong>Tiers : </strong>
+								{details.tiers || 'Non défini'}
 								<Button
 									props={{
 										style: 'blue',
 										text: 'Modif',
 										type: 'button',
+										onClick: () => alert('Prévisions du tiers'),
+									}}
+								/>
+								<Button
+									props={{
+										style: 'blue',
+										text: 'Prev',
+										type: 'button',
 										onClick: () => alert('Modifier le tiers'),
 									}}
-								/>{' '}
-								{details.tiers || 'Non défini'}
+								/>
 							</div>
 							<div>
 								<strong>Rubrique :</strong> {details.rubrique || 'Non défini'}

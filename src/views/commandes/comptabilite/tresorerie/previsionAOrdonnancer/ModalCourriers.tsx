@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../../../../../components/header/Header.tsx'
 import NRTL from '../../../../../components/NRTL/NRTL'
-import { getCourrierDepensesService } from '../../../../../API/services/Courrier.service.ts'
+import {
+	getCourrierDepensesService,
+	getCourrierTiersPrevisionService,
+} from '../../../../../API/services/Courrier.service.ts'
 import { IUserCredentials } from '../../../../../utils/types/user.interface.ts'
 
 interface ModalCourriersProps {
@@ -19,7 +22,7 @@ const ModalCourriers: React.FC<ModalCourriersProps> = ({ isOpen, onClose, userCr
 		if (isOpen) {
 			const fetchCourriers = async () => {
 				setIsLoading(true)
-				const response = await getCourrierDepensesService(userCredentials)
+				const response = await getCourrierTiersPrevisionService(userCredentials)
 				if (typeof response === 'string') {
 					console.error('Erreur lors de la récupération des courriers :', response)
 				} else {
