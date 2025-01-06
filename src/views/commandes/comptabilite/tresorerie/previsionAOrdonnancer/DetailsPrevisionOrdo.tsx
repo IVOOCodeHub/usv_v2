@@ -195,24 +195,28 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 								<strong>Société :</strong> {details.societe || 'Non défini'}
 							</div>
 							<div className='tiersWrapper'>
-								<strong>Tiers : </strong>
-								{details.tiers || 'Non défini'}
-								<Button
-									props={{
-										style: 'blue',
-										text: 'Modif',
-										type: 'button',
-										onClick: () => alert('Prévisions du tiers'),
-									}}
-								/>
-								<Button
-									props={{
-										style: 'blue',
-										text: 'Prev',
-										type: 'button',
-										onClick: () => alert('Modifier le tiers'),
-									}}
-								/>
+								<div>
+									<strong>Tiers : </strong>
+									{details.tiers || 'Non défini'}
+								</div>
+								<div className='buttonWrapper'>
+									<Button
+										props={{
+											style: 'blue',
+											text: 'Prévisions',
+											type: 'button',
+											onClick: () => alert('Prévisions du tiers'),
+										}}
+									/>
+									<Button
+										props={{
+											style: 'blue',
+											text: 'Modifier',
+											type: 'button',
+											onClick: () => alert('Modifier le tiers'),
+										}}
+									/>
+								</div>
 							</div>
 							<div>
 								<strong>Rubrique :</strong> {details.rubrique || 'Non défini'}
@@ -319,7 +323,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 								<Button
 									props={{
 										style: 'blue',
-										text: 'Etalement',
+										text: 'Étalement',
 										type: 'button',
 										onClick: () => alert('Fonction à définir'),
 									}}
