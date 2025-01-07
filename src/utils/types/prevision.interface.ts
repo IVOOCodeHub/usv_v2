@@ -60,4 +60,5 @@ export interface IPrevision {
 	clePrelevement?: string
 	cleEtale?: string
 	nomFichier?: string // Facultatif pour les courriers
+	montant?: string
 }

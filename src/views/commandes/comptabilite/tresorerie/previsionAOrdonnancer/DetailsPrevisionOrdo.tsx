@@ -104,7 +104,10 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 					dateOrdo: prevision.dateOrdo ? formatDateToHtml(prevision.dateOrdo) : '', // Convertit en YYYY-MM-DD
 					banque_reglement: prevision.no_compte_banque ?? '',
 					mode_reglement: prevision.modeReglement ?? '',
-					montant: prevision.credit ? keepTwoDecimals(Number(prevision.credit)) : '',
+					montant:
+						prevision.credit !== undefined && prevision.credit !== null
+							? keepTwoDecimals(Number(prevision.credit))
+							: '0.00',
 					statut: prevision.statut ?? 'Non défini',
 					refSourceTiers: prevision.refSourceTiers ?? 'Non défini',
 				}
@@ -152,6 +155,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 		// Appel API ou traitement des données ici
 		// await saveDetailsService(dataForApi);
 	}
+	console.log("Valeur de montant dans l'input:", details.montant)
 	return (
 		<>
 			<Header
@@ -320,11 +324,24 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 								</div>
 							</div>
 							<div>
-								<strong>Montant :</strong>{' '}
+								<strong>Montant en € :</strong>{' '}
 								<input
 									type='number'
-									value={Number(details.montant).toFixed(2)}
-									onChange={(e) => setDetails({ ...details, montant: e.target.value })}
+									value={details.montant ? parseFloat(details.montant.replace(/\s/g, '').replace(',', '.')) : 0} // Conversion en nombre
+									step='0.01'
+									onChange={(e) => {
+										const newValue = e.target.value // Nouvelle valeur saisie
+										setDetails({ ...details, montant: newValue }) // Stocke la valeur brute
+									}}
+									onBlur={() => {
+										if (details.montant) {
+											// Formatte et sauvegarde après la modification
+											const formattedMontant = keepTwoDecimals(
+												Number(details.montant.replace(/\s/g, '').replace(',', '.'))
+											)
+											setDetails({ ...details, montant: formattedMontant.toString() })
+										}
+									}}
 								/>
 							</div>
 							<div>
