@@ -226,7 +226,8 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 											style: 'blue',
 											text: 'Modifier',
 											type: 'button',
-											onClick: () => alert('Modifier le tiers'),
+											onClick: () =>
+												navigate(`/commandes/tresorerie/modify-tiers/${details.refSourceTiers ?? details.tiers}`),
 										}}
 									/>
 								</div>
