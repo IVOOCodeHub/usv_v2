@@ -24,9 +24,34 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 	const [paiements, setPaiements] = useState<string[][]>([])
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  console.log('Paramètres pour getBudgetService :', userCredentials, refSourceTiers)
+	console.log('Paramètres pour getBudgetService :', userCredentials, refSourceTiers)
 	console.log('Paramètres pour getPrevisionsService :', userCredentials, refSourceTiers)
 	console.log('Paramètres pour getPaiementsService :', userCredentials, refSourceTiers)
+
+	// Mock de données
+	const mockBudget = [
+		['Société A', 'Libellé 1', 'Rubrique 1', '1000.00', '2025-01-10', 'Validé'],
+		['Société B', 'Libellé 2', 'Rubrique 2', '2000.00', '2025-02-15', 'En attente'],
+		['Société C', 'Libellé 3', 'Rubrique 3', '1500.00', '2025-03-20', 'Refusé'],
+	]
+
+	const mockPrevisions = [
+		['Société A', 'Libellé 4', 'Rubrique 1', '3000.00', '2025-04-05', 'Validé'],
+		['Société B', 'Libellé 5', 'Rubrique 2', '2500.00', '2025-05-10', 'En attente'],
+		['Société C', 'Libellé 6', 'Rubrique 3', '1800.00', '2025-06-15', 'Refusé'],
+		['Société A', 'Libellé 7', 'Rubrique 1', '4000.00', '2025-07-20', 'Validé'],
+		['Société B', 'Libellé 8', 'Rubrique 2', '3200.00', '2025-08-25', 'En attente'],
+	]
+
+	const mockPaiements = Array.from({ length: 22 }, (_, index) => [
+		`Société ${index + 1}`,
+		`Libellé ${index + 9}`,
+		`Rubrique ${(index % 3) + 1}`,
+		`${(index + 1) * 1000}.00`,
+		`2025-09-${String(index + 1).padStart(2, '0')}`,
+		index % 2 === 0 ? 'Validé' : 'En attente',
+	])
+
 	useEffect(() => {
 		const fetchData = async () => {
 			setIsLoading(true)
@@ -38,10 +63,10 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 					getPaiementsService(userCredentials, refSourceTiers),
 				])
 
-        console.log('budget : ', budgetData)
-        console.log('previsions : ', previsionsData)
-        console.log('paiements : ', paiementsData)
-        
+				console.log('budget : ', budgetData)
+				console.log('previsions : ', previsionsData)
+				console.log('paiements : ', paiementsData)
+
 				// Transformer les données en tableaux pour NRTL
 				setBudget(
 					budgetData.map((item) => [
@@ -83,6 +108,19 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 		fetchData()
 	}, [userCredentials, refSourceTiers])
 
+	// simulation de données
+	useEffect(() => {
+		setIsLoading(true)
+
+		// Simulation de chargement des données mockées
+		setTimeout(() => {
+			setBudget(mockBudget)
+			setPrevisions(mockPrevisions)
+			setPaiements(mockPaiements)
+			setIsLoading(false)
+		}, 1000) // Simule un délai de chargement d'une seconde
+	}, [])
+
 	const tableHeaders = ['Société', 'Libellé', 'Rubrique', 'Montant', 'Échéance', 'Statut']
 
 	return (
@@ -108,7 +146,8 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 								headerHoverBackgroundColor='#1092B8'
 								showItemsPerPageSelector={true}
 								showPagination={true}
-								itemsPerPageOptions={[10, 25, 50]}
+								showPreviousNextButtons={true}
+								itemsPerPageOptions={[5, 10, 25]}
 								language='fr'
 							/>
 						</div>
@@ -122,7 +161,8 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 								headerHoverBackgroundColor='#1092B8'
 								showItemsPerPageSelector={true}
 								showPagination={true}
-								itemsPerPageOptions={[10, 25, 50]}
+								showPreviousNextButtons={true}
+								itemsPerPageOptions={[5, 10, 25]}
 								language='fr'
 							/>
 						</div>
@@ -136,7 +176,8 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 								headerHoverBackgroundColor='#1092B8'
 								showItemsPerPageSelector={true}
 								showPagination={true}
-								itemsPerPageOptions={[10, 25, 50]}
+								showPreviousNextButtons={true}
+								itemsPerPageOptions={[5, 10, 25]}
 								language='fr'
 							/>
 						</div>
