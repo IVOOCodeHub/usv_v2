@@ -108,48 +108,47 @@ export const getPrevisionDetailsService = async (
 		return 'Erreur lors de la récupération des données.'
 	}
 }
-////////////////////////////
 
-// export const getPrevisionDetailsService = async (
-// 	userCredentials: IUserCredentials,
-// 	previsionCode: string
-// ): Promise<IPrevision | string> => {
-// 	const endpoint: string = 'http://192.168.0.112:8800/api/storedProcedure'
+// Fonction pour récupérer les détails de prévisions d'un tiers
 
-// 	const data = {
-// 		userCredentials,
-// 		cle_courrier: previsionCode,
-// 	}
+// Fonction pour récupérer le budget
+export const getBudgetService = async (userCredentials: IUserCredentials, refSourceTiers: string) => {
+    const endpoint = 'http://192.168.0.112:8800/api/storedProcedure';
+    const reqBody = {
+        userID: userCredentials.matricule,
+        password: userCredentials.password,
+        request: 'read_budget_by_tiers',
+        args: { refSourceTiers },
+    };
 
-// 	console.log('Requête envoyée –>', data)
-// 	const reqBody = {
-// 		userID: userCredentials.matricule,
-// 		password: userCredentials.password,
-// 		request: 'read_only_one_prevision_courrier_associe',
-// 		args: data,
-// 		test: true,
-// 	}
+    const res = await postRequest(endpoint, reqBody);
+    return res.data.data.rows; // Adapter selon la structure de réponse
+};
 
-// 	const res: AxiosResponse | { errorMessage: string } = await postRequest(endpoint, reqBody)
+// Fonction pour récupérer les prévisions
+export const getPrevisionsService = async (userCredentials: IUserCredentials, refSourceTiers: string) => {
+    const endpoint = 'http://192.168.0.112:8800/api/storedProcedure';
+    const reqBody = {
+        userID: userCredentials.matricule,
+        password: userCredentials.password,
+        request: 'read_previsions_by_tiers',
+        args: { refSourceTiers },
+    };
 
-// 	if ('errorMessage' in res) {
-// 		console.error(new Error(res.errorMessage))
-// 		switch (res.errorMessage) {
-// 			case 'Invalid credentials':
-// 				return 'Identifiants ou mot de passe incorrects'
-// 			case 'User not found':
-// 				return 'Utilisateur non trouvé.'
-// 			default:
-// 				return "Une erreur inattendue s'est produite."
-// 		}
-// 	}
+    const res = await postRequest(endpoint, reqBody);
+    return res.data.data.rows; // Adapter selon la structure de réponse
+};
 
-// 	// Vérification de la structure de la réponse
-// 	if (!res.data?.data?.rows?.length) {
-// 		console.error('Structure inattendue ou aucune donnée trouvée :', res.data)
-// 		return 'Aucune donnée trouvée.'
-// 	}
+// Fonction pour récupérer les paiements
+export const getPaiementsService = async (userCredentials: IUserCredentials, refSourceTiers: string) => {
+    const endpoint = 'http://192.168.0.112:8800/api/storedProcedure';
+    const reqBody = {
+        userID: userCredentials.matricule,
+        password: userCredentials.password,
+        request: 'read_paiements_by_tiers',
+        args: { refSourceTiers },
+    };
 
-// 	// Mapper les données en IPrevision
-// 	return previsionModel(res.data['data']['rows'][0])
-// }
+    const res = await postRequest(endpoint, reqBody);
+    return res.data.data.rows; // Adapter selon la structure de réponse
+};
