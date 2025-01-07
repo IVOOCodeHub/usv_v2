@@ -117,7 +117,7 @@ export const getBudgetService = async (userCredentials: IUserCredentials, refSou
 		userID: userCredentials.matricule,
 		password: userCredentials.password,
 		request: 'read_list_budget_tiers',
-		args: { refSourceTiers },
+		args: { userCredentials, refSourceTiers: refSourceTiers },
 	}
 
 	const res = await postRequest(endpoint, reqBody)

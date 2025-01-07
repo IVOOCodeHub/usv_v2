@@ -361,6 +361,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 0 20px;
+        margin-bottom: 20px;
     }
 
     .table-subtitle {
@@ -412,8 +413,8 @@
 
     .modalCloseButton {
         position: absolute;
-        top: 1rem;
-        right: 1rem;
+        top: 0rem;
+        right: 0rem;
         background: none;
         border: none;
         font-size: 24px;

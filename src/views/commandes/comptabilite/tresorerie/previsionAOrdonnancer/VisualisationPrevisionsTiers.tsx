@@ -24,6 +24,9 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 	const [paiements, setPaiements] = useState<string[][]>([])
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 
+  console.log('Paramètres pour getBudgetService :', userCredentials, refSourceTiers)
+	console.log('Paramètres pour getPrevisionsService :', userCredentials, refSourceTiers)
+	console.log('Paramètres pour getPaiementsService :', userCredentials, refSourceTiers)
 	useEffect(() => {
 		const fetchData = async () => {
 			setIsLoading(true)
@@ -35,6 +38,10 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 					getPaiementsService(userCredentials, refSourceTiers),
 				])
 
+        console.log('budget : ', budgetData)
+        console.log('previsions : ', previsionsData)
+        console.log('paiements : ', paiementsData)
+        
 				// Transformer les données en tableaux pour NRTL
 				setBudget(
 					budgetData.map((item) => [
