@@ -265,6 +265,10 @@
     padding: 10px;
 }
 
+.no-scroll {
+    overflow: hidden;
+}
+
 .modal {
     position: fixed;
     top: 0;
@@ -276,6 +280,7 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    animation: fadeIn 0.3s ease;
 }
 
 .modalContent {
@@ -285,6 +290,7 @@
     max-width: 90%;
     max-height: 90%;
     overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .modal-header {
@@ -314,6 +320,16 @@
 
     &:focus {
         outline: none;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
     }
 }
 

@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../../../../../components/header/Header.tsx'
 import NRTL from '../../../../../components/NRTL/NRTL'
-import {
-	getCourrierDepensesService,
-	getCourrierTiersPrevisionService,
-} from '../../../../../API/services/Courrier.service.ts'
+import { getCourrierDepensesService } from '../../../../../API/services/Courrier.service.ts'
 import { IUserCredentials } from '../../../../../utils/types/user.interface.ts'
 
 interface ModalCourriersProps {
@@ -20,6 +17,7 @@ const ModalCourriers: React.FC<ModalCourriersProps> = ({ isOpen, onClose, userCr
 
 	useEffect(() => {
 		if (isOpen) {
+			document.body.classList.add('no-scroll')
 			const fetchCourriers = async () => {
 				setIsLoading(true)
 				// const response = await getCourrierTiersPrevisionService(userCredentials)
@@ -41,6 +39,9 @@ const ModalCourriers: React.FC<ModalCourriersProps> = ({ isOpen, onClose, userCr
 			}
 
 			fetchCourriers()
+		}
+		return () => {
+			document.body.classList.remove('no-scroll') // Suppression de la classe au démontage
 		}
 	}, [isOpen, userCredentials])
 
