@@ -82,7 +82,6 @@ export const getPrevisionDetailsService = async (
 		const res = (await postRequest(endpoint, reqBody)) as AxiosResponse<ApiResponse>
 
 		console.log('Réponse brute de l’API :', res)
-		
 
 		// Extraction sécurisée des données
 		// const prevision = res.data?.data?.data?.data?.prevision || null
@@ -113,42 +112,46 @@ export const getPrevisionDetailsService = async (
 
 // Fonction pour récupérer le budget
 export const getBudgetService = async (userCredentials: IUserCredentials, refSourceTiers: string) => {
-    const endpoint = 'http://192.168.0.112:8800/api/storedProcedure';
-    const reqBody = {
-        userID: userCredentials.matricule,
-        password: userCredentials.password,
-        request: 'read_budget_by_tiers',
-        args: { refSourceTiers },
-    };
+	const endpoint = 'http://192.168.0.112:8800/api/storedProcedure'
+	const reqBody = {
+		userID: userCredentials.matricule,
+		password: userCredentials.password,
+		request: 'read_list_budget_tiers',
+		args: { refSourceTiers },
+	}
 
-    const res = await postRequest(endpoint, reqBody);
-    return res.data.data.rows; // Adapter selon la structure de réponse
-};
+	const res = await postRequest(endpoint, reqBody)
+	console.log('res budget', res)
+
+	return res.data.data.rows // Adapter selon la structure de réponse
+}
 
 // Fonction pour récupérer les prévisions
 export const getPrevisionsService = async (userCredentials: IUserCredentials, refSourceTiers: string) => {
-    const endpoint = 'http://192.168.0.112:8800/api/storedProcedure';
-    const reqBody = {
-        userID: userCredentials.matricule,
-        password: userCredentials.password,
-        request: 'read_previsions_by_tiers',
-        args: { refSourceTiers },
-    };
+	const endpoint = 'http://192.168.0.112:8800/api/storedProcedure'
+	const reqBody = {
+		userID: userCredentials.matricule,
+		password: userCredentials.password,
+		request: 'read_list_previsions_tiers',
+		args: { refSourceTiers },
+	}
 
-    const res = await postRequest(endpoint, reqBody);
-    return res.data.data.rows; // Adapter selon la structure de réponse
-};
+	const res = await postRequest(endpoint, reqBody)
+	console.log('res previsions', res)
+	return res.data.data.rows // Adapter selon la structure de réponse
+}
 
 // Fonction pour récupérer les paiements
 export const getPaiementsService = async (userCredentials: IUserCredentials, refSourceTiers: string) => {
-    const endpoint = 'http://192.168.0.112:8800/api/storedProcedure';
-    const reqBody = {
-        userID: userCredentials.matricule,
-        password: userCredentials.password,
-        request: 'read_paiements_by_tiers',
-        args: { refSourceTiers },
-    };
+	const endpoint = 'http://192.168.0.112:8800/api/storedProcedure'
+	const reqBody = {
+		userID: userCredentials.matricule,
+		password: userCredentials.password,
+		request: 'read_list_paiements_tiers',
+		args: { refSourceTiers },
+	}
 
-    const res = await postRequest(endpoint, reqBody);
-    return res.data.data.rows; // Adapter selon la structure de réponse
-};
+	const res = await postRequest(endpoint, reqBody)
+	console.log('res paiements', res)
+	return res.data.data.rows // Adapter selon la structure de réponse
+}

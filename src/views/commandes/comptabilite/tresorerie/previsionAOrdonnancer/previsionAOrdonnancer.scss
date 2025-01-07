@@ -341,6 +341,27 @@
 
 .visualisation-previsions-tiers {
     padding: 20px;
+    position: relative;
+
+    header {
+        position: sticky;
+        top: 0;
+        /* Fixe le header au haut de la modale */
+        z-index: 10;
+        /* Assure que le header est au-dessus des tableaux */
+        background-color: white;
+        /* Fond blanc pour couvrir tout glissement */
+        border-bottom: 1px solid #ddd;
+        /* Optionnel : séparation visuelle */
+    }
+
+    .header-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+    }
 
     .table-subtitle {
         margin: 20px 0;
@@ -349,19 +370,63 @@
         font-size: 1.2em;
     }
 
-    .close-button {
-        display: block;
-        margin: 20px auto;
-        padding: 10px 20px;
-        background: #1092b8;
-        color: #fff;
-        border: none;
+    .nrtl-container {
+        max-height: 300px;
+        /* Hauteur maximale pour permettre le scroll */
+        overflow-y: auto;
+        /* Activation du scroll vertical */
+        margin-bottom: 30px;
+        /* Espacement entre les tableaux */
+        border: 1px solid #ddd;
         border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
     }
 
-    .close-button:hover {
-        background: #084a63;
+    .nrtl-table thead {
+        position: sticky;
+        /* Fixe le header lors du scroll */
+        top: 0;
+        z-index: 1;
+        /* S'assure que le header reste visible */
+        background-color: #84cde4;
+        /* Assurez-vous que la couleur correspond à votre thème */
+    }
+
+    .nrtl-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .nrtl-table th,
+    .nrtl-table td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .nrtl-table th {
+        font-weight: bold;
+        color: #36395a;
+    }
+
+    .modalCloseButton {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #36395a;
+        cursor: pointer;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: #000;
+        }
+
+        &:focus {
+            outline: none;
+        }
     }
 }

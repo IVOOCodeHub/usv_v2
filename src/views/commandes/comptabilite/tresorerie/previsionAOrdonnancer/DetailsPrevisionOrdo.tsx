@@ -15,6 +15,7 @@ import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
 import ModalCourriers from './ModalCourriers.tsx'
+import VisualisationPrevisionsTiers from './VisualisationPrevisionsTiers.tsx'
 
 // context
 import { UserContext } from '../../../../../context/userContext.tsx'
@@ -42,11 +43,18 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 	const [previsionCode, setPrevisionCode] = useState<string>('')
 	const [loading, setLoading] = useState<boolean>(true)
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+	const [isPrevisionsModalOpen, setIsPrevisionsModalOpen] = useState<boolean>(false)
 
-	// Debugging useEffect to log changes to details
 	useEffect(() => {
-		console.log('Changement détecté dans details :', details)
-	}, [details])
+		if (isPrevisionsModalOpen) {
+			document.body.classList.add('no-scroll')
+		} else {
+			document.body.classList.remove('no-scroll')
+		}
+
+		// Nettoyage en cas de démontage
+		return () => document.body.classList.remove('no-scroll')
+	}, [isPrevisionsModalOpen])
 
 	// Extract prevision code from location
 	useEffect(() => {
@@ -89,15 +97,16 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 					cle: prevision.cle || 'Non défini',
 					dateSaisie: prevision.dateSaisie ? convertENDateToFr(prevision.dateSaisie) : 'Non défini',
 					societe: prevision.societe || 'Non défini',
-					tiers: prevision.libelleCompteTiers || 'Non défini',
-					rubrique: prevision.rubriqueTreso || 'Non défini',
-					libelle: prevision.libelleEcriture || 'Non défini',
+					tiers: prevision.libelleCompteTiers ?? 'Non défini',
+					rubrique: prevision.rubriqueTreso ?? 'Non défini',
+					libelle: prevision.libelleEcriture ?? 'Non défini',
 					dateEcheance: prevision.dateEcheance ? formatDateToHtml(prevision.dateEcheance) : '', // Convertit en YYYY-MM-DD
 					dateOrdo: prevision.dateOrdo ? formatDateToHtml(prevision.dateOrdo) : '', // Convertit en YYYY-MM-DD
-					banque_reglement: prevision.no_compte_banque || '',
-					mode_reglement: prevision.modeReglement || '',
+					banque_reglement: prevision.no_compte_banque ?? '',
+					mode_reglement: prevision.modeReglement ?? '',
 					montant: prevision.credit ? keepTwoDecimals(Number(prevision.credit)) : '',
-					statut: prevision.statut || 'Non défini',
+					statut: prevision.statut ?? 'Non défini',
+					refSourceTiers: prevision.refSourceTiers ?? 'Non défini',
 				}
 				console.log('Details formatés :', formattedDetails)
 				console.log('Montant formaté :', keepTwoDecimals(Number(prevision.credit)))
@@ -205,7 +214,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 											style: 'blue',
 											text: 'Prévisions',
 											type: 'button',
-											onClick: () => alert('Prévisions du tiers'),
+											onClick: () => setIsPrevisionsModalOpen(true),
 										}}
 									/>
 									<Button
@@ -218,6 +227,17 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 									/>
 								</div>
 							</div>
+							{isPrevisionsModalOpen && userCredentials && (
+								<div className='modal'>
+									<div className='modalContent'>
+										<VisualisationPrevisionsTiers
+											userCredentials={userCredentials}
+											refSourceTiers={details.refSourceTiers}
+											onClose={() => setIsPrevisionsModalOpen(false)}
+										/>
+									</div>
+								</div>
+							)}
 							<div>
 								<strong>Rubrique :</strong> {details.rubrique || 'Non défini'}
 							</div>

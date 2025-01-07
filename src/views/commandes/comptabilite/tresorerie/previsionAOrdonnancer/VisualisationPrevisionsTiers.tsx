@@ -80,7 +80,12 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 
 	return (
 		<div className='visualisation-previsions-tiers'>
-			<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | VISUALISATION PRÉVISIONS TIERS' }} />
+			<div className='header-wrapper'>
+				<Header props={{ pageURL: `GIVOO | TRÉSORERIE | VISUALISATION PRÉVISIONS TIERS ${refSourceTiers}` }} />
+				<button className='modalCloseButton' onClick={onClose}>
+					X
+				</button>
+			</div>
 
 			<main>
 				{isLoading ? (
@@ -89,44 +94,47 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 					<>
 						{/* Tableau Budget */}
 						<h2 className='table-subtitle'>Budget</h2>
-						<NRTL
-							datas={{ tableHead: tableHeaders, tableBody: budget }}
-							headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
-							headerHoverBackgroundColor='#1092B8'
-							showItemsPerPageSelector={true}
-							showPagination={true}
-							itemsPerPageOptions={[10, 25, 50]}
-							language='fr'
-						/>
+						<div className='nrtl-container'>
+							<NRTL
+								datas={{ tableHead: tableHeaders, tableBody: budget }}
+								headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
+								headerHoverBackgroundColor='#1092B8'
+								showItemsPerPageSelector={true}
+								showPagination={true}
+								itemsPerPageOptions={[10, 25, 50]}
+								language='fr'
+							/>
+						</div>
 
 						{/* Tableau Prévisions */}
 						<h2 className='table-subtitle'>Prévisions</h2>
-						<NRTL
-							datas={{ tableHead: tableHeaders, tableBody: previsions }}
-							headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
-							headerHoverBackgroundColor='#1092B8'
-							showItemsPerPageSelector={true}
-							showPagination={true}
-							itemsPerPageOptions={[10, 25, 50]}
-							language='fr'
-						/>
+						<div className='nrtl-container'>
+							<NRTL
+								datas={{ tableHead: tableHeaders, tableBody: previsions }}
+								headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
+								headerHoverBackgroundColor='#1092B8'
+								showItemsPerPageSelector={true}
+								showPagination={true}
+								itemsPerPageOptions={[10, 25, 50]}
+								language='fr'
+							/>
+						</div>
 
 						{/* Tableau Paiements */}
 						<h2 className='table-subtitle'>Paiements</h2>
-						<NRTL
-							datas={{ tableHead: tableHeaders, tableBody: paiements }}
-							headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
-							headerHoverBackgroundColor='#1092B8'
-							showItemsPerPageSelector={true}
-							showPagination={true}
-							itemsPerPageOptions={[10, 25, 50]}
-							language='fr'
-						/>
+						<div className='nrtl-container'>
+							<NRTL
+								datas={{ tableHead: tableHeaders, tableBody: paiements }}
+								headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
+								headerHoverBackgroundColor='#1092B8'
+								showItemsPerPageSelector={true}
+								showPagination={true}
+								itemsPerPageOptions={[10, 25, 50]}
+								language='fr'
+							/>
+						</div>
 					</>
 				)}
-				<button className='close-button' onClick={onClose}>
-					Fermer
-				</button>
 			</main>
 		</div>
 	)
