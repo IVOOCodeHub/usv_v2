@@ -64,7 +64,11 @@ const ModifyTiersPage: React.FC = () => {
 
 	return (
 		<div id='modifyTiersPage'>
-			<Header props={{ pageURL: `GIVOO | MODIFICATION FOURNISSEUR : ${tiersData.societe || ''}` }} />
+			<Header
+				props={{
+					pageURL: `GIVOO | MODIFICATION FOURNISSEUR : ${tiersData.societe || ''}`,
+				}}
+			/>
 			<main>
 				<div className='tabs-container'>
 					<button
@@ -81,7 +85,6 @@ const ModifyTiersPage: React.FC = () => {
 					</button>
 				</div>
 				<div className='tab-content'>
-					{/* Coordonnées */}
 					{activeTab === 'coordonnees' && (
 						<div className='tab-panel'>
 							<h2>Coordonnées</h2>
@@ -168,7 +171,6 @@ const ModifyTiersPage: React.FC = () => {
 							</div>
 						</div>
 					)}
-					{/* Compta */}
 					{activeTab === 'compta' && (
 						<div className='tab-panel'>
 							<h2>Compta</h2>
@@ -241,58 +243,9 @@ const ModifyTiersPage: React.FC = () => {
 										onChange={(e) => handleInputChange('bic', e.target.value)}
 									/>
 								</label>
-								<label>
-									Code Pays :
-									<input
-										type='text'
-										value={tiersData.iban_code_pays || ''}
-										onChange={(e) => handleInputChange('iban_code_pays', e.target.value)}
-									/>
-								</label>
-								<label>
-									Clé Pays :
-									<input
-										type='text'
-										value={tiersData.iban_cle_pays || ''}
-										onChange={(e) => handleInputChange('iban_cle_pays', e.target.value)}
-									/>
-								</label>
-								<label>
-									Code Banque :
-									<input
-										type='text'
-										value={tiersData.iban_code_banque || ''}
-										onChange={(e) => handleInputChange('iban_code_banque', e.target.value)}
-									/>
-								</label>
-								<label>
-									Code Guichet :
-									<input
-										type='text'
-										value={tiersData.iban_code_guichet || ''}
-										onChange={(e) => handleInputChange('iban_code_guichet', e.target.value)}
-									/>
-								</label>
-								<label>
-									N° Compte :
-									<input
-										type='text'
-										value={tiersData.iban_no_compte || ''}
-										onChange={(e) => handleInputChange('iban_no_compte', e.target.value)}
-									/>
-								</label>
-								<label>
-									Clé RIB :
-									<input
-										type='text'
-										value={tiersData.iban_cle_rib || ''}
-										onChange={(e) => handleInputChange('iban_cle_rib', e.target.value)}
-									/>
-								</label>
 							</div>
 						</div>
 					)}
-					{/* Trésorerie */}
 					{activeTab === 'treso' && (
 						<div className='tab-panel'>
 							<h2>Trésorerie</h2>
@@ -317,31 +270,27 @@ const ModifyTiersPage: React.FC = () => {
 										<option value='1'>Oui</option>
 									</select>
 								</label>
-								<label>
-									Délai Règlement :
-									<input
-										type='text'
-										value={tiersData.delai_reglement || ''}
-										onChange={(e) => handleInputChange('delai_reglement', e.target.value)}
-									/>
-								</label>
-								<label>
-									Récurrent :
-									<select
-										value={tiersData.recurrent || ''}
-										onChange={(e) => handleInputChange('recurrent', e.target.value)}
-									>
-										<option value='0'>Non</option>
-										<option value='1'>Oui</option>
-									</select>
-								</label>
 							</div>
 						</div>
 					)}
 				</div>
 				<div className='buttons-container'>
-					<Button props={{ style: 'blue', text: 'Ok', type: 'button', onClick: handleSave }} />
-					<Button props={{ style: 'grey', text: 'Annuler', type: 'button', onClick: handleCancel }} />
+					<Button
+						props={{
+							style: 'blue',
+							text: 'Ok',
+							type: 'button',
+							onClick: handleSave,
+						}}
+					/>
+					<Button
+						props={{
+							style: 'grey',
+							text: 'Annuler',
+							type: 'button',
+							onClick: handleCancel,
+						}}
+					/>
 				</div>
 			</main>
 		</div>
