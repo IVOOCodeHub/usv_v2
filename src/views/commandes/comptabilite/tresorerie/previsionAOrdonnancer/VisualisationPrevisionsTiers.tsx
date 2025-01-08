@@ -7,6 +7,7 @@ import {
 	getPrevisionsService,
 	getPaiementsService,
 } from '../../../../../API/services/Prevision.service.ts'
+import { keepTwoDecimals } from '../../../../../utils/scripts/utils.ts'
 
 interface VisualisationPrevisionsTiersProps {
 	userCredentials: IUserCredentials
@@ -28,30 +29,6 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 	console.log('Paramètres pour getPrevisionsService :', userCredentials, refSourceTiers)
 	console.log('Paramètres pour getPaiementsService :', userCredentials, refSourceTiers)
 
-	// Mock de données
-	const mockBudget = [
-		['Société A', 'Libellé 1', 'Rubrique 1', '1000.00', '2025-01-10', 'Validé'],
-		['Société B', 'Libellé 2', 'Rubrique 2', '2000.00', '2025-02-15', 'En attente'],
-		['Société C', 'Libellé 3', 'Rubrique 3', '1500.00', '2025-03-20', 'Refusé'],
-	]
-
-	const mockPrevisions = [
-		['Société A', 'Libellé 4', 'Rubrique 1', '3000.00', '2025-04-05', 'Validé'],
-		['Société B', 'Libellé 5', 'Rubrique 2', '2500.00', '2025-05-10', 'En attente'],
-		['Société C', 'Libellé 6', 'Rubrique 3', '1800.00', '2025-06-15', 'Refusé'],
-		['Société A', 'Libellé 7', 'Rubrique 1', '4000.00', '2025-07-20', 'Validé'],
-		['Société B', 'Libellé 8', 'Rubrique 2', '3200.00', '2025-08-25', 'En attente'],
-	]
-
-	const mockPaiements = Array.from({ length: 22 }, (_, index) => [
-		`Société ${index + 1}`,
-		`Libellé ${index + 9}`,
-		`Rubrique ${(index % 3) + 1}`,
-		`${(index + 1) * 1000}.00`,
-		`2025-09-${String(index + 1).padStart(2, '0')}`,
-		index % 2 === 0 ? 'Validé' : 'En attente',
-	])
-
 	useEffect(() => {
 		const fetchData = async () => {
 			setIsLoading(true)
@@ -67,39 +44,50 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 				console.log('previsions : ', previsionsData)
 				console.log('paiements : ', paiementsData)
 
-				// Transformer les données en tableaux pour NRTL
+				// Si aucune donnée, ajoute une ligne avec un message
 				setBudget(
-					budgetData.map((item) => [
-						item.societe,
-						item.libelle,
-						item.rubrique,
-						item.montant,
-						item.echeance,
-						item.statut,
-					])
+					Array.isArray(budgetData) && budgetData.length > 0
+						? budgetData.map((item) => [
+								item.societe,
+								item.libelleEcriture,
+								item.rubriqueTreso,
+								item.credit !== undefined && item.credit !== null ? keepTwoDecimals(Number(item.credit)) : '0.00',
+								item.dateEcheance,
+								item.statut,
+							])
+						: [['Aucune donnée trouvée pour le budget.']]
 				)
+
 				setPrevisions(
-					previsionsData.map((item) => [
-						item.societe,
-						item.libelle,
-						item.rubrique,
-						item.montant,
-						item.echeance,
-						item.statut,
-					])
+					Array.isArray(previsionsData) && previsionsData.length > 0
+						? previsionsData.map((item) => [
+								item.societe,
+								item.libelleEcriture,
+								item.rubriqueTreso,
+								item.credit !== undefined && item.credit !== null ? keepTwoDecimals(Number(item.credit)) : '0.00',
+								item.dateEcheance,
+								item.statut,
+							])
+						: [['Aucune donnée trouvée pour les prévisions.']]
 				)
+
 				setPaiements(
-					paiementsData.map((item) => [
-						item.societe,
-						item.libelle,
-						item.rubrique,
-						item.montant,
-						item.echeance,
-						item.statut,
-					])
+					Array.isArray(paiementsData) && paiementsData.length > 0
+						? paiementsData.map((item) => [
+								item.societe,
+								item.libelleEcriture,
+								item.rubriqueTreso,
+								item.credit !== undefined && item.credit !== null ? keepTwoDecimals(Number(item.credit)) : '0.00',
+								item.dateEcheance,
+								item.statut,
+							])
+						: [['Aucune donnée trouvée pour les paiements.']]
 				)
 			} catch (error) {
 				console.error('Erreur lors de la récupération des données :', error)
+				setBudget([['Erreur lors de la récupération des données pour le budget.']])
+				setPrevisions([['Erreur lors de la récupération des données pour les prévisions.']])
+				setPaiements([['Erreur lors de la récupération des données pour les paiements.']])
 			} finally {
 				setIsLoading(false)
 			}
@@ -107,19 +95,6 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 
 		fetchData()
 	}, [userCredentials, refSourceTiers])
-
-	// simulation de données
-	useEffect(() => {
-		setIsLoading(true)
-
-		// Simulation de chargement des données mockées
-		setTimeout(() => {
-			setBudget(mockBudget)
-			setPrevisions(mockPrevisions)
-			setPaiements(mockPaiements)
-			setIsLoading(false)
-		}, 1000) // Simule un délai de chargement d'une seconde
-	}, [])
 
 	const tableHeaders = ['Société', 'Libellé', 'Rubrique', 'Montant', 'Échéance', 'Statut']
 

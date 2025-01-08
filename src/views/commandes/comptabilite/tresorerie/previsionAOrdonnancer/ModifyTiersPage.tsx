@@ -1,4 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { AxiosResponse } from 'axios'
+import { IUserCredentials } from '../../../../../utils/types/user.interface'
+import { IPrevision } from '../../../../../utils/types/prevision.interface'
+import { UserContext } from '../../../../../context/userContext'
+import { IServerPrevision, previsionModel } from '../../../../../API/models/prevision.model'
+import { postRequest } from '../../../../../API/APICalls'
 import { useNavigate, useParams } from 'react-router-dom'
 import './ModifyTiersPage.scss'
 import Header from '../../../../../components/header/Header'
@@ -7,31 +13,115 @@ import mockTiersData from './mock/mockTiersData'
 
 const ModifyTiersPage: React.FC = () => {
 	const navigate = useNavigate()
+	const { userCredentials } = useContext(UserContext)
 	const { tiersId } = useParams<{ tiersId: string }>() // Récupère l'ID du tiers depuis l'URL
 	const [activeTab, setActiveTab] = useState('coordonnees') // Onglet actif
 	const [tiersData, setTiersData] = useState(mockTiersData) // Données initiales venant du mock
 	const [isLoading, setIsLoading] = useState(false)
 
-	useEffect(() => {
-		// Simulez une récupération des données avec l'ID du tiers
-		console.log(`Chargement des données pour le tiers : ${tiersId}`)
-		// API à intégrer ici quand elle sera prête
-	}, [tiersId])
+	// useEffect(() => {
+	// 	// Simulez une récupération des données avec l'ID du tiers
+	// 	console.log(`Chargement des données pour le tiers : ${tiersId}`)
+	// 	// Fonction pour récupérer les détails d'un fournisseur par code fournisseur
+	// 	const getDetailsFournisseurService = async (
+	// 		userCredentials: IUserCredentials,
+	// 		code: string
+	// 	): Promise<IPrevision[] | string> => {
+	// 		const endpoint = 'http://192.168.0.112:8800/api/storedProcedure'
+	// 		const reqBody = {
+	// 			userID: userCredentials.matricule,
+	// 			password: userCredentials.password,
+	// 			request: 'read_list_data_fournisseurs',
+	// 			args: { userCredentials, code_tiers: code },
+	// 			test: true,
+	// 		}
 
-	// Pour simuler un futur appel API
+	// 		try {
+	// 			const res = (await postRequest(endpoint, reqBody)) as AxiosResponse<{ data: { rows: IServerPrevision[] } }>
+
+	// 			const rows = res.data?.data?.rows
+	// 			if (!rows || rows.length === 0) {
+	// 				console.error('Aucune donnée trouvée.')
+	// 				return 'Aucune donnée trouvée.'
+	// 			}
+
+	// 			return rows.map((prevision: IServerPrevision) => previsionModel(prevision))
+	// 		} catch (error) {
+	// 			console.error('Erreur API détectée :', error)
+	// 			return "Une erreur inattendue s'est produite."
+	// 		}
+	// 	}
+	// }, [tiersId])
+
+	// // Pour simuler un futur appel API
+	// useEffect(() => {
+	// 	const fetchData = async () => {
+	// 		setIsLoading(true)
+	// 		// Remplacez cette simulation par un appel API réel quand il sera prêt
+	// 		setTimeout(() => {
+	// 			setTiersData(mockTiersData)
+	// 			setIsLoading(false)
+	// 		}, 1000)
+	// 	}
+
+	// 	fetchData()
+	// }, [])
+
 	useEffect(() => {
-		const fetchData = async () => {
-			setIsLoading(true)
-			// Remplacez cette simulation par un appel API réel quand il sera prêt
-			setTimeout(() => {
-				setTiersData(mockTiersData)
-				setIsLoading(false)
-			}, 1000)
+		const getDetailsFournisseurService = async (
+			userCredentials: IUserCredentials,
+			code: string
+		): Promise<IPrevision[] | string> => {
+			const endpoint = 'http://192.168.0.112:8800/api/storedProcedure'
+			const reqBody = {
+				userID: userCredentials.matricule,
+				password: userCredentials.password,
+				request: 'read_list_data_fournisseurs',
+				args: { code_tiers: code },
+				test: true,
+			}
+
+			try {
+				const res = (await postRequest(endpoint, reqBody)) as AxiosResponse<{ data: { rows: IServerPrevision[] } }>
+
+				const rows = res.data?.data?.rows
+				if (!rows || rows.length === 0) {
+					console.error('Aucune donnée trouvée.')
+					return 'Aucune donnée trouvée.'
+				}
+
+				return rows.map((prevision: IServerPrevision) => previsionModel(prevision))
+			} catch (error) {
+				console.error('Erreur API détectée :', error)
+				return "Une erreur inattendue s'est produite."
+			}
 		}
 
-		fetchData()
-	}, [])
+		const fetchTiersDetails = async () => {
+			if (!userCredentials || !tiersId) {
+				console.error('Identifiants utilisateur ou code tiers manquant.')
+				return
+			}
+			setIsLoading(true)
+			try {
+				const data = await getDetailsFournisseurService(userCredentials, tiersId)
+				if (typeof data === 'string') {
+					console.error(data)
+					alert(data)
+				} else {
+					console.log('Données récupérées via API :', data)
+					// Met à jour les données du fournisseur
+					setTiersData(data[0]) // En supposant que `data` contient un tableau d'objets de fournisseur
+				}
+			} catch (error) {
+				console.error('Erreur lors de la récupération des données du fournisseur :', error)
+			} finally {
+				setIsLoading(false)
+			}
+		}
 
+		fetchTiersDetails()
+	}, [tiersId, userCredentials])
 	const handleTabChange = (tab: string) => {
 		setActiveTab(tab)
 	}
