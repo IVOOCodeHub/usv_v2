@@ -5,20 +5,44 @@ import { useState, useMemo, ReactElement } from "react";
 import { FileContext } from "./FileContext.tsx";
 
 // services
-import { getFileService } from "../../API/services/File.service.ts";
+import {
+  getAllFilesNameService,
+  getFileService,
+} from "../../API/services/File.service.ts";
 
-export const FileProvider = ({ children }): ReactElement => {
-  const [files, setFiles] = useState([]);
+export const FileProvider = ({
+  children,
+}: {
+  children: ReactElement;
+}): ReactElement => {
+  const [files, setFiles] = useState<string[]>([]);
+  const [fileURL, setFileURL] = useState<string | null>(null);
 
-  const getFiles = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 500));
+  const getFiles = async (): Promise<void> => {
+    await new Promise((resolve: (value: unknown) => void): number =>
+      setTimeout(resolve, 500),
+    );
 
     try {
-      const res = await getFileService();
+      const res: string[] = await getAllFilesNameService();
       setFiles(res);
     } catch (error) {
-      console.error("Error while getting file :", error);
-      setFiles(null);
+      console.error("Error while getting files list :", error);
+      setFiles([]);
+    }
+  };
+
+  const getFileURL = async (fileName: string): Promise<void> => {
+    await new Promise((resolve: (value: unknown) => void): number =>
+      setTimeout(resolve, 500),
+    );
+
+    try {
+      const res: string = await getFileService(fileName);
+      setFileURL(res);
+    } catch (error) {
+      console.error(`Error while getting file: ${error}`);
+      setFileURL(null);
     }
   };
 
@@ -27,8 +51,11 @@ export const FileProvider = ({ children }): ReactElement => {
       files,
       setFiles,
       getFiles,
+      fileURL,
+      setFileURL,
+      getFileURL,
     }),
-    [files],
+    [files, fileURL],
   );
 
   return (
