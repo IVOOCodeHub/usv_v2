@@ -44,14 +44,15 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 				console.log('previsions : ', previsionsData)
 				console.log('paiements : ', paiementsData)
 
-				// Si aucune donnée, ajoute une ligne avec un message
 				setBudget(
 					Array.isArray(budgetData) && budgetData.length > 0
 						? budgetData.map((item) => [
 								item.societe,
 								item.libelleEcriture,
 								item.rubriqueTreso,
-								item.credit !== undefined && item.credit !== null ? keepTwoDecimals(Number(item.credit)) : '0.00',
+								Number(item.credit) > 0
+									? keepTwoDecimals(Number(item.credit))
+									: `-${keepTwoDecimals(Number(item.debit))}`,
 								item.dateEcheance,
 								item.statut,
 							])
@@ -64,7 +65,9 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 								item.societe,
 								item.libelleEcriture,
 								item.rubriqueTreso,
-								item.credit !== undefined && item.credit !== null ? keepTwoDecimals(Number(item.credit)) : '0.00',
+								Number(item.credit) > 0
+									? keepTwoDecimals(Number(item.credit))
+									: `-${keepTwoDecimals(Number(item.debit))}`,
 								item.dateEcheance,
 								item.statut,
 							])
@@ -77,7 +80,9 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 								item.societe,
 								item.libelleEcriture,
 								item.rubriqueTreso,
-								item.credit !== undefined && item.credit !== null ? keepTwoDecimals(Number(item.credit)) : '0.00',
+								Number(item.credit) > 0
+									? keepTwoDecimals(Number(item.credit))
+									: `-${keepTwoDecimals(Number(item.debit))}`,
 								item.dateEcheance,
 								item.statut,
 							])
@@ -85,9 +90,9 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 				)
 			} catch (error) {
 				console.error('Erreur lors de la récupération des données :', error)
-				setBudget([['Erreur lors de la récupération des données pour le budget.']])
-				setPrevisions([['Erreur lors de la récupération des données pour les prévisions.']])
-				setPaiements([['Erreur lors de la récupération des données pour les paiements.']])
+				setBudget([])
+				setPrevisions([])
+				setPaiements([])
 			} finally {
 				setIsLoading(false)
 			}
@@ -115,46 +120,58 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 						{/* Tableau Budget */}
 						<h2 className='table-subtitle'>Budget</h2>
 						<div className='nrtl-container'>
-							<NRTL
-								datas={{ tableHead: tableHeaders, tableBody: budget }}
-								headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
-								headerHoverBackgroundColor='#1092B8'
-								showItemsPerPageSelector={true}
-								showPagination={true}
-								showPreviousNextButtons={true}
-								itemsPerPageOptions={[5, 10, 25]}
-								language='fr'
-							/>
+							{budget.length > 0 ? (
+								<NRTL
+									datas={{ tableHead: tableHeaders, tableBody: budget }}
+									headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
+									headerHoverBackgroundColor='#1092B8'
+									showItemsPerPageSelector={true}
+									showPagination={true}
+									showPreviousNextButtons={true}
+									itemsPerPageOptions={[5, 10, 25]}
+									language='fr'
+								/>
+							) : (
+								<div className='no-data-message'>Aucune donnée trouvée pour le budget.</div>
+							)}
 						</div>
 
 						{/* Tableau Prévisions */}
 						<h2 className='table-subtitle'>Prévisions</h2>
 						<div className='nrtl-container'>
-							<NRTL
-								datas={{ tableHead: tableHeaders, tableBody: previsions }}
-								headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
-								headerHoverBackgroundColor='#1092B8'
-								showItemsPerPageSelector={true}
-								showPagination={true}
-								showPreviousNextButtons={true}
-								itemsPerPageOptions={[5, 10, 25]}
-								language='fr'
-							/>
+							{previsions.length > 0 ? (
+								<NRTL
+									datas={{ tableHead: tableHeaders, tableBody: previsions }}
+									headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
+									headerHoverBackgroundColor='#1092B8'
+									showItemsPerPageSelector={true}
+									showPagination={true}
+									showPreviousNextButtons={true}
+									itemsPerPageOptions={[5, 10, 25]}
+									language='fr'
+								/>
+							) : (
+								<div className='no-data-message'>Aucune donnée trouvée pour les prévisions.</div>
+							)}
 						</div>
 
 						{/* Tableau Paiements */}
 						<h2 className='table-subtitle'>Paiements</h2>
 						<div className='nrtl-container'>
-							<NRTL
-								datas={{ tableHead: tableHeaders, tableBody: paiements }}
-								headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
-								headerHoverBackgroundColor='#1092B8'
-								showItemsPerPageSelector={true}
-								showPagination={true}
-								showPreviousNextButtons={true}
-								itemsPerPageOptions={[5, 10, 25]}
-								language='fr'
-							/>
+							{paiements.length > 0 ? (
+								<NRTL
+									datas={{ tableHead: tableHeaders, tableBody: paiements }}
+									headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
+									headerHoverBackgroundColor='#1092B8'
+									showItemsPerPageSelector={true}
+									showPagination={true}
+									showPreviousNextButtons={true}
+									itemsPerPageOptions={[5, 10, 25]}
+									language='fr'
+								/>
+							) : (
+								<div className='no-data-message'>Aucune donnée trouvée pour les paiements.</div>
+							)}
 						</div>
 					</>
 				)}
