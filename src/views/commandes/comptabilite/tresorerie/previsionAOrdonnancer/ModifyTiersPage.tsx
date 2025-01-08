@@ -1,50 +1,19 @@
+import './ModifyTiersPage.scss'
 import { useState, useEffect, useContext } from 'react'
-import { AxiosResponse } from 'axios'
-import { IUserCredentials } from '../../../../../utils/types/user.interface'
+import { useNavigate, useParams } from 'react-router-dom'
 import { UserContext } from '../../../../../context/userContext'
 import { postRequest } from '../../../../../API/APICalls'
-import { useNavigate, useParams } from 'react-router-dom'
-import './ModifyTiersPage.scss'
 import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button'
 
 const ModifyTiersPage: React.FC = () => {
 	const navigate = useNavigate()
 	const { userCredentials } = useContext(UserContext)
-	const { tiersId } = useParams<{ tiersId: string }>() // Récupère l'ID du tiers depuis l'URL
+	const { tiersId } = useParams<{ tiersId: string }>()
+	const [tiersData, setTiersData] = useState<any>({})
 	const [activeTab, setActiveTab] = useState('coordonnees') // Onglet actif
-	const [tiersData, setTiersData] = useState<any | null>(null) // Données initiales
 	const [isLoading, setIsLoading] = useState(false)
 
-	// Fonction pour récupérer les détails du fournisseur
-	const getDetailsFournisseurService = async (userCredentials: IUserCredentials, code: string) => {
-		const endpoint = 'http://192.168.0.112:8800/api/storedProcedure'
-		const reqBody = {
-			userID: userCredentials.matricule,
-			password: userCredentials.password,
-			request: 'read_list_data_fournisseurs',
-			args: { code },
-			test: true,
-		}
-
-		try {
-			const res = (await postRequest(endpoint, reqBody)) as AxiosResponse<{ data: { data: { rows: any } } }>
-			console.log("Réponse complète de l'API :", res)
-
-			const data = res.data?.data?.rows
-			if (!data || typeof data !== 'object') {
-				console.error('Aucune donnée disponible pour ce fournisseur.')
-				return null
-			}
-
-			return data
-		} catch (error) {
-			console.error('Erreur API détectée :', error)
-			return null
-		}
-	}
-
-	// Chargement des détails du tiers
 	useEffect(() => {
 		const fetchTiersDetails = async () => {
 			if (!userCredentials || !tiersId) {
@@ -53,22 +22,24 @@ const ModifyTiersPage: React.FC = () => {
 			}
 			setIsLoading(true)
 			try {
-				const data = await getDetailsFournisseurService(userCredentials, tiersId)
-				if (!data) {
-					console.error('Aucune donnée trouvée pour ce fournisseur.')
-				} else {
-					console.log('Données récupérées via API :', data)
-					setTiersData(data) // Mettre à jour les données pour les champs
+				const endpoint = 'http://192.168.0.112:8800/api/storedProcedure'
+				const reqBody = {
+					userID: userCredentials.matricule,
+					password: userCredentials.password,
+					request: 'read_list_data_fournisseurs',
+					args: { code: tiersId },
+					test: true,
 				}
+				const res = await postRequest(endpoint, reqBody)
+				setTiersData(res.data?.data?.rows || {})
 			} catch (error) {
 				console.error('Erreur lors de la récupération des données du fournisseur :', error)
 			} finally {
 				setIsLoading(false)
 			}
 		}
-
 		fetchTiersDetails()
-	}, [tiersId, userCredentials])
+	}, [userCredentials, tiersId])
 
 	const handleTabChange = (tab: string) => {
 		setActiveTab(tab)
@@ -80,33 +51,20 @@ const ModifyTiersPage: React.FC = () => {
 	}
 
 	const handleCancel = () => {
-		setTiersData(null)
 		navigate(-1)
+	}
+
+	const handleInputChange = (field: string, value: string) => {
+		setTiersData({ ...tiersData, [field]: value })
 	}
 
 	if (isLoading) {
 		return <p>Chargement des données...</p>
 	}
 
-	if (!tiersData) {
-		return <p>Aucune donnée disponible pour ce fournisseur.</p>
-	}
-
-	const {
-		societe,
-		activite,
-		rubrique_tresorerie,
-		siret,
-		no_compte_general,
-		no_compte_charge,
-		mode_paiement,
-		banque_beneficiaire,
-	} = tiersData
-
 	return (
-		<div className='modify-tiers-page'>
-			<Header props={{ pageURL: `GIVOO | MODIFICATION FOURNISSEUR : ${societe}` }} />
-
+		<div id='modifyTiersPage'>
+			<Header props={{ pageURL: `GIVOO | MODIFICATION FOURNISSEUR : ${tiersData.societe || ''}` }} />
 			<main>
 				<div className='tabs-container'>
 					<button
@@ -122,94 +80,265 @@ const ModifyTiersPage: React.FC = () => {
 						Trésorerie
 					</button>
 				</div>
-
 				<div className='tab-content'>
 					{/* Coordonnées */}
 					{activeTab === 'coordonnees' && (
 						<div className='tab-panel'>
 							<h2>Coordonnées</h2>
-							<label>
-								Société :
-								<input
-									type='text'
-									value={societe || ''}
-									onChange={(e) => setTiersData({ ...tiersData, societe: e.target.value })}
-								/>
-							</label>
-							<label>
-								Activité :
-								<input
-									type='text'
-									value={activite || ''}
-									onChange={(e) => setTiersData({ ...tiersData, activite: e.target.value })}
-								/>
-							</label>
-							<label>
-								Rubrique :
-								<input
-									type='text'
-									value={rubrique_tresorerie || ''}
-									onChange={(e) => setTiersData({ ...tiersData, rubrique_tresorerie: e.target.value })}
-								/>
-							</label>
-							<label>
-								SIRET :
-								<input
-									type='text'
-									value={siret || ''}
-									onChange={(e) => setTiersData({ ...tiersData, siret: e.target.value })}
-								/>
-							</label>
+							<div className='form-container'>
+								<label>
+									Société :
+									<input
+										type='text'
+										value={tiersData.societe || ''}
+										onChange={(e) => handleInputChange('societe', e.target.value)}
+									/>
+								</label>
+								<label>
+									Activité :
+									<input
+										type='text'
+										value={tiersData.activite || ''}
+										onChange={(e) => handleInputChange('activite', e.target.value)}
+									/>
+								</label>
+								<label>
+									Rubrique :
+									<input
+										type='text'
+										value={tiersData.rubrique_tresorerie || ''}
+										onChange={(e) => handleInputChange('rubrique_tresorerie', e.target.value)}
+									/>
+								</label>
+								<label>
+									APE :
+									<input
+										type='text'
+										value={tiersData.ape || ''}
+										onChange={(e) => handleInputChange('ape', e.target.value)}
+									/>
+								</label>
+								<label>
+									SIRET :
+									<input
+										type='text'
+										value={tiersData.siret || ''}
+										onChange={(e) => handleInputChange('siret', e.target.value)}
+									/>
+								</label>
+								<label>
+									Forme juridique :
+									<select
+										value={tiersData.forme_juridique || ''}
+										onChange={(e) => handleInputChange('forme_juridique', e.target.value)}
+									>
+										<option value='SARL'>SARL</option>
+										<option value='SAS'>SAS</option>
+										<option value='SA'>SA</option>
+									</select>
+								</label>
+								<label>
+									Rue :
+									<input
+										type='text'
+										value={tiersData.rue || ''}
+										onChange={(e) => handleInputChange('rue', e.target.value)}
+									/>
+								</label>
+								<label>
+									Complément :
+									<input
+										type='text'
+										value={tiersData.complement || ''}
+										onChange={(e) => handleInputChange('complement', e.target.value)}
+									/>
+								</label>
+								<label>
+									CP & Ville :
+									<input type='text' value={`${tiersData.code_postal || ''} ${tiersData.ville || ''}`} readOnly />
+								</label>
+								<label>
+									Pays :
+									<input
+										type='text'
+										value={tiersData.pays || ''}
+										onChange={(e) => handleInputChange('pays', e.target.value)}
+									/>
+								</label>
+							</div>
 						</div>
 					)}
-
 					{/* Compta */}
 					{activeTab === 'compta' && (
 						<div className='tab-panel'>
 							<h2>Compta</h2>
-							<label>
-								N° Compte Général :
-								<input
-									type='text'
-									value={no_compte_general || ''}
-									onChange={(e) => setTiersData({ ...tiersData, no_compte_general: e.target.value })}
-								/>
-							</label>
-							<label>
-								N° Compte Charge :
-								<input
-									type='text'
-									value={no_compte_charge || ''}
-									onChange={(e) => setTiersData({ ...tiersData, no_compte_charge: e.target.value })}
-								/>
-							</label>
+							<div className='form-container'>
+								<label>
+									N° Compte Général :
+									<input
+										type='text'
+										value={tiersData.no_compte_general || ''}
+										onChange={(e) => handleInputChange('no_compte_general', e.target.value)}
+									/>
+								</label>
+								<label>
+									N° Compte Charge :
+									<input
+										type='text'
+										value={tiersData.no_compte_charge || ''}
+										onChange={(e) => handleInputChange('no_compte_charge', e.target.value)}
+									/>
+								</label>
+								<label>
+									N° Compte Tiers :
+									<input
+										type='text'
+										value={tiersData.no_compte_tiers || ''}
+										onChange={(e) => handleInputChange('no_compte_tiers', e.target.value)}
+									/>
+								</label>
+								<label>
+									Intitulé du Compte :
+									<input
+										type='text'
+										value={tiersData.intitule_compte_tiers || ''}
+										onChange={(e) => handleInputChange('intitule_compte_tiers', e.target.value)}
+									/>
+								</label>
+								<label>
+									Type Compte :
+									<select
+										value={tiersData.type_compte || ''}
+										onChange={(e) => handleInputChange('type_compte', e.target.value)}
+									>
+										<option value='Fournisseur'>Fournisseur</option>
+										<option value='Client'>Client</option>
+									</select>
+								</label>
+								<label>
+									Assujetti TVA :
+									<select
+										value={tiersData.avec_tva || ''}
+										onChange={(e) => handleInputChange('avec_tva', e.target.value)}
+									>
+										<option value='0'>Non</option>
+										<option value='1'>Oui</option>
+									</select>
+								</label>
+								<label>
+									Taux TVA :
+									<input
+										type='text'
+										value={tiersData.taux_tva || ''}
+										onChange={(e) => handleInputChange('taux_tva', e.target.value)}
+									/>
+								</label>
+								<label>
+									BIC :
+									<input
+										type='text'
+										value={tiersData.bic || ''}
+										onChange={(e) => handleInputChange('bic', e.target.value)}
+									/>
+								</label>
+								<label>
+									Code Pays :
+									<input
+										type='text'
+										value={tiersData.iban_code_pays || ''}
+										onChange={(e) => handleInputChange('iban_code_pays', e.target.value)}
+									/>
+								</label>
+								<label>
+									Clé Pays :
+									<input
+										type='text'
+										value={tiersData.iban_cle_pays || ''}
+										onChange={(e) => handleInputChange('iban_cle_pays', e.target.value)}
+									/>
+								</label>
+								<label>
+									Code Banque :
+									<input
+										type='text'
+										value={tiersData.iban_code_banque || ''}
+										onChange={(e) => handleInputChange('iban_code_banque', e.target.value)}
+									/>
+								</label>
+								<label>
+									Code Guichet :
+									<input
+										type='text'
+										value={tiersData.iban_code_guichet || ''}
+										onChange={(e) => handleInputChange('iban_code_guichet', e.target.value)}
+									/>
+								</label>
+								<label>
+									N° Compte :
+									<input
+										type='text'
+										value={tiersData.iban_no_compte || ''}
+										onChange={(e) => handleInputChange('iban_no_compte', e.target.value)}
+									/>
+								</label>
+								<label>
+									Clé RIB :
+									<input
+										type='text'
+										value={tiersData.iban_cle_rib || ''}
+										onChange={(e) => handleInputChange('iban_cle_rib', e.target.value)}
+									/>
+								</label>
+							</div>
 						</div>
 					)}
-
 					{/* Trésorerie */}
 					{activeTab === 'treso' && (
 						<div className='tab-panel'>
 							<h2>Trésorerie</h2>
-							<label>
-								Mode de Paiement :
-								<input
-									type='text'
-									value={mode_paiement || ''}
-									onChange={(e) => setTiersData({ ...tiersData, mode_paiement: e.target.value })}
-								/>
-							</label>
-							<label>
-								Banque Bénéficiaire :
-								<input
-									type='text'
-									value={banque_beneficiaire || ''}
-									onChange={(e) => setTiersData({ ...tiersData, banque_beneficiaire: e.target.value })}
-								/>
-							</label>
+							<div className='form-container'>
+								<label>
+									Mode de Paiement :
+									<select
+										value={tiersData.mode_paiement || ''}
+										onChange={(e) => handleInputChange('mode_paiement', e.target.value)}
+									>
+										<option value='Prélèvement'>Prélèvement</option>
+										<option value='Virement'>Virement</option>
+									</select>
+								</label>
+								<label>
+									Partenaire Payeur :
+									<select
+										value={tiersData.partenaire_payeur || ''}
+										onChange={(e) => handleInputChange('partenaire_payeur', e.target.value)}
+									>
+										<option value='0'>Non</option>
+										<option value='1'>Oui</option>
+									</select>
+								</label>
+								<label>
+									Délai Règlement :
+									<input
+										type='text'
+										value={tiersData.delai_reglement || ''}
+										onChange={(e) => handleInputChange('delai_reglement', e.target.value)}
+									/>
+								</label>
+								<label>
+									Récurrent :
+									<select
+										value={tiersData.recurrent || ''}
+										onChange={(e) => handleInputChange('recurrent', e.target.value)}
+									>
+										<option value='0'>Non</option>
+										<option value='1'>Oui</option>
+									</select>
+								</label>
+							</div>
 						</div>
 					)}
 				</div>
-
 				<div className='buttons-container'>
 					<Button props={{ style: 'blue', text: 'Ok', type: 'button', onClick: handleSave }} />
 					<Button props={{ style: 'grey', text: 'Annuler', type: 'button', onClick: handleCancel }} />
