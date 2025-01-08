@@ -95,15 +95,26 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 	const convertToArray = (datas: IPrevision[]): string[][] =>
 		datas
 			.filter((data) => !filters.cle || data.cle.includes(filters.cle)) // Filtrer par "Code"
-			.map((data) => [
-				data.cle,
-				convertENDateToFr(data.dateEcheance.split('/').reverse().join('-')),
-				convertENDateToFr(data.dateOrdo.split('/').reverse().join('-')),
-				data.libelleCompteTiers,
-				data.libelleEcriture,
-				data.societe,
-				keepTwoDecimals(Number(data.credit)),
-			])
+			.map((data) => {
+				const credit = data.credit ? parseFloat(data.credit) : 0 // Convert `credit` to a number
+				const debit = data.debit ? parseFloat(data.debit) : 0 // Convert `debit` to a number
+
+				return [
+					data.cle || 'Non défini', // Remplace undefined par 'Non défini'
+					data.dateEcheance ? convertENDateToFr(data.dateEcheance.split('/').reverse().join('-')) : 'Non défini', // Remplace undefined par 'Non défini'
+					data.dateOrdo ? convertENDateToFr(data.dateOrdo.split('/').reverse().join('-')) : 'Non défini', // Remplace undefined par 'Non défini'
+					data.libelleCompteTiers ?? 'Non défini', // Remplace undefined par 'Non défini'
+					data.libelleEcriture ?? 'Non défini', // Remplace undefined par 'Non défini'
+					data.societe || 'Non défini', // Remplace undefined par 'Non défini'
+					keepTwoDecimals(
+						credit !== 0
+							? credit // Use `credit` if it's non-zero
+							: debit !== 0
+								? -debit // Use `debit` with a negative sign for an avoir
+								: 0 // Default to 0 if both are zero
+					),
+				]
+			})
 
 	// Met à jour les données du tableau après récupération des prévisions
 	useEffect((): void => {
