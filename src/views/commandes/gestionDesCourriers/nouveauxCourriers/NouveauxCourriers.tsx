@@ -2,7 +2,7 @@
 import "./nouveauxCourriers.scss";
 
 // hooks | libraries
-import { ReactElement, useContext, useState, useEffect } from "react";
+import {ReactElement, useContext, useState, useEffect, ChangeEvent} from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 
 // components
@@ -25,6 +25,7 @@ function NouveauxCourriers(): ReactElement {
   const [bodyArray, setBodyArray] = useState<string[][]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [courrier, setCourrier] = useState<string>("");
+  const [newFile, setNewFile] = useState<File | null>(null)
 
   const getFileDate = (file: string): string => {
     let datePart: string = "";
@@ -81,7 +82,13 @@ function NouveauxCourriers(): ReactElement {
   const displayCourrier = (index: number, fileName: string): void => {
     setCourrier(fileName);
     setIsModalOpen(true);
-    console.log(`Row ${index} clicked`)
+  };
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const file: File | undefined = event.target.files?.[0];
+    if (file) {
+      setNewFile(file);
+    }
   };
 
   return (
@@ -120,9 +127,21 @@ function NouveauxCourriers(): ReactElement {
               enableColumnSorting={true}
               itemsPerPageOptions={[10, 25, 50]}
               language={"fr"}
-              onRowClick={(index: number, rowData?: string[]): void => displayCourrier(index, rowData![0])}
+              onRowClick={(index: number, rowData?: string[]): void =>
+                displayCourrier(index, rowData![0])
+              }
             />
           )}
+          <div className={'uploadFileContainer'}>
+            <Button
+              props={{
+                style: "blue",
+                text: "Ajouter un nouveau courrier",
+                type: "button",
+              }}
+            />
+            <input type={'file'} onChange={handleFileChange} />
+          </div>
         </div>
         <div className={"buttonWrapper"}>
           <Button
