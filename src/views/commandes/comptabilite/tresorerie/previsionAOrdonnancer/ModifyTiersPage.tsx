@@ -1,45 +1,78 @@
 import './ModifyTiersPage.scss'
-import { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { UserContext } from '../../../../../context/userContext'
 import { postRequest } from '../../../../../API/APICalls'
 import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button'
 
+interface TiersData {
+	societe?: string
+	activite?: string
+	rubrique_tresorerie?: string
+	ape?: string
+	siret?: string
+	forme_juridique?: string
+	rue?: string
+	complement?: string
+	code_postal?: string
+	ville?: string
+	pays?: string
+	no_compte_general?: string
+	no_compte_charge?: string
+	no_compte_tiers?: string
+	intitule_compte_tiers?: string
+	type_compte?: string
+	avec_tva?: string
+	taux_tva?: string
+	bic?: string
+	iban_code_pays?: string
+	iban_cle_pays?: string
+	iban_code_banque?: string
+	iban_code_guichet?: string
+	iban_no_compte?: string
+	iban_cle_rib?: string
+	mode_paiement?: string
+	partenaire_payeur?: string
+	delai_reglement?: string
+	recurrent?: string
+}
+
 const ModifyTiersPage: React.FC = () => {
 	const navigate = useNavigate()
 	const { userCredentials } = useContext(UserContext)
 	const { tiersId } = useParams<{ tiersId: string }>()
-	const [tiersData, setTiersData] = useState<any>({})
-	const [activeTab, setActiveTab] = useState('coordonnees') // Onglet actif
+	const [tiersData, setTiersData] = useState<TiersData>({})
+	const [activeTab, setActiveTab] = useState('coordonnees')
 	const [isLoading, setIsLoading] = useState(false)
 
-	useEffect(() => {
-		const fetchTiersDetails = async () => {
-			if (!userCredentials || !tiersId) {
-				console.error('Identifiants utilisateur ou code tiers manquant.')
-				return
-			}
-			setIsLoading(true)
-			try {
-				const endpoint = 'http://192.168.0.112:8800/api/storedProcedure'
-				const reqBody = {
-					userID: userCredentials.matricule,
-					password: userCredentials.password,
-					request: 'read_list_data_fournisseurs',
-					args: { code: tiersId },
-					test: true,
-				}
-				const res = await postRequest(endpoint, reqBody)
-				setTiersData(res.data?.data?.rows || {})
-			} catch (error) {
-				console.error('Erreur lors de la récupération des données du fournisseur :', error)
-			} finally {
-				setIsLoading(false)
-			}
+	const fetchTiersDetails = useCallback(async () => {
+		if (!userCredentials || !tiersId) {
+			console.error('Identifiants utilisateur ou code tiers manquant.')
+			return
 		}
-		fetchTiersDetails()
+		setIsLoading(true)
+		try {
+			const endpoint = 'http://192.168.0.112:8800/api/storedProcedure'
+			const reqBody = {
+				userID: userCredentials.matricule,
+				password: userCredentials.password,
+				request: 'read_list_data_fournisseurs',
+				args: { code: tiersId },
+				test: true,
+			}
+			const res = await postRequest(endpoint, reqBody)
+			setTiersData(res.data?.data?.rows || {})
+		} catch (error) {
+			console.error('Erreur lors de la récupération des données du fournisseur :', error)
+		} finally {
+			setIsLoading(false)
+		}
 	}, [userCredentials, tiersId])
+
+	useEffect(() => {
+		fetchTiersDetails()
+	}, [fetchTiersDetails])
 
 	const handleTabChange = (tab: string) => {
 		setActiveTab(tab)
@@ -54,8 +87,8 @@ const ModifyTiersPage: React.FC = () => {
 		navigate(-1)
 	}
 
-	const handleInputChange = (field: string, value: string) => {
-		setTiersData({ ...tiersData, [field]: value })
+	const handleInputChange = (field: keyof TiersData, value: string) => {
+		setTiersData((prevData) => ({ ...prevData, [field]: value }))
 	}
 
 	if (isLoading) {
@@ -66,21 +99,30 @@ const ModifyTiersPage: React.FC = () => {
 		<div id='modifyTiersPage'>
 			<Header
 				props={{
-					pageURL: `GIVOO | MODIFICATION FOURNISSEUR : ${tiersData.societe || ''}`,
+					pageURL: `GIVOO | MODIFICATION FOURNISSEUR : ${tiersData.societe ?? ''}`,
 				}}
 			/>
 			<main>
 				<div className='tabs-container'>
 					<button
+						type='button'
 						className={`tab ${activeTab === 'coordonnees' ? 'active' : ''}`}
 						onClick={() => handleTabChange('coordonnees')}
 					>
 						Coordonnées
 					</button>
-					<button className={`tab ${activeTab === 'compta' ? 'active' : ''}`} onClick={() => handleTabChange('compta')}>
+					<button
+						type='button'
+						className={`tab ${activeTab === 'compta' ? 'active' : ''}`}
+						onClick={() => handleTabChange('compta')}
+					>
 						Compta
 					</button>
-					<button className={`tab ${activeTab === 'treso' ? 'active' : ''}`} onClick={() => handleTabChange('treso')}>
+					<button
+						type='button'
+						className={`tab ${activeTab === 'treso' ? 'active' : ''}`}
+						onClick={() => handleTabChange('treso')}
+					>
 						Trésorerie
 					</button>
 				</div>
@@ -93,7 +135,7 @@ const ModifyTiersPage: React.FC = () => {
 									Société :
 									<input
 										type='text'
-										value={tiersData.societe || ''}
+										value={tiersData.societe ?? ''}
 										onChange={(e) => handleInputChange('societe', e.target.value)}
 									/>
 								</label>
@@ -101,7 +143,7 @@ const ModifyTiersPage: React.FC = () => {
 									Activité :
 									<input
 										type='text'
-										value={tiersData.activite || ''}
+										value={tiersData.activite ?? ''}
 										onChange={(e) => handleInputChange('activite', e.target.value)}
 									/>
 								</label>
@@ -109,7 +151,7 @@ const ModifyTiersPage: React.FC = () => {
 									Rubrique :
 									<input
 										type='text'
-										value={tiersData.rubrique_tresorerie || ''}
+										value={tiersData.rubrique_tresorerie ?? ''}
 										onChange={(e) => handleInputChange('rubrique_tresorerie', e.target.value)}
 									/>
 								</label>
@@ -117,7 +159,7 @@ const ModifyTiersPage: React.FC = () => {
 									APE :
 									<input
 										type='text'
-										value={tiersData.ape || ''}
+										value={tiersData.ape ?? ''}
 										onChange={(e) => handleInputChange('ape', e.target.value)}
 									/>
 								</label>
@@ -125,14 +167,14 @@ const ModifyTiersPage: React.FC = () => {
 									SIRET :
 									<input
 										type='text'
-										value={tiersData.siret || ''}
+										value={tiersData.siret ?? ''}
 										onChange={(e) => handleInputChange('siret', e.target.value)}
 									/>
 								</label>
 								<label>
 									Forme juridique :
 									<select
-										value={tiersData.forme_juridique || ''}
+										value={tiersData.forme_juridique ?? ''}
 										onChange={(e) => handleInputChange('forme_juridique', e.target.value)}
 									>
 										<option value='SARL'>SARL</option>
@@ -144,7 +186,7 @@ const ModifyTiersPage: React.FC = () => {
 									Rue :
 									<input
 										type='text'
-										value={tiersData.rue || ''}
+										value={tiersData.rue ?? ''}
 										onChange={(e) => handleInputChange('rue', e.target.value)}
 									/>
 								</label>
@@ -152,19 +194,19 @@ const ModifyTiersPage: React.FC = () => {
 									Complément :
 									<input
 										type='text'
-										value={tiersData.complement || ''}
+										value={tiersData.complement ?? ''}
 										onChange={(e) => handleInputChange('complement', e.target.value)}
 									/>
 								</label>
 								<label>
 									CP & Ville :
-									<input type='text' value={`${tiersData.code_postal || ''} ${tiersData.ville || ''}`} readOnly />
+									<input type='text' value={`${tiersData.code_postal ?? ''} ${tiersData.ville ?? ''}`} readOnly />
 								</label>
 								<label>
 									Pays :
 									<input
 										type='text'
-										value={tiersData.pays || ''}
+										value={tiersData.pays ?? ''}
 										onChange={(e) => handleInputChange('pays', e.target.value)}
 									/>
 								</label>
@@ -179,7 +221,7 @@ const ModifyTiersPage: React.FC = () => {
 									N° Compte Général :
 									<input
 										type='text'
-										value={tiersData.no_compte_general || ''}
+										value={tiersData.no_compte_general ?? ''}
 										onChange={(e) => handleInputChange('no_compte_general', e.target.value)}
 									/>
 								</label>
@@ -187,7 +229,7 @@ const ModifyTiersPage: React.FC = () => {
 									N° Compte Charge :
 									<input
 										type='text'
-										value={tiersData.no_compte_charge || ''}
+										value={tiersData.no_compte_charge ?? ''}
 										onChange={(e) => handleInputChange('no_compte_charge', e.target.value)}
 									/>
 								</label>
@@ -195,7 +237,7 @@ const ModifyTiersPage: React.FC = () => {
 									N° Compte Tiers :
 									<input
 										type='text'
-										value={tiersData.no_compte_tiers || ''}
+										value={tiersData.no_compte_tiers ?? ''}
 										onChange={(e) => handleInputChange('no_compte_tiers', e.target.value)}
 									/>
 								</label>
@@ -203,14 +245,14 @@ const ModifyTiersPage: React.FC = () => {
 									Intitulé du Compte :
 									<input
 										type='text'
-										value={tiersData.intitule_compte_tiers || ''}
+										value={tiersData.intitule_compte_tiers ?? ''}
 										onChange={(e) => handleInputChange('intitule_compte_tiers', e.target.value)}
 									/>
 								</label>
 								<label>
 									Type Compte :
 									<select
-										value={tiersData.type_compte || ''}
+										value={tiersData.type_compte ?? ''}
 										onChange={(e) => handleInputChange('type_compte', e.target.value)}
 									>
 										<option value='Fournisseur'>Fournisseur</option>
@@ -220,7 +262,7 @@ const ModifyTiersPage: React.FC = () => {
 								<label>
 									Assujetti TVA :
 									<select
-										value={tiersData.avec_tva || ''}
+										value={tiersData.avec_tva ?? ''}
 										onChange={(e) => handleInputChange('avec_tva', e.target.value)}
 									>
 										<option value='0'>Non</option>
@@ -231,7 +273,7 @@ const ModifyTiersPage: React.FC = () => {
 									Taux TVA :
 									<input
 										type='text'
-										value={tiersData.taux_tva || ''}
+										value={tiersData.taux_tva ?? ''}
 										onChange={(e) => handleInputChange('taux_tva', e.target.value)}
 									/>
 								</label>
@@ -239,7 +281,7 @@ const ModifyTiersPage: React.FC = () => {
 									BIC :
 									<input
 										type='text'
-										value={tiersData.bic || ''}
+										value={tiersData.bic ?? ''}
 										onChange={(e) => handleInputChange('bic', e.target.value)}
 									/>
 								</label>
@@ -253,7 +295,7 @@ const ModifyTiersPage: React.FC = () => {
 								<label>
 									Mode de Paiement :
 									<select
-										value={tiersData.mode_paiement || ''}
+										value={tiersData.mode_paiement ?? ''}
 										onChange={(e) => handleInputChange('mode_paiement', e.target.value)}
 									>
 										<option value='Prélèvement'>Prélèvement</option>
@@ -263,7 +305,7 @@ const ModifyTiersPage: React.FC = () => {
 								<label>
 									Partenaire Payeur :
 									<select
-										value={tiersData.partenaire_payeur || ''}
+										value={tiersData.partenaire_payeur ?? ''}
 										onChange={(e) => handleInputChange('partenaire_payeur', e.target.value)}
 									>
 										<option value='0'>Non</option>
