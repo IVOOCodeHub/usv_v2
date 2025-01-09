@@ -5,7 +5,7 @@ import "./displayCourrierModal.scss";
 import withAuth from "../../views/auth/WithAuth.tsx";
 import { Dispatch, ReactElement, useEffect, useRef, useContext } from "react";
 import { ICourrier } from "../../utils/types/courrier.interface.ts";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, NavigateFunction } from "react-router-dom";
 
 // components
 import Button from "../button/Button.tsx";
@@ -33,6 +33,7 @@ export function DisplayCourrierModal({
   const iFrameRef = useRef<HTMLDivElement | null>(null);
   const { selectedCourrier, isModalOpen, setIsModalOpen } = props;
   const { getFileURL, fileURL } = useContext(FileContext);
+  const navigate: NavigateFunction = useNavigate();
 
   function isICourrier(courrier: unknown): courrier is ICourrier {
     return (
@@ -87,17 +88,40 @@ export function DisplayCourrierModal({
         <div className={"NewCourrierActions"}>
           <div className={"buttonContainer"}>
             <Button
-              props={{ style: "blue", text: "Courrier reçu", type: "button" }}
+              props={{
+                style: "blue",
+                text: "Courrier reçu",
+                type: "button",
+                onClick: (): void =>
+                  navigate(
+                    "/commandes/gestion_des_courriers/nouveaux_courriers/nouveaux_courriers_traitement",
+                    { state: { kindOfPiece: "RECEIVED" } },
+                  ),
+              }}
             />
             <Button
               props={{
                 style: "blue",
                 text: "Courrier interne",
                 type: "button",
+                onClick: (): void =>
+                  navigate(
+                    "/commandes/gestion_des_courriers/nouveaux_courriers/nouveaux_courriers_traitement",
+                    { state: { kindOfPiece: "INTERNAL" } },
+                  ),
               }}
             />
             <Button
-              props={{ style: "blue", text: "Courrier envoyé", type: "button" }}
+              props={{
+                style: "blue",
+                text: "Courrier envoyé",
+                type: "button",
+                onClick: (): void =>
+                  navigate(
+                    "/commandes/gestion_des_courriers/nouveaux_courriers/nouveaux_courriers_traitement",
+                    { state: { kindOfPiece: "SENT" } },
+                  ),
+              }}
             />
             <Button
               props={{ style: "red", text: "Supprimer", type: "button" }}

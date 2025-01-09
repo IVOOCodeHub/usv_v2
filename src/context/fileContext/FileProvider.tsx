@@ -1,8 +1,9 @@
 // hooks | libraries
-import { useState, useMemo, ReactElement } from "react";
+import { useState, useMemo, ReactElement, useContext } from "react";
 
 // context
 import { FileContext } from "./FileContext.tsx";
+import { LoaderContext } from "../loaderContext";
 
 // services
 import {
@@ -15,10 +16,12 @@ export const FileProvider = ({
 }: {
   children: ReactElement;
 }): ReactElement => {
+  const { startLoading, stopLoading } = useContext(LoaderContext);
   const [files, setFiles] = useState<string[]>([]);
   const [fileURL, setFileURL] = useState<string | null>(null);
 
   const getFiles = async (): Promise<void> => {
+    startLoading();
     await new Promise((resolve: (value: unknown) => void): number =>
       setTimeout(resolve, 500),
     );
@@ -30,6 +33,7 @@ export const FileProvider = ({
       console.error("Error while getting files list :", error);
       setFiles([]);
     }
+    stopLoading();
   };
 
   const getFileURL = async (fileName: string): Promise<void> => {

@@ -2,7 +2,13 @@
 import "./nouveauxCourriers.scss";
 
 // hooks | libraries
-import {ReactElement, useContext, useState, useEffect, ChangeEvent} from "react";
+import {
+  ReactElement,
+  useContext,
+  useState,
+  useEffect,
+  ChangeEvent,
+} from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 
 // components
@@ -20,12 +26,12 @@ import { FileContext } from "../../../../context/fileContext/FileContext.tsx";
 
 function NouveauxCourriers(): ReactElement {
   const navigate: NavigateFunction = useNavigate();
-  const { isLoading, startLoading, stopLoading } = useContext(LoaderContext);
+  const { isLoading } = useContext(LoaderContext);
   const { files, getFiles } = useContext(FileContext);
   const [bodyArray, setBodyArray] = useState<string[][]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [courrier, setCourrier] = useState<string>("");
-  const [newFile, setNewFile] = useState<File | null>(null)
+  const [newFile, setNewFile] = useState<File | null>(null);
 
   const getFileDate = (file: string): string => {
     let datePart: string = "";
@@ -61,7 +67,6 @@ function NouveauxCourriers(): ReactElement {
   };
 
   useEffect((): void => {
-    startLoading();
     getFiles().finally();
   }, []);
 
@@ -76,20 +81,23 @@ function NouveauxCourriers(): ReactElement {
       );
       setBodyArray(convertToArray(sortedFiles));
     }
-    stopLoading();
   }, [getFiles, files]);
 
   const displayCourrier = (index: number, fileName: string): void => {
+    console.log('Clicked Row :', index);
     setCourrier(fileName);
     setIsModalOpen(true);
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    event.preventDefault();
     const file: File | undefined = event.target.files?.[0];
     if (file) {
       setNewFile(file);
     }
   };
+
+  console.log("newFiles =>", newFile);
 
   return (
     <>
@@ -132,7 +140,7 @@ function NouveauxCourriers(): ReactElement {
               }
             />
           )}
-          <div className={'uploadFileContainer'}>
+          <div className={"uploadFileContainer"}>
             <Button
               props={{
                 style: "blue",
@@ -140,7 +148,7 @@ function NouveauxCourriers(): ReactElement {
                 type: "button",
               }}
             />
-            <input type={'file'} onChange={handleFileChange} />
+            <input type={"file"} onChange={handleFileChange} />
           </div>
         </div>
         <div className={"buttonWrapper"}>
