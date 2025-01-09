@@ -9,10 +9,11 @@
 
     .coordonnees-container {
         display: flex;
-        flex-direction: row; // Horizontal layout
+        flex-direction: row;
         width: 100%;
-        gap: 6em; // Space between sections
-        flex-wrap: wrap; // Allow wrapping to the next line if needed
+        gap: 6em; // Horizontal gap
+        row-gap: 2em; // Vertical gap
+        flex-wrap: wrap;
 
         .tab-panel {
             flex: 1; // Allow sections to grow and shrink
