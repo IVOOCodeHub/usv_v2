@@ -36,6 +36,29 @@ interface TiersData {
 	partenaire_payeur?: string
 	delai_reglement?: string
 	recurrent?: string
+	civilite_responsable?: string
+	nom_responsable?: string
+	telephone_responsable?: string
+	mobile_responsable?: string
+	fax_responsable?: string
+	email_responsable?: string
+	site_web?: string
+	identifiant_site?: string
+	mdf_site?: string
+	civilite_contact1?: string
+	nom_contact1?: string
+	telephone_contact1?: string
+	mobile_contact1?: string
+	fax_contact1?: string
+	email_contact1?: string
+	civilite_contact2?: string
+	nom_contact2?: string
+	telephone_contact2?: string
+	mobile_contact2?: string
+	fax_contact2?: string
+	email_contact2?: string
+	beneficiaire_enregistre?: string
+	banque_enregistre?: string
 }
 
 const ModifyTiersPage: React.FC = () => {
@@ -99,7 +122,7 @@ const ModifyTiersPage: React.FC = () => {
 		<div id='modifyTiersPage'>
 			<Header
 				props={{
-					pageURL: `GIVOO | MODIFICATION FOURNISSEUR : ${tiersData.societe ?? ''}`,
+					pageURL: `GIVOO | MODIFICATION FOURNISSEUR : ${tiersData.societe ?? 'NC'}`,
 				}}
 			/>
 			<main>
@@ -135,7 +158,7 @@ const ModifyTiersPage: React.FC = () => {
 									Société :
 									<input
 										type='text'
-										value={tiersData.societe ?? ''}
+										value={tiersData.societe ?? 'NC'}
 										onChange={(e) => handleInputChange('societe', e.target.value)}
 									/>
 								</label>
@@ -143,7 +166,7 @@ const ModifyTiersPage: React.FC = () => {
 									Activité :
 									<input
 										type='text'
-										value={tiersData.activite ?? ''}
+										value={tiersData.activite ?? 'NC'}
 										onChange={(e) => handleInputChange('activite', e.target.value)}
 									/>
 								</label>
@@ -151,7 +174,7 @@ const ModifyTiersPage: React.FC = () => {
 									Rubrique :
 									<input
 										type='text'
-										value={tiersData.rubrique_tresorerie ?? ''}
+										value={tiersData.rubrique_tresorerie ?? 'NC'}
 										onChange={(e) => handleInputChange('rubrique_tresorerie', e.target.value)}
 									/>
 								</label>
@@ -159,7 +182,7 @@ const ModifyTiersPage: React.FC = () => {
 									APE :
 									<input
 										type='text'
-										value={tiersData.ape ?? ''}
+										value={tiersData.ape ?? 'NC'}
 										onChange={(e) => handleInputChange('ape', e.target.value)}
 									/>
 								</label>
@@ -167,14 +190,14 @@ const ModifyTiersPage: React.FC = () => {
 									SIRET :
 									<input
 										type='text'
-										value={tiersData.siret ?? ''}
+										value={tiersData.siret ?? 'NC'}
 										onChange={(e) => handleInputChange('siret', e.target.value)}
 									/>
 								</label>
 								<label>
 									Forme juridique :
 									<select
-										value={tiersData.forme_juridique ?? ''}
+										value={tiersData.forme_juridique ?? 'NC'}
 										onChange={(e) => handleInputChange('forme_juridique', e.target.value)}
 									>
 										<option value='SARL'>SARL</option>
@@ -186,7 +209,7 @@ const ModifyTiersPage: React.FC = () => {
 									Rue :
 									<input
 										type='text'
-										value={tiersData.rue ?? ''}
+										value={tiersData.rue ?? 'NC'}
 										onChange={(e) => handleInputChange('rue', e.target.value)}
 									/>
 								</label>
@@ -194,20 +217,194 @@ const ModifyTiersPage: React.FC = () => {
 									Complément :
 									<input
 										type='text'
-										value={tiersData.complement ?? ''}
+										value={tiersData.complement ?? 'NC'}
 										onChange={(e) => handleInputChange('complement', e.target.value)}
 									/>
 								</label>
 								<label>
 									CP & Ville :
-									<input type='text' value={`${tiersData.code_postal ?? ''} ${tiersData.ville ?? ''}`} readOnly />
+									<input type='text' value={`${tiersData.code_postal ?? 'NC'} ${tiersData.ville ?? 'NC'}`} readOnly />
 								</label>
 								<label>
 									Pays :
 									<input
 										type='text'
-										value={tiersData.pays ?? ''}
+										value={tiersData.pays ?? 'NC'}
 										onChange={(e) => handleInputChange('pays', e.target.value)}
+									/>
+								</label>
+								<label>
+									Civilité Responsable :
+									<select
+										value={tiersData.civilite_responsable ?? 'NC'}
+										onChange={(e) => handleInputChange('civilite_responsable', e.target.value)}
+									>
+										<option value='M.'>M.</option>
+										<option value='Mme'>Mme</option>
+									</select>
+								</label>
+								<label>
+									Nom Responsable :
+									<input
+										type='text'
+										value={tiersData.nom_responsable ?? 'NC'}
+										onChange={(e) => handleInputChange('nom_responsable', e.target.value)}
+									/>
+								</label>
+								<label>
+									Téléphone Responsable :
+									<input
+										type='text'
+										value={tiersData.telephone_responsable ?? 'NC'}
+										onChange={(e) => handleInputChange('telephone_responsable', e.target.value)}
+									/>
+								</label>
+								<label>
+									Mobile Responsable :
+									<input
+										type='text'
+										value={tiersData.mobile_responsable ?? 'NC'}
+										onChange={(e) => handleInputChange('mobile_responsable', e.target.value)}
+									/>
+								</label>
+								<label>
+									Fax Responsable :
+									<input
+										type='text'
+										value={tiersData.fax_responsable ?? 'NC'}
+										onChange={(e) => handleInputChange('fax_responsable', e.target.value)}
+									/>
+								</label>
+								<label>
+									Email Responsable :
+									<input
+										type='email'
+										value={tiersData.email_responsable ?? 'NC'}
+										onChange={(e) => handleInputChange('email_responsable', e.target.value)}
+									/>
+								</label>
+								<label>
+									Site Web :
+									<input
+										type='text'
+										value={tiersData.site_web ?? 'NC'}
+										onChange={(e) => handleInputChange('site_web', e.target.value)}
+									/>
+								</label>
+								<label>
+									Identifiant Site :
+									<input
+										type='text'
+										value={tiersData.identifiant_site ?? 'NC'}
+										onChange={(e) => handleInputChange('identifiant_site', e.target.value)}
+									/>
+								</label>
+								<label>
+									MDF Site :
+									<input
+										type='text'
+										value={tiersData.mdf_site ?? 'NC'}
+										onChange={(e) => handleInputChange('mdf_site', e.target.value)}
+									/>
+								</label>
+								<label>
+									Civilité Contact I :
+									<select
+										value={tiersData.civilite_contact1 ?? 'NC'}
+										onChange={(e) => handleInputChange('civilite_contact1', e.target.value)}
+									>
+										<option value='M.'>M.</option>
+										<option value='Mme'>Mme</option>
+									</select>
+								</label>
+								<label>
+									Nom Contact I :
+									<input
+										type='text'
+										value={tiersData.nom_contact1 ?? 'NC'}
+										onChange={(e) => handleInputChange('nom_contact1', e.target.value)}
+									/>
+								</label>
+								<label>
+									Téléphone Contact I :
+									<input
+										type='text'
+										value={tiersData.telephone_contact1 ?? 'NC'}
+										onChange={(e) => handleInputChange('telephone_contact1', e.target.value)}
+									/>
+								</label>
+								<label>
+									Mobile Contact I :
+									<input
+										type='text'
+										value={tiersData.mobile_contact1 ?? 'NC'}
+										onChange={(e) => handleInputChange('mobile_contact1', e.target.value)}
+									/>
+								</label>
+								<label>
+									Fax Contact I :
+									<input
+										type='text'
+										value={tiersData.fax_contact1 ?? 'NC'}
+										onChange={(e) => handleInputChange('fax_contact1', e.target.value)}
+									/>
+								</label>
+								<label>
+									Email Contact I :
+									<input
+										type='email'
+										value={tiersData.email_contact1 ?? 'NC'}
+										onChange={(e) => handleInputChange('email_contact1', e.target.value)}
+									/>
+								</label>
+								<label>
+									Civilité Contact II :
+									<select
+										value={tiersData.civilite_contact2 ?? 'NC'}
+										onChange={(e) => handleInputChange('civilite_contact2', e.target.value)}
+									>
+										<option value='M.'>M.</option>
+										<option value='Mme'>Mme</option>
+									</select>
+								</label>
+								<label>
+									Nom Contact II :
+									<input
+										type='text'
+										value={tiersData.nom_contact2 ?? 'NC'}
+										onChange={(e) => handleInputChange('nom_contact2', e.target.value)}
+									/>
+								</label>
+								<label>
+									Téléphone Contact II :
+									<input
+										type='text'
+										value={tiersData.telephone_contact2 ?? 'NC'}
+										onChange={(e) => handleInputChange('telephone_contact2', e.target.value)}
+									/>
+								</label>
+								<label>
+									Mobile Contact II :
+									<input
+										type='text'
+										value={tiersData.mobile_contact2 ?? 'NC'}
+										onChange={(e) => handleInputChange('mobile_contact2', e.target.value)}
+									/>
+								</label>
+								<label>
+									Fax Contact II :
+									<input
+										type='text'
+										value={tiersData.fax_contact2 ?? 'NC'}
+										onChange={(e) => handleInputChange('fax_contact2', e.target.value)}
+									/>
+								</label>
+								<label>
+									Email Contact II :
+									<input
+										type='email'
+										value={tiersData.email_contact2 ?? 'NC'}
+										onChange={(e) => handleInputChange('email_contact2', e.target.value)}
 									/>
 								</label>
 							</div>
@@ -221,7 +418,7 @@ const ModifyTiersPage: React.FC = () => {
 									N° Compte Général :
 									<input
 										type='text'
-										value={tiersData.no_compte_general ?? ''}
+										value={tiersData.no_compte_general ?? 'NC'}
 										onChange={(e) => handleInputChange('no_compte_general', e.target.value)}
 									/>
 								</label>
@@ -229,7 +426,7 @@ const ModifyTiersPage: React.FC = () => {
 									N° Compte Charge :
 									<input
 										type='text'
-										value={tiersData.no_compte_charge ?? ''}
+										value={tiersData.no_compte_charge ?? 'NC'}
 										onChange={(e) => handleInputChange('no_compte_charge', e.target.value)}
 									/>
 								</label>
@@ -237,7 +434,7 @@ const ModifyTiersPage: React.FC = () => {
 									N° Compte Tiers :
 									<input
 										type='text'
-										value={tiersData.no_compte_tiers ?? ''}
+										value={tiersData.no_compte_tiers ?? 'NC'}
 										onChange={(e) => handleInputChange('no_compte_tiers', e.target.value)}
 									/>
 								</label>
@@ -245,14 +442,14 @@ const ModifyTiersPage: React.FC = () => {
 									Intitulé du Compte :
 									<input
 										type='text'
-										value={tiersData.intitule_compte_tiers ?? ''}
+										value={tiersData.intitule_compte_tiers ?? 'NC'}
 										onChange={(e) => handleInputChange('intitule_compte_tiers', e.target.value)}
 									/>
 								</label>
 								<label>
 									Type Compte :
 									<select
-										value={tiersData.type_compte ?? ''}
+										value={tiersData.type_compte ?? 'NC'}
 										onChange={(e) => handleInputChange('type_compte', e.target.value)}
 									>
 										<option value='Fournisseur'>Fournisseur</option>
@@ -262,7 +459,7 @@ const ModifyTiersPage: React.FC = () => {
 								<label>
 									Assujetti TVA :
 									<select
-										value={tiersData.avec_tva ?? ''}
+										value={tiersData.avec_tva ?? 'NC'}
 										onChange={(e) => handleInputChange('avec_tva', e.target.value)}
 									>
 										<option value='0'>Non</option>
@@ -273,7 +470,7 @@ const ModifyTiersPage: React.FC = () => {
 									Taux TVA :
 									<input
 										type='text'
-										value={tiersData.taux_tva ?? ''}
+										value={tiersData.taux_tva ?? 'NC'}
 										onChange={(e) => handleInputChange('taux_tva', e.target.value)}
 									/>
 								</label>
@@ -281,7 +478,7 @@ const ModifyTiersPage: React.FC = () => {
 									BIC :
 									<input
 										type='text'
-										value={tiersData.bic ?? ''}
+										value={tiersData.bic ?? 'NC'}
 										onChange={(e) => handleInputChange('bic', e.target.value)}
 									/>
 								</label>
@@ -295,7 +492,7 @@ const ModifyTiersPage: React.FC = () => {
 								<label>
 									Mode de Paiement :
 									<select
-										value={tiersData.mode_paiement ?? ''}
+										value={tiersData.mode_paiement ?? 'NC'}
 										onChange={(e) => handleInputChange('mode_paiement', e.target.value)}
 									>
 										<option value='Prélèvement'>Prélèvement</option>
@@ -305,8 +502,44 @@ const ModifyTiersPage: React.FC = () => {
 								<label>
 									Partenaire Payeur :
 									<select
-										value={tiersData.partenaire_payeur ?? ''}
+										value={tiersData.partenaire_payeur ?? 'NC'}
 										onChange={(e) => handleInputChange('partenaire_payeur', e.target.value)}
+									>
+										<option value='0'>Non</option>
+										<option value='1'>Oui</option>
+									</select>
+								</label>
+								<label>
+									Délai de Règlement :
+									<input
+										type='text'
+										value={tiersData.delai_reglement ?? 'NC'}
+										onChange={(e) => handleInputChange('delai_reglement', e.target.value)}
+									/>
+								</label>
+								<label>
+									Bénéficiaire Enregistré :
+									<select
+										value={tiersData.beneficiaire_enregistre ?? 'NC'}
+										onChange={(e) => handleInputChange('beneficiaire_enregistre', e.target.value)}
+									>
+										<option value='0'>Non</option>
+										<option value='1'>Oui</option>
+									</select>
+								</label>
+								<label>
+									Banque Enregistrée :
+									<input
+										type='text'
+										value={tiersData.banque_enregistre ?? 'NC'}
+										onChange={(e) => handleInputChange('banque_enregistre', e.target.value)}
+									/>
+								</label>
+								<label>
+									Récurrent :
+									<select
+										value={tiersData.recurrent ?? 'NC'}
+										onChange={(e) => handleInputChange('recurrent', e.target.value)}
 									>
 										<option value='0'>Non</option>
 										<option value='1'>Oui</option>
