@@ -277,6 +277,8 @@
 										onChange={(e) => handleInputChange('pays', e.target.value)}
 									/>
 								</label>
+                </div>
+                </div>
 								<label>
 									Civilité Responsable :
 									<select

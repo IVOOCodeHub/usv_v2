@@ -5,23 +5,18 @@
     justify-content: flex-start;
     background: #f2f2f2;
     min-height: 90vh;
-    padding: 1em; // Reduced padding for mobile
+    padding: 1em;
 
     .coordonnees-container {
         display: flex;
-        flex-direction: row; // Horizontal layout for desktop
+        flex-direction: row; // Horizontal layout
         width: 100%;
-        gap: 1em;
-        overflow-x: auto; // Allow horizontal scrolling for small screens
-
-        @media (max-width: 768px) {
-            flex-direction: column; // Stack vertically on mobile
-            gap: 1.5em; // Add more gap between sections
-        }
+        gap: 6em; // Space between sections
+        flex-wrap: wrap; // Allow wrapping to the next line if needed
 
         .tab-panel {
-            flex: 1;
-            min-width: 300px; // Minimum width for desktop
+            flex: 1; // Allow sections to grow and shrink
+            min-width: 350px; // Increase minimum width for each section
             background: #ffffff;
             border: 1px solid #36395a;
             border-radius: 6px;
@@ -65,7 +60,7 @@
                     input,
                     select {
                         flex: 1;
-                        max-width: 200px; // Adjust input width for desktop
+                        max-width: 250px; // Increase input width for desktop
                         margin-left: 1em;
                         padding: 0.5em;
                         border: 1px solid #36395a;

@@ -152,6 +152,93 @@ const ModifyTiersPage: React.FC = () => {
 				<div className='tab-content'>
 					{activeTab === 'coordonnees' && (
 						<div className='coordonnees-container'>
+							{/* New Coordonnées Section */}
+							<section className='tab-panel'>
+								<h2>Coordonnées</h2>
+								<div className='form-container'>
+									<label>
+										Société :
+										<input
+											type='text'
+											value={tiersData.societe ?? 'NC'}
+											onChange={(e) => handleInputChange('societe', e.target.value)}
+										/>
+									</label>
+									<label>
+										Activité :
+										<input
+											type='text'
+											value={tiersData.activite ?? 'NC'}
+											onChange={(e) => handleInputChange('activite', e.target.value)}
+										/>
+									</label>
+									<label>
+										Rubrique :
+										<input
+											type='text'
+											value={tiersData.rubrique_tresorerie ?? 'NC'}
+											onChange={(e) => handleInputChange('rubrique_tresorerie', e.target.value)}
+										/>
+									</label>
+									<label>
+										APE :
+										<input
+											type='text'
+											value={tiersData.ape ?? 'NC'}
+											onChange={(e) => handleInputChange('ape', e.target.value)}
+										/>
+									</label>
+									<label>
+										SIRET :
+										<input
+											type='text'
+											value={tiersData.siret ?? 'NC'}
+											onChange={(e) => handleInputChange('siret', e.target.value)}
+										/>
+									</label>
+									<label>
+										Forme juridique :
+										<select
+											value={tiersData.forme_juridique ?? 'NC'}
+											onChange={(e) => handleInputChange('forme_juridique', e.target.value)}
+										>
+											<option value='SARL'>SARL</option>
+											<option value='SAS'>SAS</option>
+											<option value='SA'>SA</option>
+										</select>
+									</label>
+									<label>
+										Rue :
+										<input
+											type='text'
+											value={tiersData.rue ?? 'NC'}
+											onChange={(e) => handleInputChange('rue', e.target.value)}
+										/>
+									</label>
+									<label>
+										Complément :
+										<input
+											type='text'
+											value={tiersData.complement ?? 'NC'}
+											onChange={(e) => handleInputChange('complement', e.target.value)}
+										/>
+									</label>
+									<label>
+										CP & Ville :
+										<input type='text' value={`${tiersData.code_postal ?? 'NC'} ${tiersData.ville ?? 'NC'}`} readOnly />
+									</label>
+									<label>
+										Pays :
+										<input
+											type='text'
+											value={tiersData.pays ?? 'NC'}
+											onChange={(e) => handleInputChange('pays', e.target.value)}
+										/>
+									</label>
+								</div>
+							</section>
+
+							{/* Existing Responsable Section */}
 							<section className='tab-panel'>
 								<h2>Responsable</h2>
 								<div className='form-container'>
@@ -169,7 +256,7 @@ const ModifyTiersPage: React.FC = () => {
 										Nom :
 										<input
 											type='text'
-											value={tiersData.nom_responsable ?? 'NC'}
+											value={tiersData.intitule_compte_tiers ?? 'NC'}
 											onChange={(e) => handleInputChange('nom_responsable', e.target.value)}
 										/>
 									</label>
@@ -231,6 +318,8 @@ const ModifyTiersPage: React.FC = () => {
 									</label>
 								</div>
 							</section>
+
+							{/* Existing Contact I Section */}
 							<section className='tab-panel'>
 								<h2>Contact I</h2>
 								<div className='form-container'>
@@ -286,6 +375,8 @@ const ModifyTiersPage: React.FC = () => {
 									</label>
 								</div>
 							</section>
+
+							{/* Existing Contact II Section */}
 							<section className='tab-panel'>
 								<h2>Contact II</h2>
 								<div className='form-container'>
