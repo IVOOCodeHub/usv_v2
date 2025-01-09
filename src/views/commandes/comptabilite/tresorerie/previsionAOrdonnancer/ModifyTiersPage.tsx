@@ -7,58 +7,71 @@ import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button'
 
 interface TiersData {
-	societe?: string
+	actif?: string
 	activite?: string
-	rubrique_tresorerie?: string
 	ape?: string
-	siret?: string
-	forme_juridique?: string
-	rue?: string
-	complement?: string
-	code_postal?: string
-	ville?: string
-	pays?: string
-	no_compte_general?: string
-	no_compte_charge?: string
-	no_compte_tiers?: string
-	intitule_compte_tiers?: string
-	type_compte?: string
+	auteur_creation?: string
+	auteur_validation?: string
 	avec_tva?: string
-	taux_tva?: string
+	banque_beneficiaire?: string
+	beneficiaire_enregistre?: string
 	bic?: string
-	iban_code_pays?: string
+	cle_rubrique_tresorerie?: string
+	code?: string
+	code_postal?: string
+	code_regrp2?: string
+	complement?: string
+	contact1_civilite?: string
+	contact1_email?: string
+	contact1_fax?: string
+	contact1_mobile?: string
+	contact1_nom?: string
+	contact1_telephone?: string
+	contact2_civilite?: string
+	contact2_email?: string
+	contact2_fax?: string
+	contact2_mobile?: string
+	contact2_nom?: string
+	contact2_telephone?: string
+	date_creation?: string
+	date_statut?: string
+	date_validation?: string
+	delai_reglement?: string
+	forme_juridique?: string
+	iban?: string
 	iban_cle_pays?: string
+	iban_cle_rib?: string
 	iban_code_banque?: string
 	iban_code_guichet?: string
+	iban_code_pays?: string
 	iban_no_compte?: string
-	iban_cle_rib?: string
+	identifiant?: string
+	interco?: string
+	intitule_compte_tiers?: string
 	mode_paiement?: string
+	mot_de_passe?: string
+	no_compte_charge?: string
+	no_compte_general?: string
+	no_compte_tiers?: string
 	partenaire_payeur?: string
-	delai_reglement?: string
+	pays?: string
 	recurrent?: string
-	civilite_responsable?: string
-	nom_responsable?: string
-	telephone_responsable?: string
-	mobile_responsable?: string
-	fax_responsable?: string
-	email_responsable?: string
-	site_web?: string
-	identifiant_site?: string
-	mdf_site?: string
-	civilite_contact1?: string
-	nom_contact1?: string
-	telephone_contact1?: string
-	mobile_contact1?: string
-	fax_contact1?: string
-	email_contact1?: string
-	civilite_contact2?: string
-	nom_contact2?: string
-	telephone_contact2?: string
-	mobile_contact2?: string
-	fax_contact2?: string
-	email_contact2?: string
-	beneficiaire_enregistre?: string
-	banque_enregistre?: string
+	responsable_civilite?: string
+	responsable_email?: string
+	responsable_fax?: string
+	responsable_mobile?: string
+	responsable_nom?: string
+	responsable_telephone?: string
+	rubrique_tresorerie?: string
+	rue?: string
+	siret?: string
+	site_internet?: string
+	societe?: string
+	societe_code_compta?: string
+	statut?: string
+	taux_tva?: string
+	type_compte?: string
+	ville?: string
 }
 
 const ModifyTiersPage: React.FC = () => {
@@ -256,7 +269,7 @@ const ModifyTiersPage: React.FC = () => {
 										Nom :
 										<input
 											type='text'
-											value={tiersData.intitule_compte_tiers ?? 'NC'}
+											value={tiersData.responsable_nom ?? 'NC'}
 											onChange={(e) => handleInputChange('nom_responsable', e.target.value)}
 										/>
 									</label>
@@ -494,7 +507,7 @@ const ModifyTiersPage: React.FC = () => {
 									Taux TVA :
 									<input
 										type='text'
-										value={tiersData.taux_tva ?? 'NC'}
+										value={Number(tiersData.taux_tva) || 'NC'}
 										onChange={(e) => handleInputChange('taux_tva', e.target.value)}
 									/>
 								</label>
