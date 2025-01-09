@@ -1,0 +1,60 @@
+@use "../../../../utils/styles/mixins.scss" as mixins;
+
+#nouveauxCourriersTraitement {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 90dvh;
+  background: #f2f2f2;
+  gap: 4em;
+}
+
+#nouveauxCourriersTraitement .container {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+#nouveauxCourriersTraitement .container .leftSide,
+#nouveauxCourriersTraitement .container .rightSide {
+  padding: 1em;
+  width: 46%;
+}
+
+#nouveauxCourriersTraitement .iFrameContainer {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#nouveauxCourriersTraitement .iFrameContainer iframe {
+  width: 100%;
+  height: 78dvh;
+}
+
+#nouveauxCourriersTraitement .container .rightSide {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  gap: 1em;
+}
+
+#nouveauxCourriersTraitement .container .rightSide h2 {
+  font-size: 1.1dvw;
+}
+
+#nouveauxCourriersTraitement .rightSide form {
+  width: 75% !important;
+  @include mixins.form;
+}
+
+#nouveauxCourriersTraitement .goBackBtnWrapper {
+  margin-top: -3.5em;
+  padding-bottom: 1.5em;
+}

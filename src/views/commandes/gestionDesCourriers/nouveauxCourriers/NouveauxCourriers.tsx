@@ -2,7 +2,13 @@
 import "./nouveauxCourriers.scss";
 
 // hooks | libraries
-import {ReactElement, useContext, useState, useEffect, ChangeEvent} from "react";
+import {
+  ReactElement,
+  useContext,
+  useState,
+  useEffect,
+  ChangeEvent,
+} from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 
 // components
@@ -25,7 +31,7 @@ function NouveauxCourriers(): ReactElement {
   const [bodyArray, setBodyArray] = useState<string[][]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [courrier, setCourrier] = useState<string>("");
-  const [newFile, setNewFile] = useState<File | null>(null)
+  const [newFile, setNewFile] = useState<File | null>(null);
 
   const getFileDate = (file: string): string => {
     let datePart: string = "";
@@ -80,16 +86,20 @@ function NouveauxCourriers(): ReactElement {
   }, [getFiles, files]);
 
   const displayCourrier = (index: number, fileName: string): void => {
+    if (!index) return;
     setCourrier(fileName);
     setIsModalOpen(true);
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    event.preventDefault();
     const file: File | undefined = event.target.files?.[0];
     if (file) {
       setNewFile(file);
     }
   };
+
+  console.log("newFiles =>", newFile);
 
   return (
     <>
@@ -132,7 +142,7 @@ function NouveauxCourriers(): ReactElement {
               }
             />
           )}
-          <div className={'uploadFileContainer'}>
+          <div className={"uploadFileContainer"}>
             <Button
               props={{
                 style: "blue",
@@ -140,7 +150,7 @@ function NouveauxCourriers(): ReactElement {
                 type: "button",
               }}
             />
-            <input type={'file'} onChange={handleFileChange} />
+            <input type={"file"} onChange={handleFileChange} />
           </div>
         </div>
         <div className={"buttonWrapper"}>
