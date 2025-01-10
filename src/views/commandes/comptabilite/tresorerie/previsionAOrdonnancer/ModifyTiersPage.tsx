@@ -519,6 +519,59 @@ const ModifyTiersPage: React.FC = () => {
 										onChange={(e) => handleInputChange('bic', e.target.value)}
 									/>
 								</label>
+
+								{/* New IBAN Fields */}
+								<label>IBAN :</label>
+								<div className='iban-fields'>
+									<label>
+										Code pays :
+										<input
+											type='text'
+											value={tiersData.iban_code_pays ?? 'NC'}
+											onChange={(e) => handleInputChange('iban_code_pays', e.target.value)}
+										/>
+									</label>
+									<label>
+										Clé pays :
+										<input
+											type='text'
+											value={tiersData.iban_cle_pays ?? 'NC'}
+											onChange={(e) => handleInputChange('iban_cle_pays', e.target.value)}
+										/>
+									</label>
+									<label>
+										Code banque :
+										<input
+											type='text'
+											value={tiersData.iban_code_banque ?? 'NC'}
+											onChange={(e) => handleInputChange('iban_code_banque', e.target.value)}
+										/>
+									</label>
+									<label>
+										Code guichet :
+										<input
+											type='text'
+											value={tiersData.iban_code_guichet ?? 'NC'}
+											onChange={(e) => handleInputChange('iban_code_guichet', e.target.value)}
+										/>
+									</label>
+									<label>
+										N° compte :
+										<input
+											type='text'
+											value={tiersData.iban_no_compte ?? 'NC'}
+											onChange={(e) => handleInputChange('iban_no_compte', e.target.value)}
+										/>
+									</label>
+									<label>
+										Clé RIB :
+										<input
+											type='text'
+											value={tiersData.iban_cle_rib ?? 'NC'}
+											onChange={(e) => handleInputChange('iban_cle_rib', e.target.value)}
+										/>
+									</label>
+								</div>
 							</div>
 						</div>
 					)}
@@ -582,6 +635,59 @@ const ModifyTiersPage: React.FC = () => {
 										<option value='1'>Oui</option>
 									</select>
 								</label>
+
+								{/* New IBAN Fields */}
+								<h3>IBAN</h3>
+								<div className='iban-fields'>
+									<label>
+										Code pays :
+										<input
+											type='text'
+											value={tiersData.iban_code_pays ?? 'NC'}
+											onChange={(e) => handleInputChange('iban_code_pays', e.target.value)}
+										/>
+									</label>
+									<label>
+										Clé pays :
+										<input
+											type='text'
+											value={tiersData.iban_cle_pays ?? 'NC'}
+											onChange={(e) => handleInputChange('iban_cle_pays', e.target.value)}
+										/>
+									</label>
+									<label>
+										Code banque :
+										<input
+											type='text'
+											value={tiersData.iban_code_banque ?? 'NC'}
+											onChange={(e) => handleInputChange('iban_code_banque', e.target.value)}
+										/>
+									</label>
+									<label>
+										Code guichet :
+										<input
+											type='text'
+											value={tiersData.iban_code_guichet ?? 'NC'}
+											onChange={(e) => handleInputChange('iban_code_guichet', e.target.value)}
+										/>
+									</label>
+									<label>
+										N° compte :
+										<input
+											type='text'
+											value={tiersData.iban_no_compte ?? 'NC'}
+											onChange={(e) => handleInputChange('iban_no_compte', e.target.value)}
+										/>
+									</label>
+									<label>
+										Clé RIB :
+										<input
+											type='text'
+											value={tiersData.iban_cle_rib ?? 'NC'}
+											onChange={(e) => handleInputChange('iban_cle_rib', e.target.value)}
+										/>
+									</label>
+								</div>
 							</div>
 						</div>
 					)}

@@ -250,4 +250,25 @@
             }
         }
     }
+
+    .iban-fields {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1em; // Space between fields
+
+        label {
+            flex: 1 1 calc(33.33% - 1em); // 3 fields per row
+            min-width: 200px; // Minimum width for each field
+
+            input {
+                width: 100%; // Full width for inputs
+            }
+        }
+
+        @media (max-width: 768px) {
+            label {
+                flex: 1 1 100%; // Full width on mobile
+            }
+        }
+    }
 }
