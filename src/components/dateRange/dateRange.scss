@@ -1,76 +1,75 @@
-@use "../../utils/styles/variables.scss"as vars;
-@use "../../utils/styles/mixins"as mix;
-
 .DateRange__container {
     display: flex;
-    flex-flow: column;
-    gap: 1rem;
-    justify-content: space-between;
-    border: 1px solid #36395a;
-    border-radius: 6px;
-    padding: 1rem;
-}
-
-.dateContainer {
-    display: flex;
-    flex-flow: column;
-    gap: 1rem;
-    justify-content: space-between;
-}
-
-.inputWrapper {
-    display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    /* Ajout d'un espace constant entre le label et l'input */
+    border: none; // Retiré la bordure pour s'intégrer avec `filtersWrapper`
+    background: transparent; // Transparence pour éviter les conflits avec le parent
+    padding: 0;
 
-    @media (max-width: 1024px) {
-        flex-flow: column;
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+
+    .dateContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         gap: 1rem;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            width: 100%;
+        }
     }
-}
 
-.inputWrapper label {
-    width: 30%;
-    /* Maintien de la largeur réduite */
-    font-size: 1rem;
-    text-align: left;
-    white-space: nowrap;
-    margin-right: 1rem;
-    /* Ajout d'un espace entre le label et l'input */
+    .dateButtonWrapper {
+        display: flex;
+        flex-direction: column;
+        /* S'assure que le bouton s'aligne verticalement */
+        justify-content: flex-end;
+        /* Positionne le bouton en bas */
+        align-self: flex-end;
+        /* Permet de descendre le bouton au bas du parent */
+        gap: 1rem;
 
-    @media (max-width: 1024px) {
-        width: 100%;
-        text-align: center;
-        margin-right: 0;
-        /* Supprime l'espace en mode mobile */
+        @media (max-width: 768px) {
+            justify-content: center;
+            /* Centré sur petit écran */
+            align-self: center;
+            /* Centré sur petit écran */
+            width: 100%;
+        }
+
+        button {
+            min-width: 120px;
+        }
     }
-}
 
-input[type="date"] {
-    border: 1px solid #36395a;
-    padding: 0.8em;
-    text-align: center;
-    max-height: 38px;
-    font-size: 12px;
-    min-width: 230px;
-    color: #36395a;
+    .inputWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
 
-    &:hover {
-        cursor: pointer;
+        label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #36395a;
+        }
+
+        input {
+            border: 1px solid #36395a;
+            border-radius: 4px;
+            padding: 0.8em;
+            font-size: 14px;
+            width: 100%;
+            max-width: 250px;
+            text-align: center;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
     }
-}
-
-.buttonContainer {
-    display: flex;
-    justify-content: center;
-    gap: 4em;
-    margin-top: 1em;
-}
-
-.buttonWrapper {
-    display: flex;
-    justify-content: center;
-    gap: 2em;
 }
