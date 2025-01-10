@@ -119,7 +119,7 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 					<>
 						{/* Tableau Budget */}
 						<h2 className='table-subtitle'>Budget</h2>
-						<div className='nrtl-container'>
+						<div className='custom-nrtl-wrapper'>
 							{budget.length > 0 ? (
 								<NRTL
 									datas={{ tableHead: tableHeaders, tableBody: budget }}
@@ -138,7 +138,7 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 
 						{/* Tableau Prévisions */}
 						<h2 className='table-subtitle'>Prévisions</h2>
-						<div className='nrtl-container'>
+						<div className='custom-nrtl-wrapper'>
 							{previsions.length > 0 ? (
 								<NRTL
 									datas={{ tableHead: tableHeaders, tableBody: previsions }}
@@ -157,7 +157,7 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 
 						{/* Tableau Paiements */}
 						<h2 className='table-subtitle'>Paiements</h2>
-						<div className='nrtl-container'>
+						<div className='custom-nrtl-wrapper'>
 							{paiements.length > 0 ? (
 								<NRTL
 									datas={{ tableHead: tableHeaders, tableBody: paiements }}
