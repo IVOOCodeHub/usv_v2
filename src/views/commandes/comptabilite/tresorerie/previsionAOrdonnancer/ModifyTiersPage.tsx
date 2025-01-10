@@ -7,6 +7,11 @@ import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button'
 import { parseIBAN } from '../../../../../utils/scripts/utils'
 
+interface UserCredentials {
+	matricule: string
+	password: string
+}
+
 interface TiersData {
 	actif?: string
 	activite?: string
@@ -75,6 +80,15 @@ interface TiersData {
 	ville?: string
 }
 
+interface ApiResponse {
+	data?: {
+		data?: {
+			rows?: TiersData[] // Replace 'any' with a more specific type if possible
+		}
+	}
+	errorMessage?: string
+}
+
 const isFieldInvalid = (value: string | undefined, expectedLength: number) => {
 	const trimmedValue = value?.trim() // Trim the value to remove useless spaces
 	return !trimmedValue || trimmedValue === 'NC' || trimmedValue.length !== expectedLength
@@ -95,48 +109,13 @@ const ModifyTiersPage: React.FC = () => {
 		}
 
 		setIsLoading(true)
+
 		try {
-			const endpoint = 'http://192.168.0.112:8800/api/storedProcedure'
-			const reqBody = {
-				userID: userCredentials.matricule,
-				password: userCredentials.password,
-				request: 'read_list_data_fournisseurs',
-				args: { code: tiersId },
-				test: true,
-			}
-			const res = await postRequest(endpoint, reqBody)
-			const data = res.data?.data?.rows || {}
-
-			// Parse IBAN and fill missing or invalid fields
+			const data = await fetchTiersData(userCredentials, tiersId)
 			if (data.iban) {
-				const parsedIBAN = parseIBAN(data.iban)
-
-				if (parsedIBAN) {
-					const updatedData = { ...data }
-
-					// Fill in missing or invalid fields
-					if (isFieldInvalid(updatedData.iban_code_pays, 2)) {
-						updatedData.iban_code_pays = parsedIBAN.iban_code_pays
-					}
-					if (isFieldInvalid(updatedData.iban_cle_pays, 2)) {
-						updatedData.iban_cle_pays = parsedIBAN.iban_cle_pays
-					}
-					if (isFieldInvalid(updatedData.iban_code_banque, 5)) {
-						updatedData.iban_code_banque = parsedIBAN.iban_code_banque
-					}
-					if (isFieldInvalid(updatedData.iban_code_guichet, 5)) {
-						updatedData.iban_code_guichet = parsedIBAN.iban_code_guichet
-					}
-					if (isFieldInvalid(updatedData.iban_no_compte, 11)) {
-						updatedData.iban_no_compte = parsedIBAN.iban_no_compte
-					}
-					if (isFieldInvalid(updatedData.iban_cle_rib, 2)) {
-						updatedData.iban_cle_rib = parsedIBAN.iban_cle_rib
-					}
-
-					setTiersData(updatedData)
-					return
-				}
+				const updatedData = updateTiersDataWithIBAN(data)
+				setTiersData(updatedData)
+				return
 			}
 
 			// If no IBAN or parsing fails, set the original data
@@ -146,7 +125,51 @@ const ModifyTiersPage: React.FC = () => {
 		} finally {
 			setIsLoading(false)
 		}
-	}, [userCredentials, tiersId]) // Dependencies for useCallback
+	}, [userCredentials, tiersId])
+
+	// Helper function to fetch tiers data
+	const fetchTiersData = async (userCredentials: UserCredentials, tiersId: string) => {
+		const endpoint = 'http://192.168.0.112:8800/api/storedProcedure'
+		const reqBody = {
+			userID: userCredentials.matricule,
+			password: userCredentials.password,
+			request: 'read_list_data_fournisseurs',
+			args: { code: tiersId },
+			test: true,
+		}
+		const res: ApiResponse = await postRequest(endpoint, reqBody)
+		return res.data?.data?.rows || {}
+	}
+
+	// Helper function to update tiers data with IBAN
+	const updateTiersDataWithIBAN = (data: TiersData) => {
+		const parsedIBAN = data.iban ? parseIBAN(data.iban) : null
+		if (!parsedIBAN) return data
+
+		const updatedData = { ...data }
+
+		// Fill in missing or invalid fields
+		if (isFieldInvalid(updatedData.iban_code_pays, 2)) {
+			updatedData.iban_code_pays = parsedIBAN.iban_code_pays
+		}
+		if (isFieldInvalid(updatedData.iban_cle_pays, 2)) {
+			updatedData.iban_cle_pays = parsedIBAN.iban_cle_pays
+		}
+		if (isFieldInvalid(updatedData.iban_code_banque, 5)) {
+			updatedData.iban_code_banque = parsedIBAN.iban_code_banque
+		}
+		if (isFieldInvalid(updatedData.iban_code_guichet, 5)) {
+			updatedData.iban_code_guichet = parsedIBAN.iban_code_guichet
+		}
+		if (isFieldInvalid(updatedData.iban_no_compte, 11)) {
+			updatedData.iban_no_compte = parsedIBAN.iban_no_compte
+		}
+		if (isFieldInvalid(updatedData.iban_cle_rib, 2)) {
+			updatedData.iban_cle_rib = parsedIBAN.iban_cle_rib
+		}
+
+		return updatedData
+	}
 
 	useEffect(() => {
 		fetchTiersDetails()
