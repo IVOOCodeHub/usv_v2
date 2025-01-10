@@ -432,24 +432,23 @@
     }
 }
 
-.custom-nrtl-wrapper {
-    width: 100%; // Ensure the wrapper takes full width
-    height: 100%; // Ensure the wrapper takes full height
-
-    // Target ONLY the "no data" message inside the NRTL component
-    #NRTL table tbody tr td.no-data-message {
-        text-align: center !important; // Center text horizontally
-        vertical-align: middle !important; // Center text vertically
-        padding: 20px !important; // Add padding for spacing
-        font-weight: bold !important; // Make the text bold
-        color: #36395a !important; // Set the text color
-        font-size: 14px !important; // Set the font size
-        height: 100px !important; // Set a fixed height for the cell
-        display: flex !important; // Use flexbox for centering
-        justify-content: center !important; // Center horizontally
-        align-items: center !important; // Center vertically
-        width: 100% !important; // Ensure the message takes full width
-    }
+.no-data-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    /* Adjust height as needed */
+    font-size: 16px;
+    font-weight: bold;
+    color: #36395a;
+    background-color: #f2f2f2;
+    /* Optional: Add a background color */
+    border: 1px solid #ddd;
+    /* Optional: Add a border */
+    border-radius: 5px;
+    /* Optional: Add rounded corners */
+    margin: 20px 0;
+    /* Add some spacing */
 }
 
 .nrtl-container {

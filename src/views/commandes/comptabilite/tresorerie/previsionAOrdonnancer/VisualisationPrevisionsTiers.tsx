@@ -56,7 +56,7 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 								item.dateEcheance,
 								item.statut,
 							])
-						: [['Aucune donnée trouvée pour le budget.']]
+						: []
 				)
 
 				setPrevisions(
@@ -71,7 +71,7 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 								item.dateEcheance,
 								item.statut,
 							])
-						: [['Aucune donnée trouvée pour les prévisions.']]
+						: []
 				)
 
 				setPaiements(
@@ -86,7 +86,7 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 								item.dateEcheance,
 								item.statut,
 							])
-						: [['Aucune donnée trouvée pour les paiements.']]
+						: []
 				)
 			} catch (error) {
 				console.error('Erreur lors de la récupération des données :', error)
@@ -119,10 +119,15 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 					<>
 						{/* Tableau Budget */}
 						<h2 className='table-subtitle'>Budget</h2>
-						<div className='custom-nrtl-wrapper'>
-							{budget.length > 0 ? (
+						{budget.length === 0 ? (
+							<div className='no-data-message'>Aucune donnée trouvée pour le budget.</div>
+						) : (
+							<div className='custom-nrtl-wrapper'>
 								<NRTL
-									datas={{ tableHead: tableHeaders, tableBody: budget }}
+									datas={{
+										tableHead: tableHeaders,
+										tableBody: budget,
+									}}
 									headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
 									headerHoverBackgroundColor='#1092B8'
 									showItemsPerPageSelector={true}
@@ -131,17 +136,20 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 									itemsPerPageOptions={[5, 10, 25]}
 									language='fr'
 								/>
-							) : (
-								<div className='no-data-message'>Aucune donnée trouvée pour le budget.</div>
-							)}
-						</div>
+							</div>
+						)}
 
 						{/* Tableau Prévisions */}
 						<h2 className='table-subtitle'>Prévisions</h2>
-						<div className='custom-nrtl-wrapper'>
-							{previsions.length > 0 ? (
+						{previsions.length === 0 ? (
+							<div className='no-data-message'>Aucune donnée trouvée pour les prévisions.</div>
+						) : (
+							<div className='custom-nrtl-wrapper'>
 								<NRTL
-									datas={{ tableHead: tableHeaders, tableBody: previsions }}
+									datas={{
+										tableHead: tableHeaders,
+										tableBody: previsions,
+									}}
 									headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
 									headerHoverBackgroundColor='#1092B8'
 									showItemsPerPageSelector={true}
@@ -150,17 +158,20 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 									itemsPerPageOptions={[5, 10, 25]}
 									language='fr'
 								/>
-							) : (
-								<div className='no-data-message'>Aucune donnée trouvée pour les prévisions.</div>
-							)}
-						</div>
+							</div>
+						)}
 
 						{/* Tableau Paiements */}
 						<h2 className='table-subtitle'>Paiements</h2>
-						<div className='custom-nrtl-wrapper'>
-							{paiements.length > 0 ? (
+						{paiements.length === 0 ? (
+							<div className='no-data-message'>Aucune donnée trouvée pour les paiements.</div>
+						) : (
+							<div className='custom-nrtl-wrapper'>
 								<NRTL
-									datas={{ tableHead: tableHeaders, tableBody: paiements }}
+									datas={{
+										tableHead: tableHeaders,
+										tableBody: paiements,
+									}}
 									headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
 									headerHoverBackgroundColor='#1092B8'
 									showItemsPerPageSelector={true}
@@ -169,10 +180,8 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 									itemsPerPageOptions={[5, 10, 25]}
 									language='fr'
 								/>
-							) : (
-								<div className='no-data-message'>Aucune donnée trouvée pour les paiements.</div>
-							)}
-						</div>
+							</div>
+						)}
 					</>
 				)}
 			</main>
