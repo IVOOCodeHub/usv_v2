@@ -327,7 +327,7 @@ export default function NRTL({
 							)
 						) : (
 							<tr>
-								<td colSpan={datas.tableHead.length} className='no-data-message'>
+								<td colSpan={datas.tableHead.length}>
 									{language === 'En' ? 'No data available in table' : 'Aucune donnée disponible dans le tableau'}
 								</td>
 							</tr>
