@@ -1,11 +1,11 @@
-import { useContext, useEffect, ComponentType, ReactElement } from "react";
+import { useContext, useEffect, ReactElement, ComponentType } from "react";
 import { useNavigate, NavigateFunction } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
 
-export const withAuth = <P extends object>(
-  WrappedComponent: ComponentType<P>,
-) => {
-  return (props: P): ReactElement | null => {
+export default function WithAuth<P extends object>(
+    WrappedComponent: ComponentType<P>,
+): (props: P) => ReactElement | null {
+  return function AuthenticatedComponent(props: P): ReactElement | null {
     const navigate: NavigateFunction = useNavigate();
     const { user } = useContext(UserContext);
 
@@ -14,8 +14,7 @@ export const withAuth = <P extends object>(
         navigate("/auth");
       }
     }, [user, navigate]);
-    return user && <WrappedComponent {...props} />;
-  };
-};
 
-export default withAuth;
+    return user ? <WrappedComponent {...props} /> : null;
+  };
+}

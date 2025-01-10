@@ -1,8 +1,25 @@
 // hooks | libraries
-import {createContext} from 'react'
+import { Context, createContext, Dispatch, SetStateAction } from "react";
 
-export const FileContext = createContext({
-    files: null,
-    setFiles: (): void => {},
-    getFiles: async (): Promise<void> => {}
-})
+interface IFileContext {
+  files: string[] | null;
+  setFiles: Dispatch<SetStateAction<string[]>>;
+  getFiles: () => Promise<void>;
+  fileURL: string | null;
+  setFileURL: Dispatch<SetStateAction<string | null>>;
+  getFileURL: (fileName: string) => Promise<void>;
+}
+
+const defaultFileContext: IFileContext = {
+  files: null,
+  setFiles: (): Dispatch<SetStateAction<string[]>> =>
+    ({}) as Dispatch<SetStateAction<string[]>>,
+  getFiles: async (): Promise<void> => {},
+  fileURL: null,
+  setFileURL: (): Dispatch<SetStateAction<string | null>> =>
+    ({}) as Dispatch<SetStateAction<string | null>>,
+  getFileURL: async (): Promise<void> => {},
+};
+
+export const FileContext: Context<IFileContext> =
+  createContext<IFileContext>(defaultFileContext);
