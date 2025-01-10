@@ -439,3 +439,19 @@
     font-size: 14px;
     padding: 20px 0;
 }
+
+#NRTL .tableHeader .selectContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0 1rem;
+}
+
+#NRTL .tableFooter {
+    margin: 1em 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+}

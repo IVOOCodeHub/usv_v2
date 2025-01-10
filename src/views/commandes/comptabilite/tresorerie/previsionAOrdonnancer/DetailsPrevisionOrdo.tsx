@@ -111,10 +111,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 					statut: prevision.statut ?? 'Non défini',
 					refSourceTiers: prevision.refSourceTiers ?? 'Non défini',
 				}
-				console.log('Details formatés :', formattedDetails)
-				console.log('Montant formaté :', keepTwoDecimals(Number(prevision.credit)))
-				console.log("Date brute reçue de l'API (dateEcheance) :", prevision.date_echeance)
-				console.log("Date brute reçue de l'API (dateOrdo) :", prevision.date_ordo)
+
 				setDetails(formattedDetails)
 
 				if (courrier?.nom_fichier) {
@@ -148,14 +145,13 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 			dateEcheance: validateAndConvertDateForApi(updatedDetails.dateEcheance ?? ''),
 			dateOrdo: validateAndConvertDateForApi(updatedDetails.dateOrdo ?? ''),
 		}
-		console.log('Valeur brute dateEcheance avant transformation :', updatedDetails.dateEcheance)
-		console.log('Valeur brute dateOrdo avant transformation :', updatedDetails.dateOrdo)
+
 		console.log("Données prêtes pour l'API :", dataForApi)
 
 		// Appel API ou traitement des données ici
 		// await saveDetailsService(dataForApi);
 	}
-	console.log("Valeur de montant dans l'input:", details.montant)
+
 	return (
 		<>
 			<Header
