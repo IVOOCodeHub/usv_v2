@@ -72,7 +72,11 @@ function NouveauxCourriersTraitement(): ReactElement {
                   />
                 </div>
                 <div className={"inputWrapper"}>
-                  <label htmlFor={"naturePiece"}>Site de réception :</label>
+                  <label htmlFor={"naturePiece"}>
+                    {kindOfPiece === "SENT"
+                      ? "Site d'envoi"
+                      : "Site de réception :"}
+                  </label>
                   <Select
                     id={"naturePiece"}
                     options={[
@@ -83,7 +87,11 @@ function NouveauxCourriersTraitement(): ReactElement {
                   />
                 </div>
                 <div className={"inputWrapper"}>
-                  <label htmlFor={"naturePiece"}>Canal d'arrivée :</label>
+                  <label htmlFor={"naturePiece"}>
+                    {kindOfPiece === "SENT"
+                      ? "Canal d'envoi :"
+                      : "Canal d'arrivée :"}
+                  </label>
                   <Select
                     id={"naturePiece"}
                     options={[
@@ -104,8 +112,11 @@ function NouveauxCourriersTraitement(): ReactElement {
                     ]}
                   />
                 </div>
-                <div className={"inputWrapper"}>
+                <div className={"inputWrapper destinataireInputWrapper"}>
                   <label htmlFor={"naturePiece"}>Société destinataire :</label>
+                  <Button
+                    props={{ style: "blue", text: "Nouveau destinataire", type: "button" }}
+                  />
                   <Select
                     id={"naturePiece"}
                     options={[

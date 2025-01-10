@@ -157,7 +157,7 @@ function NouveauxCourriers(): ReactElement {
               style: "grey",
               text: "Retour",
               type: "button",
-              onClick: (): void => navigate(-1),
+              onClick: (): void => navigate('/commandes/gestion_des_courriers'),
             }}
           />
         </div>

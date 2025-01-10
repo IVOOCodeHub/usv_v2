@@ -54,6 +54,11 @@
   @include mixins.form;
 }
 
+#nouveauxCourriersTraitement .rightSide .destinataireInputWrapper button {
+  font-size: 14px;
+  white-space: nowrap;
+}
+
 #nouveauxCourriersTraitement .goBackBtnWrapper {
   margin-top: -3.5em;
   padding-bottom: 1.5em;
