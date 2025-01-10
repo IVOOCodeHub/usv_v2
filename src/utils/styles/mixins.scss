@@ -1,48 +1,147 @@
-@use './variables.scss'as vars;
+@use "./variables.scss" as vars;
+
+@mixin form {
+  display: flex;
+  flex-flow: column;
+  gap: 1.5em;
+  border: 1px solid #36395a;
+  padding: 1em;
+  border-radius: 6px;
+  width: 100%;
+  background: #ffffff;
+
+  & h3 {
+    font-size: 1.5em;
+    text-align: center;
+    margin-bottom: 1em;
+  }
+
+  & .inputWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @media (max-width: 1024px) {
+      flex-flow: column;
+    }
+  }
+
+  & .inputWrapper label {
+    width: 40%;
+
+    @media (max-width: 1024px) {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  & input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  input[type="password"],
+  input[type="date"] {
+    border: 1px solid #36395a;
+    padding: 0.8em;
+    text-align: center;
+    min-width: 230px;
+    max-height: 38px;
+    background: #f2f2f2;
+
+    &[type="date"]:hover {
+      cursor: pointer;
+    }
+
+    &:focus {
+      outline: 3.5px solid #36395a;
+    }
+  }
+
+  & textarea {
+    padding: .8em;
+    min-width: 230px;
+    height: 100px;
+    background: #f2f2f2;
+  }
+
+  & .css-b62m3t-container {
+    min-width: 230px;
+    font-size: 12px !important;
+    &:focus {
+      outline: 3.5px solid #36395a;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  & .css-13cymwt-control {
+    font-size: 12px !important;
+    background: #f2f2f2;
+    border-color: unset;
+    border-radius: unset;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  & .buttonWrapper {
+    display: flex;
+    justify-content: center;
+    gap: 4em;
+    margin-top: 1em;
+  }
+
+  & .errorMessage {
+    font-size: 1dvw;
+    font-weight: 700;
+    text-align: center;
+    color: #da033b;
+  }
+}
 
 @mixin player-pointer($size) {
-    width: $size;
-    height: $size;
-    border-radius: 50%;
-    background: vars.$colorSecondary;
-    cursor: pointer;
-    border: 2px solid vars.$whiteBackground;
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  background: vars.$colorSecondary;
+  cursor: pointer;
+  border: 2px solid vars.$whiteBackground;
 }
 
 @mixin player-audio-range($width) {
-    width: $width;
-    height: 6px;
-    appearance: none;
-    background: vars.$brandColorGradient;
-    border-radius: 5px;
-    outline: none;
+  width: $width;
+  height: 6px;
+  appearance: none;
+  background: vars.$brandColorGradient;
+  border-radius: 5px;
+  outline: none;
 }
 
 @mixin pointer-hover-effect {
-    filter: invert(50%) sepia(100%) saturate(500%) hue-rotate(200deg);
-    transform: scale(1.1);
+  filter: invert(50%) sepia(100%) saturate(500%) hue-rotate(200deg);
+  transform: scale(1.1);
 }
 
 @mixin flex-cursors {
-    display: flex;
-    flex-flow: row;
-    justify-content: space-evenly;
-    align-items: center;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 @mixin flex-center-row {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-flow: row;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
 }
 
 @mixin component-container-shadow {
-    width: 100%;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: vars.$whiteBackground;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: vars.$whiteBackground;
 }

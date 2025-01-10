@@ -1,14 +1,14 @@
 // types
 import axios, { AxiosResponse } from "axios";
 
-// API
-// import { getRequest } from "../APICalls";
-
-export const getFileService = async () => {
-  // const endpoint: string = '/files';
-  // const res: AxiosResponse = await getRequest(endpoint)
-
-  const endpoint: string = "http://192.168.0.112:8800/api/files";
-  const res: AxiosResponse = await axios.get(endpoint);
-  console.log("file res =>", res);
+export const getAllFilesNameService: () => Promise<string[]> = async (): Promise<
+  string[]
+> => {
+  const getAllFilesNameEndpoint: string = "http://192.168.0.112:8800/api/files";
+  const res: AxiosResponse = await axios.get(getAllFilesNameEndpoint);
+  return res.data;
 };
+
+export const getFileService= async (fileName: string) => {
+  return `http://192.168.0.112:8800/api/files/${fileName}`
+}

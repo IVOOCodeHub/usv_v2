@@ -3,7 +3,7 @@ import { useNavigate, NavigateFunction } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
 
 export default function WithAuth<P extends object>(
-  WrappedComponent: ComponentType<P>,
+    WrappedComponent: ComponentType<P>,
 ): (props: P) => ReactElement | null {
   return function AuthenticatedComponent(props: P): ReactElement | null {
     const navigate: NavigateFunction = useNavigate();
