@@ -294,25 +294,28 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 							<div>
 								<strong>Mode règlement :</strong>
 								<div className='modeReglement'>
+									{/* PRELEV Button */}
 									<Button
 										props={{
-											style: details.mode_reglement === 'PRELEV' ? 'blue' : 'grey',
+											style: details.mode_reglement === 'PRELEV' ? 'blue' : 'grey', // Dynamic style
 											text: 'PRELEV',
 											type: 'button',
 											onClick: () => setDetails({ ...details, mode_reglement: 'PRELEV' }),
 										}}
 									/>
+									{/* CHEQUE Button */}
 									<Button
 										props={{
-											style: details.mode_reglement === 'CHEQUE' ? 'blue' : 'grey',
+											style: details.mode_reglement === 'CHEQUE' ? 'blue' : 'grey', // Dynamic style
 											text: 'CHEQUE',
 											type: 'button',
 											onClick: () => setDetails({ ...details, mode_reglement: 'CHEQUE' }),
 										}}
 									/>
+									{/* VIR Button */}
 									<Button
 										props={{
-											style: details.mode_reglement === 'VIR' ? 'blue' : 'grey',
+											style: details.mode_reglement === 'VIR' ? 'blue' : 'grey', // Dynamic style
 											text: 'VIR',
 											type: 'button',
 											onClick: () => setDetails({ ...details, mode_reglement: 'VIR' }),
