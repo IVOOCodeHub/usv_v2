@@ -5,6 +5,7 @@ import { UserContext } from '../../../../../context/userContext'
 import { postRequest } from '../../../../../API/APICalls'
 import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button'
+import { parseIBAN } from '../../../../../utils/scripts/utils'
 
 interface TiersData {
 	actif?: string
@@ -74,6 +75,11 @@ interface TiersData {
 	ville?: string
 }
 
+const isFieldInvalid = (value: string | undefined, expectedLength: number) => {
+	const trimmedValue = value?.trim() // Trim the value to remove useless spaces
+	return !trimmedValue || trimmedValue === 'NC' || trimmedValue.length !== expectedLength
+}
+
 const ModifyTiersPage: React.FC = () => {
 	const navigate = useNavigate()
 	const { userCredentials } = useContext(UserContext)
@@ -87,6 +93,7 @@ const ModifyTiersPage: React.FC = () => {
 			console.error('Identifiants utilisateur ou code tiers manquant.')
 			return
 		}
+
 		setIsLoading(true)
 		try {
 			const endpoint = 'http://192.168.0.112:8800/api/storedProcedure'
@@ -98,13 +105,48 @@ const ModifyTiersPage: React.FC = () => {
 				test: true,
 			}
 			const res = await postRequest(endpoint, reqBody)
-			setTiersData(res.data?.data?.rows || {})
+			const data = res.data?.data?.rows || {}
+
+			// Parse IBAN and fill missing or invalid fields
+			if (data.iban) {
+				const parsedIBAN = parseIBAN(data.iban)
+
+				if (parsedIBAN) {
+					const updatedData = { ...data }
+
+					// Fill in missing or invalid fields
+					if (isFieldInvalid(updatedData.iban_code_pays, 2)) {
+						updatedData.iban_code_pays = parsedIBAN.iban_code_pays
+					}
+					if (isFieldInvalid(updatedData.iban_cle_pays, 2)) {
+						updatedData.iban_cle_pays = parsedIBAN.iban_cle_pays
+					}
+					if (isFieldInvalid(updatedData.iban_code_banque, 5)) {
+						updatedData.iban_code_banque = parsedIBAN.iban_code_banque
+					}
+					if (isFieldInvalid(updatedData.iban_code_guichet, 5)) {
+						updatedData.iban_code_guichet = parsedIBAN.iban_code_guichet
+					}
+					if (isFieldInvalid(updatedData.iban_no_compte, 11)) {
+						updatedData.iban_no_compte = parsedIBAN.iban_no_compte
+					}
+					if (isFieldInvalid(updatedData.iban_cle_rib, 2)) {
+						updatedData.iban_cle_rib = parsedIBAN.iban_cle_rib
+					}
+
+					setTiersData(updatedData)
+					return
+				}
+			}
+
+			// If no IBAN or parsing fails, set the original data
+			setTiersData(data)
 		} catch (error) {
 			console.error('Erreur lors de la récupération des données du fournisseur :', error)
 		} finally {
 			setIsLoading(false)
 		}
-	}, [userCredentials, tiersId])
+	}, [userCredentials, tiersId]) // Dependencies for useCallback
 
 	useEffect(() => {
 		fetchTiersDetails()
@@ -621,8 +663,8 @@ const ModifyTiersPage: React.FC = () => {
 									Banque Enregistrée :
 									<input
 										type='text'
-										value={tiersData.banque_enregistre ?? 'NC'}
-										onChange={(e) => handleInputChange('banque_enregistre', e.target.value)}
+										value={tiersData.banque_beneficiaire ?? 'NC'}
+										onChange={(e) => handleInputChange('banque_beneficiaire', e.target.value)}
 									/>
 								</label>
 								<label>
@@ -635,59 +677,6 @@ const ModifyTiersPage: React.FC = () => {
 										<option value='1'>Oui</option>
 									</select>
 								</label>
-
-								{/* New IBAN Fields */}
-								<h3>IBAN</h3>
-								<div className='iban-fields'>
-									<label>
-										Code pays :
-										<input
-											type='text'
-											value={tiersData.iban_code_pays ?? 'NC'}
-											onChange={(e) => handleInputChange('iban_code_pays', e.target.value)}
-										/>
-									</label>
-									<label>
-										Clé pays :
-										<input
-											type='text'
-											value={tiersData.iban_cle_pays ?? 'NC'}
-											onChange={(e) => handleInputChange('iban_cle_pays', e.target.value)}
-										/>
-									</label>
-									<label>
-										Code banque :
-										<input
-											type='text'
-											value={tiersData.iban_code_banque ?? 'NC'}
-											onChange={(e) => handleInputChange('iban_code_banque', e.target.value)}
-										/>
-									</label>
-									<label>
-										Code guichet :
-										<input
-											type='text'
-											value={tiersData.iban_code_guichet ?? 'NC'}
-											onChange={(e) => handleInputChange('iban_code_guichet', e.target.value)}
-										/>
-									</label>
-									<label>
-										N° compte :
-										<input
-											type='text'
-											value={tiersData.iban_no_compte ?? 'NC'}
-											onChange={(e) => handleInputChange('iban_no_compte', e.target.value)}
-										/>
-									</label>
-									<label>
-										Clé RIB :
-										<input
-											type='text'
-											value={tiersData.iban_cle_rib ?? 'NC'}
-											onChange={(e) => handleInputChange('iban_cle_rib', e.target.value)}
-										/>
-									</label>
-								</div>
 							</div>
 						</div>
 					)}

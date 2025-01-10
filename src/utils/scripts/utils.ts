@@ -78,3 +78,26 @@ export const validateAndConvertDateForApi = (dateString: string): string => {
 	console.warn(`Date invalide : ${dateString}`)
 	return '' // Retourne une chaîne vide si format non reconnu
 }
+
+// Outil pour éclater les IBAN en plusieurs champs si jamais certains champs de l'IBAN sont manquants ou invalides
+
+export const parseIBAN = (iban: string) => {
+	if (!iban || iban.length < 27) return null 
+
+	// Extract parts of the IBAN
+	const ibanCodePays = iban.slice(0, 2) // First 2 characters (country code)
+	const ibanClePays = iban.slice(2, 4) // Next 2 characters (check digits)
+	const ibanCodeBanque = iban.slice(4, 9) // Next 5 characters (bank code)
+	const ibanCodeGuichet = iban.slice(9, 14) // Next 5 characters (branch code)
+	const ibanNoCompte = iban.slice(14, 25) // Next 11 characters (account number)
+	const ibanCleRib = iban.slice(25, 27) // Last 2 characters (RIB key)
+
+	return {
+		iban_code_pays: ibanCodePays,
+		iban_cle_pays: ibanClePays,
+		iban_code_banque: ibanCodeBanque,
+		iban_code_guichet: ibanCodeGuichet,
+		iban_no_compte: ibanNoCompte,
+		iban_cle_rib: ibanCleRib,
+	}
+}
