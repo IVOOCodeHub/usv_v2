@@ -258,8 +258,8 @@ const ModifyTiersPage: React.FC = () => {
 									<label>
 										Civilité :
 										<select
-											value={tiersData.civilite_responsable ?? 'NC'}
-											onChange={(e) => handleInputChange('civilite_responsable', e.target.value)}
+											value={tiersData.responsable_civilite ?? 'NC'}
+											onChange={(e) => handleInputChange('responsable_civilite', e.target.value)}
 										>
 											<option value='M.'>M.</option>
 											<option value='Mme'>Mme</option>
@@ -270,63 +270,63 @@ const ModifyTiersPage: React.FC = () => {
 										<input
 											type='text'
 											value={tiersData.responsable_nom ?? 'NC'}
-											onChange={(e) => handleInputChange('nom_responsable', e.target.value)}
+											onChange={(e) => handleInputChange('responsable_nom', e.target.value)}
 										/>
 									</label>
 									<label>
 										Téléphone :
 										<input
 											type='text'
-											value={tiersData.telephone_responsable ?? 'NC'}
-											onChange={(e) => handleInputChange('telephone_responsable', e.target.value)}
+											value={tiersData.responsable_telephone ?? 'NC'}
+											onChange={(e) => handleInputChange('responsable_telephone', e.target.value)}
 										/>
 									</label>
 									<label>
 										Mobile :
 										<input
 											type='text'
-											value={tiersData.mobile_responsable ?? 'NC'}
-											onChange={(e) => handleInputChange('mobile_responsable', e.target.value)}
+											value={tiersData.responsable_mobile ?? 'NC'}
+											onChange={(e) => handleInputChange('responsable_mobile', e.target.value)}
 										/>
 									</label>
 									<label>
 										Fax :
 										<input
 											type='text'
-											value={tiersData.fax_responsable ?? 'NC'}
-											onChange={(e) => handleInputChange('fax_responsable', e.target.value)}
+											value={tiersData.responsable_fax ?? 'NC'}
+											onChange={(e) => handleInputChange('responsable_fax', e.target.value)}
 										/>
 									</label>
 									<label>
 										Email :
 										<input
 											type='email'
-											value={tiersData.email_responsable ?? 'NC'}
-											onChange={(e) => handleInputChange('email_responsable', e.target.value)}
+											value={tiersData.responsable_email ?? 'NC'}
+											onChange={(e) => handleInputChange('responsable_email', e.target.value)}
 										/>
 									</label>
 									<label>
 										Site Web :
 										<input
 											type='text'
-											value={tiersData.site_web ?? 'NC'}
-											onChange={(e) => handleInputChange('site_web', e.target.value)}
+											value={tiersData.site_internet ?? 'NC'}
+											onChange={(e) => handleInputChange('site_internet', e.target.value)}
 										/>
 									</label>
 									<label>
 										Identifiant Site :
 										<input
 											type='text'
-											value={tiersData.identifiant_site ?? 'NC'}
-											onChange={(e) => handleInputChange('identifiant_site', e.target.value)}
+											value={tiersData.identifiant ?? 'NC'}
+											onChange={(e) => handleInputChange('identifiant', e.target.value)}
 										/>
 									</label>
 									<label>
 										MDP Site :
 										<input
 											type='text'
-											value={tiersData.mdf_site ?? 'NC'}
-											onChange={(e) => handleInputChange('mdf_site', e.target.value)}
+											value={tiersData.mot_de_passe ?? 'NC'}
+											onChange={(e) => handleInputChange('mot_de_passe', e.target.value)}
 										/>
 									</label>
 								</div>
@@ -339,8 +339,8 @@ const ModifyTiersPage: React.FC = () => {
 									<label>
 										Civilité :
 										<select
-											value={tiersData.civilite_contact1 ?? 'NC'}
-											onChange={(e) => handleInputChange('civilite_contact1', e.target.value)}
+											value={tiersData.contact1_civilite ?? 'NC'}
+											onChange={(e) => handleInputChange('contact1_civilite', e.target.value)}
 										>
 											<option value='M.'>M.</option>
 											<option value='Mme'>Mme</option>
@@ -350,40 +350,40 @@ const ModifyTiersPage: React.FC = () => {
 										Nom :
 										<input
 											type='text'
-											value={tiersData.nom_contact1 ?? 'NC'}
-											onChange={(e) => handleInputChange('nom_contact1', e.target.value)}
+											value={tiersData.contact1_nom ?? 'NC'}
+											onChange={(e) => handleInputChange('contact1_nom', e.target.value)}
 										/>
 									</label>
 									<label>
 										Téléphone :
 										<input
 											type='text'
-											value={tiersData.telephone_contact1 ?? 'NC'}
-											onChange={(e) => handleInputChange('telephone_contact1', e.target.value)}
+											value={tiersData.contact1_telephone ?? 'NC'}
+											onChange={(e) => handleInputChange('contact1_telephone', e.target.value)}
 										/>
 									</label>
 									<label>
 										Mobile :
 										<input
 											type='text'
-											value={tiersData.mobile_contact1 ?? 'NC'}
-											onChange={(e) => handleInputChange('mobile_contact1', e.target.value)}
+											value={tiersData.contact1_mobile ?? 'NC'}
+											onChange={(e) => handleInputChange('contact1_mobile', e.target.value)}
 										/>
 									</label>
 									<label>
 										Fax :
 										<input
 											type='text'
-											value={tiersData.fax_contact1 ?? 'NC'}
-											onChange={(e) => handleInputChange('fax_contact1', e.target.value)}
+											value={tiersData.contact1_fax ?? 'NC'}
+											onChange={(e) => handleInputChange('contact1_fax', e.target.value)}
 										/>
 									</label>
 									<label>
 										Email :
 										<input
 											type='email'
-											value={tiersData.email_contact1 ?? 'NC'}
-											onChange={(e) => handleInputChange('email_contact1', e.target.value)}
+											value={tiersData.contact1_email ?? 'NC'}
+											onChange={(e) => handleInputChange('contact1_email', e.target.value)}
 										/>
 									</label>
 								</div>
@@ -396,8 +396,8 @@ const ModifyTiersPage: React.FC = () => {
 									<label>
 										Civilité :
 										<select
-											value={tiersData.civilite_contact2 ?? 'NC'}
-											onChange={(e) => handleInputChange('civilite_contact2', e.target.value)}
+											value={tiersData.contact2_civilite ?? 'NC'}
+											onChange={(e) => handleInputChange('contact2_civilite', e.target.value)}
 										>
 											<option value='M.'>M.</option>
 											<option value='Mme'>Mme</option>
@@ -407,40 +407,40 @@ const ModifyTiersPage: React.FC = () => {
 										Nom :
 										<input
 											type='text'
-											value={tiersData.nom_contact2 ?? 'NC'}
-											onChange={(e) => handleInputChange('nom_contact2', e.target.value)}
+											value={tiersData.contact2_nom ?? 'NC'}
+											onChange={(e) => handleInputChange('contact2_nom', e.target.value)}
 										/>
 									</label>
 									<label>
 										Téléphone :
 										<input
 											type='text'
-											value={tiersData.telephone_contact2 ?? 'NC'}
-											onChange={(e) => handleInputChange('telephone_contact2', e.target.value)}
+											value={tiersData.contact2_telephone ?? 'NC'}
+											onChange={(e) => handleInputChange('contact2_telephone', e.target.value)}
 										/>
 									</label>
 									<label>
 										Mobile :
 										<input
 											type='text'
-											value={tiersData.mobile_contact2 ?? 'NC'}
-											onChange={(e) => handleInputChange('mobile_contact2', e.target.value)}
+											value={tiersData.contact2_mobile ?? 'NC'}
+											onChange={(e) => handleInputChange('contact2_mobile', e.target.value)}
 										/>
 									</label>
 									<label>
 										Fax :
 										<input
 											type='text'
-											value={tiersData.fax_contact2 ?? 'NC'}
-											onChange={(e) => handleInputChange('fax_contact2', e.target.value)}
+											value={tiersData.contact2_fax ?? 'NC'}
+											onChange={(e) => handleInputChange('contact2_fax', e.target.value)}
 										/>
 									</label>
 									<label>
 										Email :
 										<input
 											type='email'
-											value={tiersData.email_contact2 ?? 'NC'}
-											onChange={(e) => handleInputChange('email_contact2', e.target.value)}
+											value={tiersData.contact2_email ?? 'NC'}
+											onChange={(e) => handleInputChange('contact2_email', e.target.value)}
 										/>
 									</label>
 								</div>
