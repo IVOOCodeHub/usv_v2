@@ -58,7 +58,7 @@ function GestionDesCourriersMenu(): ReactElement {
             style: "grey",
             text: "Retour",
             type: "button",
-            onClick: (): void => navigate(-1),
+            onClick: (): void => navigate('/menu_general'),
           }}
         />
       </main>
