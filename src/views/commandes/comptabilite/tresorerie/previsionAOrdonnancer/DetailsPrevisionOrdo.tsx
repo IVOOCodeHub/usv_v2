@@ -381,7 +381,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 										style: 'blue',
 										text: 'Supprimer',
 										type: 'button',
-										onClick: () => alert('Fonction à définir'),
+										onClick: () => alert('Prévision supprimée !'),
 									}}
 								/>
 							</div>
