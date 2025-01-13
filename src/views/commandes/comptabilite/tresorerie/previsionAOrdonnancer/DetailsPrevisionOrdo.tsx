@@ -14,6 +14,7 @@ import {
 import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
+import ConfirmationModal from '../../../../../components/ConfirmationModal/ConfirmationModal.tsx'
 import ModalCourriers from './ModalCourriers.tsx'
 import VisualisationPrevisionsTiers from './VisualisationPrevisionsTiers.tsx'
 
@@ -35,7 +36,7 @@ interface ILocationState {
 const DetailsPrevisionOrdo = (): ReactElement => {
 	const navigate = useNavigate()
 	const location = useLocation() as ILocationState
-
+	const [showModal, setShowModal] = useState(false)
 	const { userCredentials } = useContext(UserContext)
 
 	const [courrier, setCourrier] = useState<string | null>(null)
@@ -150,6 +151,16 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 
 		// Appel API ou traitement des données ici
 		// await saveDetailsService(dataForApi);
+	}
+
+	const handleConfirm = () => {
+		setShowModal(false) // Close the modal
+		navigate(`/commandes/tresorerie/etalement-prevision-tiers/${details.refSourceTiers}`) // Redirect to EtalementPrevisionTiers.tsx
+	}
+
+	// Function to handle the "Non" button click
+	const handleCancel = () => {
+		setShowModal(false) // Close the modal
 	}
 
 	return (
@@ -362,8 +373,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 										style: 'blue',
 										text: 'Étalement',
 										type: 'button',
-										onClick: () =>
-											navigate(`/commandes/tresorerie/etalement-prevision-tiers/${details.refSourceTiers}`), // Navigate with tiersId
+										onClick: () => setShowModal(true), // Open the modal
 									}}
 								/>
 								<Button
@@ -376,6 +386,13 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 								/>
 							</div>
 						</div>
+						{showModal && (
+							<ConfirmationModal
+								message='Confirmez-vous l’étalement de cette prévision par la création d’un échéancier ?'
+								onConfirm={handleConfirm}
+								onCancel={handleCancel}
+							/>
+						)}
 						<div className='buttonWrapper'>
 							<Button
 								props={{
