@@ -362,7 +362,8 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 										style: 'blue',
 										text: 'Étalement',
 										type: 'button',
-										onClick: () => alert('Fonction à définir'),
+										onClick: () =>
+											navigate(`/commandes/tresorerie/etalement-prevision-tiers/${details.refSourceTiers}`), // Navigate with tiersId
 									}}
 								/>
 								<Button

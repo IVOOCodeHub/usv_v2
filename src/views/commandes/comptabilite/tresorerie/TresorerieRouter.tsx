@@ -13,6 +13,7 @@ import NouvellePrevisionRecetteWithAuth from './nouvellePrevisionRecette/Nouvell
 import PrevisionAOrdonnancer from './previsionAOrdonnancer/PrevisionAOrdonnancer.tsx'
 import DetailsPrevisionOrdo from './previsionAOrdonnancer/DetailsPrevisionOrdo.tsx'
 import ModifyTiersPage from './previsionAOrdonnancer/ModifyTiersPage.tsx'
+import EtalementPrevisionTiers from './previsionAOrdonnancer/EtalementPrevisionTiers.tsx'
 
 export default function TresorerieRouter(): ReactElement {
 	return (
@@ -27,6 +28,7 @@ export default function TresorerieRouter(): ReactElement {
 			<Route path={'prevision_a_ordonnancer'} element={<PrevisionAOrdonnancer />} />
 			<Route path={'details_prevision_ordo'} element={<DetailsPrevisionOrdo />} />
 			<Route path={'/modify-tiers/:tiersId'} element={<ModifyTiersPage />} />
+			<Route path={'/etalement-prevision-tiers/:tiersId'} element={<EtalementPrevisionTiers />} />
 		</Routes>
 	)
 }

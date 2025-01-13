@@ -1,0 +1,102 @@
+#etalementPrevisionTiers {
+    padding: 20px;
+    background: #f2f2f2; // Light background for the entire page
+}
+
+.detailsContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #ffffff; // White background for the form container
+    border: 1px solid #36395a; // Darker border for contrast
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Subtle shadow for depth
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; // Increased gap for better spacing
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-weight: bold;
+    color: #36395a; // Darker text for better readability
+}
+
+input,
+select {
+    padding: 0.75rem; // Slightly larger padding for better touch targets
+    border: 1px solid #36395a; // Darker border for contrast
+    border-radius: 4px;
+    font-size: 1rem;
+    background: #f9f9f9; // Light background for input fields
+    color: #36395a; // Darker text for better readability
+
+    &:focus {
+        outline: 2px solid #1092b8; // Blue outline for focus state
+        border-color: #1092b8; // Blue border for focus state
+    }
+}
+
+input[readonly] {
+    background: #e6e6e6; // Grey background for read-only fields
+    color: #666; // Darker grey text for read-only fields
+    cursor: not-allowed; // Indicate that the field is not editable
+}
+
+.buttonWrapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem; // Increased margin for better spacing
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .detailsContainer {
+        padding: 15px; // Slightly reduced padding for smaller screens
+    }
+
+    form {
+        gap: 1rem; // Reduced gap for smaller screens
+    }
+
+    label {
+        font-size: 14px; // Smaller font size for smaller screens
+    }
+
+    input,
+    select {
+        font-size: 14px; // Smaller font size for smaller screens
+        padding: 0.6rem; // Slightly reduced padding for smaller screens
+    }
+
+    .buttonWrapper {
+        flex-direction: column; // Stack buttons vertically on smaller screens
+        gap: 0.75rem; // Reduced gap for smaller screens
+    }
+
+    .buttonWrapper button {
+        width: 100%; // Full width buttons on smaller screens
+    }
+}
+
+@media (max-width: 480px) {
+    .detailsContainer {
+        padding: 10px; // Further reduced padding for very small screens
+    }
+
+    label {
+        font-size: 12px; // Smaller font size for very small screens
+    }
+
+    input,
+    select {
+        font-size: 12px; // Smaller font size for very small screens
+        padding: 0.5rem; // Further reduced padding for very small screens
+    }
+}
