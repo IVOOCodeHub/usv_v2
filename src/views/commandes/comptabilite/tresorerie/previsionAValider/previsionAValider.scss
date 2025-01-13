@@ -1,0 +1,65 @@
+#previsionAValider {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 90dvh;
+    background: #f2f2f2;
+
+    .previsionAValider__bottomSection {
+        display: flex;
+        flex-flow: column;
+        gap: 2em;
+        position: relative;
+
+        .filtersWrapper {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 1.5rem;
+            margin: 1em 0;
+
+            .DateRange__container {
+                flex: 1;
+                max-width: 50%;
+            }
+
+            .codeInputWrapper,
+            .societeInputWrapper {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                flex: 0 1 25%;
+                max-width: 300px;
+
+                label {
+                    font-size: 1rem;
+                    font-weight: 500;
+                    color: #36395a;
+                }
+
+                input,
+                select {
+                    border: 1px solid #36395a;
+                    border-radius: 4px;
+                    padding: 0.8em;
+                    font-size: 14px;
+                    text-align: center;
+                    width: 100%;
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+        .greyButtonWrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2em;
+        }
+    }
+}

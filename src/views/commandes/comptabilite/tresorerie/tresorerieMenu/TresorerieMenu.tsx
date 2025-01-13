@@ -22,7 +22,7 @@ function TresorerieMenu(): ReactElement {
 			items: [
 				{ name: 'Courrier', link: '/commandes/tresorerie/courrier_depenses' },
 				{ name: 'Nouvelle prévision de dépenses', link: '/commandes/tresorerie/nouvelle_prevision_depenses' },
-				{ name: 'Prévisions à valider', link: '/' },
+				{ name: 'Prévisions à valider', link: '/commandes/tresorerie/prevision_a_valider' },
 				{ name: 'Facturation Interco à régulariser', link: '/' },
 				{ name: 'Prévisions à ordonnancer', link: '/commandes/tresorerie/prevision_a_ordonnancer' },
 				{ name: 'Prévisions en retard', link: '/' },
