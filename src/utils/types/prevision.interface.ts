@@ -1,9 +1,9 @@
 export interface IPrevision {
 	cle: string
-	societe: string
-	codeJournal: string
-	datePiece: string // Doit toujours être présent après transformation
-	dateSaisie: string // Doit toujours être présent après transformation
+	societe?: string
+	codeJournal?: string
+	datePiece?: string // Doit toujours être présent après transformation
+	dateSaisie?: string // Doit toujours être présent après transformation
 	auteurSaisie?: string // Facultatif si non obligatoire dans certaines réponses
 	noCompteGeneral?: string
 	libelleCompteGeneral?: string
