@@ -22,7 +22,7 @@ function CourrierDistribution(): ReactElement {
     if (userCredentials && courrierID) {
       getCourrier(userCredentials, courrierID).finally();
     }
-  }, []);
+  }, [courrierID]);
 
   return (
     <>
@@ -44,8 +44,9 @@ function CourrierDistribution(): ReactElement {
             <section className={"rightContainer"}>
               <form>
                 <div className={"inputWrapper"}>
-                  <label>Nature Pièce :</label>
+                  <label htmlFor={'naturePiece'}>Nature Pièce :</label>
                   <Select
+                      id={'naturePiece'}
                     options={[
                       { value: "", label: "Choisir" },
                       { value: "E", label: "FactureF" },
@@ -53,8 +54,9 @@ function CourrierDistribution(): ReactElement {
                   />
                 </div>
                 <div className={"inputWrapper"}>
-                  <label>Site de réception :</label>
+                  <label htmlFor={'receptionSite'}>Site de réception :</label>
                   <Select
+                      id={'receptionSite'}
                     options={[
                       { value: "", label: "Choisir" },
                       { value: "rochefort", label: "Rochefort" },
@@ -63,8 +65,9 @@ function CourrierDistribution(): ReactElement {
                   />
                 </div>
                 <div className={"inputWrapper"}>
-                  <label>Canal d'arrivée :</label>
+                  <label htmlFor={'canalReception'}>Canal d'arrivée :</label>
                   <Select
+                      id={'canalReception'}
                     options={[
                       { value: "", label: "Choisir" },
                       { value: "courrier", label: "Courrier" },
@@ -72,8 +75,9 @@ function CourrierDistribution(): ReactElement {
                   />
                 </div>
                 <div className={"inputWrapper"}>
-                  <label>Emetteur :</label>
+                  <label htmlFor={'emetteur'}>Émetteur :</label>
                   <Select
+                      id={'emetteur'}
                     options={[
                       { value: "", label: "Choisir" },
                       { value: "1", label: "Greffe du tribunal" },
@@ -81,8 +85,9 @@ function CourrierDistribution(): ReactElement {
                   />
                 </div>
                 <div className={"inputWrapper"}>
-                  <label>Destinataire :</label>
+                  <label htmlFor={'destinataire'}>Destinataire :</label>
                   <Select
+                      id={'destinataire'}
                     options={[
                       { value: "", label: "Choisir" },
                       { value: "1", label: "IVOS" },
@@ -90,8 +95,9 @@ function CourrierDistribution(): ReactElement {
                   />
                 </div>
                 <div className={"inputWrapper"}>
-                  <label>Service destinataire :</label>
+                  <label htmlFor={'serviceDestinataire'}>Service destinataire :</label>
                   <Select
+                      id={'serviceDestinataire'}
                     options={[
                       { value: "", label: "Choisir" },
                       { value: "1", label: "Finance (compta/tréso)" },
@@ -99,16 +105,17 @@ function CourrierDistribution(): ReactElement {
                   />
                 </div>
                 <div className={"inputWrapper"}>
-                  <label>Date pièce :</label>
-                  <input type={"date"} />
+                  <label htmlFor={'datePiece'}>Date pièce :</label>
+                  <input id={'datePiece'} type={"date"} />
                 </div>
                 <div className={"inputWrapper"}>
-                  <label>Référence du document :</label>
-                  <input type={"text"} />
+                  <label htmlFor={'refDoc'}>Référence du document :</label>
+                  <input id={'refDoc'} type={"text"} />
                 </div>
                 <div className={"inputWrapper"}>
-                  <label>A saisir en compta :</label>
+                  <label htmlFor={'saisirCompta'}>A saisir en compta :</label>
                   <Select
+                      id={'saisirCompta'}
                     options={[
                       { value: "1", label: "Oui" },
                       { value: "0", label: "Non" },
@@ -116,8 +123,9 @@ function CourrierDistribution(): ReactElement {
                   />
                 </div>
                 <div className={"inputWrapper"}>
-                  <label>Action :</label>
+                  <label htmlFor={'action'}>Action :</label>
                   <Select
+                      id={'action'}
                     options={[
                       { value: "0", label: "Choisir" },
                       { value: "1", label: "A classer" },
@@ -125,8 +133,9 @@ function CourrierDistribution(): ReactElement {
                   />
                 </div>
                 <div className={"inputWrapper"}>
-                  <label>Urgence :</label>
+                  <label htmlFor={'urgence'}>Urgence :</label>
                   <Select
+                      id={'urgence'}
                     options={[
                       { value: "0", label: "Choisir" },
                       { value: "1", label: "Normale" },
@@ -134,12 +143,13 @@ function CourrierDistribution(): ReactElement {
                   />
                 </div>
                 <div className={"inputWrapper"}>
-                  <label>Commentaire :</label>
-                  <textarea></textarea>
+                  <label htmlFor={'comment'}>Commentaire :</label>
+                  <textarea id={'comment'}></textarea>
                 </div>
                 <div className={"inputWrapper"}>
-                  <label>Copie à :</label>
+                  <label htmlFor={'copyTo'}>Copie à :</label>
                   <Select
+                      id={'copyTo'}
                     options={[
                       { value: "0", label: "Choisir" },
                       { value: "1", label: "Direction" },
@@ -147,8 +157,9 @@ function CourrierDistribution(): ReactElement {
                   />
                 </div>
                 <div className={"inputWrapper"}>
-                  <label>Partage drive :</label>
+                  <label htmlFor={'shareDrive'}>Partage drive :</label>
                   <Select
+                      id={'shareDrive'}
                     options={[
                       { value: "1", label: "Oui" },
                       { value: "0", label: "Non" },
@@ -156,7 +167,7 @@ function CourrierDistribution(): ReactElement {
                   />
                 </div>
                 <div className={"inputWrapper"}>
-                  <label>Tâche à créer :</label>
+                  <label htmlFor={'createTask'}>Tâche à créer :</label>
                   <Button
                     props={{
                       style: "blue",

@@ -6,6 +6,7 @@
   justify-content: center;
   min-height: 90dvh;
   background: #f2f2f2;
+  gap: 4%;
 }
 
 #courrierDistribution .leftContainer,
@@ -25,12 +26,12 @@
 
 #courrierDistribution .iFrameContainer iframe {
   width: 100%;
-  height: 80dvh;
+  height: 86dvh;
 }
 
 #courrierDistribution .rightContainer {
-  width: 30%;
   form {
+    width: 60% !important;
     @include mixins.form;
     .buttonContainer {
       display: flex;
