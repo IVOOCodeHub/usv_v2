@@ -18,6 +18,7 @@ export default function CommandesRouter(): ReactElement {
 
       {/* Comptabilité */}
       <Route path={"compta_choix"} element={<ComptaChoixWithAuth />} />
+
       {/* Tresorerie sub compta application */}
       <Route path={"tresorerie/*"} element={<TresorerieRouter />} />
     </Routes>

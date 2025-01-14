@@ -1,0 +1,274 @@
+#modifyTiersPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: #f2f2f2;
+    min-height: 90vh;
+    padding: 1em;
+
+    .coordonnees-container {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        gap: 6em; // Horizontal gap
+        row-gap: 2em; // Vertical gap
+        flex-wrap: wrap;
+
+        .tab-panel {
+            flex: 1; // Allow sections to grow and shrink
+            min-width: 350px; // Increase minimum width for each section
+            background: #ffffff;
+            border: 1px solid #36395a;
+            border-radius: 6px;
+            padding: 1.5em;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+            @media (max-width: 768px) {
+                min-width: 100%; // Full width on mobile
+                padding: 1em; // Reduce padding for mobile
+            }
+
+            h2 {
+                font-size: 1.5em;
+                margin-bottom: 1em;
+                text-align: center;
+                color: #36395a;
+
+                @media (max-width: 768px) {
+                    font-size: 1.2em; // Smaller heading on mobile
+                }
+            }
+
+            .form-container {
+                display: flex;
+                flex-direction: column;
+                gap: 1em;
+
+                label {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 14px;
+                    color: #36395a;
+
+                    @media (max-width: 768px) {
+                        flex-direction: column; // Stack label and input vertically on mobile
+                        align-items: flex-start;
+                        gap: 0.5em; // Add gap between label and input
+                    }
+
+                    input,
+                    select {
+                        flex: 1;
+                        max-width: 250px; // Increase input width for desktop
+                        margin-left: 1em;
+                        padding: 0.5em;
+                        border: 1px solid #36395a;
+                        border-radius: 4px;
+                        background: #f2f2f2;
+                        font-size: 14px;
+                        text-align: center;
+
+                        @media (max-width: 768px) {
+                            max-width: 100%; // Full width on mobile
+                            margin-left: 0; // Remove left margin
+                            width: 100%; // Ensure inputs take full width
+                        }
+
+                        &:hover {
+                            border-color: #1092b8;
+                        }
+
+                        &:focus {
+                            outline: 3.5px solid #1092b8;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .tabs-container {
+        display: flex;
+        justify-content: center;
+        gap: 1em;
+        margin: 1.5em 0;
+
+        @media (max-width: 768px) {
+            flex-direction: column; // Stack tabs vertically on mobile
+            gap: 0.5em; // Reduce gap between tabs
+        }
+
+        .tab {
+            padding: 0.5em 2em;
+            border: 1px solid #36395a;
+            background: #ffffff;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 6px;
+            text-transform: uppercase;
+
+            @media (max-width: 768px) {
+                width: 100%; // Full width on mobile
+                text-align: center; // Center text
+            }
+
+            &:hover {
+                background: #e6e6e6;
+            }
+
+            &.active {
+                background: #1092b8;
+                color: #ffffff;
+                border-color: #1092b8;
+            }
+        }
+    }
+
+    .tab-content {
+        width: 100%;
+        max-width: 1200px; // Desktop max-width
+        background: #ffffff;
+        border: 1px solid #36395a;
+        border-radius: 6px;
+        padding: 1.5em;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        @media (max-width: 768px) {
+            padding: 1em; // Reduce padding for mobile
+        }
+
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 1em;
+            text-align: center;
+            color: #36395a;
+
+            @media (max-width: 768px) {
+                font-size: 1.2em; // Smaller heading on mobile
+            }
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+
+            label {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 14px;
+                color: #36395a;
+
+                @media (max-width: 768px) {
+                    flex-direction: column; // Stack label and input vertically on mobile
+                    align-items: flex-start;
+                    gap: 0.5em; // Add gap between label and input
+                }
+
+                input,
+                select {
+                    flex: 1;
+                    max-width: 300px; // Desktop input width
+                    margin-left: 1em;
+                    padding: 0.5em;
+                    border: 1px solid #36395a;
+                    border-radius: 4px;
+                    background: #f2f2f2;
+                    font-size: 14px;
+                    text-align: center;
+
+                    @media (max-width: 768px) {
+                        max-width: 100%; // Full width on mobile
+                        margin-left: 0; // Remove left margin
+                        width: 100%; // Ensure inputs take full width
+                    }
+
+                    &:hover {
+                        border-color: #1092b8;
+                    }
+
+                    &:focus {
+                        outline: 3.5px solid #1092b8;
+                    }
+                }
+            }
+        }
+    }
+
+    .buttons-container {
+        display: flex;
+        justify-content: center;
+        gap: 2em;
+        margin-top: 2em;
+
+        @media (max-width: 768px) {
+            flex-direction: column; // Stack buttons vertically on mobile
+            gap: 1em; // Reduce gap between buttons
+        }
+
+        button {
+            padding: 0.8em 2em;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+
+            @media (max-width: 768px) {
+                width: 100%; // Full width on mobile
+                text-align: center; // Center text
+            }
+
+            &.blue {
+                background: #1092b8;
+                color: #ffffff;
+
+                &:hover {
+                    background: #0a6d88;
+                }
+            }
+
+            &.grey {
+                background: #e6e6e6;
+                color: #36395a;
+
+                &:hover {
+                    background: #d4d4d4;
+                }
+            }
+
+            &.red {
+                background: #d9534f;
+                color: #ffffff;
+
+                &:hover {
+                    background: #c9302c;
+                }
+            }
+        }
+    }
+
+    .iban-fields {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1em; // Space between fields
+
+        label {
+            flex: 1 1 calc(33.33% - 1em); // 3 fields per row
+            min-width: 200px; // Minimum width for each field
+
+            input {
+                width: 100%; // Full width for inputs
+            }
+        }
+
+        @media (max-width: 768px) {
+            label {
+                flex: 1 1 100%; // Full width on mobile
+            }
+        }
+    }
+}

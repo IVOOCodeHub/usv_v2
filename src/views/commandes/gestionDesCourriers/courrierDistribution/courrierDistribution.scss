@@ -1,0 +1,42 @@
+@use '../../../../utils/styles/mixins' as mixins;
+
+#courrierDistribution {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90dvh;
+  background: #f2f2f2;
+}
+
+#courrierDistribution .leftContainer,
+#courrierDistribution .rightContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  width: 46%;
+}
+
+#courrierDistribution .iFrameContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#courrierDistribution .iFrameContainer iframe {
+  width: 100%;
+  height: 80dvh;
+}
+
+#courrierDistribution .rightContainer {
+  width: 30%;
+  form {
+    @include mixins.form;
+    .buttonContainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1em;
+    }
+  }
+}

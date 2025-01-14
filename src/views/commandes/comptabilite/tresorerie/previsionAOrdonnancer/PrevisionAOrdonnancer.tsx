@@ -1,206 +1,193 @@
-// styles
-import "./previsionAOrdonnancer.scss";
-
-// utils
-import { convertFrDateToServerDate } from "../../../../../utils/scripts/utils.ts";
-
-// hooks | libraries
-import {
-  ReactElement,
-  useContext,
-  useEffect,
-  useState,
-  ChangeEvent,
-} from "react";
-import { useNavigate, NavigateFunction } from "react-router-dom";
-
-// custom types
-import { IPrevision } from "../../../../../utils/types/prevision.interface.ts";
-
-// components
-// import withAuth from "../../../../../views/auth/withAuth";
-import Header from "../../../../../components/header/Header";
-// import DateRange from '../../../../../components/dateRange/DateRange.tsx'
-import NRTL from "../../../../../components/NRTL/NRTL";
-import Button from "../../../../../components/button/Button.tsx";
-// import DisplayCourrierModalWithAuth from "../../../../../components/displayCourrierModal/DisplayCourrierModal.tsx";
-import Footer from "../../../../../components/footer/Footer";
-
-// context
-import { UserContext } from "../../../../../context/userContext.tsx";
-import { LoaderContext } from "../../../../../context/loaderContext.tsx";
-import { PrevisionContext } from "../../../../../context/previsionContext/PrevisionContext.tsx";
+import './previsionAOrdonnancer.scss'
+import { convertFrDateToServerDate, convertENDateToFr } from '../../../../../utils/scripts/utils.ts'
+import { ReactElement, useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { IPrevision } from '../../../../../utils/types/prevision.interface.ts'
+import Header from '../../../../../components/header/Header'
+import NRTL from '../../../../../components/NRTL/NRTL'
+import Button from '../../../../../components/button/Button.tsx'
+import Footer from '../../../../../components/footer/Footer'
+import DateRange from '../../../../../components/dateRange/DateRange'
+import { UserContext } from '../../../../../context/userContext.tsx'
+import { LoaderContext } from '../../../../../context/loaderContext.tsx'
+import { PrevisionContext } from '../../../../../context/previsionContext/PrevisionContext.tsx'
 
 const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
-  const { userCredentials } = useContext(UserContext);
-  const { startLoading, stopLoading } = useContext(LoaderContext);
-  const { previsionsOrdonnance, getPrevisionOrdonnance } =
-    useContext(PrevisionContext);
+	// Contexts pour les données utilisateur, chargement, et prévisions
+	const { userCredentials } = useContext(UserContext)
+	const { startLoading, stopLoading } = useContext(LoaderContext)
+	const { previsionsOrdonnance, getPrevisionOrdonnance } = useContext(PrevisionContext)
 
-  const [bodyArray, setBodyArray] = useState<string[][]>([]);
-  const [filters, setFilters] = useState({
-    minDate: "",
-    maxDate: "",
-    cle: "",
-  });
+	// États pour les données du tableau et les filtres
+	const [bodyArray, setBodyArray] = useState<string[][]>([])
 
-  const navigate: NavigateFunction = useNavigate();
+	// Valeurs par défaut pour les dates
+	const getDefaultDateMin = (): string => {
+		const now = new Date()
+		const lastYear = now.getFullYear() - 1
+		const firstDayLastYear = new Date(Date.UTC(lastYear, 0, 1, 0, 0, 0)) // 1er janvier de l'année précédente
+		return firstDayLastYear.toISOString().split('T')[0]
+	}
 
-  const convertToArray: (datas: IPrevision[]) => string[][] = (
-    datas: IPrevision[],
-  ): string[][] => {
-    return datas.map((data: IPrevision): string[] => [
-      data.cleCourrier,
-      data.dateEcheance,
-      data.dateOrdo,
-      data.libelleCompteTiers,
-      data.libelleEcriture,
-      data.societe,
-      keepTwoDecimals(Number(data.debit)),
-    ]);
-  };
+	const getDefaultDateMax = (): string => {
+		const now = new Date()
+		const lastDayCurrentYear = new Date(Date.UTC(now.getFullYear(), 11, 31, 23, 59, 59)) // 31 décembre de l'année en cours
+		return lastDayCurrentYear.toISOString().split('T')[0]
+	}
 
-  const dateMin: string = convertFrDateToServerDate("01/01/2022");
-  const dateMax: string = convertFrDateToServerDate("31/12/2022");
-  useEffect((): void => {
-    startLoading();
-    if (userCredentials) {
-      getPrevisionOrdonnance(userCredentials, dateMin, dateMax).finally(
-        stopLoading,
-      );
-    }
-  }, []);
+	const [filters, setFilters] = useState({
+		minDate: getDefaultDateMin(),
+		maxDate: getDefaultDateMax(),
+		cle: '',
+	})
 
-  useEffect((): void => {
-    if (Array.isArray(previsionsOrdonnance)) {
-      setBodyArray(convertToArray(previsionsOrdonnance));
-    }
-  }, [previsionsOrdonnance]);
+	// Navigation pour rediriger vers les détails
+	const navigate = useNavigate()
 
-  const keepTwoDecimals: (number: number) => string = (
-    number: number,
-  ): string => {
-    return new Intl.NumberFormat("fr-FR", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(number);
-  };
+	// Vérifie si une plage de dates est valide
+	const isDateRangeValid = (min: string, max: string): boolean => {
+		if (!Date.parse(min) || !Date.parse(max)) {
+			console.warn('Une ou plusieurs dates sont invalides.', { min, max })
+			return false
+		}
 
-  const applyFilters: () => string[][] = (): string[][] => {
-    return bodyArray.filter((row: string[]): boolean => {
-      const dateReception = new Date(row[1]);
-      const minDate: Date | null = filters.minDate
-        ? new Date(filters.minDate)
-        : null;
-      const maxDate: Date | null = filters.maxDate
-        ? new Date(filters.maxDate)
-        : null;
-      const filterCle: string = filters.cle ? filters.cle : "";
+		const dateMin = new Date(min)
+		const dateMax = new Date(max)
+		return dateMin <= dateMax
+	}
 
-      return (
-        (!minDate || dateReception >= minDate) &&
-        (!maxDate || dateReception <= maxDate) &&
-        (!filterCle || row[0].includes(filterCle))
-      );
-    });
-  };
+	// Charger les données au démarrage
+	useEffect((): void => {
+		const loadData = async (): Promise<void> => {
+			if (userCredentials) {
+				const validMinDate = convertFrDateToServerDate(filters.minDate)
+				const validMaxDate = convertFrDateToServerDate(filters.maxDate)
 
-  const handleFilterChange: (event: ChangeEvent<HTMLInputElement>) => void = (
-    event: ChangeEvent<HTMLInputElement>,
-  ): void => {
-    const { name, value } = event.target;
-    setFilters(
-      (prevFilters: {
-        minDate: string;
-        maxDate: string;
-        cle: string;
-      }): { minDate: string; maxDate: string; cle: string } => ({
-        ...prevFilters,
-        [name]: value,
-      }),
-    );
-  };
+				startLoading()
+				await getPrevisionOrdonnance(userCredentials, validMinDate, validMaxDate).finally(stopLoading)
+			}
+		}
 
-  const tableData = {
-    tableHead: [
-      "Code",
-      "Échéance",
-      "Ordo",
-      "Fournisseur",
-      "Libellé",
-      "Destinataire",
-      "Montant",
-    ],
-    tableBody: applyFilters(),
-  };
+		loadData()
+	}, [userCredentials])
 
-  return (
-    <>
-      <Header
-        props={{
-          pageURL: "GIVOO | TRÉSORERIE | PRÉVISION À ORDONNANCER",
-        }}
-      />
-      <main id={"previsionAOrdonnancer"}>
-        <section className={"previsionAOrdonnancer__bottomSection"}>
-          <form>
-            <div className={"inputWrapper"}>
-              <label htmlFor={"minDate"}>Date mini : </label>
-              <input
-                name={"minDate"}
-                type={"date"}
-                value={filters.minDate}
-                onChange={handleFilterChange}
-              />
-            </div>
-            <div className={"inputWrapper"}>
-              <label htmlFor={"maxDate"}>Date maxi : </label>
-              <input
-                name={"maxDate"}
-                type={"date"}
-                value={filters.maxDate}
-                onChange={handleFilterChange}
-              />
-            </div>
-            <div className={"inputWrapper"}>
-              <label htmlFor={"cle"}>Clé courrier : </label>
-              <input
-                name={"cle"}
-                type={"text"}
-                placeholder="Filtrer par clé"
-                value={filters.cle}
-                onChange={handleFilterChange}
-              />
-            </div>
-          </form>
+	// Fonction appelée par le composant DateRange
+	const handleDateFilter = (minDate: string, maxDate: string): void => {
+		console.log('Dates reçues du composant DateRange :', { minDate, maxDate })
 
-          <NRTL
-            datas={tableData}
-            headerBackgroundColor={
-              "linear-gradient(to left, #84CDE4FF, #1092B8)"
-            }
-            headerHoverBackgroundColor={"#1092B8"}
-            showPreviousNextButtons={true}
-            enableColumnSorting={true}
-            showItemsPerPageSelector={true}
-            showPagination={true}
-            itemsPerPageOptions={[5, 25, 50]}
-            filterableColumns={[false, false, false, true, true, true, false]}
-            language={"fr"}
-          />
-          <Button
-            props={{
-              style: "grey",
-              text: "Retour",
-              type: "button",
-              onClick: (): void => navigate("/commandes/tresorerie/menu"),
-            }}
-          />
-        </section>
-      </main>
-      <Footer />
-    </>
-  );
-};
+		const validMinDate = convertFrDateToServerDate(minDate)
+		const validMaxDate = convertFrDateToServerDate(maxDate)
 
-export default PrevisionAOrdonnancer;
+		if (!isDateRangeValid(validMinDate, validMaxDate)) {
+			console.warn('Plage de dates incohérente.', { validMinDate, validMaxDate })
+			return
+		}
+
+		if (userCredentials) {
+			startLoading()
+			getPrevisionOrdonnance(userCredentials, validMinDate, validMaxDate)
+				.finally(stopLoading)
+				.catch((err) => console.error("Erreur lors de l'appel API :", err))
+		}
+	}
+
+	// Convertir les données reçues pour le tableau
+	const convertToArray = (datas: IPrevision[]): string[][] =>
+		datas
+			.filter((data) => !filters.cle || data.cle.includes(filters.cle)) // Filtrer par "Code"
+			.map((data) => {
+				const credit = data.credit ? parseFloat(data.credit) : 0 // Convert `credit` to a number
+				const debit = data.debit ? parseFloat(data.debit) : 0 // Convert `debit` to a number
+
+				return [
+					data.cle || 'Non défini', // Remplace undefined par 'Non défini'
+					data.dateEcheance ? convertENDateToFr(data.dateEcheance.split('/').reverse().join('-')) : 'Non défini', // Remplace undefined par 'Non défini'
+					data.dateOrdo ? convertENDateToFr(data.dateOrdo.split('/').reverse().join('-')) : 'Non défini', // Remplace undefined par 'Non défini'
+					data.libelleCompteTiers ?? 'Non défini', // Remplace undefined par 'Non défini'
+					data.libelleEcriture ?? 'Non défini', // Remplace undefined par 'Non défini'
+					data.societe || 'Non défini', // Remplace undefined par 'Non défini'
+					keepTwoDecimals(
+						credit !== 0
+							? credit // Use `credit` if it's non-zero
+							: debit !== 0
+								? -debit // Use `debit` with a negative sign for an avoir
+								: 0 // Default to 0 if both are zero
+					),
+				]
+			})
+
+	// Met à jour les données du tableau après récupération des prévisions
+	useEffect((): void => {
+		if (Array.isArray(previsionsOrdonnance)) {
+			console.log('Données reçues :', previsionsOrdonnance)
+			setBodyArray(convertToArray(previsionsOrdonnance))
+		}
+	}, [previsionsOrdonnance, filters.cle])
+
+	// Formater les montants en euros
+	const keepTwoDecimals = (number: number): string =>
+		new Intl.NumberFormat('fr-FR', {
+			style: 'currency',
+			currency: 'EUR',
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		}).format(number)
+
+	// Naviguer vers les détails d'une ligne
+	const handleRowClick = (index: number, rowData?: string[]): void => {
+		if (rowData) {
+			navigate('/commandes/tresorerie/details_prevision_ordo', { state: { rowData } })
+		} else {
+			console.warn('Aucune donnée disponible pour cette ligne.')
+		}
+	}
+
+	// Préparer les données pour le tableau
+	const tableData = {
+		tableHead: ['Code', 'Échéance', 'Ordo', 'Fournisseur', 'Libellé', 'Destinataire', 'Montant'],
+		tableBody: bodyArray,
+	}
+
+	// Rendu du composant
+	return (
+		<>
+			<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | PRÉVISION À ORDONNANCER' }} />
+			<main id='previsionAOrdonnancer'>
+				<section className='previsionAOrdonnancer__bottomSection'>
+					<div className='filtersWrapper'>
+						<DateRange onFilter={handleDateFilter} defaultMinDate={filters.minDate} defaultMaxDate={filters.maxDate} />
+						<div className='codeInputWrapper'>
+							<label htmlFor='cle'>Code :</label>
+							<input
+								name='cle'
+								type='text'
+								placeholder='Filtrer par code'
+								value={filters.cle}
+								onChange={(e) => setFilters({ ...filters, cle: e.target.value })}
+							/>
+						</div>
+					</div>
+					<NRTL
+						datas={tableData}
+						headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
+						headerHoverBackgroundColor='#1092B8'
+						showPreviousNextButtons
+						enableColumnSorting
+						showItemsPerPageSelector
+						showPagination
+						itemsPerPageOptions={[5, 25, 50]}
+						filterableColumns={[false, false, false, true, false, true, false]}
+						language='fr'
+						onRowClick={(index: number, rowData?: string[]) => handleRowClick(index, rowData)}
+					/>
+					<div className='greyButtonWrapper'>
+						<Button props={{ style: 'grey', text: 'Retour', type: 'button', onClick: () => navigate(-1) }} />
+					</div>
+				</section>
+			</main>
+			<Footer />
+		</>
+	)
+}
+
+export default PrevisionAOrdonnancer

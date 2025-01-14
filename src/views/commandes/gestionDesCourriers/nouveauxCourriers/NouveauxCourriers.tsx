@@ -26,7 +26,7 @@ import { FileContext } from "../../../../context/fileContext/FileContext.tsx";
 
 function NouveauxCourriers(): ReactElement {
   const navigate: NavigateFunction = useNavigate();
-  const { isLoading, startLoading, stopLoading } = useContext(LoaderContext);
+  const { isLoading } = useContext(LoaderContext);
   const { files, getFiles } = useContext(FileContext);
   const [bodyArray, setBodyArray] = useState<string[][]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -67,7 +67,6 @@ function NouveauxCourriers(): ReactElement {
   };
 
   useEffect((): void => {
-    startLoading();
     getFiles().finally();
   }, []);
 
@@ -82,11 +81,10 @@ function NouveauxCourriers(): ReactElement {
       );
       setBodyArray(convertToArray(sortedFiles));
     }
-    stopLoading();
   }, [getFiles, files]);
 
   const displayCourrier = (index: number, fileName: string): void => {
-    if (!index) return;
+    console.log('Clicked Row :', index);
     setCourrier(fileName);
     setIsModalOpen(true);
   };
@@ -159,7 +157,7 @@ function NouveauxCourriers(): ReactElement {
               style: "grey",
               text: "Retour",
               type: "button",
-              onClick: (): void => navigate(-1),
+              onClick: (): void => navigate('/commandes/gestion_des_courriers'),
             }}
           />
         </div>
