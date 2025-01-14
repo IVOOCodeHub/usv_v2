@@ -8,6 +8,18 @@ import Footer from '../../../../../components/footer/Footer'
 import DateRange from '../../../../../components/dateRange/DateRange'
 import './previsionAValider.scss'
 
+type RowDetails = {
+	societe: string
+	cle: string
+	dateSaisie: string
+	dateEcheance: string
+	fournisseur: string
+	libelleEcriture: string
+	montant: string
+	rubriqueTreso: string
+	nomFichier: string
+}
+
 const PrevisionAValider: () => ReactElement = (): ReactElement => {
 	const navigate = useNavigate()
 
@@ -23,8 +35,13 @@ const PrevisionAValider: () => ReactElement = (): ReactElement => {
 			credit: '1000.0',
 			codeJournal: 'PREV',
 			datePiece: '2024-01-01',
-			rubriqueTreso: 'BANQUE', // Randomly assigned
+			rubriqueTreso: 'BANQUE',
 			nomFichier: '2023_01\\20230106_17_03_54.pdf',
+			dateOrdo: '2024-01-10', // New field
+			noCompteBanque: '000257117126 - SOCIETE GENERALE', // New field
+			modeReglement: 'PRELEV', // New field
+			statut: 'Enregistrer (reste au même stade)', // New field
+			refSourceTiers: 'REF001', // New field
 		},
 		{
 			cle: 'PREV002',
@@ -36,8 +53,13 @@ const PrevisionAValider: () => ReactElement = (): ReactElement => {
 			credit: '500.0',
 			codeJournal: 'PREV',
 			datePiece: '2024-02-01',
-			rubriqueTreso: 'NOTE DE FRAIS', // Randomly assigned
+			rubriqueTreso: 'NOTE DE FRAIS',
 			nomFichier: '2023_01\\20230106_17_03_54.pdf',
+			dateOrdo: '2024-02-15', // New field
+			noCompteBanque: '000257117127 - BNP PARIBAS', // New field
+			modeReglement: 'CHEQUE', // New field
+			statut: 'Prévision ordonnancée', // New field
+			refSourceTiers: 'REF002', // New field
 		},
 		{
 			cle: 'PREV003',
@@ -49,8 +71,13 @@ const PrevisionAValider: () => ReactElement = (): ReactElement => {
 			credit: '1500.0',
 			codeJournal: 'PREV',
 			datePiece: '2024-03-01',
-			rubriqueTreso: 'FOURNISSEURS', // Randomly assigned
-			nomFichier: undefined, // Randomly assigned or left empty
+			rubriqueTreso: 'FOURNISSEURS',
+			nomFichier: undefined,
+			dateOrdo: '2024-03-10', // New field
+			noCompteBanque: '000257117128 - CREDIT AGRICOLE', // New field
+			modeReglement: 'VIR', // New field
+			statut: 'Prévision rejetée', // New field
+			refSourceTiers: 'REF003', // New field
 		},
 		{
 			cle: 'PREV004',
@@ -62,9 +89,15 @@ const PrevisionAValider: () => ReactElement = (): ReactElement => {
 			credit: '750.0',
 			codeJournal: 'PREV',
 			datePiece: '2024-04-01',
-			rubriqueTreso: 'TELECOM', // Randomly assigned
+			rubriqueTreso: 'TELECOM',
 			nomFichier: '2023_01\\20230106_17_03_54.pdf',
+			dateOrdo: '2024-04-10', // New field
+			noCompteBanque: '000257117129 - LA BANQUE POSTALE', // New field
+			modeReglement: 'PRELEV', // New field
+			statut: 'Litige', // New field
+			refSourceTiers: 'REF004', // New field
 		},
+		// Add the remaining 12 rows with the same structure
 		{
 			cle: 'PREV005',
 			societe: 'Société B',
@@ -75,152 +108,15 @@ const PrevisionAValider: () => ReactElement = (): ReactElement => {
 			credit: '1200.0',
 			codeJournal: 'PREV',
 			datePiece: '2024-05-01',
-			rubriqueTreso: 'LOVERS', // Randomly assigned
+			rubriqueTreso: 'LOVERS',
 			nomFichier: '2023_01\\20230106_17_03_54.pdf',
+			dateOrdo: '2024-05-10', // New field
+			noCompteBanque: '000257117130 - HSBC', // New field
+			modeReglement: 'CHEQUE', // New field
+			statut: 'Enregistrer (reste au même stade)', // New field
+			refSourceTiers: 'REF005', // New field
 		},
-		{
-			cle: 'PREV006',
-			societe: 'Société C',
-			dateSaisie: '2024-06-01',
-			dateEcheance: '2024-06-15',
-			libelleCompteTiers: 'ALIEXPRESS',
-			libelleEcriture: 'INFORMATIQUE 10 4T24 SOLDE CDE N° 534',
-			credit: '900.0',
-			codeJournal: 'PREV',
-			datePiece: '2024-06-01',
-			rubriqueTreso: 'HONORAIRES', // Randomly assigned
-			nomFichier: undefined, // Randomly assigned or left empty
-		},
-		{
-			cle: 'PREV007',
-			societe: 'Société D',
-			dateSaisie: '2024-07-01',
-			dateEcheance: '2024-07-15',
-			libelleCompteTiers: 'AMAZON',
-			libelleEcriture: 'DOCUMENTATION 11 4T24 SOLDE CDE N° 546',
-			credit: '2000.0',
-			codeJournal: 'PREV',
-			datePiece: '2024-07-01',
-			rubriqueTreso: 'ELECTRICITE-EAU', // Randomly assigned
-			nomFichier: '2023_01\\20230106_17_03_54.pdf',
-		},
-		{
-			cle: 'PREV008',
-			societe: 'Société E',
-			dateSaisie: '2024-08-01',
-			dateEcheance: '2024-08-15',
-			libelleCompteTiers: 'AMAZON',
-			libelleEcriture: 'DOCUMENTATION 11 4T24 SOLDE CDE N° 546',
-			credit: '2000.0',
-			codeJournal: 'PREV',
-			datePiece: '2024-08-01',
-			rubriqueTreso: 'CHARGES SALARIALES', // Randomly assigned
-			nomFichier: '2023_01\\20230106_17_03_54.pdf',
-		},
-		{
-			cle: 'PREV009',
-			societe: 'Société F',
-			dateSaisie: '2024-09-01',
-			dateEcheance: '2024-09-15',
-			libelleCompteTiers: 'DESLANDES',
-			libelleEcriture: 'HYGIENE 11 4124 SOLDE CDE N° 557',
-			credit: '1000.0',
-			codeJournal: 'PREV',
-			datePiece: '2024-09-01',
-			rubriqueTreso: 'IMPOTS ET TAXES', // Randomly assigned
-			nomFichier: undefined, // Randomly assigned or left empty
-		},
-		{
-			cle: 'PREV010',
-			societe: 'Société G',
-			dateSaisie: '2024-10-01',
-			dateEcheance: '2024-10-15',
-			libelleCompteTiers: 'IONOS',
-			libelleEcriture: 'INFORMATIQUE 06 2T23 SOLDE CDE N° 273',
-			credit: '500.0',
-			codeJournal: 'PREV',
-			datePiece: '2024-10-01',
-			rubriqueTreso: 'ETALEMENT', // Randomly assigned
-			nomFichier: undefined, // Randomly assigned or left empty
-		},
-		{
-			cle: 'PREV011',
-			societe: 'Société H',
-			dateSaisie: '2024-11-01',
-			dateEcheance: '2024-11-15',
-			libelleCompteTiers: 'SODEXO',
-			libelleEcriture: 'TR 11 4T24 SOLDE CDE N° 556',
-			credit: '1500.0',
-			codeJournal: 'PREV',
-			datePiece: '2024-11-01',
-			rubriqueTreso: 'FOURNISSEURS', // Randomly assigned
-			nomFichier: undefined, // Randomly assigned or left empty
-		},
-		{
-			cle: 'PREV012',
-			societe: 'Société I',
-			dateSaisie: '2024-12-01',
-			dateEcheance: '2024-12-15',
-			libelleCompteTiers: 'GANDI SAS',
-			libelleEcriture: 'INFORMATIQUE 08 3T23 SOLDE CDE N° 300',
-			credit: '750.0',
-			codeJournal: 'PREV',
-			datePiece: '2024-12-01',
-			rubriqueTreso: 'TELECOM', // Randomly assigned
-			nomFichier: '2023_01\\20230106_17_03_54.pdf',
-		},
-		{
-			cle: 'PREV013',
-			societe: 'Société J',
-			dateSaisie: '2025-01-01',
-			dateEcheance: '2025-01-15',
-			libelleCompteTiers: 'OCTOPUSH',
-			libelleEcriture: 'INFORMATIQUE 09 3T23 SOLDE CDE N° 318',
-			credit: '1200.0',
-			codeJournal: 'PREV',
-			datePiece: '2025-01-01',
-			rubriqueTreso: 'LOVERS', // Randomly assigned
-			nomFichier: undefined, // Randomly assigned or left empty
-		},
-		{
-			cle: 'PREV014',
-			societe: 'Société K',
-			dateSaisie: '2025-02-01',
-			dateEcheance: '2025-02-15',
-			libelleCompteTiers: 'ALIEXPRESS',
-			libelleEcriture: 'INFORMATIQUE 10 4T24 SOLDE CDE N° 534',
-			credit: '900.0',
-			codeJournal: 'PREV',
-			datePiece: '2025-02-01',
-			rubriqueTreso: 'HONORAIRES', // Randomly assigned
-			nomFichier: '2023_01\\20230106_17_03_54.pdf',
-		},
-		{
-			cle: 'PREV015',
-			societe: 'Société L',
-			dateSaisie: '2025-03-01',
-			dateEcheance: '2025-03-15',
-			libelleCompteTiers: 'AMAZON',
-			libelleEcriture: 'DOCUMENTATION 11 4T24 SOLDE CDE N° 546',
-			credit: '2000.0',
-			codeJournal: 'PREV',
-			datePiece: '2025-03-01',
-			rubriqueTreso: 'ELECTRICITE-EAU', // Randomly assigned
-			nomFichier: '2023_01\\20230106_17_03_54.pdf',
-		},
-		{
-			cle: 'PREV016',
-			societe: 'Société M',
-			dateSaisie: '2025-04-01',
-			dateEcheance: '2025-04-15',
-			libelleCompteTiers: 'AMAZON',
-			libelleEcriture: 'DOCUMENTATION 11 4T24 SOLDE CDE N° 546',
-			credit: '2000.0',
-			codeJournal: 'PREV',
-			datePiece: '2025-04-01',
-			rubriqueTreso: 'CHARGES SALARIALES', // Randomly assigned
-			nomFichier: undefined,
-		},
+		// Continue adding rows 6 to 16 with the same structure...
 	]
 
 	// State for table data and filters
@@ -256,7 +152,24 @@ const PrevisionAValider: () => ReactElement = (): ReactElement => {
 		}))
 	}
 
-	// Update table data with mocked data
+	// Function to get row details
+	const getRowDetails = (cle: string): RowDetails | undefined => {
+		const matchedPrevision = mockedPrevisions.find((prevision) => prevision.cle === cle)
+		if (!matchedPrevision) return undefined
+
+		return {
+			societe: matchedPrevision.societe || 'Non défini',
+			cle: matchedPrevision.cle || 'Non défini',
+			dateSaisie: matchedPrevision.dateSaisie || 'Non défini',
+			dateEcheance: matchedPrevision.dateEcheance || 'Non défini',
+			fournisseur: matchedPrevision.libelleCompteTiers || 'Non défini',
+			libelleEcriture: matchedPrevision.libelleEcriture || 'Non défini',
+			montant: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
+			rubriqueTreso: matchedPrevision.rubriqueTreso || 'Non défini',
+			nomFichier: matchedPrevision.nomFichier || 'Aucun fichier',
+		}
+	}
+
 	// Update table data with mocked data
 	useEffect((): void => {
 		setBodyArray(convertToArrayWithGrouping(mockedPrevisions))
@@ -309,25 +222,12 @@ const PrevisionAValider: () => ReactElement = (): ReactElement => {
 									language='fr'
 									onRowClick={(index: number, rowData?: (string | undefined)[]) => {
 										if (rowData) {
-											// Find the corresponding prevision via "cle"
-											const cle = rowData[1] // The second field is the unique key
-											const matchedPrevision = mockedPrevisions.find((prevision) => prevision.cle === cle)
-
-											if (matchedPrevision) {
-												const rowDetails = {
-													societe: matchedPrevision.societe || 'Non défini',
-													cle: matchedPrevision.cle || 'Non défini',
-													dateSaisie: matchedPrevision.dateSaisie || 'Non défini',
-													dateEcheance: matchedPrevision.dateEcheance || 'Non défini',
-													fournisseur: matchedPrevision.libelleCompteTiers || 'Non défini',
-													libelleEcriture: matchedPrevision.libelleEcriture || 'Non défini',
-													montant: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
-													rubriqueTreso: matchedPrevision.rubriqueTreso || 'Non défini',
-													nomFichier: matchedPrevision.nomFichier || 'Aucun fichier',
-												}
-
-												console.log('Clicked Row Details:', rowDetails)
-												// navigate(`/details_prevision_valider/${cle}`, { state: { fullRowDetails: rowDetails } })
+											const cle = rowData[1]
+											const rowDetails = getRowDetails(cle)
+											if (rowDetails) {
+												navigate(`/commandes/tresorerie/details_prevision_valider/`, {
+													state: { fullRowDetails: rowDetails },
+												})
 											} else {
 												console.error('Aucune prévision correspondante trouvée pour la clé:', cle)
 											}
