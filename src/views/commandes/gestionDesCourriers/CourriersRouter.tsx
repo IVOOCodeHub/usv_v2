@@ -13,8 +13,8 @@ export default function CourriersRouter(): ReactElement {
     <Routes>
         <Route path={"/nouveaux_courriers"} element={<NouveauxCourriersWithAuth />} />
         <Route path={"/nouveaux_courriers/nouveaux_courriers_traitement"} element={<NouveauxCourriersTraitementWithAuth />} />
-        <Route path={'/courrier_a_distribuer'} element={<CourrierADistribuerWithAuth />} />
-        <Route path={'/courrier_a_distribuer/:courrierID'} element={<CourrierDistributionWithAuth />} />
+        <Route path={"/courrier_a_distribuer"} element={<CourrierADistribuerWithAuth />} />
+        <Route path={"/courrier_a_distribuer/:courrierID"} element={<CourrierDistributionWithAuth />} />
     </Routes>
   );
 }

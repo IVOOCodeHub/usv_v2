@@ -31,8 +31,8 @@ function CourrierADistribuer(): ReactElement {
       "Sél.",
     ],
     tableBody: [
-      ["1", "A", "B", "2022-01-01", "C", "D", "E"],
-      ["2", "A", "B", "2022-01-01", "C", "D", "E"],
+      ["62639", "A", "B", "2022-01-01", "C", "D", "E"],
+      ["28373", "A", "B", "2022-01-01", "C", "D", "E"],
     ],
   };
 
@@ -47,8 +47,8 @@ function CourrierADistribuer(): ReactElement {
       "Sél.",
     ],
     tableBody: [
-      ["3", "B", "C", "2024-01-01", "D", "E", "F"],
-      ["4", "B", "C", "2024-01-01", "D", "E", "F"],
+      ["16292", "B", "C", "2024-01-01", "D", "E", "F"],
+      ["7535", "B", "C", "2024-01-01", "D", "E", "F"],
     ],
   };
 
@@ -56,7 +56,7 @@ function CourrierADistribuer(): ReactElement {
     <>
       <Header
         props={{
-          pageURL: `G_IVOO | Gestion des courriers | Courriers ${kindOfCourrier === "E" ? "entrants" : "interne"} a distribuer`,
+          pageURL: `G_IVOO | Gestion des courriers | Courriers ${kindOfCourrier === "E" ? "entrants" : "internes"} a distribuer`,
           helpBtn: true,
         }}
       />
@@ -149,7 +149,7 @@ function CourrierADistribuer(): ReactElement {
               style: "grey",
               text: "Retour",
               type: "button",
-              onClick: (): void => navigate(-1),
+              onClick: (): void => navigate('/commandes/gestion_des_courriers'),
             }}
           />
         </div>

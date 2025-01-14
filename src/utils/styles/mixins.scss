@@ -3,7 +3,7 @@
 @mixin form {
   display: flex;
   flex-flow: column;
-  gap: 1.5em;
+  gap: .5em;
   border: 1px solid #36395a;
   padding: 1em;
   border-radius: 6px;
@@ -27,6 +27,9 @@
   }
 
   & .inputWrapper label {
+    padding-top: .5em;
+    display: flex;
+    align-self: flex-start;
     width: 40%;
 
     @media (max-width: 1024px) {
@@ -57,7 +60,7 @@
   }
 
   & textarea {
-    padding: .8em;
+    padding: 0.8em;
     min-width: 230px;
     height: 100px;
     background: #f2f2f2;
