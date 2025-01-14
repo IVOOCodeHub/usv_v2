@@ -62,4 +62,31 @@
             gap: 2em;
         }
     }
+
+    .has-file {
+        background-color: lightblue !important;
+        /* Couleur pour les lignes avec fichier */
+    }
+
+    .no-file {
+        background-color: white !important;
+        /* Couleur par défaut pour les autres lignes */
+    }
+}
+
+#groupedTable {
+    .rubriqueGroup {
+        margin-bottom: 2em;
+
+        .rubriqueTitle {
+            background-color: #1092b8;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 1em;
+            text-align: center;
+            border-radius: 6px;
+            margin-bottom: 1em;
+        }
+    }
 }
