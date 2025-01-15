@@ -84,3 +84,18 @@
         }
     }
 }
+
+.courrierDisplay {
+    width: 100%;
+    height: 500px;
+    border: 1px solid #ccc;
+}
+
+.no-courrier {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+    border: 1px dashed #ccc;
+    background-color: #f9f9f9;
+}

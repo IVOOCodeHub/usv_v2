@@ -25,7 +25,7 @@ const PrevisionAValider: React.FC = () => {
 	const navigate = useNavigate()
 
 	// State for table data and filters
-	const [bodyArray, setBodyArray] = useState<string[][]>([])
+	const [bodyArray, setBodyArray] = useState<{ rubrique: string; rows: (string | undefined)[][] }[]>([])
 	const [codeFilter, setCodeFilter] = useState('') // Only "Code" filter
 
 	// Convert data for the table
@@ -76,8 +76,11 @@ const PrevisionAValider: React.FC = () => {
 	}
 
 	// Update table data with mocked data
-	useEffect((): void => {
-		setBodyArray(convertToArrayWithGrouping(mockedPrevisions))
+	useEffect(() => {
+		const filteredData = mockedPrevisions.filter((prevision) =>
+			prevision.cle.toLowerCase().includes(codeFilter.toLowerCase())
+		)
+		setBodyArray(convertToArrayWithGrouping(filteredData))
 	}, [codeFilter])
 
 	return (
@@ -99,48 +102,52 @@ const PrevisionAValider: React.FC = () => {
 						</div>
 					</div>
 					<div id='groupedTable'>
-						{convertToArrayWithGrouping(mockedPrevisions).map((group, groupIndex) => (
-							<div key={groupIndex} className='rubriqueGroup'>
-								<div className='rubriqueTitle'>{group.rubrique}</div>
-								<NRTL
-									datas={{
-										tableHead: [
-											'Société',
-											'Code',
-											'Date Saisie',
-											'Date Échéance',
-											'Fournisseur',
-											'Libellé écriture',
-											'Montant',
-											'Courrier',
-										],
-										tableBody: group.rows,
-									}}
-									headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
-									headerHoverBackgroundColor='#1092B8'
-									showPreviousNextButtons
-									enableColumnSorting
-									showItemsPerPageSelector
-									showPagination
-									itemsPerPageOptions={[5, 25, 50]}
-									filterableColumns={[true, false, false, false, false, false, false]}
-									language='fr'
-									onRowClick={(index: number, rowData?: (string | undefined)[]) => {
-										if (rowData) {
-											const cle = rowData[1]
-											const rowDetails = getRowDetails(cle)
-											if (rowDetails) {
-												navigate(`/commandes/tresorerie/details_prevision_valider/`, {
-													state: { fullRowDetails: rowDetails },
-												})
-											} else {
-												console.error('Aucune prévision correspondante trouvée pour la clé:', cle)
+						{bodyArray.length === 0 ? (
+							<div className='no-results'>Aucune prévision trouvée pour le code "{codeFilter}".</div>
+						) : (
+							bodyArray.map((group, groupIndex) => (
+								<div key={groupIndex} className='rubriqueGroup'>
+									<div className='rubriqueTitle'>{group.rubrique}</div>
+									<NRTL
+										datas={{
+											tableHead: [
+												'Société',
+												'Code',
+												'Date Saisie',
+												'Date Échéance',
+												'Fournisseur',
+												'Libellé écriture',
+												'Montant',
+												'Courrier',
+											],
+											tableBody: group.rows,
+										}}
+										headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
+										headerHoverBackgroundColor='#1092B8'
+										showPreviousNextButtons
+										enableColumnSorting
+										showItemsPerPageSelector
+										showPagination
+										itemsPerPageOptions={[5, 25, 50]}
+										filterableColumns={[true, false, false, false, false, false, false]}
+										language='fr'
+										onRowClick={(index: number, rowData?: (string | undefined)[]) => {
+											if (rowData && rowData[1]) {
+												const cle = rowData[1]
+												const rowDetails = getRowDetails(cle)
+												if (rowDetails) {
+													navigate(`/commandes/tresorerie/details_prevision_valider/`, {
+														state: { fullRowDetails: rowDetails },
+													})
+												} else {
+													console.error('Aucune prévision correspondante trouvée pour la clé:', cle)
+												}
 											}
-										}
-									}}
-								/>
-							</div>
-						))}
+										}}
+									/>
+								</div>
+							))
+						)}
 					</div>
 					<div className='greyButtonWrapper'>
 						<Button props={{ style: 'grey', text: 'Retour', type: 'button', onClick: () => navigate(-1) }} />

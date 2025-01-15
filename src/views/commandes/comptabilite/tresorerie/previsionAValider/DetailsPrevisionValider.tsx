@@ -31,15 +31,37 @@ interface ILocationState {
 	}
 }
 
+interface Details {
+	cle: string
+	dateSaisie: string
+	societe: string
+	tiers: string
+	rubrique: string
+	libelle: string
+	dateEcheance: string
+	dateOrdo: string
+	banque_reglement: string
+	mode_reglement: string
+	montant: string
+	statut: string
+	refSourceTiers: string
+}
+
 const DetailsPrevisionValider: React.FC = () => {
 	const navigate = useNavigate()
 	const location = useLocation() as ILocationState
 
 	const [courrier, setCourrier] = useState<string | null>(null)
-	const [details, setDetails] = useState<any>(null)
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-	const [isPrevisionsModalOpen, setIsPrevisionsModalOpen] = useState<boolean>(false)
-	const [showModal, setShowModal] = useState<boolean>(false)
+	const [details, setDetails] = useState<Details | null>(null)
+	const [modalStates, setModalStates] = useState({
+		isModalOpen: false,
+		isPrevisionsModalOpen: false,
+		showModal: false,
+	})
+
+	const toggleModal = (modalName: keyof typeof modalStates) => {
+		setModalStates((prev) => ({ ...prev, [modalName]: !prev[modalName] }))
+	}
 
 	useEffect(() => {
 		const rowData = location?.state?.fullRowDetails
@@ -63,7 +85,8 @@ const DetailsPrevisionValider: React.FC = () => {
 			setDetails(formattedDetails)
 
 			if (rowData.nomFichier) {
-				setCourrier(`http://192.168.0.254:8080/usv_prod/courriers/${rowData.nomFichier.replace(/\\/g, '/')}`)
+				const encodedFilePath = encodeURIComponent(rowData.nomFichier.replace(/\\/g, '/'))
+				setCourrier(`http://192.168.0.254:8080/usv_prod/courriers/${encodedFilePath}`)
 			} else {
 				setCourrier(null)
 			}
@@ -72,18 +95,28 @@ const DetailsPrevisionValider: React.FC = () => {
 		}
 	}, [location?.state?.fullRowDetails])
 
-	const handleSave = (updatedDetails: any) => {
+	// const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof Details) => {
+	// 	const newValue = e.target.value
+	// 	if (newValue) {
+	// 		setDetails((prevDetails) => ({
+	// 			...prevDetails,
+	// 			[field]: newValue,
+	// 		}))
+	// 	}
+	// }
+
+	const handleSave = (updatedDetails: Details) => {
 		console.log('Données sauvegardées (mocked) :', updatedDetails)
 		alert('Fonctionnalité de sauvegarde non implémentée pour le moment.')
 	}
 
 	const handleConfirm = () => {
-		setShowModal(false)
+		toggleModal('showModal')
 		alert('Fonctionnalité d’étalement non implémentée pour le moment.')
 	}
 
 	const handleCancel = () => {
-		setShowModal(false)
+		toggleModal('showModal')
 	}
 
 	if (!details) {
@@ -92,14 +125,14 @@ const DetailsPrevisionValider: React.FC = () => {
 
 	return (
 		<>
-			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | DÉTAILS PRÉVISION VALIDER ${details.cle}` }} />
+			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | DÉTAILS PRÉVISION À VALIDER ${details.cle}` }} />
 			<main id='detailsPrevisionOrdo'>
 				<div className='detailsContainer'>
 					<div className='leftSide'>
 						{courrier ? (
 							<iframe src={courrier} title='Courrier associé' className='courrierDisplay' />
 						) : (
-							<div>
+							<div className='no-courrier'>
 								<p>Aucun courrier associé</p>
 							</div>
 						)}
@@ -114,15 +147,15 @@ const DetailsPrevisionValider: React.FC = () => {
 										style: 'blue',
 										text: 'Associer un courrier',
 										type: 'button',
-										onClick: () => setIsModalOpen(true),
+										onClick: () => toggleModal('isModalOpen'),
 									}}
 								/>
 							)}
 						</h3>
-						{isModalOpen && (
+						{modalStates.isModalOpen && (
 							<ModalCourriers
-								isOpen={isModalOpen}
-								onClose={() => setIsModalOpen(false)}
+								isOpen={modalStates.isModalOpen}
+								onClose={() => toggleModal('isModalOpen')}
 								userCredentials={null}
 								previsionCode={details.cle}
 							/>
@@ -144,7 +177,7 @@ const DetailsPrevisionValider: React.FC = () => {
 											style: 'blue',
 											text: 'Prévisions',
 											type: 'button',
-											onClick: () => setIsPrevisionsModalOpen(true),
+											onClick: () => toggleModal('isPrevisionsModalOpen'),
 										}}
 									/>
 									<Button
@@ -158,13 +191,13 @@ const DetailsPrevisionValider: React.FC = () => {
 									/>
 								</div>
 							</div>
-							{isPrevisionsModalOpen && (
+							{modalStates.isPrevisionsModalOpen && (
 								<div className='modal'>
 									<div className='modalContent'>
 										<VisualisationPrevisionsTiers
 											userCredentials={null}
 											refSourceTiers={details.refSourceTiers}
-											onClose={() => setIsPrevisionsModalOpen(false)}
+											onClose={() => toggleModal('isPrevisionsModalOpen')}
 										/>
 									</div>
 								</div>
@@ -260,7 +293,7 @@ const DetailsPrevisionValider: React.FC = () => {
 										style: 'blue',
 										text: 'Étalement',
 										type: 'button',
-										onClick: () => setShowModal(true),
+										onClick: () => toggleModal('showModal'),
 									}}
 								/>
 								<Button
@@ -273,7 +306,7 @@ const DetailsPrevisionValider: React.FC = () => {
 								/>
 							</div>
 						</div>
-						{showModal && (
+						{modalStates.showModal && (
 							<ConfirmationModal
 								message='Confirmez-vous l’étalement de cette prévision par la création d’un échéancier ?'
 								onConfirm={handleConfirm}
