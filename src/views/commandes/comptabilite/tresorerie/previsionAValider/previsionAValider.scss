@@ -61,16 +61,10 @@
             align-items: center;
             gap: 2em;
         }
-    }
 
-    .has-file {
-        background-color: lightblue !important;
-        /* Couleur pour les lignes avec fichier */
-    }
-
-    .no-file {
-        background-color: white !important;
-        /* Couleur par défaut pour les autres lignes */
+        .greyButton {
+            margin-bottom: 1rem;
+        }
     }
 }
 

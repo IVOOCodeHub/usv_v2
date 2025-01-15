@@ -8,7 +8,7 @@ import Footer from '../../../../../components/footer/Footer'
 import DateRange from '../../../../../components/dateRange/DateRange'
 import './previsionAValider.scss'
 
-type RowDetails = {
+interface RowDetails {
 	societe: string
 	cle: string
 	dateSaisie: string
@@ -20,7 +20,7 @@ type RowDetails = {
 	nomFichier: string
 }
 
-const PrevisionAValider: () => ReactElement = (): ReactElement => {
+const PrevisionAValider: React.FC = () => {
 	const navigate = useNavigate()
 
 	// Mocked data (replace with API call later)
