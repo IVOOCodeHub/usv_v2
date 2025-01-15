@@ -167,7 +167,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 		<>
 			<Header
 				props={{
-					pageURL: `GIVOO | TRÉSORERIE | DÉTAILS PRÉVISION ORDONNANCER ${previsionCode}`,
+					pageURL: `GIVOO | TRÉSORERIE | DÉTAILS PRÉVISION À ORDONNANCER ${previsionCode}`,
 				}}
 			/>
 			<main id='detailsPrevisionOrdo'>
@@ -187,7 +187,9 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 					<div className='rightSide'>
 						<h3>
 							Prévision {details.cle}{' '}
-							{courrier === null && (
+							<div
+								className={courrier?.toLowerCase().includes('pdf') ? 'prevCourButtonHidden' : 'prevCourButtonActive'}
+							>
 								<Button
 									props={{
 										style: 'blue',
@@ -196,7 +198,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 										onClick: () => setIsModalOpen(true),
 									}}
 								/>
-							)}
+							</div>
 						</h3>
 						{isModalOpen && userCredentials && (
 							<ModalCourriers

@@ -185,7 +185,13 @@
         max-width: 1200px;
         height: 80dvh;
         margin: 2rem auto;
-        gap: 2rem;
+        // gap: 2rem;
+
+        .leftSide,
+        .rightSide {
+            flex: 1; // Ensure both sides take equal space
+            min-width: 500px; // Set a minimum width
+        }
 
         @media (max-width: 768px) {
             flex-direction: column;
@@ -200,9 +206,12 @@
             background: #fff;
             border: 1px solid #36395a;
             padding: 1rem;
+            min-width: 500px; // Set a minimum width
+            width: 50%; // Force equal width for both sides
 
             .courrierDisplay {
                 width: 100%;
+                min-width: 500px; // Set a minimum width if needed
                 height: 75dvh;
                 border: none;
 
@@ -255,9 +264,51 @@
                     min-width: 120px;
                 }
             }
+
+            .prevCourButtonHidden {
+                display: none;
+            }
+
+            .prevCourButtonActive {
+                display: flex;
+            }
+
+            .libelleWrapper {
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 1em;
+
+                .libelleTitle {
+                    display: flex;
+                    width: 100%;
+                    justify-content: flex-start;
+                    align-items: center;
+                    gap: 1em;
+                    font-weight: bold;
+                    font-size: 1.2em;
+                    color: #36395a;
+                }
+            }
+
+            .ValidLibelleWrapper {
+                display: flex;
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                // gap: 1em;
+
+                select {
+                    display: flex;
+                }
+            }
         }
     }
 }
+
 
 .modeReglement {
     display: flex;
@@ -473,4 +524,3 @@
     align-items: center;
     padding: 0 1rem;
 }
-

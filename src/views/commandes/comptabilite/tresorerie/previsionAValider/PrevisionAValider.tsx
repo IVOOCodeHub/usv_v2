@@ -45,7 +45,7 @@ const PrevisionAValider: React.FC = () => {
 					data.libelleCompteTiers ?? 'Non défini',
 					data.libelleEcriture ?? 'Non défini',
 					data.credit ? parseFloat(data.credit).toFixed(2) : '0.00',
-					data.nomFichier ?? 'Aucun Fichier', // Ensure this is the last element
+					data.nomFichier ?? 'Non défini',
 				])
 				return acc
 			},
@@ -72,7 +72,7 @@ const PrevisionAValider: React.FC = () => {
 			libelleEcriture: matchedPrevision.libelleEcriture ?? 'Non défini',
 			montant: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
 			rubriqueTreso: matchedPrevision.rubriqueTreso ?? 'Non défini',
-			nomFichier: matchedPrevision.nomFichier ?? 'Aucun fichier',
+			nomFichier: matchedPrevision.nomFichier ?? 'Non défini',
 		}
 	}
 
@@ -137,6 +137,8 @@ const PrevisionAValider: React.FC = () => {
 												const cle = rowData[1]
 												const rowDetails = getRowDetails(cle)
 												if (rowDetails) {
+													console.log('RowDetails :', rowDetails)
+
 													navigate(`/commandes/tresorerie/details_prevision_valider/`, {
 														state: { fullRowDetails: rowDetails },
 													})

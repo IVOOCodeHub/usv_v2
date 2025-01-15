@@ -93,7 +93,7 @@ const DetailsPrevisionValider: React.FC = () => {
 				credit: rowData.credit ? keepTwoDecimals(Number(rowData.credit)) : '0.00',
 				statut: rowData.statut || 'A VALIDER',
 				refSourceTiers: rowData.refSourceTiers || 'Non défini',
-				nomFichier: rowData.nomFichier,
+				nomFichier: rowData.nomFichier ?? 'Non défini',
 			}
 			setDetails(formattedDetails)
 			setModePaiement(rowData.modeReglement || '')
@@ -149,11 +149,13 @@ const DetailsPrevisionValider: React.FC = () => {
 		return <p>Aucune prévision disponible pour la clé sélectionnée.</p>
 	}
 
+	console.log('courrier :', courrier)
 	return (
 		<>
-			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | DÉTAILS PRÉVISION VALIDER ${details.cle}` }} />
+			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | DÉTAILS PRÉVISION À VALIDER ${details.cle}` }} />
 			<main id='detailsPrevisionOrdo'>
 				<div className='detailsContainer'>
+					{/* Left side: Courrier display */}
 					<div className='leftSide'>
 						{courrier ? (
 							<iframe src={courrier} title='Courrier associé' className='courrierDisplay' />
@@ -166,8 +168,10 @@ const DetailsPrevisionValider: React.FC = () => {
 
 					<div className='rightSide'>
 						<h3>
-							Prévision {details.cle}{' '}
-							{courrier === null && (
+							{/* Button to display the courrier only if there isn't one */}
+							<div
+								className={courrier?.toLowerCase().includes('pdf') ? 'prevCourButtonHidden' : 'prevCourButtonActive'}
+							>
 								<Button
 									props={{
 										style: 'blue',
@@ -176,7 +180,8 @@ const DetailsPrevisionValider: React.FC = () => {
 										onClick: () => toggleModal('isModalOpen'),
 									}}
 								/>
-							)}
+							</div>
+							Prévision {details.cle}{' '}
 						</h3>
 						{modalStates.isModalOpen && (
 							<ModalCourriers
@@ -233,9 +238,11 @@ const DetailsPrevisionValider: React.FC = () => {
 									))}
 								</select>
 							</div>
-							<div>
-								<strong>Libellé :</strong>
-								<div className='libelleWrapper'>
+							<div className='libelleWrapper'>
+								<div className='libelleTitle'>
+									<strong>Libellé :</strong>
+								</div>
+								<div className='ValidLibelleWrapper'>
 									<select
 										value={details.libelleEcriturePrefixe || ''}
 										onChange={(e) => setDetails({ ...details, libelleEcriturePrefixe: e.target.value })}
@@ -392,9 +399,17 @@ const DetailsPrevisionValider: React.FC = () => {
 							<Button
 								props={{
 									style: 'blue',
-									text: 'Valider',
+									text: 'Ok',
 									type: 'button',
 									onClick: () => alert('Prévision validée'),
+								}}
+							/>
+							<Button
+								props={{
+									style: 'blue',
+									text: 'Ok + Duplication',
+									type: 'button',
+									onClick: () => alert('Prévision dupliquée'),
 								}}
 							/>
 							<Button props={{ style: 'grey', text: 'Annuler', type: 'button', onClick: () => navigate(-1) }} />
