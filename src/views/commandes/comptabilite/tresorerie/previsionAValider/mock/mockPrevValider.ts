@@ -9,6 +9,8 @@ export const mockedPrevisions: IPrevision[] = [
 		dateEcheance: '2024-01-15',
 		libelleCompteTiers: 'DESLANDES',
 		libelleEcriture: 'HYGIENE 11 4124 SOLDE CDE N° 557',
+		libelleEcritureBeneficiaire: 'DESLANDES',
+		libelleEcritureTrimestre: '4',
 		credit: '1000.0',
 		codeJournal: 'PREV',
 		datePiece: '2024-01-01',
@@ -27,6 +29,8 @@ export const mockedPrevisions: IPrevision[] = [
 		dateEcheance: '2024-02-20',
 		libelleCompteTiers: 'IONOS',
 		libelleEcriture: 'INFORMATIQUE 06 2T23 SOLDE CDE N° 273',
+		libelleEcritureBeneficiaire: 'IONOS',
+		libelleEcritureTrimestre: '2',
 		credit: '500.0',
 		codeJournal: 'PREV',
 		datePiece: '2024-02-01',
@@ -45,6 +49,8 @@ export const mockedPrevisions: IPrevision[] = [
 		dateEcheance: '2024-03-15',
 		libelleCompteTiers: 'SODEXO',
 		libelleEcriture: 'TR 11 4T24 SOLDE CDE N° 556',
+		libelleEcritureBeneficiaire: 'SODEXO',
+		libelleEcritureTrimestre: '4',
 		credit: '1500.0',
 		codeJournal: 'PREV',
 		datePiece: '2024-03-01',
@@ -63,6 +69,8 @@ export const mockedPrevisions: IPrevision[] = [
 		dateEcheance: '2024-04-15',
 		libelleCompteTiers: 'GANDI SAS',
 		libelleEcriture: 'INFORMATIQUE 08 3T23 SOLDE CDE N° 300',
+		libelleEcritureBeneficiaire: 'GANDI SAS',
+		libelleEcritureTrimestre: '3',
 		credit: '750.0',
 		codeJournal: 'PREV',
 		datePiece: '2024-04-01',
@@ -82,10 +90,12 @@ export const mockedPrevisions: IPrevision[] = [
 		dateEcheance: '2024-05-15',
 		libelleCompteTiers: 'OCTOPUSH',
 		libelleEcriture: 'INFORMATIQUE 09 3T23 SOLDE CDE N° 318',
+		libelleEcritureBeneficiaire: 'OCTOPUSH',
+		libelleEcritureTrimestre: '4',
 		credit: '1200.0',
 		codeJournal: 'PREV',
 		datePiece: '2024-05-01',
-		rubriqueTreso: 'LOVERS',
+		rubriqueTreso: 'LOYERS',
 		nomFichier: '2023_01\\20230106_17_03_54.pdf',
 		dateOrdo: '2024-05-10', // New field
 		noCompteBanque: '000257117130 - HSBC', // New field
@@ -93,5 +103,4 @@ export const mockedPrevisions: IPrevision[] = [
 		statut: 'Enregistrer (reste au même stade)', // New field
 		refSourceTiers: 'REF005', // New field
 	},
-	// Continue adding rows 6 to 16 with the same structure...
 ]

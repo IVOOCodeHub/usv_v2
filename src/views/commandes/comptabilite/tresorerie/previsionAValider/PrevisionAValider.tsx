@@ -11,15 +11,27 @@ import './previsionAValider.scss'
 import '../previsionAOrdonnancer/previsionAOrdonnancer.scss'
 
 interface RowDetails {
-	societe: string
 	cle: string
+	societe: string
 	dateSaisie: string
 	dateEcheance: string
-	fournisseur: string
+	libelleCompteTiers: string
 	libelleEcriture: string
+	libelleEcritureAnnee: string
+	libelleEcritureMois: string
+	libelleEcriturePrefixe: string
+	libelleEcritureTrimestre: string
+	libelleEcritureBeneficiaire: string
+	credit: string
+	debit: string
 	montant: string
 	rubriqueTreso: string
-	nomFichier: string
+	nomFichier?: string
+	dateOrdo: string
+	// no_compte_banque: string
+	modeReglement: string
+	statut: string
+	refSourceTiers: string
 }
 
 const PrevisionAValider: React.FC = () => {
@@ -68,8 +80,20 @@ const PrevisionAValider: React.FC = () => {
 			cle: matchedPrevision.cle || 'Non défini',
 			dateSaisie: matchedPrevision.dateSaisie ?? 'Non défini',
 			dateEcheance: matchedPrevision.dateEcheance ?? 'Non défini',
-			fournisseur: matchedPrevision.libelleCompteTiers ?? 'Non défini',
+			libelleCompteTiers: matchedPrevision.libelleCompteTiers ?? 'Non défini',
 			libelleEcriture: matchedPrevision.libelleEcriture ?? 'Non défini',
+			libelleEcritureBeneficiaire: matchedPrevision.libelleEcritureBeneficiaire ?? 'Non défini',
+			libelleEcritureTrimestre: matchedPrevision.libelleEcritureTrimestre ?? 'Non défini',
+			libelleEcritureAnnee: matchedPrevision.libelleEcritureAnnee ?? 'Non défini',
+			libelleEcritureMois: matchedPrevision.libelleEcritureMois ?? 'Non défini',
+			libelleEcriturePrefixe: matchedPrevision.libelleEcriturePrefixe ?? 'Non défini',
+			dateOrdo: matchedPrevision.dateOrdo ?? 'Non défini',
+			// no_compte_banque: matchedPrevision.no_compte_banque ?? 'Non défini',
+			modeReglement: matchedPrevision.modeReglement ?? 'Non défini',
+			statut: matchedPrevision.statut ?? 'Non défini',
+			refSourceTiers: matchedPrevision.refSourceTiers ?? 'Non défini',
+			credit: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
+			debit: matchedPrevision.debit ? parseFloat(matchedPrevision.debit).toFixed(2) : '0.00',
 			montant: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
 			rubriqueTreso: matchedPrevision.rubriqueTreso ?? 'Non défini',
 			nomFichier: matchedPrevision.nomFichier ?? 'Non défini',

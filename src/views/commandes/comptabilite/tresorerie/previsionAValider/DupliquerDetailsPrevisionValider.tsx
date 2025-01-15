@@ -61,7 +61,7 @@ interface RowDetails {
 	refSourceTiers: string
 }
 
-const DetailsPrevisionValider: React.FC = () => {
+const DupliquerDetailsPrevisionValider: React.FC = () => {
 	const navigate = useNavigate()
 	const location = useLocation() as ILocationState
 
@@ -160,11 +160,11 @@ const DetailsPrevisionValider: React.FC = () => {
 		return <p>Aucune prévision disponible pour la clé sélectionnée.</p>
 	}
 
-	console.log('Details :', details)
-
 	return (
 		<>
-			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | DÉTAILS PRÉVISION À VALIDER ${details.cle}` }} />
+			<Header
+				props={{ pageURL: `GIVOO | TRÉSORERIE | DUPLICATION DE LA PREVISION ${details.cle} COURRIER ${details.cle}` }}
+			/>
 			<main id='detailsPrevisionOrdo'>
 				<div className='detailsContainer'>
 					{/* Left side: Courrier display */}
@@ -433,17 +433,6 @@ const DetailsPrevisionValider: React.FC = () => {
 									onClick: () => alert('Prévision validée'),
 								}}
 							/>
-							<Button
-								props={{
-									style: 'blue',
-									text: 'Ok + Duplication',
-									type: 'button',
-									onClick: () =>
-										navigate(`/commandes/tresorerie/dupliquer_details_prevision_valider/`, {
-											state: { fullRowDetails: details },
-										}),
-								}}
-							/>
 							<Button props={{ style: 'grey', text: 'Annuler', type: 'button', onClick: () => navigate(-1) }} />
 						</div>
 					</div>
@@ -454,4 +443,4 @@ const DetailsPrevisionValider: React.FC = () => {
 	)
 }
 
-export default DetailsPrevisionValider
+export default DupliquerDetailsPrevisionValider
