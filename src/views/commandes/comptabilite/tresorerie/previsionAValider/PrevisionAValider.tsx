@@ -8,6 +8,7 @@ import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
 import DateRange from '../../../../../components/dateRange/DateRange'
 import './previsionAValider.scss'
+import '../previsionAOrdonnancer/previsionAOrdonnancer.scss'
 
 interface RowDetails {
 	societe: string

@@ -99,3 +99,59 @@
     border: 1px dashed #ccc;
     background-color: #f9f9f9;
 }
+
+#detailsPevisionValider {
+    .detailsContainer {
+        display: flex;
+        flex-flow: column;
+        gap: 2em;
+        position: relative;
+
+        .leftSide {
+            display: flex;
+            flex-flow: column;
+            gap: 1em;
+
+            .detailsWrapper {
+                display: flex;
+                flex-flow: column;
+                gap: 1em;
+                margin-bottom: 2em;
+
+                .details {
+                    display: flex;
+                    flex-flow: column;
+                    gap: 1em;
+                    width: 100%;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    padding: 1em;
+
+                    .tiersWrapper {
+                        display: flex;
+                        flex-flow: column;
+                        gap: 1em;
+                        margin-bottom: 1em;
+
+                        .buttonWrapper {
+                            display: flex;
+                            flex-flow: column;
+                            gap: 1em;
+                            margin-bottom: 1em;
+                        }
+                    }
+                }
+            }
+        }
+
+        #detailsPrevisionOrdo {
+            #courrier {
+                max-width: 100%;
+                min-height: 500px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                padding: 1em;
+            }
+        }
+    }
+}

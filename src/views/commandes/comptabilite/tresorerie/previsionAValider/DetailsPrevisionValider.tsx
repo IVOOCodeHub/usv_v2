@@ -7,7 +7,7 @@ import ConfirmationModal from '../../../../../components/ConfirmationModal/Confi
 import ModalCourriers from '../previsionAOrdonnancer/ModalCourriers.tsx'
 import VisualisationPrevisionsTiers from '../previsionAOrdonnancer/VisualisationPrevisionsTiers.tsx'
 import { keepTwoDecimals, convertENDateToFr, formatDateToHtml } from '../../../../../utils/scripts/utils.ts'
-import './previsionAValider.scss'
+import '../previsionAOrdonnancer/previsionAOrdonnancer.scss'
 
 interface ILocationState {
 	state: {
