@@ -1,0 +1,10 @@
+@use "../../../../utils/styles/mixins.scss" as mixins;
+
+#traiterMesCourriers {
+  @include mixins.main;
+}
+
+#traiterMesCourriers .selectContainer {
+  width: 300px !important;
+  @include mixins.form;
+}

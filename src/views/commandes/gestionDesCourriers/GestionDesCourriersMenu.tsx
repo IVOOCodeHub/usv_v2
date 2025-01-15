@@ -34,7 +34,7 @@ function GestionDesCourriersMenu(): ReactElement {
     },
     {
       title: "Distribués",
-      items: [{ name: "Traiter mes courriers", link: "/" }],
+      items: [{ name: "Traiter mes courriers", link: "/commandes/gestion_des_courriers/traiter_mes_courriers" }],
     },
   ];
 
