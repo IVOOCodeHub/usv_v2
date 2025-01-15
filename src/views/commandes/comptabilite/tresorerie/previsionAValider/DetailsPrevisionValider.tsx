@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-
 import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
@@ -22,29 +21,13 @@ interface ILocationState {
 			credit: string
 			rubriqueTreso: string
 			nomFichier?: string
-			dateOrdo: string // New field
-			no_compte_banque: string // New field
-			modeReglement: string // New field
-			statut: string // New field
-			refSourceTiers: string // New field
+			dateOrdo: string
+			no_compte_banque: string
+			modeReglement: string
+			statut: string
+			refSourceTiers: string
 		}
 	}
-}
-
-interface Details {
-	cle: string
-	dateSaisie: string
-	societe: string
-	tiers: string
-	rubrique: string
-	libelle: string
-	dateEcheance: string
-	dateOrdo: string
-	banque_reglement: string
-	mode_reglement: string
-	montant: string
-	statut: string
-	refSourceTiers: string
 }
 
 const DetailsPrevisionValider: React.FC = () => {
@@ -52,16 +35,19 @@ const DetailsPrevisionValider: React.FC = () => {
 	const location = useLocation() as ILocationState
 
 	const [courrier, setCourrier] = useState<string | null>(null)
-	const [details, setDetails] = useState<Details | null>(null)
+	const [details, setDetails] = useState<any>(null)
+	const [modePaiement, setModePaiement] = useState<string>('')
 	const [modalStates, setModalStates] = useState({
 		isModalOpen: false,
 		isPrevisionsModalOpen: false,
 		showModal: false,
 	})
 
-	const toggleModal = (modalName: keyof typeof modalStates) => {
-		setModalStates((prev) => ({ ...prev, [modalName]: !prev[modalName] }))
-	}
+	// Mocked data for "Rubrique" and "Libellé" fields
+	const [rubriques, setRubriques] = useState<{ cle: string; libelle: string }[]>([])
+	const [prefixes, setPrefixes] = useState<string[]>([])
+	const [mois, setMois] = useState<string[]>([])
+	const [annees, setAnnees] = useState<string[]>([])
 
 	useEffect(() => {
 		const rowData = location?.state?.fullRowDetails
@@ -74,49 +60,59 @@ const DetailsPrevisionValider: React.FC = () => {
 				rubrique: rowData.rubriqueTreso || 'Non défini',
 				libelle: rowData.libelleEcriture || 'Non défini',
 				dateEcheance: rowData.dateEcheance ? formatDateToHtml(rowData.dateEcheance) : '',
-				dateOrdo: rowData.dateOrdo ? formatDateToHtml(rowData.dateOrdo) : '', // New field
-				banque_reglement: rowData.no_compte_banque || '', // New field
-				mode_reglement: rowData.modeReglement || '', // New field
+				dateOrdo: rowData.dateOrdo ? formatDateToHtml(rowData.dateOrdo) : '',
+				banque_reglement: rowData.no_compte_banque || '',
+				mode_reglement: rowData.modeReglement || '',
 				montant: rowData.credit ? keepTwoDecimals(Number(rowData.credit)) : '0.00',
-				statut: rowData.statut || 'Non défini', // New field
-				refSourceTiers: rowData.refSourceTiers || 'Non défini', // New field
+				statut: rowData.statut || 'A VALIDER',
+				refSourceTiers: rowData.refSourceTiers || 'Non défini',
 			}
-
 			setDetails(formattedDetails)
+			setModePaiement(rowData.modeReglement || '')
 
 			if (rowData.nomFichier) {
-				const encodedFilePath = encodeURIComponent(rowData.nomFichier.replace(/\\/g, '/'))
-				setCourrier(`http://192.168.0.254:8080/usv_prod/courriers/${encodedFilePath}`)
+				setCourrier(`http://192.168.0.254:8080/usv_prod/courriers/${rowData.nomFichier.replace(/\\/g, '/')}`)
 			} else {
 				setCourrier(null)
 			}
+
+			// Mocked data for "Rubrique" and "Libellé" fields
+			setRubriques([
+				{ cle: '1', libelle: 'Rubrique 1' },
+				{ cle: '2', libelle: 'Rubrique 2' },
+			])
+			setPrefixes(['Prefixe 1', 'Prefixe 2'])
+			setMois(['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'])
+			setAnnees(['2023', '2024', '2025'])
 		} else {
 			console.error('Aucune donnée de ligne trouvée dans location.state.fullRowDetails.')
 		}
 	}, [location?.state?.fullRowDetails])
 
-	// const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof Details) => {
-	// 	const newValue = e.target.value
-	// 	if (newValue) {
-	// 		setDetails((prevDetails) => ({
-	// 			...prevDetails,
-	// 			[field]: newValue,
-	// 		}))
-	// 	}
-	// }
-
-	const handleSave = (updatedDetails: Details) => {
+	const handleSave = (updatedDetails: any) => {
 		console.log('Données sauvegardées (mocked) :', updatedDetails)
 		alert('Fonctionnalité de sauvegarde non implémentée pour le moment.')
 	}
 
 	const handleConfirm = () => {
-		toggleModal('showModal')
+		setModalStates((prev) => ({ ...prev, showModal: false }))
 		alert('Fonctionnalité d’étalement non implémentée pour le moment.')
 	}
 
 	const handleCancel = () => {
-		toggleModal('showModal')
+		setModalStates((prev) => ({ ...prev, showModal: false }))
+	}
+
+	const handleCheque = () => {
+		if (modePaiement === 'CHEQUE') {
+			setModePaiement(details.mode_reglement)
+		} else {
+			setModePaiement('CHEQUE')
+		}
+	}
+
+	const toggleModal = (modalName: keyof typeof modalStates) => {
+		setModalStates((prev) => ({ ...prev, [modalName]: !prev[modalName] }))
 	}
 
 	if (!details) {
@@ -125,14 +121,14 @@ const DetailsPrevisionValider: React.FC = () => {
 
 	return (
 		<>
-			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | DÉTAILS PRÉVISION À VALIDER ${details.cle}` }} />
+			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | DÉTAILS PRÉVISION VALIDER ${details.cle}` }} />
 			<main id='detailsPrevisionOrdo'>
 				<div className='detailsContainer'>
 					<div className='leftSide'>
 						{courrier ? (
 							<iframe src={courrier} title='Courrier associé' className='courrierDisplay' />
 						) : (
-							<div className='no-courrier'>
+							<div>
 								<p>Aucun courrier associé</p>
 							</div>
 						)}
@@ -180,15 +176,6 @@ const DetailsPrevisionValider: React.FC = () => {
 											onClick: () => toggleModal('isPrevisionsModalOpen'),
 										}}
 									/>
-									<Button
-										props={{
-											style: 'blue',
-											text: 'Modifier',
-											type: 'button',
-											onClick: () =>
-												navigate(`/commandes/tresorerie/modify-tiers/${details.refSourceTiers ?? details.tiers}`),
-										}}
-									/>
 								</div>
 							</div>
 							{modalStates.isPrevisionsModalOpen && (
@@ -203,10 +190,68 @@ const DetailsPrevisionValider: React.FC = () => {
 								</div>
 							)}
 							<div>
-								<strong>Rubrique :</strong> {details.rubrique || 'Non défini'}
+								<strong>Rubrique :</strong>{' '}
+								<select
+									value={details.rubrique || ''}
+									onChange={(e) => setDetails({ ...details, rubrique: e.target.value })}
+								>
+									<option value=''>Choisir</option>
+									{rubriques.map((rubrique) => (
+										<option key={rubrique.cle} value={rubrique.cle}>
+											{rubrique.libelle}
+										</option>
+									))}
+								</select>
 							</div>
 							<div>
-								<strong>Libellé :</strong> {details.libelle || 'Non défini'}
+								<strong>Libellé :</strong>
+								<div className='libelleWrapper'>
+									<select
+										value={details.libellePrefixe || ''}
+										onChange={(e) => setDetails({ ...details, libellePrefixe: e.target.value })}
+									>
+										<option value=''>Préfixe</option>
+										{prefixes.map((prefixe, index) => (
+											<option key={index} value={prefixe}>
+												{prefixe}
+											</option>
+										))}
+									</select>
+									<select
+										value={details.libelleMois || ''}
+										onChange={(e) => setDetails({ ...details, libelleMois: e.target.value })}
+									>
+										<option value=''>Mois</option>
+										{mois.map((mois, index) => (
+											<option key={index} value={mois}>
+												{mois}
+											</option>
+										))}
+									</select>
+									<select
+										value={details.libelleAnnee || ''}
+										onChange={(e) => setDetails({ ...details, libelleAnnee: e.target.value })}
+									>
+										<option value=''>Année</option>
+										{annees.map((annee, index) => (
+											<option key={index} value={annee}>
+												{annee}
+											</option>
+										))}
+									</select>
+									<input
+										type='text'
+										placeholder='Trim'
+										value={details.libelleTrim || ''}
+										onChange={(e) => setDetails({ ...details, libelleTrim: e.target.value })}
+									/>
+									<input
+										type='text'
+										placeholder='Bénéficiaire'
+										value={details.libelleBeneficiaire || ''}
+										onChange={(e) => setDetails({ ...details, libelleBeneficiaire: e.target.value })}
+									/>
+								</div>
 							</div>
 							<div>
 								<strong>Date échéance :</strong>{' '}
@@ -241,26 +286,26 @@ const DetailsPrevisionValider: React.FC = () => {
 								<div className='modeReglement'>
 									<Button
 										props={{
-											style: details.mode_reglement === 'PRELEV' ? 'blue' : 'grey',
+											style: modePaiement === 'PRELEV' ? 'blue' : 'grey',
 											text: 'PRELEV',
 											type: 'button',
-											onClick: () => setDetails({ ...details, mode_reglement: 'PRELEV' }),
+											onClick: () => setModePaiement('PRELEV'),
 										}}
 									/>
 									<Button
 										props={{
-											style: details.mode_reglement === 'CHEQUE' ? 'blue' : 'grey',
+											style: modePaiement === 'CHEQUE' ? 'blue' : 'grey',
 											text: 'CHEQUE',
 											type: 'button',
-											onClick: () => setDetails({ ...details, mode_reglement: 'CHEQUE' }),
+											onClick: handleCheque,
 										}}
 									/>
 									<Button
 										props={{
-											style: details.mode_reglement === 'VIR' ? 'blue' : 'grey',
+											style: modePaiement === 'VIR' ? 'blue' : 'grey',
 											text: 'VIR',
 											type: 'button',
-											onClick: () => setDetails({ ...details, mode_reglement: 'VIR' }),
+											onClick: () => setModePaiement('VIR'),
 										}}
 									/>
 								</div>
@@ -278,13 +323,13 @@ const DetailsPrevisionValider: React.FC = () => {
 							<div>
 								<strong>Statut :</strong>{' '}
 								<select
-									value={details.statut || ''}
+									value={details.statut || 'A VALIDER'}
 									onChange={(e) => setDetails({ ...details, statut: e.target.value })}
 								>
-									<option value='Enregistrer (reste au même stade)'>Enregistrer (reste au même stade)</option>
-									<option value='Prévision ordonnancée'>Prévision ordonnancée</option>
-									<option value='Prévision rejetée'>Prévision rejetée</option>
-									<option value='Litige'>Litige</option>
+									<option value='A VALIDER'>Mise en paiement à valider</option>
+									<option value='VALIDE'>Mise en paiement validée</option>
+									<option value='REJETE'>Paiement rejeté</option>
+									<option value='LITIGE'>Litige</option>
 								</select>
 							</div>
 							<div className='buttonWrapper'>
