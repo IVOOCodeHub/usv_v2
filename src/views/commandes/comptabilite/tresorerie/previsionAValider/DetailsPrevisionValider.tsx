@@ -30,12 +30,34 @@ interface ILocationState {
 	}
 }
 
+interface RowDetails {
+	cle: string
+	societe: string
+	dateSaisie: string
+	dateEcheance: string
+	libelleCompteTiers: string
+	libelleEcriture: string
+	libelleEcritureAnnee: string
+	libelleEcritureMois: string
+	libelleEcriturePrefixe: string
+	libelleEcritureTrimestre: string
+	libelleEcritureBeneficiaire: string
+	credit: string
+	rubriqueTreso: string
+	nomFichier?: string
+	dateOrdo: string
+	no_compte_banque: string
+	modeReglement: string
+	statut: string
+	refSourceTiers: string
+}
+
 const DetailsPrevisionValider: React.FC = () => {
 	const navigate = useNavigate()
 	const location = useLocation() as ILocationState
 
 	const [courrier, setCourrier] = useState<string | null>(null)
-	const [details, setDetails] = useState<any>(null)
+	const [details, setDetails] = useState<RowDetails | null>(null)
 	const [modePaiement, setModePaiement] = useState<string>('')
 	const [modalStates, setModalStates] = useState({
 		isModalOpen: false,
@@ -52,20 +74,26 @@ const DetailsPrevisionValider: React.FC = () => {
 	useEffect(() => {
 		const rowData = location?.state?.fullRowDetails
 		if (rowData) {
-			const formattedDetails = {
+			const formattedDetails: RowDetails = {
 				cle: rowData.cle || 'Non défini',
 				dateSaisie: rowData.dateSaisie ? convertENDateToFr(rowData.dateSaisie) : 'Non défini',
 				societe: rowData.societe || 'Non défini',
-				tiers: rowData.libelleCompteTiers || 'Non défini',
-				rubrique: rowData.rubriqueTreso || 'Non défini',
-				libelle: rowData.libelleEcriture || 'Non défini',
+				libelleCompteTiers: rowData.libelleCompteTiers || 'Non défini',
+				rubriqueTreso: rowData.rubriqueTreso || 'Non défini',
+				libelleEcriture: rowData.libelleEcriture || 'Non défini',
+				libelleEcritureAnnee: '',
+				libelleEcritureMois: '',
+				libelleEcriturePrefixe: '',
+				libelleEcritureTrimestre: '',
+				libelleEcritureBeneficiaire: '',
 				dateEcheance: rowData.dateEcheance ? formatDateToHtml(rowData.dateEcheance) : '',
 				dateOrdo: rowData.dateOrdo ? formatDateToHtml(rowData.dateOrdo) : '',
-				banque_reglement: rowData.no_compte_banque || '',
-				mode_reglement: rowData.modeReglement || '',
-				montant: rowData.credit ? keepTwoDecimals(Number(rowData.credit)) : '0.00',
+				no_compte_banque: rowData.no_compte_banque || '',
+				modeReglement: rowData.modeReglement || '',
+				credit: rowData.credit ? keepTwoDecimals(Number(rowData.credit)) : '0.00',
 				statut: rowData.statut || 'A VALIDER',
 				refSourceTiers: rowData.refSourceTiers || 'Non défini',
+				nomFichier: rowData.nomFichier,
 			}
 			setDetails(formattedDetails)
 			setModePaiement(rowData.modeReglement || '')
@@ -89,7 +117,7 @@ const DetailsPrevisionValider: React.FC = () => {
 		}
 	}, [location?.state?.fullRowDetails])
 
-	const handleSave = (updatedDetails: any) => {
+	const handleSave = (updatedDetails: RowDetails) => {
 		console.log('Données sauvegardées (mocked) :', updatedDetails)
 		alert('Fonctionnalité de sauvegarde non implémentée pour le moment.')
 	}
@@ -105,7 +133,9 @@ const DetailsPrevisionValider: React.FC = () => {
 
 	const handleCheque = () => {
 		if (modePaiement === 'CHEQUE') {
-			setModePaiement(details.mode_reglement)
+			if (details) {
+				setModePaiement(details.modeReglement)
+			}
 		} else {
 			setModePaiement('CHEQUE')
 		}
@@ -165,7 +195,7 @@ const DetailsPrevisionValider: React.FC = () => {
 							</div>
 							<div className='tiersWrapper'>
 								<div>
-									<strong>Tiers : </strong> {details.tiers || 'Non défini'}
+									<strong>Tiers : </strong> {details.libelleCompteTiers || 'Non défini'}
 								</div>
 								<div className='buttonWrapper'>
 									<Button
@@ -192,8 +222,8 @@ const DetailsPrevisionValider: React.FC = () => {
 							<div>
 								<strong>Rubrique :</strong>{' '}
 								<select
-									value={details.rubrique || ''}
-									onChange={(e) => setDetails({ ...details, rubrique: e.target.value })}
+									value={details.rubriqueTreso || ''}
+									onChange={(e) => setDetails({ ...details, rubriqueTreso: e.target.value })}
 								>
 									<option value=''>Choisir</option>
 									{rubriques.map((rubrique) => (
@@ -207,8 +237,8 @@ const DetailsPrevisionValider: React.FC = () => {
 								<strong>Libellé :</strong>
 								<div className='libelleWrapper'>
 									<select
-										value={details.libellePrefixe || ''}
-										onChange={(e) => setDetails({ ...details, libellePrefixe: e.target.value })}
+										value={details.libelleEcriturePrefixe || ''}
+										onChange={(e) => setDetails({ ...details, libelleEcriturePrefixe: e.target.value })}
 									>
 										<option value=''>Préfixe</option>
 										{prefixes.map((prefixe, index) => (
@@ -218,8 +248,8 @@ const DetailsPrevisionValider: React.FC = () => {
 										))}
 									</select>
 									<select
-										value={details.libelleMois || ''}
-										onChange={(e) => setDetails({ ...details, libelleMois: e.target.value })}
+										value={details.libelleEcritureMois || ''}
+										onChange={(e) => setDetails({ ...details, libelleEcritureMois: e.target.value })}
 									>
 										<option value=''>Mois</option>
 										{mois.map((mois, index) => (
@@ -229,8 +259,8 @@ const DetailsPrevisionValider: React.FC = () => {
 										))}
 									</select>
 									<select
-										value={details.libelleAnnee || ''}
-										onChange={(e) => setDetails({ ...details, libelleAnnee: e.target.value })}
+										value={details.libelleEcritureAnnee || ''}
+										onChange={(e) => setDetails({ ...details, libelleEcritureAnnee: e.target.value })}
 									>
 										<option value=''>Année</option>
 										{annees.map((annee, index) => (
@@ -242,14 +272,14 @@ const DetailsPrevisionValider: React.FC = () => {
 									<input
 										type='text'
 										placeholder='Trim'
-										value={details.libelleTrim || ''}
-										onChange={(e) => setDetails({ ...details, libelleTrim: e.target.value })}
+										value={details.libelleEcritureTrimestre || ''}
+										onChange={(e) => setDetails({ ...details, libelleEcritureTrimestre: e.target.value })}
 									/>
 									<input
 										type='text'
 										placeholder='Bénéficiaire'
-										value={details.libelleBeneficiaire || ''}
-										onChange={(e) => setDetails({ ...details, libelleBeneficiaire: e.target.value })}
+										value={details.libelleEcritureBeneficiaire || ''}
+										onChange={(e) => setDetails({ ...details, libelleEcritureBeneficiaire: e.target.value })}
 									/>
 								</div>
 							</div>
@@ -274,7 +304,7 @@ const DetailsPrevisionValider: React.FC = () => {
 							<div>
 								<strong>Banq. règlement :</strong>{' '}
 								<select
-									value={details.banque_reglement || ''}
+									value={details.banqueReglement || ''}
 									onChange={(e) => setDetails({ ...details, banque_reglement: e.target.value })}
 								>
 									<option value='000257117126 - SOCIETE GENERALE'>000257117126 - SOCIETE GENERALE</option>
