@@ -64,16 +64,16 @@ const DupliquerDetailsPrevisionValider: React.FC = () => {
 
 	const [courrier, setCourrier] = useState<string | null>(null)
 	const [details, setDetails] = useState<RowDetails | null>(null)
-	
 
 	// Mocked data for "Rubrique" and "Libellé" fields
-	const [rubriques, setRubriques] = useState<{ cle: string; libelle: string }[]>([])
 	const [prefixes, setPrefixes] = useState<string[]>([])
 	const [mois, setMois] = useState<string[]>([])
 	const [annees, setAnnees] = useState<string[]>([])
 
 	useEffect(() => {
 		const rowData = location?.state?.fullRowDetails
+		console.log('passed data :', rowData)
+
 		if (rowData) {
 			const formattedDetails: RowDetails = {
 				cle: rowData.cle || 'Non défini',
@@ -92,20 +92,13 @@ const DupliquerDetailsPrevisionValider: React.FC = () => {
 				no_compte_banque: rowData.no_compte_banque || '',
 				banqueReglement: rowData.banqueReglement || '',
 				modeReglement: rowData.modeReglement || '',
-				credit:
-					rowData.credit && !isNaN(parseFloat(rowData.credit.replace(/\s/g, '').replace(',', '.')))
-						? keepTwoDecimals(Number(rowData.credit.replace(/\s/g, '').replace(',', '.')))
-						: '0.00',
-				debit:
-					rowData.debit && !isNaN(parseFloat(rowData.debit.replace(/\s/g, '').replace(',', '.')))
-						? keepTwoDecimals(Number(rowData.debit.replace(/\s/g, '').replace(',', '.')))
-						: '0.00',
+				credit: rowData.credit || '0.00', // Ensure credit is passed correctly
+				debit: rowData.debit || '0.00', // Ensure debit is passed correctly
 				statut: rowData.statut || 'A VALIDER',
 				refSourceTiers: rowData.refSourceTiers || 'Non défini',
 				nomFichier: rowData.nomFichier ?? 'Non défini',
 			}
 			setDetails(formattedDetails)
-			
 
 			if (rowData.nomFichier) {
 				setCourrier(`http://192.168.0.254:8080/usv_prod/courriers/${rowData.nomFichier.replace(/\\/g, '/')}`)
@@ -114,10 +107,7 @@ const DupliquerDetailsPrevisionValider: React.FC = () => {
 			}
 
 			// Mocked data for "Rubrique" and "Libellé" fields
-			setRubriques([
-				{ cle: '1', libelle: 'Rubrique 1' },
-				{ cle: '2', libelle: 'Rubrique 2' },
-			])
+
 			setPrefixes(['Prefixe 1', 'Prefixe 2'])
 			setMois(['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'])
 			setAnnees(['2023', '2024', '2025'])
@@ -137,9 +127,9 @@ const DupliquerDetailsPrevisionValider: React.FC = () => {
 			return !isNaN(parseFloat(cleanedValue)) ? parseFloat(cleanedValue) : 0
 		}
 
-		if (credit) {
+		if (credit && parseNumber(credit) !== 0) {
 			return parseNumber(credit)
-		} else if (debit) {
+		} else if (debit && parseNumber(debit) !== 0) {
 			return parseNumber(debit)
 		}
 		return 0
