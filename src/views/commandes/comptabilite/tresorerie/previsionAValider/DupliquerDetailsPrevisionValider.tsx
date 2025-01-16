@@ -3,9 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
-import ConfirmationModal from '../../../../../components/ConfirmationModal/ConfirmationModal.tsx'
-import ModalCourriers from '../previsionAOrdonnancer/ModalCourriers.tsx'
-import VisualisationPrevisionsTiers from '../previsionAOrdonnancer/VisualisationPrevisionsTiers.tsx'
 import { keepTwoDecimals, convertENDateToFr, formatDateToHtml } from '../../../../../utils/scripts/utils.ts'
 import '../previsionAOrdonnancer/previsionAOrdonnancer.scss'
 
@@ -67,12 +64,7 @@ const DupliquerDetailsPrevisionValider: React.FC = () => {
 
 	const [courrier, setCourrier] = useState<string | null>(null)
 	const [details, setDetails] = useState<RowDetails | null>(null)
-	const [modePaiement, setModePaiement] = useState<string>('')
-	const [modalStates, setModalStates] = useState({
-		isModalOpen: false,
-		isPrevisionsModalOpen: false,
-		showModal: false,
-	})
+	
 
 	// Mocked data for "Rubrique" and "Libellé" fields
 	const [rubriques, setRubriques] = useState<{ cle: string; libelle: string }[]>([])
@@ -100,14 +92,20 @@ const DupliquerDetailsPrevisionValider: React.FC = () => {
 				no_compte_banque: rowData.no_compte_banque || '',
 				banqueReglement: rowData.banqueReglement || '',
 				modeReglement: rowData.modeReglement || '',
-				credit: rowData.credit ? keepTwoDecimals(Number(rowData.credit)) : '0.00',
-				debit: rowData.debit ? keepTwoDecimals(Number(rowData.debit)) : '0.00',
+				credit:
+					rowData.credit && !isNaN(parseFloat(rowData.credit.replace(/\s/g, '').replace(',', '.')))
+						? keepTwoDecimals(Number(rowData.credit.replace(/\s/g, '').replace(',', '.')))
+						: '0.00',
+				debit:
+					rowData.debit && !isNaN(parseFloat(rowData.debit.replace(/\s/g, '').replace(',', '.')))
+						? keepTwoDecimals(Number(rowData.debit.replace(/\s/g, '').replace(',', '.')))
+						: '0.00',
 				statut: rowData.statut || 'A VALIDER',
 				refSourceTiers: rowData.refSourceTiers || 'Non défini',
 				nomFichier: rowData.nomFichier ?? 'Non défini',
 			}
 			setDetails(formattedDetails)
-			setModePaiement(rowData.modeReglement || '')
+			
 
 			if (rowData.nomFichier) {
 				setCourrier(`http://192.168.0.254:8080/usv_prod/courriers/${rowData.nomFichier.replace(/\\/g, '/')}`)
@@ -133,27 +131,18 @@ const DupliquerDetailsPrevisionValider: React.FC = () => {
 		alert('Fonctionnalité de sauvegarde non implémentée pour le moment.')
 	}
 
-	const handleConfirm = () => {
-		setModalStates((prev) => ({ ...prev, showModal: false }))
-		alert('Fonctionnalité d’étalement non implémentée pour le moment.')
-	}
-
-	const handleCancel = () => {
-		setModalStates((prev) => ({ ...prev, showModal: false }))
-	}
-
-	const handleCheque = () => {
-		if (modePaiement === 'CHEQUE') {
-			if (details) {
-				setModePaiement(details.modeReglement)
-			}
-		} else {
-			setModePaiement('CHEQUE')
+	const getMontantValue = (credit: string, debit: string): number => {
+		const parseNumber = (value: string): number => {
+			const cleanedValue = value.replace(/\s/g, '').replace(',', '.')
+			return !isNaN(parseFloat(cleanedValue)) ? parseFloat(cleanedValue) : 0
 		}
-	}
 
-	const toggleModal = (modalName: keyof typeof modalStates) => {
-		setModalStates((prev) => ({ ...prev, [modalName]: !prev[modalName] }))
+		if (credit) {
+			return parseNumber(credit)
+		} else if (debit) {
+			return parseNumber(debit)
+		}
+		return 0
 	}
 
 	if (!details) {
@@ -179,30 +168,8 @@ const DupliquerDetailsPrevisionValider: React.FC = () => {
 					</div>
 
 					<div className='rightSide'>
-						<h3>
-							{/* Button to display the courrier only if there isn't one */}
-							<div
-								className={courrier?.toLowerCase().includes('pdf') ? 'prevCourButtonHidden' : 'prevCourButtonActive'}
-							>
-								<Button
-									props={{
-										style: 'blue',
-										text: 'Associer un courrier',
-										type: 'button',
-										onClick: () => toggleModal('isModalOpen'),
-									}}
-								/>
-							</div>
-							Prévision {details.cle}{' '}
-						</h3>
-						{modalStates.isModalOpen && (
-							<ModalCourriers
-								isOpen={modalStates.isModalOpen}
-								onClose={() => toggleModal('isModalOpen')}
-								userCredentials={null}
-								previsionCode={details.cle}
-							/>
-						)}
+						<h3>NOUVELLE PRÉVISON</h3>
+
 						<div className='detailsWrapper'>
 							<div>
 								<strong>Date saisie :</strong> {details.dateSaisie || 'Non défini'}
@@ -214,57 +181,10 @@ const DupliquerDetailsPrevisionValider: React.FC = () => {
 								<div>
 									<strong>Tiers : </strong> {details.libelleCompteTiers || 'Non défini'}
 								</div>
-								<div className='buttonWrapper'>
-									<Button
-										props={{
-											style: 'blue',
-											text: 'Prévisions',
-											type: 'button',
-											onClick: () => toggleModal('isPrevisionsModalOpen'),
-										}}
-									/>
-									<Button
-										props={{
-											style: 'blue',
-											text: 'Rechercher Tiers',
-											type: 'button',
-											onClick: () => alert('Rechercher Tiers'),
-										}}
-									/>
-									<Button
-										props={{
-											style: 'blue',
-											text: 'Créer Tiers',
-											type: 'button',
-											onClick: () => alert('Créer Tiers'),
-										}}
-									/>
-								</div>
 							</div>
-							{modalStates.isPrevisionsModalOpen && (
-								<div className='modal'>
-									<div className='modalContent'>
-										<VisualisationPrevisionsTiers
-											userCredentials={null}
-											refSourceTiers={details.refSourceTiers}
-											onClose={() => toggleModal('isPrevisionsModalOpen')}
-										/>
-									</div>
-								</div>
-							)}
 							<div>
-								<strong>Rubrique :</strong>{' '}
-								<select
-									value={details.rubriqueTreso || ''}
-									onChange={(e) => setDetails({ ...details, rubriqueTreso: e.target.value })}
-								>
-									<option value=''>Choisir</option>
-									{rubriques.map((rubrique) => (
-										<option key={rubrique.cle} value={rubrique.cle}>
-											{rubrique.libelle}
-										</option>
-									))}
-								</select>
+								<strong>Rubrique : </strong>
+								{details.rubriqueTreso || ''}
 							</div>
 							<div className='libelleWrapper'>
 								<div className='libelleTitle'>
@@ -319,7 +239,25 @@ const DupliquerDetailsPrevisionValider: React.FC = () => {
 								</div>
 							</div>
 							<div>
-								<strong>Date échéance :</strong>{' '}
+								<strong>Montant en € :</strong>{' '}
+								<input
+									type='number'
+									value={getMontantValue(details.credit, details.debit)}
+									step='0.01'
+									onChange={(e) => {
+										const value = e.target.value
+										const numericValue = parseFloat(value.replace(/\s/g, '').replace(',', '.'))
+										if (!isNaN(numericValue)) {
+											setDetails({ ...details, credit: value })
+										} else {
+											setDetails({ ...details, credit: '0' }) // Default to '0' if invalid
+										}
+									}}
+									onBlur={() => handleSave(details)}
+								/>
+							</div>
+							<div>
+								<strong>Date échéance : </strong>{' '}
 								<input
 									type='date'
 									value={details.dateEcheance ?? ''}
@@ -328,7 +266,7 @@ const DupliquerDetailsPrevisionValider: React.FC = () => {
 								/>
 							</div>
 							<div>
-								<strong>Date ordo. :</strong>{' '}
+								<strong>Date ordo. : </strong>{' '}
 								<input
 									type='date'
 									value={details.dateOrdo ?? ''}
@@ -336,94 +274,7 @@ const DupliquerDetailsPrevisionValider: React.FC = () => {
 									onBlur={() => handleSave(details)}
 								/>
 							</div>
-							<div>
-								<strong>Banq. règlement :</strong>{' '}
-								<select value={''} onChange={(e) => setDetails({ ...details, banqueReglement: e.target.value })}>
-									<option value='000257117126 - SOCIETE GENERALE'>000257117126 - SOCIETE GENERALE</option>
-									<option value='000257117127 - BNP PARIBAS'>000257117127 - BNP PARIBAS</option>
-								</select>
-							</div>
-							<div>
-								<strong>Mode règlement :</strong>
-								<div className='modeReglement'>
-									<Button
-										props={{
-											style: modePaiement === 'PRELEV' ? 'blue' : 'grey',
-											text: 'PRELEV',
-											type: 'button',
-											onClick: () => setModePaiement('PRELEV'),
-										}}
-									/>
-									<Button
-										props={{
-											style: modePaiement === 'CHEQUE' ? 'blue' : 'grey',
-											text: 'CHEQUE',
-											type: 'button',
-											onClick: handleCheque,
-										}}
-									/>
-									<Button
-										props={{
-											style: modePaiement === 'VIR' ? 'blue' : 'grey',
-											text: 'VIR',
-											type: 'button',
-											onClick: () => setModePaiement('VIR'),
-										}}
-									/>
-								</div>
-							</div>
-							<div>
-								<strong>Montant en € :</strong>{' '}
-								<input
-									type='number'
-									value={
-										details.credit
-											? parseFloat(details.credit.replace(/\s/g, '').replace(',', '.'))
-											: parseFloat(details.debit.replace(/\s/g, '').replace(',', '.'))
-									}
-									step='0.01'
-									onChange={(e) => setDetails({ ...details, credit: e.target.value })}
-									onBlur={() => handleSave(details)}
-								/>
-							</div>
-							<div>
-								<strong>Statut :</strong>{' '}
-								<select
-									value={details.statut || 'A VALIDER'}
-									onChange={(e) => setDetails({ ...details, statut: e.target.value })}
-								>
-									<option value='A VALIDER'>Mise en paiement à valider</option>
-									<option value='VALIDE'>Mise en paiement validée</option>
-									<option value='REJETE'>Paiement rejeté</option>
-									<option value='LITIGE'>Litige</option>
-								</select>
-							</div>
-							<div className='buttonWrapper'>
-								<Button
-									props={{
-										style: 'blue',
-										text: 'Étalement',
-										type: 'button',
-										onClick: () => toggleModal('showModal'),
-									}}
-								/>
-								<Button
-									props={{
-										style: 'blue',
-										text: 'Supprimer',
-										type: 'button',
-										onClick: () => alert('Prévision supprimée !'),
-									}}
-								/>
-							</div>
 						</div>
-						{modalStates.showModal && (
-							<ConfirmationModal
-								message='Confirmez-vous l’étalement de cette prévision par la création d’un échéancier ?'
-								onConfirm={handleConfirm}
-								onCancel={handleCancel}
-							/>
-						)}
 						<div className='buttonWrapper'>
 							<Button
 								props={{
