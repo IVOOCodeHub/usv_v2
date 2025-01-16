@@ -1,0 +1,27 @@
+@use "../../../../utils/styles/mixins.scss" as mixins;
+
+#modifProfilDistribution {
+  @include mixins.main
+}
+
+#modifProfilDistribution form {
+  width: 30% !important;
+  position: relative !important;
+  @include mixins.form;
+}
+
+#modifProfilDistribution .buttonContainer {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+}
+
+#modifProfilDistribution .actionButtonContainer {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -50%;
+  max-width: 200px !important;
+}

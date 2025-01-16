@@ -30,17 +30,16 @@ function TraiterMesCourriers(): ReactElement {
   const tableDatas = {
     tableHead: [
       "Réf.",
-      "Destinataire",
+      "Société",
       "Emetteur",
       "Date",
-      "Pièce",
-      "Réf.doc",
-      "Sél.",
+      "Nature",
       "Action",
+      "Commentaire",
     ],
     tableBody: [
-      ["62639", "A", "B", "2022-01-01", "C", "D", "E", "F"],
-      ["28373", "A", "B", "2022-01-01", "C", "D", "E", "F"],
+      ["62639", "A", "B", "2022-01-01", "C", "D", "E"],
+      ["28373", "A", "B", "2022-01-01", "C", "D", "E"],
     ],
   };
 
@@ -65,17 +64,31 @@ function TraiterMesCourriers(): ReactElement {
                 "linear-gradient(to left, #84CDE4FF, #1092B8)"
               }
               headerHoverBackgroundColor={"#1092B8"}
+              showItemsPerPageSelector={true}
+              showPreviousNextButtons={true}
+              filterableColumns={[false, true, false, true, true, false, false]}
+              showPagination={true}
+              enableColumnSorting={true}
+              itemsPerPageOptions={[10, 25, 50]}
               language={"fr"}
+              onRowClick={(index: number, rowData?: string[]): void =>
+                navigate(
+                  `/commandes/gestion_des_courriers/gerer_mes_courriers/${rowData![0]}`,
+                  {
+                    state: { index },
+                  },
+                )
+              }
             />
           </>
         )}
 
-          {/* Le sélecteur disparait si un service est sélectionné. Il faudrait qu'il n'apparaisse */}
-          {/* que si un utilisateur a accès à plusieurs services, sinon le tableau du service concerné */}
-          {/* Apparait par défaut. À voir avec de vrais datas user.right */}
+        {/* Le sélecteur disparait si un service est sélectionné. Il faudrait qu'il n'apparaisse */}
+        {/* que si un utilisateur a accès à plusieurs services, sinon le tableau du service concerné */}
+        {/* Apparait par défaut. À voir avec de vrais datas user.right */}
 
         {!selectedService && (
-          <form className={"selectContainer"}>
+          <form className={"selectDestContainer"}>
             <label htmlFor={"selectDest"}>Destinataire</label>
             <Select
               id={"selectDest"}

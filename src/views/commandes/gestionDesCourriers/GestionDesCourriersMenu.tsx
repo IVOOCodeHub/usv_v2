@@ -41,7 +41,7 @@ function GestionDesCourriersMenu(): ReactElement {
   const secondMenuData: IMenuContainerProps[] = [
     {
       title: "Utilitaires",
-      items: [{ name: "Utilitaires", link: "/" }],
+      items: [{ name: "Utilitaires", link: "/commandes/gestion_des_courriers/courrier_utils" }],
     },
   ];
 

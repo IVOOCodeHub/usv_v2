@@ -1,0 +1,50 @@
+@use "../../../../utils/styles/mixins.scss" as mixins;
+
+#gererMesCourriers {
+  @include mixins.main;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#gererMesCourriers .leftContainer,
+#gererMesCourriers .rightContainer {
+  width: 46%;
+}
+
+#gererMesCourriers .rightContainer {
+  position: relative;
+}
+
+#gererMesCourriers .leftContainer iframe {
+  @include mixins.iframe;
+}
+
+#gererMesCourriers .rightContainer form {
+  width: 55% !important;
+  h2 {
+    text-align: center;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    margin-bottom: 1em;
+  }
+  @include mixins.form;
+}
+
+#gererMesCourriers .actionButtonContainer {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -25px;
+  max-width: 200px !important;
+}
+
+#gererMesCourriers .rightContainer .buttonContainer {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  margin-top: 1em;
+}

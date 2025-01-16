@@ -1,0 +1,12 @@
+@use '../../../../utils/styles/mixins' as mixins;
+
+#gererProfilDeDistribution {
+  @include mixins.main
+}
+
+#gererProfilDeDistribution .goBackBtnWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+}

@@ -1,0 +1,10 @@
+@use "../../../../utils/styles/mixins.scss" as mixins;
+
+#courrierUtils {
+  @include mixins.main;
+}
+
+#courrierUtils #menuContainer {
+  width: 15%;
+  column-count: 1;
+}
