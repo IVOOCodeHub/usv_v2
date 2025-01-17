@@ -69,7 +69,6 @@ const DetailsPrevisionValider: React.FC = () => {
 	const [courrier, setCourrier] = useState<string | null>(null)
 	const [details, setDetails] = useState<RowDetails | null>(null)
 	const [modePaiement, setModePaiement] = useState<string>('')
-	const [selectedTiers, setSelectedTiers] = useState<{ code: string; intitule: string; rubrique: string } | null>(null)
 	const [modalStates, setModalStates] = useState({
 		isModalOpen: false,
 		isPrevisionsModalOpen: false,
@@ -132,7 +131,6 @@ const DetailsPrevisionValider: React.FC = () => {
 	}, [location?.state?.fullRowDetails])
 
 	const handleSave = (updatedDetails: RowDetails) => {
-		console.log('Données sauvegardées (mocked) :', updatedDetails)
 		alert('Fonctionnalité de sauvegarde non implémentée pour le moment.')
 	}
 
@@ -156,22 +154,23 @@ const DetailsPrevisionValider: React.FC = () => {
 	}
 
 	const handleSelectTiers = (tiers: { code: string; intitule: string; rubrique: string }) => {
-		console.log('Selected tiers in parent:', tiers) // Debug log
 		if (details) {
 			setDetails({
 				...details,
 				libelleCompteTiers: tiers.intitule,
 			})
 		}
-		toggleModal('isTiersModalOpen')
 	}
 
+	useEffect(() => {
+		if (details?.libelleCompteTiers && modalStates.isTiersModalOpen) {
+			toggleModal('isTiersModalOpen')
+		}
+	}, [details?.libelleCompteTiers])
+
 	const toggleModal = (modalName: keyof typeof modalStates) => {
-		console.log('Toggling modal:', modalName) // Debug log
-		console.log('Current modal state:', modalStates[modalName]) // Debug log
 		setModalStates((prev) => {
 			const newState = { ...prev, [modalName]: !prev[modalName] }
-			console.log('New modal state:', newState) // Debug log
 			if (newState[modalName]) {
 				document.body.classList.add('no-scroll')
 			} else {
@@ -182,20 +181,23 @@ const DetailsPrevisionValider: React.FC = () => {
 	}
 
 	useEffect(() => {
-		console.log('Modal state updated:', modalStates)
-	}, [modalStates])
+		setModalStates({
+			isModalOpen: false,
+			isPrevisionsModalOpen: false,
+			showModal: false,
+			isTiersModalOpen: false,
+		})
+	}, [])
 
 	if (!details) {
 		return <p>Aucune prévision disponible pour la clé sélectionnée.</p>
 	}
 
-	console.log('Details :', details)
 	return (
 		<>
 			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | DÉTAILS PRÉVISION À VALIDER ${details.cle}` }} />
 			<main id='detailsPrevisionOrdo'>
 				<div className='detailsContainer'>
-					{/* Left side: Courrier display */}
 					<div className='leftSide'>
 						{courrier ? (
 							<iframe src={courrier} title='Courrier associé' className='courrierDisplay' />
@@ -208,7 +210,6 @@ const DetailsPrevisionValider: React.FC = () => {
 
 					<div className='rightSide'>
 						<h3>
-							{/* Button to display the courrier only if there isn't one */}
 							<div
 								className={courrier?.toLowerCase().includes('pdf') ? 'prevCourButtonHidden' : 'prevCourButtonActive'}
 							>
@@ -311,8 +312,8 @@ const DetailsPrevisionValider: React.FC = () => {
 										onChange={(e) => setDetails({ ...details, libelleEcriturePrefixe: e.target.value })}
 									>
 										<option value=''>Préfixe</option>
-										{prefixes.map((prefixe, index) => (
-											<option key={index} value={prefixe}>
+										{prefixes.map((prefixe) => (
+											<option key={prefixe} value={prefixe}>
 												{prefixe}
 											</option>
 										))}
@@ -322,8 +323,8 @@ const DetailsPrevisionValider: React.FC = () => {
 										onChange={(e) => setDetails({ ...details, libelleEcritureMois: e.target.value })}
 									>
 										<option value=''>Mois</option>
-										{mois.map((mois, index) => (
-											<option key={index} value={mois}>
+										{mois.map((mois) => (
+											<option key={mois} value={mois}>
 												{mois}
 											</option>
 										))}
@@ -333,8 +334,8 @@ const DetailsPrevisionValider: React.FC = () => {
 										onChange={(e) => setDetails({ ...details, libelleEcritureAnnee: e.target.value })}
 									>
 										<option value=''>Année</option>
-										{annees.map((annee, index) => (
-											<option key={index} value={annee}>
+										{annees.map((annee) => (
+											<option key={annee} value={annee}>
 												{annee}
 											</option>
 										))}
