@@ -12,10 +12,20 @@
         justify-content: center;
         align-items: center;
         gap: 2em;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            gap: 1em;
+            padding: 1em;
+        }
     }
 
     .previsionAOrdonnancer__topSection {
         margin-bottom: 4em;
+
+        @media (max-width: 768px) {
+            margin-bottom: 2em;
+        }
     }
 
     .previsionAOrdonnancer__bottomSection {
@@ -30,6 +40,13 @@
             justify-content: space-between;
             margin-bottom: -2em;
             margin-top: 2em;
+
+            @media (max-width: 768px) {
+                flex-direction: column;
+                gap: 1em;
+                margin-bottom: 0;
+                margin-top: 1em;
+            }
         }
 
         form label {
@@ -41,6 +58,10 @@
             padding: 0.4em;
             text-align: center;
             min-width: 75px;
+
+            @media (max-width: 768px) {
+                width: 100%;
+            }
         }
     }
 
@@ -52,9 +73,18 @@
         gap: 1.5rem;
         margin: 1em 0;
 
+        @media (max-width: 768px) {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
         .DateRange__container {
             flex: 1;
             max-width: 50%;
+
+            @media (max-width: 768px) {
+                max-width: 100%;
+            }
         }
 
         .codeInputWrapper {
@@ -63,6 +93,11 @@
             gap: 0.5rem;
             flex: 0 1 25%;
             max-width: 300px;
+
+            @media (max-width: 768px) {
+                flex: 1;
+                max-width: 100%;
+            }
 
             label {
                 font-size: 1rem;
@@ -89,6 +124,11 @@
             align-items: flex-end;
             flex: 0 1 20%;
             justify-content: flex-end;
+
+            @media (max-width: 768px) {
+                flex: 1;
+                justify-content: center;
+            }
 
             button {
                 min-width: 120px;
@@ -157,6 +197,11 @@
         &:focus {
             outline: 3.5px solid #36395a;
         }
+
+        @media (max-width: 768px) {
+            width: 100%;
+            min-width: auto;
+        }
     }
 
     .greyButtonWrapper {
@@ -164,6 +209,11 @@
         justify-content: center;
         align-items: center;
         gap: 2em;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            gap: 1em;
+        }
     }
 }
 
@@ -185,33 +235,31 @@
         max-width: 1200px;
         height: 80dvh;
         margin: 2rem auto;
-        // gap: 2rem;
-
-        .leftSide,
-        .rightSide {
-            flex: 1; // Ensure both sides take equal space
-            min-width: 500px; // Set a minimum width
-        }
+        gap: 2rem;
 
         @media (max-width: 768px) {
             flex-direction: column;
+            height: auto;
             gap: 1rem;
         }
 
-        .leftSide {
+        .leftSide,
+        .rightSide {
             flex: 1;
+            min-width: 0; // Allow flex items to shrink
+            overflow: auto; // Add scroll if content overflows
+        }
+
+        .leftSide {
             display: flex;
             align-items: center;
             justify-content: center;
             background: #fff;
             border: 1px solid #36395a;
             padding: 1rem;
-            min-width: 500px; // Set a minimum width
-            width: 50%; // Force equal width for both sides
 
             .courrierDisplay {
                 width: 100%;
-                min-width: 500px; // Set a minimum width if needed
                 height: 75dvh;
                 border: none;
 
@@ -222,7 +270,6 @@
         }
 
         .rightSide {
-            flex: 1;
             background: #fff;
             border: 1px solid #36395a;
             padding: 1rem;
@@ -242,6 +289,7 @@
                 flex-direction: column;
                 gap: 0.5rem;
                 height: 60dvh;
+                overflow: auto; // Add scroll if content overflows
 
                 p {
                     margin: 0;
@@ -258,6 +306,10 @@
                 display: flex;
                 justify-content: space-between;
                 gap: 1rem;
+
+                @media (max-width: 768px) {
+                    flex-direction: column;
+                }
 
                 button {
                     flex: 1;
@@ -299,7 +351,11 @@
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
-                // gap: 1em;
+                gap: 1em;
+
+                @media (max-width: 768px) {
+                    flex-direction: column;
+                }
 
                 select {
                     display: flex;
@@ -309,11 +365,14 @@
     }
 }
 
-
 .modeReglement {
     display: flex;
     gap: 10px;
     padding: 10px;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
 }
 
 .no-scroll {
@@ -397,13 +456,9 @@
     header {
         position: sticky;
         top: 0;
-        /* Fixe le header au haut de la modale */
         z-index: 10;
-        /* Assure que le header est au-dessus des tableaux */
         background-color: white;
-        /* Fond blanc pour couvrir tout glissement */
         border-bottom: 1px solid #ddd;
-        /* Optionnel : séparation visuelle */
     }
 
     .header-wrapper {
@@ -424,11 +479,8 @@
 
     .nrtl-container {
         max-height: 300px;
-        /* Hauteur maximale pour permettre le scroll */
         overflow-y: auto;
-        /* Activation du scroll vertical */
         margin-bottom: 30px;
-        /* Espacement entre les tableaux */
         border: 1px solid #ddd;
         border-radius: 5px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -437,12 +489,9 @@
 
     .nrtl-table thead {
         position: sticky;
-        /* Fixe le header lors du scroll */
         top: 0;
         z-index: 1;
-        /* S'assure que le header reste visible */
         background-color: #84cde4;
-        /* Assurez-vous que la couleur correspond à votre thème */
     }
 
     .nrtl-table {
@@ -488,18 +537,13 @@
     justify-content: center;
     align-items: center;
     height: 100px;
-    /* Adjust height as needed */
     font-size: 16px;
     font-weight: bold;
     color: #36395a;
     background-color: #f2f2f2;
-    /* Optional: Add a background color */
     border: 1px solid #ddd;
-    /* Optional: Add a border */
     border-radius: 5px;
-    /* Optional: Add rounded corners */
     margin: 20px 0;
-    /* Add some spacing */
 }
 
 .nrtl-container {
