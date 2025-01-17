@@ -5,6 +5,7 @@ import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
 import ConfirmationModal from '../../../../../components/ConfirmationModal/ConfirmationModal.tsx'
 import ModalCourriers from '../previsionAOrdonnancer/ModalCourriers.tsx'
+import ModalTiers from './ModalTiers.tsx'
 import VisualisationPrevisionsTiers from '../previsionAOrdonnancer/VisualisationPrevisionsTiers.tsx'
 import { keepTwoDecimals, convertENDateToFr, formatDateToHtml } from '../../../../../utils/scripts/utils.ts'
 import '../previsionAOrdonnancer/previsionAOrdonnancer.scss'
@@ -68,10 +69,12 @@ const DetailsPrevisionValider: React.FC = () => {
 	const [courrier, setCourrier] = useState<string | null>(null)
 	const [details, setDetails] = useState<RowDetails | null>(null)
 	const [modePaiement, setModePaiement] = useState<string>('')
+	const [selectedTiers, setSelectedTiers] = useState<{ code: string; intitule: string; rubrique: string } | null>(null)
 	const [modalStates, setModalStates] = useState({
 		isModalOpen: false,
 		isPrevisionsModalOpen: false,
 		showModal: false,
+		isTiersModalOpen: false,
 	})
 
 	// Mocked data for "Rubrique" and "Libellé" fields
@@ -152,16 +155,41 @@ const DetailsPrevisionValider: React.FC = () => {
 		}
 	}
 
-	const toggleModal = (modalName: keyof typeof modalStates) => {
-		setModalStates((prev) => ({ ...prev, [modalName]: !prev[modalName] }))
+	const handleSelectTiers = (tiers: { code: string; intitule: string; rubrique: string }) => {
+		console.log('Selected tiers in parent:', tiers) // Debug log
+		if (details) {
+			setDetails({
+				...details,
+				libelleCompteTiers: tiers.intitule,
+			})
+		}
+		toggleModal('isTiersModalOpen')
 	}
+
+	const toggleModal = (modalName: keyof typeof modalStates) => {
+		console.log('Toggling modal:', modalName) // Debug log
+		console.log('Current modal state:', modalStates[modalName]) // Debug log
+		setModalStates((prev) => {
+			const newState = { ...prev, [modalName]: !prev[modalName] }
+			console.log('New modal state:', newState) // Debug log
+			if (newState[modalName]) {
+				document.body.classList.add('no-scroll')
+			} else {
+				document.body.classList.remove('no-scroll')
+			}
+			return newState
+		})
+	}
+
+	useEffect(() => {
+		console.log('Modal state updated:', modalStates)
+	}, [modalStates])
 
 	if (!details) {
 		return <p>Aucune prévision disponible pour la clé sélectionnée.</p>
 	}
 
 	console.log('Details :', details)
-
 	return (
 		<>
 			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | DÉTAILS PRÉVISION À VALIDER ${details.cle}` }} />
@@ -228,7 +256,7 @@ const DetailsPrevisionValider: React.FC = () => {
 											style: 'blue',
 											text: 'Rechercher Tiers',
 											type: 'button',
-											onClick: () => alert('Rechercher Tiers'),
+											onClick: () => toggleModal('isTiersModalOpen'),
 										}}
 									/>
 									<Button
@@ -251,6 +279,13 @@ const DetailsPrevisionValider: React.FC = () => {
 										/>
 									</div>
 								</div>
+							)}
+							{modalStates.isTiersModalOpen && (
+								<ModalTiers
+									isOpen={modalStates.isTiersModalOpen}
+									onClose={() => toggleModal('isTiersModalOpen')}
+									onSelectTiers={handleSelectTiers}
+								/>
 							)}
 							<div>
 								<strong>Rubrique :</strong>{' '}
