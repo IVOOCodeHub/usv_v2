@@ -67,6 +67,7 @@ const DetailsPrevisionValider: React.FC = () => {
 	const location = useLocation() as ILocationState
 
 	const [courrier, setCourrier] = useState<string | null>(null)
+	const [isPdfLoaded, setIsPdfLoaded] = useState<boolean>(true)
 	const [details, setDetails] = useState<RowDetails | null>(null)
 	const [modePaiement, setModePaiement] = useState<string>('')
 	const [modalStates, setModalStates] = useState({
@@ -111,8 +112,10 @@ const DetailsPrevisionValider: React.FC = () => {
 			setDetails(formattedDetails)
 			setModePaiement(rowData.modeReglement || '')
 
-			if (rowData.nomFichier) {
-				setCourrier(`http://192.168.0.254:8080/usv_prod/courriers/${rowData.nomFichier.replace(/\\/g, '/')}`)
+			if (rowData?.nomFichier) {
+				const pdfUrl = `http://192.168.0.254:8080/usv_prod/courriers/${rowData.nomFichier.replace(/\\/g, '/')}`
+				setCourrier(pdfUrl)
+				setIsPdfLoaded(true) // Reset the state when a new PDF is set
 			} else {
 				setCourrier(null)
 			}
@@ -200,7 +203,19 @@ const DetailsPrevisionValider: React.FC = () => {
 				<div className='detailsContainer'>
 					<div className='leftSide'>
 						{courrier ? (
-							<iframe src={courrier} title='Courrier associé' className='courrierDisplay' />
+							<>
+								<iframe
+									src={courrier}
+									title='Courrier associé'
+									className='courrierDisplay'
+									onError={() => setIsPdfLoaded(false)} // Handle PDF loading errors
+								/>
+								{!isPdfLoaded && (
+									<div>
+										<p>Aucun courrier associé</p>
+									</div>
+								)}
+							</>
 						) : (
 							<div>
 								<p>Aucun courrier associé</p>

@@ -97,7 +97,7 @@ const DetailsPrevisionOrdo = (): ReactElement => {
 				const formattedDetails = {
 					cle: prevision.cle || 'Non défini',
 					dateSaisie: prevision.dateSaisie ? convertENDateToFr(prevision.dateSaisie) : 'Non défini',
-					societe: prevision.societe || 'Non défini',
+					societe: prevision.societe ?? 'Non défini',
 					tiers: prevision.libelleCompteTiers ?? 'Non défini',
 					rubrique: prevision.rubriqueTreso ?? 'Non défini',
 					libelle: prevision.libelleEcriture ?? 'Non défini',
