@@ -1,0 +1,156 @@
+#addTiersModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); // Semi-transparent background
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; // Ensure it's above other content
+
+    .modal-content {
+        background-color: white;
+        padding: 2em;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+
+        .modal-title {
+            font-size: 1.5em;
+            text-align: center;
+            margin-bottom: 1em;
+            color: #36395a;
+        }
+
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            gap: 1em;
+            margin: 1.5em 0;
+
+            .tab {
+                padding: 0.5em 2em;
+                border: 1px solid #36395a;
+                background: #ffffff;
+                font-size: 14px;
+                cursor: pointer;
+                border-radius: 6px;
+                text-transform: uppercase;
+
+                &:hover {
+                    background: #e6e6e6;
+                }
+
+                &.active {
+                    background: #1092b8;
+                    color: #ffffff;
+                    border-color: #1092b8;
+                }
+            }
+        }
+
+        .tab-content {
+            .coordonnees-container {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                max-width: 1200px;
+                gap: 6em;
+                row-gap: 2em;
+                flex-wrap: wrap;
+                margin: 0 auto;
+
+                .tab-panel {
+                    flex: 1;
+                    min-width: 350px;
+                    background: #ffffff;
+                    border: 1px solid #36395a;
+                    border-radius: 6px;
+                    padding: 1.5em;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+                    h2 {
+                        font-size: 1.5em;
+                        margin-bottom: 1em;
+                        text-align: center;
+                        color: #36395a;
+                    }
+
+                    .form-container {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 1em;
+
+                        label {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            font-size: 14px;
+                            color: #36395a;
+
+                            input,
+                            select {
+                                flex: 1;
+                                max-width: 250px;
+                                margin-left: 1em;
+                                padding: 0.5em;
+                                border: 1px solid #36395a;
+                                border-radius: 4px;
+                                background: #f2f2f2;
+                                font-size: 14px;
+                                text-align: center;
+
+                                &:hover {
+                                    border-color: #1092b8;
+                                }
+
+                                &:focus {
+                                    outline: 3.5px solid #1092b8;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 2em;
+            margin-top: 2em;
+
+            button {
+                padding: 0.8em 2em;
+                font-size: 14px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                text-transform: uppercase;
+
+                &.blue {
+                    background: #1092b8;
+                    color: #ffffff;
+
+                    &:hover {
+                        background: #0a6d88;
+                    }
+                }
+
+                &.grey {
+                    background: #e6e6e6;
+                    color: #36395a;
+
+                    &:hover {
+                        background: #d4d4d4;
+                    }
+                }
+            }
+        }
+    }
+}

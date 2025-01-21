@@ -6,6 +6,7 @@ import Footer from '../../../../../components/footer/Footer'
 import ConfirmationModal from '../../../../../components/ConfirmationModal/ConfirmationModal.tsx'
 import ModalCourriers from '../previsionAOrdonnancer/ModalCourriers.tsx'
 import ModalTiers from './ModalTiers.tsx'
+import AddTiersModal from './AddTiersModal.tsx'
 import VisualisationPrevisionsTiers from '../previsionAOrdonnancer/VisualisationPrevisionsTiers.tsx'
 import { keepTwoDecimals, convertENDateToFr, formatDateToHtml } from '../../../../../utils/scripts/utils.ts'
 import '../previsionAOrdonnancer/previsionAOrdonnancer.scss'
@@ -75,6 +76,7 @@ const DetailsPrevisionValider: React.FC = () => {
 		isPrevisionsModalOpen: false,
 		showModal: false,
 		isTiersModalOpen: false,
+		isAddTiersModalOpen: false,
 	})
 
 	// Mocked data for "Rubrique" and "Libellé" fields
@@ -182,13 +184,14 @@ const DetailsPrevisionValider: React.FC = () => {
 			return newState
 		})
 	}
-
+	
 	useEffect(() => {
 		setModalStates({
 			isModalOpen: false,
 			isPrevisionsModalOpen: false,
 			showModal: false,
 			isTiersModalOpen: false,
+			isAddTiersModalOpen: false,
 		})
 	}, [])
 
@@ -280,7 +283,7 @@ const DetailsPrevisionValider: React.FC = () => {
 											style: 'blue',
 											text: 'Créer Tiers',
 											type: 'button',
-											onClick: () => alert('Créer Tiers'),
+											onClick: () => toggleModal('isAddTiersModalOpen'),
 										}}
 									/>
 								</div>
@@ -303,6 +306,7 @@ const DetailsPrevisionValider: React.FC = () => {
 									onSelectTiers={handleSelectTiers}
 								/>
 							)}
+							{modalStates.isAddTiersModalOpen && <AddTiersModal onClose={() => toggleModal('isAddTiersModalOpen')} />}
 							<div>
 								<strong>Rubrique :</strong>{' '}
 								<select
