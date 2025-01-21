@@ -9,14 +9,30 @@ import {
 } from '../../../../../API/services/Prevision.service.ts'
 import { keepTwoDecimals } from '../../../../../utils/scripts/utils.ts'
 
+// Mocked data for offline mode
+const mockedBudget = [
+	['Société A', 'Libellé 1', 'Rubrique X', '1000.00', '2024-01-31', 'Validé'],
+	['Société B', 'Libellé 2', 'Rubrique Y', '-500.00', '2024-02-15', 'En attente'],
+]
+
+const mockedPrevisions = [
+	['Société A', 'Libellé 1', 'Rubrique X', '2000.00', '2024-03-31', 'Validé'],
+	['Société B', 'Libellé 2', 'Rubrique Y', '-1000.00', '2024-04-15', 'En attente'],
+]
+
+const mockedPaiements = [
+	['Société A', 'Libellé 1', 'Rubrique X', '1500.00', '2024-01-31', 'Payé'],
+	['Société B', 'Libellé 2', 'Rubrique Y', '-750.00', '2024-02-15', 'En attente'],
+]
+
 interface VisualisationPrevisionsTiersProps {
-	userCredentials: IUserCredentials
+	userCredentials: IUserCredentials | null // Allow null
 	refSourceTiers: string
-	onClose: () => void // Pour un bouton "Fermer"
+	onClose: () => void
 }
 
 const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> = ({
-	userCredentials,
+	userCredentials = null, // Default to null
 	refSourceTiers,
 	onClose,
 }) => {
@@ -24,18 +40,37 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 	const [previsions, setPrevisions] = useState<string[][]>([])
 	const [paiements, setPaiements] = useState<string[][]>([])
 	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [isOffline, setIsOffline] = useState<boolean>(false)
 
 	useEffect(() => {
 		const fetchData = async () => {
 			setIsLoading(true)
 
 			try {
+				// Check if offline
+				if (!navigator.onLine) {
+					setIsOffline(true)
+					throw new Error('Offline mode: Using mocked data.')
+				}
+
+				// Check if userCredentials is valid
+				if (!userCredentials?.matricule || !userCredentials?.password) {
+					console.warn('Invalid credentials: Matricule or password is missing. Using mocked data.')
+					setIsOffline(true)
+					setBudget(mockedBudget)
+					setPrevisions(mockedPrevisions)
+					setPaiements(mockedPaiements)
+					return // Skip API call
+				}
+
+				// Fetch data from API
 				const [budgetData, previsionsData, paiementsData] = await Promise.all([
 					getBudgetService(userCredentials, refSourceTiers),
 					getPrevisionsService(userCredentials, refSourceTiers),
 					getPaiementsService(userCredentials, refSourceTiers),
 				])
 
+				// Process and set data
 				setBudget(
 					Array.isArray(budgetData) && budgetData.length > 0
 						? budgetData.map((item) => [
@@ -82,9 +117,12 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 				)
 			} catch (error) {
 				console.error('Erreur lors de la récupération des données :', error)
-				setBudget([])
-				setPrevisions([])
-				setPaiements([])
+
+				// Use mocked data if offline or API fails
+				setIsOffline(true)
+				setBudget(mockedBudget)
+				setPrevisions(mockedPrevisions)
+				setPaiements(mockedPaiements)
 			} finally {
 				setIsLoading(false)
 			}
@@ -109,6 +147,20 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 					<p>Chargement...</p>
 				) : (
 					<>
+						{/* Offline Mode Warning */}
+						{isOffline && (
+							<div className='offline-warning'>
+								<p>Vous êtes hors ligne. Les données affichées sont des données simulées.</p>
+							</div>
+						)}
+
+						{/* Invalid Credentials Warning */}
+						{(!userCredentials?.matricule || !userCredentials?.password) && (
+							<div className='credentials-warning'>
+								<p>Identifiants invalides. Veuillez vérifier vos informations de connexion.</p>
+							</div>
+						)}
+
 						{/* Tableau Budget */}
 						<h2 className='table-subtitle'>Budget</h2>
 						{budget.length === 0 ? (

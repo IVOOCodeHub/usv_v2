@@ -85,6 +85,11 @@ const DetailsPrevisionValider: React.FC = () => {
 	const [mois, setMois] = useState<string[]>([])
 	const [annees, setAnnees] = useState<string[]>([])
 
+	const validatePdfLink = (link: string | null): boolean => {
+		if (!link) return false // If the link is null, it's invalid
+		return link.toLowerCase().includes('.pdf') // Check if the link contains ".pdf"
+	}
+
 	useEffect(() => {
 		const rowData = location?.state?.fullRowDetails
 		if (rowData) {
@@ -117,9 +122,10 @@ const DetailsPrevisionValider: React.FC = () => {
 			if (rowData?.nomFichier) {
 				const pdfUrl = `http://192.168.0.254:8080/usv_prod/courriers/${rowData.nomFichier.replace(/\\/g, '/')}`
 				setCourrier(pdfUrl)
-				setIsPdfLoaded(true) // Reset the state when a new PDF is set
+				setIsPdfLoaded(validatePdfLink(pdfUrl)) // Validate the PDF link
 			} else {
 				setCourrier(null)
+				setIsPdfLoaded(false) // No PDF link available
 			}
 
 			// Mocked data for "Rubrique" and "Libellé" fields
@@ -205,20 +211,13 @@ const DetailsPrevisionValider: React.FC = () => {
 			<main id='detailsPrevisionOrdo'>
 				<div className='detailsContainer'>
 					<div className='leftSide'>
-						{courrier ? (
-							<>
-								<iframe
-									src={courrier}
-									title='Courrier associé'
-									className='courrierDisplay'
-									onError={() => setIsPdfLoaded(false)} // Handle PDF loading errors
-								/>
-								{!isPdfLoaded && (
-									<div>
-										<p>Aucun courrier associé</p>
-									</div>
-								)}
-							</>
+						{courrier && isPdfLoaded ? (
+							<iframe
+								src={courrier}
+								title='Courrier associé'
+								className='courrierDisplay'
+								onError={() => setIsPdfLoaded(false)} // Fallback in case the PDF fails to load
+							/>
 						) : (
 							<div>
 								<p>Aucun courrier associé</p>

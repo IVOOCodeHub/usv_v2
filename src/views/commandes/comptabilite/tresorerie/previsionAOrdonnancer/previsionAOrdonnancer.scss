@@ -477,6 +477,16 @@
         font-size: 1.2em;
     }
 
+    .offline-warning {
+        background-color: #ffcc00; // Yellow background for warning
+        padding: 1em;
+        margin-bottom: 1em;
+        border-radius: 4px;
+        text-align: center;
+        font-weight: bold;
+        color: #000;
+    }
+
     .nrtl-container {
         max-height: 300px;
         overflow-y: auto;
