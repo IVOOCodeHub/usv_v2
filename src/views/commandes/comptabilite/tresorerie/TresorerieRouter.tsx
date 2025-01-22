@@ -17,6 +17,7 @@ import PrevisionAOrdonnancer from './previsionAOrdonnancer/PrevisionAOrdonnancer
 import DetailsPrevisionOrdo from './previsionAOrdonnancer/DetailsPrevisionOrdo.tsx'
 import ModifyTiersPage from './previsionAOrdonnancer/ModifyTiersPage.tsx'
 import EtalementPrevisionTiers from './previsionAOrdonnancer/EtalementPrevisionTiers.tsx'
+import FacturationIntercoARegulariser from './facturationIntercoARegulariser/FacturationIntercoARegulariser.tsx'
 
 export default function TresorerieRouter(): ReactElement {
 	return (
@@ -35,6 +36,7 @@ export default function TresorerieRouter(): ReactElement {
 			<Route path={'details_prevision_ordo'} element={<DetailsPrevisionOrdo />} />
 			<Route path={'/modify-tiers/:tiersId'} element={<ModifyTiersPage />} />
 			<Route path={'/etalement-prevision-tiers/:tiersId'} element={<EtalementPrevisionTiers />} />
+			<Route path={'/facturation_interco_a_regulariser'} element={<FacturationIntercoARegulariser />} />
 		</Routes>
 	)
 }
