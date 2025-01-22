@@ -146,8 +146,10 @@ const DetailsPrevisionValider: React.FC = () => {
 	}
 
 	const handleConfirm = () => {
-		setModalStates((prev) => ({ ...prev, showModal: false }))
-		alert('Fonctionnalité d’étalement non implémentée pour le moment.')
+		setModalStates((prev) => ({ ...prev, showModal: false })) // Close the modal
+		if (details) {
+			navigate(`/commandes/tresorerie/etalement-prevision-tiers/${details.refSourceTiers}`) // Navigate to EtalementPrevisionTiers.tsx
+		}
 	}
 
 	const handleCancel = () => {
@@ -190,7 +192,13 @@ const DetailsPrevisionValider: React.FC = () => {
 			return newState
 		})
 	}
-	
+
+	useEffect(() => {
+		return () => {
+			document.body.classList.remove('no-scroll')
+		}
+	}, [])
+
 	useEffect(() => {
 		setModalStates({
 			isModalOpen: false,

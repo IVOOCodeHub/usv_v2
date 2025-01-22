@@ -150,7 +150,7 @@ const VisualisationPrevisionsTiers: React.FC<VisualisationPrevisionsTiersProps> 
 						{/* Offline Mode Warning */}
 						{isOffline && (
 							<div className='offline-warning'>
-								<p>Vous êtes hors ligne. Les données affichées sont des données simulées.</p>
+								<p>Les données affichées sont des données simulées.</p>
 							</div>
 						)}
 
