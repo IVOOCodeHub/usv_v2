@@ -63,20 +63,8 @@
 }
 
 #groupedTable {
-    .categoryGroup {
-        margin-bottom: 2em;
-
-        .categoryTitle {
-            background-color: #1092b8;
-            color: white;
-            font-weight: bold;
-            text-transform: uppercase;
-            padding: 1em;
-            text-align: center;
-            border-radius: 6px;
-            margin-bottom: 1em;
-        }
-    }
+    width: 100%;
+    margin-bottom: 2em;
 }
 
 .no-results {
