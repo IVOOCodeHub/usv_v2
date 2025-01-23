@@ -8,66 +8,92 @@
 
     .detailsContainer {
         display: flex;
-        width: 90%;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
         max-width: 1200px;
-        margin: 2em auto;
-        gap: 2em;
+        height: 80dvh;
+        margin: 2rem auto;
+        gap: 2rem;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            height: auto;
+            gap: 1rem;
+        }
+
+        .leftSide,
+        .rightSide {
+            flex: 1;
+            min-width: 0; // Allow flex items to shrink
+            overflow: auto; // Add scroll if content overflows
+        }
 
         .leftSide {
-            flex: 1;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 1em;
+            border: 1px solid #36395a;
+            padding: 1rem;
 
             .courrierDisplay {
                 width: 100%;
-                height: 600px;
+                height: 75dvh;
                 border: none;
-                border-radius: 8px;
-            }
 
-            p {
-                font-size: 1.2em;
-                color: #666;
+                @media (max-width: 768px) {
+                    height: 300px;
+                }
             }
         }
 
         .rightSide {
-            flex: 1;
             background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 2em;
+            border: 1px solid #36395a;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
 
             h3 {
-                font-size: 1.5em;
-                margin-bottom: 1em;
+                margin: 0;
+                font-size: 1.5rem;
                 color: #36395a;
             }
 
             .detailsWrapper {
                 display: flex;
                 flex-direction: column;
-                gap: 1em;
+                gap: 0.5rem;
+                height: 60dvh;
+                overflow: auto; // Add scroll if content overflows
 
-                div {
-                    font-size: 1.1em;
+                p {
+                    margin: 0;
+                    font-size: 1rem;
                     color: #36395a;
 
                     strong {
-                        font-weight: 600;
+                        color: #000;
                     }
                 }
             }
 
             .buttonWrapper {
                 display: flex;
-                gap: 1em;
-                margin-top: 2em;
+                justify-content: space-between;
+                gap: 1rem;
+
+                @media (max-width: 768px) {
+                    flex-direction: column;
+                }
+
+                button {
+                    flex: 1;
+                    min-width: 120px;
+                }
             }
 
             .prevCourButtonHidden {
@@ -76,6 +102,67 @@
 
             .prevCourButtonActive {
                 display: flex;
+            }
+
+            .libelleWrapper {
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: flex-start;
+                overflow: visible;
+                gap: 1em;
+
+                .libelleTitle {
+                    display: flex;
+                    width: 100%;
+                    justify-content: flex-start;
+                    align-items: center;
+                    gap: 1em;
+                    font-weight: bold;
+                    font-size: 1.2em;
+                    color: #36395a;
+                }
+            }
+
+            .IntercoLibelleWrapper {
+                display: flex;
+                width: 100%;
+                flex-wrap: wrap;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                gap: 1em;
+
+                @media (max-width: 768px) {
+                    flex-direction: column;
+                }
+
+                select,
+                input {
+                    flex: 1 1 auto;
+                    /* Allow elements to grow and shrink */
+                    min-width: 150px;
+                    /* Set a minimum width to prevent truncation */
+                    max-width: 200px;
+                    /* Set a maximum width to prevent over-stretching */
+                    white-space: normal;
+                    /* Allow text to wrap */
+                }
+            }
+
+            /* Additional media query for 1440px width */
+            @media (min-width: 1440px) {
+                .IntercoLibelleWrapper {
+                    gap: 2em;
+                    /* Increase gap for wider screens */
+                }
+
+                .IntercoLibelleWrapper select,
+                .IntercoLibelleWrapper input {
+                    max-width: 250px;
+                    /* Adjust max-width for wider screens */
+                }
             }
         }
     }

@@ -199,7 +199,7 @@ const DetailsFactureInterco: React.FC = () => {
 								<div className='libelleTitle'>
 									<strong>Libellé :</strong>
 								</div>
-								<div className='ValidLibelleWrapper'>
+								<div className='IntercoLibelleWrapper'>
 									<select
 										value={details.libelleEcriturePrefixe || ''}
 										onChange={(e) => setDetails({ ...details, libelleEcriturePrefixe: e.target.value })}
