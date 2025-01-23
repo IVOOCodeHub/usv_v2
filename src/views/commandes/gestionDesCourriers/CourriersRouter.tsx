@@ -12,6 +12,10 @@ import GererMesCourriersWithAuth from "./gererMesCourriers/GererMesCourriers.tsx
 import CourrierUtilsWithAuth from "./courrierUtils/CourrierUtils.tsx";
 import GererProfilDeDistributionWithAuth from "./gererProfilDeDistribution/GererProfilDeDistribution.tsx";
 import ModifProfilDistributionWithAuth from "./modifProfilDistribution/ModifProfilDistribution.tsx";
+import RechercheCourrierWithAuth from './rechercheCourrier/RechercheCourrier.tsx';
+import ModifCourrierWithAuth from './modifCourrier/ModifCourrier.tsx';
+import GestionClassementWithAuth from './gestionClassement/GestionClassement.tsx';
+import ArchiverCourrierWithAuth from './archiverCourrier/ArchiverCourrier.tsx';
 
 export default function CourriersRouter(): ReactElement {
   return (
@@ -25,6 +29,10 @@ export default function CourriersRouter(): ReactElement {
         <Route path={`/courrier_utils`} element={<CourrierUtilsWithAuth />} />
         <Route path={`/courrier_utils/gestion_des_profils_distribution`} element={<GererProfilDeDistributionWithAuth />} />
         <Route path={`/courrier_utils/modifier_profil_distribution/:profilID`} element={<ModifProfilDistributionWithAuth />} />
+        <Route path={`/courrier_utils/recherche_courrier`} element={<RechercheCourrierWithAuth />} />
+        <Route path={`/courrier_utils/modif_courrier/:courrierID`} element={<ModifCourrierWithAuth />} />
+        <Route path={`/courrier_utils/gestion_classement`} element={<GestionClassementWithAuth />} />
+        <Route path={`/courrier_utils/archiver_courrier`} element={<ArchiverCourrierWithAuth />} />
     </Routes>
   );
 }

@@ -1,0 +1,28 @@
+@use "../../../../utils/styles/mixins.scss" as mixins;
+
+#gestionDesServicesDestinataires {
+  position: relative;
+  @include mixins.main;
+}
+
+#gestionDesServicesDestinataires .buttonWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+#createNewServiceModal {
+  h2 {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 1em;
+  }
+  @include mixins.modalContainer;
+}
+
+#createNewServiceModal form {
+
+  width: 25% !important;
+  @include mixins.form;
+}

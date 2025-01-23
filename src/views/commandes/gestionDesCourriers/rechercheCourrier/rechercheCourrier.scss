@@ -1,0 +1,5 @@
+@use '../../../../utils/styles/mixins' as mixins;
+
+#rechercheCourrier {
+  @include mixins.main;
+}

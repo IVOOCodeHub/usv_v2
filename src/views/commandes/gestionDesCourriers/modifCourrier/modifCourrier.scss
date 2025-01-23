@@ -1,0 +1,79 @@
+@use "../../../../utils/styles/mixins" as mixins;
+
+#modifCourrier {
+  flex-flow: row !important;
+  @include mixins.main;
+}
+
+#modifCourrier .leftContainer,
+#modifCourrier .rightContainer {
+  width: 46%;
+}
+
+#modifCourrier iframe {
+  @include mixins.iframe;
+}
+
+#modifCourrier .rightContainer {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#modifCourrier .rightContainer form {
+  @include mixins.form;
+}
+
+#modifCourrier .formWrapper {
+  display: flex;
+  flex-flow: row;
+  gap: 12%;
+}
+
+#modifCourrier .formWrapper .leftColumn,
+#modifCourrier .formWrapper .rightColumn {
+  width: 44%;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  margin-bottom: 1em;
+}
+
+#modifCourrier .formWrapper .leftColumn .inputWrapper,
+#modifCourrier .formWrapper .rightColumn .inputWrapper {
+  margin-bottom: 0.5em;
+}
+
+#modifCourrier .readOnly {
+  outline: none;
+  border: unset !important;
+
+  &:focus {
+    outline: none !important;
+    border: unset !important;
+  }
+  &:active {
+    outline: none !important;
+    border: unset !important;
+  }
+  &:hover {
+    cursor: not-allowed;
+  }
+}
+
+#modifCourrier .archiveContainer {
+  margin: 0 auto;
+  width: 40%;
+  display: flex;
+  flex-flow: column;
+  gap: 0.5em;
+}
+
+#modifCourrier .rightContainer form .buttonContainer {
+  margin-top: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+}

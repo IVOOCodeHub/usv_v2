@@ -1,6 +1,6 @@
 import "./gererMesCourriers.scss";
 
-import { ReactElement, useEffect, useContext } from "react";
+import { ReactElement, useEffect, useContext, useState } from "react";
 import { useNavigate, NavigateFunction, useParams } from "react-router-dom";
 
 import { UserContext } from "../../../../context/userContext.tsx";
@@ -11,12 +11,16 @@ import Header from "../../../../components/header/Header";
 import Select from "react-select";
 import Button from "../../../../components/button/Button.tsx";
 import Footer from "../../../../components/footer/Footer";
+import SendMail from "../../../../components/sendMail/SendMail";
+
+
 
 function GererMesCourriers(): ReactElement {
   const navigate: NavigateFunction = useNavigate();
   const { courrierID } = useParams();
   const { courrier, getCourrier } = useContext(CourrierContext);
   const { userCredentials } = useContext(UserContext);
+  const [isMailModalOpen, setIsMailModalOpen] = useState<boolean>(false);
 
   useEffect((): void => {
     if (userCredentials && courrierID) {
@@ -34,6 +38,7 @@ function GererMesCourriers(): ReactElement {
       />
       {typeof courrier === "object" && courrier && (
         <main id={"gererMesCourriers"}>
+          {isMailModalOpen && <SendMail isModalOpen={isMailModalOpen} setIsModalOpen={setIsMailModalOpen} />}
           <section className={"iFrameContainer leftContainer"}>
             <iframe
               title={"courrier"}
@@ -88,7 +93,7 @@ function GererMesCourriers(): ReactElement {
               <h2>Statut</h2>
               <div className={"inputWrapper"}>
                 <label htmlFor={"siteDeReception"}>Commentaire : </label>
-                <textarea>{courrier.commentaire}</textarea>
+                <textarea defaultValue={courrier.commentaire}></textarea>
               </div>
               <div className={"inputWrapper"}>
                 <label htmlFor={"siteDeReception"}>Décision : </label>
@@ -134,6 +139,7 @@ function GererMesCourriers(): ReactElement {
                   style: "blue",
                   text: "Envoyer par mail",
                   type: "button",
+                  onClick: (): void => setIsMailModalOpen(true),
                 }}
               />
               <Button

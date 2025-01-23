@@ -1,0 +1,5 @@
+@use "../../../../utils/styles/mixins.scss" as mixins;
+
+#organisationGeneraleMenu {
+  @include mixins.main;
+}

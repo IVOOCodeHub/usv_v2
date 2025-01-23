@@ -33,17 +33,17 @@ function CourrierUtils(): ReactElement {
                 },
                 {
                   name: "Rechercher un courrier",
-                  link: "Gérer mes courriers",
+                  link: "/commandes/gestion_des_courriers/courrier_utils/recherche_courrier",
                   isCheckable: false,
                 },
                 {
                   name: "Gérer mon classement",
-                  link: "/",
+                  link: "/commandes/gestion_des_courriers/courrier_utils/gestion_classement",
                   isCheckable: false,
                 },
                 {
-                  name: "Archiver une date",
-                  link: "/",
+                  name: "Archiver par date",
+                  link: "/commandes/gestion_des_courriers/courrier_utils/archiver_courrier",
                   isCheckable: false,
                 },
               ],

@@ -1,0 +1,18 @@
+@use "../../../../utils/styles/mixins" as mixins;
+
+#gestionClassement {
+  @include mixins.main;
+}
+
+#gestionClassement form {
+  width: 25% !important;
+  @include mixins.form
+}
+
+#gestionClassement .buttonContainer {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+}

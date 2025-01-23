@@ -1,0 +1,32 @@
+@use "../../../../utils/styles/mixins" as mixins;
+
+#archiverCourrier {
+  @include mixins.main;
+}
+
+#archiverCourrier form {
+  width: 700px !important;
+  gap: 3em !important;
+  @include mixins.form;
+
+  h2 {
+    text-align: center;
+
+    span {
+      color: #00AF59FF;
+    }
+  }
+
+  .inputWrapper {
+    margin: 0 auto;
+    width: 50%;
+  }
+}
+
+#archiverCourrier .buttonContainer {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+}

@@ -1,16 +1,7 @@
+@use "../../utils/styles/mixins" as mixins;
+
 #displayCourrierModal {
-  width: 100dvw;
-  height: 89.5dvh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 10.5dvh;
-  left: 0;
-  z-index: 9999;
-  background: rgba(242, 242, 242, 0.5);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  @include mixins.modalContainer;
 }
 
 #displayCourrierModal .iFrameContainer {
