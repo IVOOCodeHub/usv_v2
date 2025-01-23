@@ -69,6 +69,14 @@
                 gap: 1em;
                 margin-top: 2em;
             }
+
+            .prevCourButtonHidden {
+                display: none;
+            }
+
+            .prevCourButtonActive {
+                display: flex;
+            }
         }
     }
 }

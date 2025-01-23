@@ -331,6 +331,7 @@
                 flex-direction: column;
                 justify-content: space-between;
                 align-items: flex-start;
+                overflow: visible;
                 gap: 1em;
 
                 .libelleTitle {
@@ -348,6 +349,7 @@
             .ValidLibelleWrapper {
                 display: flex;
                 width: 100%;
+                flex-wrap: wrap;
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
@@ -357,8 +359,30 @@
                     flex-direction: column;
                 }
 
-                select {
-                    display: flex;
+                select,
+                input {
+                    flex: 1 1 auto;
+                    /* Allow elements to grow and shrink */
+                    min-width: 150px;
+                    /* Set a minimum width to prevent truncation */
+                    max-width: 200px;
+                    /* Set a maximum width to prevent over-stretching */
+                    white-space: normal;
+                    /* Allow text to wrap */
+                }
+            }
+
+            /* Additional media query for 1440px width */
+            @media (min-width: 1440px) {
+                .ValidLibelleWrapper {
+                    gap: 2em;
+                    /* Increase gap for wider screens */
+                }
+
+                .ValidLibelleWrapper select,
+                .ValidLibelleWrapper input {
+                    max-width: 250px;
+                    /* Adjust max-width for wider screens */
                 }
             }
         }

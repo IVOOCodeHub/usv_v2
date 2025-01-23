@@ -82,7 +82,7 @@ export const mockedInterco: IPrevision[] = [
 		libelleEcriture: 'CONS 08 3723 PROV IVOS',
 		credit: '0.00',
 		debit: '226.10',
-		nomFichier: '2023_01\\20230106_17_03_54.pdf',
+		nomFichier: '',
 		statut: 'Enregistrer (reste au même stade)',
 	},
 	{
@@ -94,7 +94,7 @@ export const mockedInterco: IPrevision[] = [
 		libelleEcriture: 'CONS 08 3723 DEST IVOO',
 		credit: '226.10',
 		debit: '0.00',
-		nomFichier: '2023_01\\20230106_17_03_54.pdf',
+		nomFichier: '',
 		statut: 'Enregistrer (reste au même stade)',
 	},
 	{
@@ -106,7 +106,7 @@ export const mockedInterco: IPrevision[] = [
 		libelleEcriture: 'ANIMI 08 3723 PROV GEAS',
 		credit: '0.00',
 		debit: '24861.70',
-		nomFichier: '2023_01\\20230106_17_03_54.pdf',
+		nomFichier: '',
 		statut: 'Enregistrer (reste au même stade)',
 	},
 	{
@@ -118,7 +118,7 @@ export const mockedInterco: IPrevision[] = [
 		libelleEcriture: 'ANIMI 08 3723 DEST ECOASSIS',
 		credit: '24861.70',
 		debit: '0.00',
-		nomFichier: '2023_01\\20230106_17_03_54.pdf',
+		nomFichier: '',
 		statut: 'Enregistrer (reste au même stade)',
 	},
 ]
