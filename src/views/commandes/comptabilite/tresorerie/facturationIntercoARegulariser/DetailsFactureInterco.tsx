@@ -11,44 +11,58 @@ interface ILocationState {
 	state: {
 		fullRowDetails: {
 			cle: string
-			dateSaisie: string
 			societe: string
+			dateSaisie: string
 			dateEcheance: string
 			libelleCompteTiers: string
 			libelleEcriture: string
+			libelleEcritureAnnee: string
+			libelleEcritureMois: string
+			libelleEcriturePrefixe: string
+			libelleEcritureTrimestre: string
+			libelleEcritureBeneficiaire: string
 			credit: string
 			debit: string
-			nomFichier?: string
 			rubriqueTreso: string
+			nomFichier?: string
+			dateOrdo: string
+			no_compte_banque: string
+			banqueReglement: string
 			modeReglement: string
-			noCompteBanque: string
 			statut: string
-			commentaire: string
+			refSourceTiers: string
 		}
 	}
 }
 
 interface RowDetails {
 	cle: string
-	dateSaisie: string
 	societe: string
+	dateSaisie: string
 	dateEcheance: string
 	libelleCompteTiers: string
 	libelleEcriture: string
+	libelleEcritureAnnee: string
+	libelleEcritureMois: string
+	libelleEcriturePrefixe: string
+	libelleEcritureTrimestre: string
+	libelleEcritureBeneficiaire: string
 	credit: string
 	debit: string
-	nomFichier?: string
 	rubriqueTreso: string
+	nomFichier?: string
+	dateOrdo: string
+	no_compte_banque: string
+	banqueReglement: string
 	modeReglement: string
-	noCompteBanque: string
 	statut: string
-	commentaire: string
+	refSourceTiers: string
 }
 
 const DetailsFactureInterco: React.FC = () => {
 	const navigate = useNavigate()
 	const location = useLocation() as ILocationState
-
+	const [modePaiement, setModePaiement] = useState<string>('')
 	const [courrier, setCourrier] = useState<string | null>(null)
 	const [isPdfLoaded, setIsPdfLoaded] = useState<boolean>(true)
 	const [details, setDetails] = useState<RowDetails | null>(null)
@@ -132,6 +146,9 @@ const DetailsFactureInterco: React.FC = () => {
 	if (!details) {
 		return <p>Aucune facture disponible pour la clé sélectionnée.</p>
 	}
+
+	console.log('détails facture interco', details)
+	
 
 	return (
 		<>
@@ -254,21 +271,59 @@ const DetailsFactureInterco: React.FC = () => {
 									/>
 								</div>
 							</div>
-
 							<div>
-								<strong>Mode Règlement :</strong>
-								<select
-									value={details.modeReglement || ''}
-									onChange={(e) => setDetails({ ...details, modeReglement: e.target.value })}
-								>
-									<option value=''>Choisir</option>
-									<option value='PRELEV'>Prélèvement</option>
-									<option value='CHEQUE'>Chèque</option>
-									<option value='VIR'>Virement</option>
-								</select>
+								<strong>Crédit :</strong>{' '}
+								<input
+									type='number'
+									value={parseFloat(details.credit.replace(/\s/g, '').replace(',', '.'))}
+									step='0.01'
+									onChange={(e) => setDetails({ ...details, credit: e.target.value })}
+								/>
 							</div>
 							<div>
-								<strong>Banq. Règlement :</strong> {details.noCompteBanque || 'Non défini'}
+								<strong>Débit :</strong>{' '}
+								<input
+									type='number'
+									value={parseFloat(details.debit.replace(/\s/g, '').replace(',', '.'))}
+									step='0.01'
+									onChange={(e) => setDetails({ ...details, debit: e.target.value })}
+								/>
+							</div>
+							<div>
+								<strong>Mode règlement :</strong>
+								<div className='modeReglement'>
+									<Button
+										props={{
+											style: modePaiement === 'PRELEV' ? 'blue' : 'grey',
+											text: 'PRELEV',
+											type: 'button',
+											onClick: () => setModePaiement('PRELEV'),
+										}}
+									/>
+									<Button
+										props={{
+											style: modePaiement === 'CHEQUE' ? 'blue' : 'grey',
+											text: 'CHEQUE',
+											type: 'button',
+											onClick: () => setModePaiement('CHEQUE'),
+										}}
+									/>
+									<Button
+										props={{
+											style: modePaiement === 'VIR' ? 'blue' : 'grey',
+											text: 'VIR',
+											type: 'button',
+											onClick: () => setModePaiement('VIR'),
+										}}
+									/>
+								</div>
+							</div>
+							<div>
+								<strong>Banq. règlement :</strong>{' '}
+								<select value={''} onChange={(e) => setDetails({ ...details, noCompteBanque: e.target.value })}>
+									<option value='000257117126 - SOCIETE GENERALE'>000257117126 - SOCIETE GENERALE</option>
+									<option value='000257117127 - BNP PARIBAS'>000257117127 - BNP PARIBAS</option>
+								</select>
 							</div>
 							<div>
 								<strong>TVA 20% :</strong> {details.tva20 || 'Non défini'}
