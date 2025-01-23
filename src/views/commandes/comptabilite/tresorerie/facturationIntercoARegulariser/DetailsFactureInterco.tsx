@@ -4,17 +4,15 @@ import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
 import ModalCourriers from '../previsionAOrdonnancer/ModalCourriers.tsx'
-import ModalTiers from '../previsionAValider/ModalTiers.tsx'
-import AddTiersModal from '../previsionAValider/AddTiersModal.tsx'
 import { keepTwoDecimals, convertENDateToFr, formatDateToHtml } from '../../../../../utils/scripts/utils.ts'
 import './detailsFactureInterco.scss'
 
 interface ILocationState {
 	state: {
 		fullRowDetails: {
-			societe: string
 			cle: string
 			dateSaisie: string
+			societe: string
 			dateEcheance: string
 			libelleCompteTiers: string
 			libelleEcriture: string
@@ -31,9 +29,9 @@ interface ILocationState {
 }
 
 interface RowDetails {
-	societe: string
 	cle: string
 	dateSaisie: string
+	societe: string
 	dateEcheance: string
 	libelleCompteTiers: string
 	libelleEcriture: string
@@ -80,9 +78,9 @@ const DetailsFactureInterco: React.FC = () => {
 		const rowData = location?.state?.fullRowDetails
 		if (rowData) {
 			const formattedDetails: RowDetails = {
-				societe: rowData.societe || 'Non défini',
 				cle: rowData.cle || 'Non défini',
 				dateSaisie: rowData.dateSaisie ? convertENDateToFr(rowData.dateSaisie) : 'Non défini',
+				societe: rowData.societe || 'Non défini',
 				dateEcheance: rowData.dateEcheance ? formatDateToHtml(rowData.dateEcheance) : 'Non défini',
 				libelleCompteTiers: rowData.libelleCompteTiers || 'Non défini',
 				libelleEcriture: rowData.libelleEcriture || 'Non défini',
@@ -169,7 +167,7 @@ const DetailsFactureInterco: React.FC = () => {
 									}}
 								/>
 							</div>
-							Facture {details.cle}{' '}
+							Prévision {details.cle}{' '}
 						</h3>
 						{modalStates.isModalOpen && (
 							<ModalCourriers
@@ -181,20 +179,29 @@ const DetailsFactureInterco: React.FC = () => {
 						)}
 						<div className='detailsWrapper'>
 							<div>
-								<strong>Société :</strong> {details.societe || 'Non défini'}
-							</div>
-							<div>
-								<strong>Code :</strong> {details.cle || 'Non défini'}
-							</div>
-							<div>
 								<strong>Date saisie :</strong> {details.dateSaisie || 'Non défini'}
 							</div>
 							<div>
-								<strong>Date échéance :</strong> {details.dateEcheance || 'Non défini'}
+								<strong>Société :</strong> {details.societe || 'Non défini'}
 							</div>
 							<div>
-								<strong>Fournisseur :</strong> {details.libelleCompteTiers || 'Non défini'}
+								<strong>Tiers :</strong> {details.libelleCompteTiers || 'Non défini'}
 							</div>
+							<div>
+								<strong>Rubrique :</strong>
+								<select
+									value={details.rubriqueTreso || ''}
+									onChange={(e) => setDetails({ ...details, rubriqueTreso: e.target.value })}
+								>
+									<option value=''>Choisir</option>
+									{rubriques.map((rubrique) => (
+										<option key={rubrique.cle} value={rubrique.cle}>
+											{rubrique.libelle}
+										</option>
+									))}
+								</select>
+							</div>
+
 							<div className='libelleWrapper'>
 								<div className='libelleTitle'>
 									<strong>Libellé :</strong>
@@ -247,20 +254,7 @@ const DetailsFactureInterco: React.FC = () => {
 									/>
 								</div>
 							</div>
-							<div>
-								<strong>Rubrique :</strong>
-								<select
-									value={details.rubriqueTreso || ''}
-									onChange={(e) => setDetails({ ...details, rubriqueTreso: e.target.value })}
-								>
-									<option value=''>Choisir</option>
-									{rubriques.map((rubrique) => (
-										<option key={rubrique.cle} value={rubrique.cle}>
-											{rubrique.libelle}
-										</option>
-									))}
-								</select>
-							</div>
+
 							<div>
 								<strong>Mode Règlement :</strong>
 								<select
@@ -277,10 +271,31 @@ const DetailsFactureInterco: React.FC = () => {
 								<strong>Banq. Règlement :</strong> {details.noCompteBanque || 'Non défini'}
 							</div>
 							<div>
-								<strong>Statut :</strong> {details.statut || 'Non défini'}
+								<strong>TVA 20% :</strong> {details.tva20 || 'Non défini'}
 							</div>
 							<div>
-								<strong>Commentaire :</strong> {details.commentaire || 'Non défini'}
+								<strong>Date échéance :</strong> {details.dateEcheance || 'Non défini'}
+							</div>
+							<div>
+								<strong>Date ordo :</strong> {details.dateOrdo || 'Non défini'}
+							</div>
+							<div>
+								<strong>Statut :</strong>
+								<select
+									value={details.statut || ''}
+									onChange={(e) => setDetails({ ...details, statut: e.target.value })}
+								>
+									<option value='A REGULARISER'>Mise en paiement à régulariser</option>
+									<option value='ORDO'>Prévision ordonnancée</option>
+								</select>
+							</div>
+							<div>
+								<strong>Commentaire :</strong>
+								<input
+									type='text'
+									value={details.commentaire || ''}
+									onChange={(e) => setDetails({ ...details, commentaire: e.target.value })}
+								/>
 							</div>
 						</div>
 						<div className='buttonWrapper'>
