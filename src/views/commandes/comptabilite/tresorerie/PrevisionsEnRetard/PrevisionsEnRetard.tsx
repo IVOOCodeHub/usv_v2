@@ -65,9 +65,10 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 
 				return [
 					data.cle || 'Non défini',
-					data.dateEcheance ? convertENDateToFr(data.dateEcheance.split('/').reverse().join('-')) : 'Non défini',
 					data.dateOrdo ? convertENDateToFr(data.dateOrdo.split('/').reverse().join('-')) : 'Non défini',
+					data.dateEcheance ? convertENDateToFr(data.dateEcheance.split('/').reverse().join('-')) : 'Non défini',
 					data.libelleCompteTiers ?? 'Non défini',
+					data.rubriqueTreso ?? 'Non défini',
 					data.libelleEcriture ?? 'Non défini',
 					keepTwoDecimals(credit !== 0 ? credit : debit !== 0 ? -debit : 0),
 					data.nomFichier ?? 'Aucun fichier joint', // Added "Courrier" column
@@ -118,7 +119,7 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 
 	// Prepare table data
 	const tableData = {
-		tableHead: ['Code', 'Échéance', 'Ordo', 'Fournisseur', 'Libellé', 'Montant', 'Courrier'], // Updated table headers
+		tableHead: ['Code', 'Date saisie', 'Échéance', 'Fournisseur', 'Rubrique', 'libellé', 'Montant', 'Courrier'], // Updated table headers
 		tableBody: bodyArray,
 	}
 

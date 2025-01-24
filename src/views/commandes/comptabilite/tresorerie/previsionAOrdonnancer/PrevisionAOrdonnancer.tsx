@@ -4,7 +4,7 @@ import { ReactElement, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IPrevision } from '../../../../../utils/types/prevision.interface.ts'
 import Header from '../../../../../components/header/Header'
-import NRTL from '../../../../../components/NRTL/NRTL'
+import Nrtl from '../../../../../components/NRTL/NRTL'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
 import DateRange from '../../../../../components/dateRange/DateRange'
@@ -167,7 +167,7 @@ const PrevisionAOrdonnancer: () => ReactElement = (): ReactElement => {
 							/>
 						</div>
 					</div>
-					<NRTL
+					<Nrtl
 						datas={tableData}
 						headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
 						headerHoverBackgroundColor='#1092B8'
