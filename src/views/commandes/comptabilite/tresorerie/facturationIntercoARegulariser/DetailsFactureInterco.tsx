@@ -4,6 +4,7 @@ import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
 import ModalCourriers from '../previsionAOrdonnancer/ModalCourriers.tsx'
+import ConfirmationModal from '../../../../../components/ConfirmationModal/ConfirmationModal.tsx'
 import { keepTwoDecimals, convertENDateToFr, formatDateToHtml } from '../../../../../utils/scripts/utils.ts'
 import './detailsFactureInterco.scss'
 
@@ -69,6 +70,7 @@ const DetailsFactureInterco: React.FC = () => {
 	const [modalStates, setModalStates] = useState({
 		isModalOpen: false,
 		isTiersModalOpen: false,
+		showModal: false,
 		isAddTiersModalOpen: false,
 	})
 
@@ -136,6 +138,17 @@ const DetailsFactureInterco: React.FC = () => {
 		})
 	}
 
+	const handleConfirm = () => {
+		setModalStates((prev) => ({ ...prev, showModal: false })) // Close the modal
+		if (details) {
+			navigate(`/commandes/tresorerie/etalement-prevision-tiers/${details.cle}`) // Navigate to EtalementPrevisionTiers.tsx
+		}
+	}
+
+	const handleCancel = () => {
+		setModalStates((prev) => ({ ...prev, showModal: false }))
+	}
+
 	// Cleanup on unmount
 	useEffect(() => {
 		return () => {
@@ -148,7 +161,6 @@ const DetailsFactureInterco: React.FC = () => {
 	}
 
 	console.log('détails facture interco', details)
-	
 
 	return (
 		<>
@@ -357,7 +369,32 @@ const DetailsFactureInterco: React.FC = () => {
 							<Button
 								props={{
 									style: 'blue',
-									text: 'Valider',
+									text: 'Étalement',
+									type: 'button',
+									onClick: () => toggleModal('showModal'),
+								}}
+							/>
+							<Button
+								props={{
+									style: 'blue',
+									text: 'Supprimer',
+									type: 'button',
+									onClick: () => alert('Prévision supprimée !'),
+								}}
+							/>
+						</div>
+						{modalStates.showModal && (
+							<ConfirmationModal
+								message='Confirmez-vous l’étalement de cette prévision par la création d’un échéancier ?'
+								onConfirm={handleConfirm}
+								onCancel={handleCancel}
+							/>
+						)}
+						<div className='buttonWrapper'>
+							<Button
+								props={{
+									style: 'blue',
+									text: 'Ok',
 									type: 'button',
 									onClick: () => alert('Facture validée'),
 								}}
@@ -365,7 +402,7 @@ const DetailsFactureInterco: React.FC = () => {
 							<Button
 								props={{
 									style: 'grey',
-									text: 'Retour',
+									text: 'Annuler',
 									type: 'button',
 									onClick: () => navigate(-1),
 								}}
