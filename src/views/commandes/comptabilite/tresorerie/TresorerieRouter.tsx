@@ -19,6 +19,7 @@ import ModifyTiersPage from './previsionAOrdonnancer/ModifyTiersPage.tsx'
 import EtalementPrevisionTiers from './previsionAOrdonnancer/EtalementPrevisionTiers.tsx'
 import FacturationIntercoARegulariser from './facturationIntercoARegulariser/FacturationIntercoARegulariser.tsx'
 import DetailsFactureInterco from './facturationIntercoARegulariser/DetailsFactureInterco.tsx'
+import PrevisionsEnRetard from './PrevisionsEnRetard/PrevisionsEnRetard.tsx'
 
 export default function TresorerieRouter(): ReactElement {
 	return (
@@ -39,6 +40,7 @@ export default function TresorerieRouter(): ReactElement {
 			<Route path={'/etalement-prevision-tiers/:tiersId'} element={<EtalementPrevisionTiers />} />
 			<Route path={'/facturation_interco_a_regulariser'} element={<FacturationIntercoARegulariser />} />
 			<Route path={'/details_facture_interco'} element={<DetailsFactureInterco />} />
+			<Route path={'/prevision_en_retard'} element={<PrevisionsEnRetard />} />
 		</Routes>
 	)
 }

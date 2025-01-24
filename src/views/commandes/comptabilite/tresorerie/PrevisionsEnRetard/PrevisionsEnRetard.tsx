@@ -10,56 +10,12 @@ import Footer from '../../../../../components/footer/Footer'
 import DateRange from '../../../../../components/dateRange/DateRange'
 // import { UserContext } from '../../../../../context/userContext.tsx'
 // import { LoaderContext } from '../../../../../context/loaderContext.tsx'
+import { mockedPrevisions } from '../previsionAValider/mock/mockPrevValider.ts' // Import the mocked data
 
 const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 	// Contexts for user data and loading state
 	// const { userCredentials } = useContext(UserContext)
 	// const { startLoading, stopLoading } = useContext(LoaderContext)
-
-	// Mocked data for invoices in late previsions
-	const mockedPrevisions: IPrevision[] = [
-		{
-			cle: 'INV001',
-			dateEcheance: '2023-10-01',
-			dateOrdo: '2023-09-25',
-			libelleCompteTiers: 'Supplier A',
-			libelleEcriture: 'Invoice for services',
-			societe: 'Company X',
-			credit: '1000.00',
-			debit: '0.00',
-		},
-		{
-			cle: 'INV002',
-			dateEcheance: '2023-09-15',
-			dateOrdo: '2023-09-10',
-			libelleCompteTiers: 'Supplier B',
-			libelleEcriture: 'Invoice for goods',
-			societe: 'Company Y',
-			credit: '0.00',
-			debit: '500.00',
-		},
-		{
-			cle: 'INV003',
-			dateEcheance: '2023-08-30',
-			dateOrdo: '2023-08-25',
-			libelleCompteTiers: 'Supplier C',
-			libelleEcriture: 'Invoice for maintenance',
-			societe: 'Company Z',
-			credit: '750.00',
-			debit: '0.00',
-		},
-	]
-
-	// State for table data and filters
-	const [bodyArray, setBodyArray] = useState<string[][]>([])
-	const [filters, setFilters] = useState({
-		minDate: getDefaultDateMin(),
-		maxDate: getDefaultDateMax(),
-		cle: '',
-	})
-
-	// Navigation for redirection
-	const navigate = useNavigate()
 
 	// Default date values
 	const getDefaultDateMin = (): string => {
@@ -74,6 +30,18 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 		const lastDayCurrentYear = new Date(Date.UTC(now.getFullYear(), 11, 31, 23, 59, 59))
 		return lastDayCurrentYear.toISOString().split('T')[0]
 	}
+
+	// State for table data and filters
+	const [bodyArray, setBodyArray] = useState<string[][]>([])
+	const [filters, setFilters] = useState({
+		minDate: getDefaultDateMin(),
+		maxDate: getDefaultDateMax(),
+		cle: '',
+		societe: '', // Added société filter
+	})
+
+	// Navigation for redirection
+	const navigate = useNavigate()
 
 	// Check if a date range is valid
 	const isDateRangeValid = (min: string, max: string): boolean => {
@@ -90,6 +58,7 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 	const convertToArray = (datas: IPrevision[]): string[][] =>
 		datas
 			.filter((data) => !filters.cle || data.cle.includes(filters.cle)) // Filter by "Code"
+			.filter((data) => !filters.societe || data.societe === filters.societe) // Filter by "Société"
 			.map((data) => {
 				const credit = data.credit ? parseFloat(data.credit) : 0
 				const debit = data.debit ? parseFloat(data.debit) : 0
@@ -100,8 +69,8 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 					data.dateOrdo ? convertENDateToFr(data.dateOrdo.split('/').reverse().join('-')) : 'Non défini',
 					data.libelleCompteTiers ?? 'Non défini',
 					data.libelleEcriture ?? 'Non défini',
-					data.societe || 'Non défini',
 					keepTwoDecimals(credit !== 0 ? credit : debit !== 0 ? -debit : 0),
+					data.nomFichier ?? 'Aucun fichier joint', // Added "Courrier" column
 				]
 			})
 
@@ -149,9 +118,12 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 
 	// Prepare table data
 	const tableData = {
-		tableHead: ['Code', 'Échéance', 'Ordo', 'Fournisseur', 'Libellé', 'Destinataire', 'Montant'],
+		tableHead: ['Code', 'Échéance', 'Ordo', 'Fournisseur', 'Libellé', 'Montant', 'Courrier'], // Updated table headers
 		tableBody: bodyArray,
 	}
+
+	// Unique sociétés for the dropdown
+	const societes = Array.from(new Set(mockedPrevisions.map((prev) => prev.societe)))
 
 	return (
 		<>
@@ -160,6 +132,21 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 				<section className='previsionsEnRetard__bottomSection'>
 					<div className='filtersWrapper'>
 						<DateRange onFilter={handleDateFilter} defaultMinDate={filters.minDate} defaultMaxDate={filters.maxDate} />
+						<div className='societeSelectWrapper'>
+							<label htmlFor='societe'>Société :</label>
+							<select
+								name='societe'
+								value={filters.societe}
+								onChange={(e) => setFilters({ ...filters, societe: e.target.value })}
+							>
+								<option value=''>Choisir une société</option>
+								{societes.map((societe) => (
+									<option key={societe} value={societe}>
+										{societe}
+									</option>
+								))}
+							</select>
+						</div>
 						<div className='codeInputWrapper'>
 							<label htmlFor='cle'>Code :</label>
 							<input
@@ -171,19 +158,23 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 							/>
 						</div>
 					</div>
-					<NRTL
-						datas={tableData}
-						headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
-						headerHoverBackgroundColor='#1092B8'
-						showPreviousNextButtons
-						enableColumnSorting
-						showItemsPerPageSelector
-						showPagination
-						itemsPerPageOptions={[5, 25, 50]}
-						filterableColumns={[false, false, false, true, false, true, false]}
-						language='fr'
-						onRowClick={(index: number, rowData?: string[]) => handleRowClick(index, rowData)}
-					/>
+					{!filters.societe ? (
+						<div className='no-societe-message'>Merci de choisir une société</div>
+					) : (
+						<NRTL
+							datas={tableData}
+							headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
+							headerHoverBackgroundColor='#1092B8'
+							showPreviousNextButtons
+							enableColumnSorting
+							showItemsPerPageSelector
+							showPagination
+							itemsPerPageOptions={[5, 25, 50]}
+							filterableColumns={[false, false, false, true, false, false, false]} // Updated filterable columns
+							language='fr'
+							onRowClick={(index: number, rowData?: string[]) => handleRowClick(index, rowData)}
+						/>
+					)}
 					<div className='greyButtonWrapper'>
 						<Button props={{ style: 'grey', text: 'Retour', type: 'button', onClick: () => navigate(-1) }} />
 					</div>
