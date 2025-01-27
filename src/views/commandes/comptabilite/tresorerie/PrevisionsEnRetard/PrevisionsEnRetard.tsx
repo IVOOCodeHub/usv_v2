@@ -12,6 +12,30 @@ import DateRange from '../../../../../components/dateRange/DateRange'
 // import { LoaderContext } from '../../../../../context/loaderContext.tsx'
 import { mockedPrevisions } from '../previsionAValider/mock/mockPrevValider.ts' // Import the mocked data
 
+interface RowDetails {
+	cle: string
+	societe: string
+	dateSaisie: string
+	dateEcheance: string
+	libelleCompteTiers: string
+	libelleEcriture: string
+	libelleEcritureAnnee: string
+	libelleEcritureMois: string
+	libelleEcriturePrefixe: string
+	libelleEcritureTrimestre: string
+	libelleEcritureBeneficiaire: string
+	credit: string
+	debit: string
+	montant: string
+	rubriqueTreso: string
+	nomFichier?: string
+	dateOrdo: string
+	// no_compte_banque: string
+	modeReglement: string
+	statut: string
+	refSourceTiers: string
+}
+
 const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 	// Contexts for user data and loading state
 	// const { userCredentials } = useContext(UserContext)
@@ -29,6 +53,35 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 		const now = new Date()
 		const lastDayCurrentYear = new Date(Date.UTC(now.getFullYear(), 11, 31, 23, 59, 59))
 		return lastDayCurrentYear.toISOString().split('T')[0]
+	}
+
+	const getRowDetails = (cle: string): RowDetails | undefined => {
+		const matchedPrevision = mockedPrevisions.find((prevision) => prevision.cle === cle)
+		if (!matchedPrevision) return undefined
+
+		return {
+			societe: matchedPrevision.societe ?? 'Non défini',
+			cle: matchedPrevision.cle || 'Non défini',
+			dateSaisie: matchedPrevision.dateSaisie ?? 'Non défini',
+			dateEcheance: matchedPrevision.dateEcheance ?? 'Non défini',
+			libelleCompteTiers: matchedPrevision.libelleCompteTiers ?? 'Non défini',
+			libelleEcriture: matchedPrevision.libelleEcriture ?? 'Non défini',
+			libelleEcritureBeneficiaire: matchedPrevision.libelleEcritureBeneficiaire ?? 'Non défini',
+			libelleEcritureTrimestre: matchedPrevision.libelleEcritureTrimestre ?? 'Non défini',
+			libelleEcritureAnnee: matchedPrevision.libelleEcritureAnnee ?? 'Non défini',
+			libelleEcritureMois: matchedPrevision.libelleEcritureMois ?? 'Non défini',
+			libelleEcriturePrefixe: matchedPrevision.libelleEcriturePrefixe ?? 'Non défini',
+			dateOrdo: matchedPrevision.dateOrdo ?? 'Non défini',
+			// no_compte_banque: matchedPrevision.no_compte_banque ?? 'Non défini',
+			modeReglement: matchedPrevision.modeReglement ?? 'Non défini',
+			statut: matchedPrevision.statut ?? 'Non défini',
+			refSourceTiers: matchedPrevision.refSourceTiers ?? 'Non défini',
+			credit: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
+			debit: matchedPrevision.debit ? parseFloat(matchedPrevision.debit).toFixed(2) : '0.00',
+			montant: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
+			rubriqueTreso: matchedPrevision.rubriqueTreso ?? 'Non défini',
+			nomFichier: matchedPrevision.nomFichier ?? 'Non défini',
+		}
 	}
 
 	// State for table data and filters
@@ -86,8 +139,19 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 
 	// Handle row click for navigation
 	const handleRowClick = (index: number, rowData?: string[]): void => {
-		if (rowData) {
-			navigate('/commandes/tresorerie/details_prevision_retard', { state: { rowData } })
+		if (rowData && rowData[0]) {
+			const cle = rowData[0] // Assuming the key is in the second column of the row
+			const rowDetails = getRowDetails(cle) // Fetch full row details using the key
+
+			if (rowDetails) {
+				console.log('RowDetails:', rowDetails)
+
+				navigate('/commandes/tresorerie/details_prevision_retard', {
+					state: { fullRowDetails: rowDetails }, // Pass full row details to the details page
+				})
+			} else {
+				console.error('Aucune prévision correspondante trouvée pour la clé:', cle)
+			}
 		} else {
 			console.warn('No data available for this row.')
 		}
