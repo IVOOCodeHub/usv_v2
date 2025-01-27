@@ -9,7 +9,8 @@ import ModalTiers from '../previsionAValider/ModalTiers.tsx'
 import AddTiersModal from '../previsionAValider/AddTiersModal.tsx'
 import VisualisationPrevisionsTiers from '../previsionAOrdonnancer/VisualisationPrevisionsTiers.tsx'
 import { keepTwoDecimals, convertENDateToFr, formatDateToHtml } from '../../../../../utils/scripts/utils.ts'
-import '../previsionAOrdonnancer/previsionAOrdonnancer.scss'
+// import '../previsionAOrdonnancer/previsionAOrdonnancer.scss'
+import './previsionsEnRetard.scss'
 
 interface ILocationState {
 	state: {

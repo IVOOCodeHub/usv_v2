@@ -132,3 +132,388 @@
         height: 3em;
     }
 }
+
+// Styles for the details page
+#detailsPrevisionOrdo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
+    background: #f2f2f2;
+
+    .detailsContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1200px;
+        height: 80dvh;
+        margin: 2rem auto;
+        gap: 2rem;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            height: auto;
+            gap: 1rem;
+        }
+
+        .leftSide,
+        .rightSide {
+            flex: 1;
+            min-width: 0; // Allow flex items to shrink
+            overflow: auto; // Add scroll if content overflows
+        }
+
+        .leftSide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border: 1px solid #36395a;
+            padding: 1rem;
+
+            .courrierDisplay {
+                width: 100%;
+                height: 75dvh;
+                border: none;
+
+                @media (max-width: 768px) {
+                    height: 300px;
+                }
+            }
+        }
+
+        .rightSide {
+            background: #fff;
+            border: 1px solid #36395a;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+
+            h3 {
+                margin: 0;
+                font-size: 1.5rem;
+                color: #36395a;
+            }
+
+            .detailsWrapper {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                height: 60dvh;
+                overflow: auto; // Add scroll if content overflows
+
+                p {
+                    margin: 0;
+                    font-size: 1rem;
+                    color: #36395a;
+
+                    strong {
+                        color: #000;
+                    }
+                }
+            }
+
+            .buttonWrapper {
+                display: flex;
+                justify-content: space-between;
+                gap: 1rem;
+
+                @media (max-width: 768px) {
+                    flex-direction: column;
+                }
+
+                button {
+                    flex: 1;
+                    min-width: 120px;
+                }
+            }
+
+            .prevCourButtonHidden {
+                display: none;
+            }
+
+            .prevCourButtonActive {
+                display: flex;
+            }
+
+            .libelleWrapper {
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: flex-start;
+                overflow: visible;
+                gap: 1em;
+
+                .libelleTitle {
+                    display: flex;
+                    width: 100%;
+                    justify-content: flex-start;
+                    align-items: center;
+                    gap: 1em;
+                    font-weight: bold;
+                    font-size: 1.2em;
+                    color: #36395a;
+                }
+            }
+
+            .ValidLibelleWrapper {
+                display: flex;
+                width: 100%;
+                flex-wrap: wrap;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                gap: 1em;
+
+                @media (max-width: 768px) {
+                    flex-direction: column;
+                }
+
+                select,
+                input {
+                    flex: 1 1 auto;
+                    /* Allow elements to grow and shrink */
+                    min-width: 150px;
+                    /* Set a minimum width to prevent truncation */
+                    max-width: 200px;
+                    /* Set a maximum width to prevent over-stretching */
+                    white-space: normal;
+                    /* Allow text to wrap */
+                }
+            }
+
+            /* Additional media query for 1440px width */
+            @media (min-width: 1440px) {
+                .ValidLibelleWrapper {
+                    gap: 2em;
+                    /* Increase gap for wider screens */
+                }
+
+                .ValidLibelleWrapper select,
+                .ValidLibelleWrapper input {
+                    max-width: 250px;
+                    /* Adjust max-width for wider screens */
+                }
+            }
+        }
+    }
+}
+
+.modeReglement {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+}
+
+.no-scroll {
+    overflow: hidden;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modalContent {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.modalCloseButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #36395a;
+    cursor: pointer;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: #000;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.tiersWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.visualisation-previsions-tiers {
+    padding: 20px;
+    position: relative;
+
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: white;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .header-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        margin-bottom: 20px;
+    }
+
+    .table-subtitle {
+        margin: 20px 0;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+    .offline-warning {
+        background-color: #ffcc00; // Yellow background for warning
+        padding: 1em;
+        margin-bottom: 1em;
+        border-radius: 4px;
+        text-align: center;
+        font-weight: bold;
+        color: #000;
+    }
+
+    .nrtl-container {
+        max-height: 300px;
+        overflow-y: auto;
+        margin-bottom: 30px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
+
+    .nrtl-table thead {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: #84cde4;
+    }
+
+    .nrtl-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .nrtl-table th,
+    .nrtl-table td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .nrtl-table th {
+        font-weight: bold;
+        color: #36395a;
+    }
+
+    .modalCloseButton {
+        position: absolute;
+        top: 0rem;
+        right: 0rem;
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #36395a;
+        cursor: pointer;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: #000;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.no-data-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #36395a;
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+.nrtl-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+#NRTL .tableHeader .selectContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0 1rem;
+}
+
+#NRTL .tableFooter {
+    margin: 1em 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+}

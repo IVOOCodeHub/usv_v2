@@ -1,10 +1,11 @@
 import './previsionsEnRetard.scss'
 import { convertFrDateToServerDate, convertENDateToFr } from '../../../../../utils/scripts/utils.ts'
-import { ReactElement, useContext, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
+// import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IPrevision } from '../../../../../utils/types/prevision.interface.ts'
 import Header from '../../../../../components/header/Header'
-import NRTL from '../../../../../components/NRTL/NRTL'
+import Nrtl from '../../../../../components/NRTL/NRTL'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
 import DateRange from '../../../../../components/dateRange/DateRange'
@@ -116,6 +117,12 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 				const credit = data.credit ? parseFloat(data.credit) : 0
 				const debit = data.debit ? parseFloat(data.debit) : 0
 
+				let montant = 0;
+				if (credit !== 0) {
+					montant = credit;
+				} else if (debit !== 0) {
+					montant = -debit;
+				}
 				return [
 					data.cle || 'Non défini',
 					data.dateOrdo ? convertENDateToFr(data.dateOrdo.split('/').reverse().join('-')) : 'Non défini',
@@ -123,7 +130,7 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 					data.libelleCompteTiers ?? 'Non défini',
 					data.rubriqueTreso ?? 'Non défini',
 					data.libelleEcriture ?? 'Non défini',
-					keepTwoDecimals(credit !== 0 ? credit : debit !== 0 ? -debit : 0),
+					keepTwoDecimals(montant),
 					data.nomFichier ?? 'Aucun fichier joint', // Added "Courrier" column
 				]
 			})
@@ -139,7 +146,7 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 
 	// Handle row click for navigation
 	const handleRowClick = (index: number, rowData?: string[]): void => {
-		if (rowData && rowData[0]) {
+		if (rowData?.[0]) {
 			const cle = rowData[0] // Assuming the key is in the second column of the row
 			const rowDetails = getRowDetails(cle) // Fetch full row details using the key
 
@@ -173,7 +180,7 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 	// Update table data when filters change
 	useEffect(() => {
 		const filteredData = mockedPrevisions.filter((data) => {
-			const dateEcheance = new Date(data.dateEcheance)
+			const dateEcheance = data.dateEcheance ? new Date(data.dateEcheance) : new Date()
 			const minDate = new Date(filters.minDate)
 			const maxDate = new Date(filters.maxDate)
 			return dateEcheance >= minDate && dateEcheance <= maxDate
@@ -226,7 +233,7 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 					{!filters.societe ? (
 						<div className='no-societe-message'>Merci de choisir une société</div>
 					) : (
-						<NRTL
+						<Nrtl
 							datas={tableData}
 							headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
 							headerHoverBackgroundColor='#1092B8'
