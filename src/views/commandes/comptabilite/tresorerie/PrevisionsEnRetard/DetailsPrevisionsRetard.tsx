@@ -495,17 +495,7 @@ const DetailsPrevisionsRetard: React.FC = () => {
 									onClick: () => alert('Prévision validée'),
 								}}
 							/>
-							<Button
-								props={{
-									style: 'blue',
-									text: 'Ok + Duplication',
-									type: 'button',
-									onClick: () =>
-										navigate(`/commandes/tresorerie/dupliquer_details_prevision_retard/`, {
-											state: { fullRowDetails: details },
-										}),
-								}}
-							/>
+
 							<Button props={{ style: 'grey', text: 'Annuler', type: 'button', onClick: () => navigate(-1) }} />
 						</div>
 					</div>
