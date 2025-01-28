@@ -119,12 +119,10 @@ const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
 				return [
 					data.cle || 'Non défini',
 					data.dateOrdo ? convertENDateToFr(data.dateOrdo.split('/').reverse().join('-')) : 'Non défini',
-					data.dateEcheance ? convertENDateToFr(data.dateEcheance.split('/').reverse().join('-')) : 'Non défini',
 					data.libelleCompteTiers ?? 'Non défini',
 					data.rubriqueTreso ?? 'Non défini',
 					data.libelleEcriture ?? 'Non défini',
 					keepTwoDecimals(credit !== 0 ? credit : debit !== 0 ? -debit : 0),
-					data.nomFichier ?? 'Aucun fichier joint', // Added "Courrier" column
 				]
 			})
 
@@ -183,7 +181,7 @@ const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
 
 	// Prepare table data
 	const tableData = {
-		tableHead: ['Code', 'Date saisie', 'Échéance', 'Fournisseur', 'Rubrique', 'libellé', 'Montant', 'Courrier'], // Updated table headers
+		tableHead: ['Code', 'Date ordo.', 'Fournisseur', 'Rubrique', 'libellé', 'Montant'], // Updated table headers
 		tableBody: bodyArray,
 	}
 
@@ -192,7 +190,7 @@ const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
 
 	return (
 		<>
-			<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | PRÉVISIONS ORDO SANS COURRIER' }} />
+			<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | PRÉVISIONS ORDONNANCÉES SANS COURRIER' }} />
 			<main id='previsionOrdoSansCourrier'>
 				<section className='previsionOrdoSansCourrier__bottomSection'>
 					<div className='filtersWrapper'>
@@ -235,7 +233,7 @@ const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
 							showItemsPerPageSelector
 							showPagination
 							itemsPerPageOptions={[5, 25, 50]}
-							filterableColumns={[false, false, false, true, false, false, false]} // Updated filterable columns
+							filterableColumns={[false, false, false, false, false, false]} // Updated filterable columns
 							language='fr'
 							onRowClick={(index: number, rowData?: string[]) => handleRowClick(index, rowData)}
 						/>
