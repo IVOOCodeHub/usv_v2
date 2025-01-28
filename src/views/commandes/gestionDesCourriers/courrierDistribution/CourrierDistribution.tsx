@@ -43,139 +43,154 @@ function CourrierDistribution(): ReactElement {
             </section>
             <section className={"rightContainer"}>
               <form>
-                <div className={"inputWrapper"}>
-                  <label htmlFor={'naturePiece'}>Nature Pièce :</label>
-                  <Select
-                      id={'naturePiece'}
-                    options={[
-                      { value: "", label: "Choisir" },
-                      { value: "E", label: "FactureF" },
-                    ]}
-                  />
+                <div className={"formWrapper"}>
+                  <div className={"leftColumn"}>
+                    <div className={"inputWrapper"}>
+                      <label htmlFor={"naturePiece"}>Nature Pièce :</label>
+                      <Select
+                        id={"naturePiece"}
+                        options={[
+                          { value: "", label: "Choisir" },
+                          { value: "E", label: "FactureF" },
+                        ]}
+                      />
+                    </div>
+                    <div className={"inputWrapper"}>
+                      <label htmlFor={"receptionSite"}>
+                        Site de réception :
+                      </label>
+                      <Select
+                        id={"receptionSite"}
+                        options={[
+                          { value: "", label: "Choisir" },
+                          { value: "rochefort", label: "Rochefort" },
+                          { value: "laRochelle", label: "La Rochelle" },
+                        ]}
+                      />
+                    </div>
+                    <div className={"inputWrapper"}>
+                      <label htmlFor={"canalReception"}>
+                        Canal d'arrivée :
+                      </label>
+                      <Select
+                        id={"canalReception"}
+                        options={[
+                          { value: "", label: "Choisir" },
+                          { value: "courrier", label: "Courrier" },
+                        ]}
+                      />
+                    </div>
+                    <div className={"inputWrapper"}>
+                      <label htmlFor={"emetteur"}>Émetteur :</label>
+                      <Select
+                        id={"emetteur"}
+                        options={[
+                          { value: "", label: "Choisir" },
+                          { value: "1", label: "Greffe du tribunal" },
+                        ]}
+                      />
+                    </div>
+                    <div className={"inputWrapper"}>
+                      <label htmlFor={"destinataire"}>Destinataire :</label>
+                      <Select
+                        id={"destinataire"}
+                        options={[
+                          { value: "", label: "Choisir" },
+                          { value: "1", label: "IVOS" },
+                        ]}
+                      />
+                    </div>
+                    <div className={"inputWrapper"}>
+                      <label htmlFor={"serviceDestinataire"}>
+                        Service destinataire :
+                      </label>
+                      <Select
+                        id={"serviceDestinataire"}
+                        options={[
+                          { value: "", label: "Choisir" },
+                          { value: "1", label: "Finance (compta/tréso)" },
+                        ]}
+                      />
+                    </div>
+                    <div className={"inputWrapper"}>
+                      <label htmlFor={"datePiece"}>Date pièce :</label>
+                      <input id={"datePiece"} type={"date"} />
+                    </div>
+                    <div className={"inputWrapper"}>
+                      <label htmlFor={"refDoc"}>Référence du document :</label>
+                      <input id={"refDoc"} type={"text"} />
+                    </div>
+                  </div>
+                  <div className={"rightColumn"}>
+                    <div className={"inputWrapper"}>
+                      <label htmlFor={"saisirCompta"}>
+                        A saisir en compta :
+                      </label>
+                      <Select
+                        id={"saisirCompta"}
+                        options={[
+                          { value: "1", label: "Oui" },
+                          { value: "0", label: "Non" },
+                        ]}
+                      />
+                    </div>
+                    <div className={"inputWrapper"}>
+                      <label htmlFor={"action"}>Action :</label>
+                      <Select
+                        id={"action"}
+                        options={[
+                          { value: "0", label: "Choisir" },
+                          { value: "1", label: "A classer" },
+                        ]}
+                      />
+                    </div>
+                    <div className={"inputWrapper"}>
+                      <label htmlFor={"urgence"}>Urgence :</label>
+                      <Select
+                        id={"urgence"}
+                        options={[
+                          { value: "0", label: "Choisir" },
+                          { value: "1", label: "Normale" },
+                        ]}
+                      />
+                    </div>
+                    <div className={"inputWrapper"}>
+                      <label htmlFor={"comment"}>Commentaire :</label>
+                      <textarea id={"comment"}></textarea>
+                    </div>
+                    <div className={"inputWrapper"}>
+                      <label htmlFor={"copyTo"}>Copie à :</label>
+                      <Select
+                        id={"copyTo"}
+                        options={[
+                          { value: "0", label: "Choisir" },
+                          { value: "1", label: "Direction" },
+                        ]}
+                      />
+                    </div>
+                    <div className={"inputWrapper"}>
+                      <label htmlFor={"shareDrive"}>Partage drive :</label>
+                      <Select
+                        id={"shareDrive"}
+                        options={[
+                          { value: "1", label: "Oui" },
+                          { value: "0", label: "Non" },
+                        ]}
+                      />
+                    </div>
+                    <div className={"inputWrapper"}>
+                      <label htmlFor={"createTask"}>Tâche à créer :</label>
+                      <Button
+                        props={{
+                          style: "blue",
+                          text: "Créer tâche",
+                          type: "button",
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className={"inputWrapper"}>
-                  <label htmlFor={'receptionSite'}>Site de réception :</label>
-                  <Select
-                      id={'receptionSite'}
-                    options={[
-                      { value: "", label: "Choisir" },
-                      { value: "rochefort", label: "Rochefort" },
-                      { value: "laRochelle", label: "La Rochelle" },
-                    ]}
-                  />
-                </div>
-                <div className={"inputWrapper"}>
-                  <label htmlFor={'canalReception'}>Canal d'arrivée :</label>
-                  <Select
-                      id={'canalReception'}
-                    options={[
-                      { value: "", label: "Choisir" },
-                      { value: "courrier", label: "Courrier" },
-                    ]}
-                  />
-                </div>
-                <div className={"inputWrapper"}>
-                  <label htmlFor={'emetteur'}>Émetteur :</label>
-                  <Select
-                      id={'emetteur'}
-                    options={[
-                      { value: "", label: "Choisir" },
-                      { value: "1", label: "Greffe du tribunal" },
-                    ]}
-                  />
-                </div>
-                <div className={"inputWrapper"}>
-                  <label htmlFor={'destinataire'}>Destinataire :</label>
-                  <Select
-                      id={'destinataire'}
-                    options={[
-                      { value: "", label: "Choisir" },
-                      { value: "1", label: "IVOS" },
-                    ]}
-                  />
-                </div>
-                <div className={"inputWrapper"}>
-                  <label htmlFor={'serviceDestinataire'}>Service destinataire :</label>
-                  <Select
-                      id={'serviceDestinataire'}
-                    options={[
-                      { value: "", label: "Choisir" },
-                      { value: "1", label: "Finance (compta/tréso)" },
-                    ]}
-                  />
-                </div>
-                <div className={"inputWrapper"}>
-                  <label htmlFor={'datePiece'}>Date pièce :</label>
-                  <input id={'datePiece'} type={"date"} />
-                </div>
-                <div className={"inputWrapper"}>
-                  <label htmlFor={'refDoc'}>Référence du document :</label>
-                  <input id={'refDoc'} type={"text"} />
-                </div>
-                <div className={"inputWrapper"}>
-                  <label htmlFor={'saisirCompta'}>A saisir en compta :</label>
-                  <Select
-                      id={'saisirCompta'}
-                    options={[
-                      { value: "1", label: "Oui" },
-                      { value: "0", label: "Non" },
-                    ]}
-                  />
-                </div>
-                <div className={"inputWrapper"}>
-                  <label htmlFor={'action'}>Action :</label>
-                  <Select
-                      id={'action'}
-                    options={[
-                      { value: "0", label: "Choisir" },
-                      { value: "1", label: "A classer" },
-                    ]}
-                  />
-                </div>
-                <div className={"inputWrapper"}>
-                  <label htmlFor={'urgence'}>Urgence :</label>
-                  <Select
-                      id={'urgence'}
-                    options={[
-                      { value: "0", label: "Choisir" },
-                      { value: "1", label: "Normale" },
-                    ]}
-                  />
-                </div>
-                <div className={"inputWrapper"}>
-                  <label htmlFor={'comment'}>Commentaire :</label>
-                  <textarea id={'comment'}></textarea>
-                </div>
-                <div className={"inputWrapper"}>
-                  <label htmlFor={'copyTo'}>Copie à :</label>
-                  <Select
-                      id={'copyTo'}
-                    options={[
-                      { value: "0", label: "Choisir" },
-                      { value: "1", label: "Direction" },
-                    ]}
-                  />
-                </div>
-                <div className={"inputWrapper"}>
-                  <label htmlFor={'shareDrive'}>Partage drive :</label>
-                  <Select
-                      id={'shareDrive'}
-                    options={[
-                      { value: "1", label: "Oui" },
-                      { value: "0", label: "Non" },
-                    ]}
-                  />
-                </div>
-                <div className={"inputWrapper"}>
-                  <label htmlFor={'createTask'}>Tâche à créer :</label>
-                  <Button
-                    props={{
-                      style: "blue",
-                      text: "Créer tâche",
-                      type: "button",
-                    }}
-                  />
-                </div>
+
                 <div className={"buttonContainer"}>
                   <Button
                     props={{

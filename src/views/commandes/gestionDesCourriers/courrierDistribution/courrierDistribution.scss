@@ -1,4 +1,4 @@
-@use '../../../../utils/styles/mixins' as mixins;
+@use "../../../../utils/styles/mixins" as mixins;
 
 #courrierDistribution {
   display: flex;
@@ -6,7 +6,8 @@
   justify-content: center;
   min-height: 90dvh;
   background: #f2f2f2;
-  gap: 4%;
+  padding: .5%;
+  gap: .5%;
 }
 
 #courrierDistribution .leftContainer,
@@ -15,7 +16,7 @@
   align-items: center;
   justify-content: center;
   flex-flow: column;
-  width: 46%;
+  width: 50%;
 }
 
 #courrierDistribution .iFrameContainer {
@@ -31,8 +32,57 @@
 
 #courrierDistribution .rightContainer {
   form {
-    width: 60% !important;
-    @include mixins.form;
+    display: flex;
+    flex-flow: column;
+    border: 1px solid #36395a;
+    padding: 2em .5em;
+    border-radius: 6px;
+    width: 100%;
+    background: #ffffff;
+    gap: 1em;
+
+    .formWrapper {
+      border: unset !important;
+      padding: unset !important;
+      display: flex !important;
+      flex-flow: row !important;
+      gap: 4em !important;
+
+      .rightColumn,
+      .leftColumn {
+        width: 50% !important;
+        display: flex !important;
+        flex-flow: column !important;
+        gap: .5em !important;
+      }
+
+      label {
+        width: 60% !important;
+      }
+
+      input {
+        min-width: unset !important;
+        width: 50% !important;
+      }
+
+      textarea {
+        min-width: unset !important;
+        width: 50% !important;
+      }
+
+      .css-b62m3t-container {
+        min-width: unset !important;
+        width: 50% !important;
+      }
+
+      .css-13cymwt-control {
+        min-width: unset !important;
+        width: 100% !important;
+      }
+
+      @include mixins.form;
+    }
+
     .buttonContainer {
       display: flex;
       align-items: center;

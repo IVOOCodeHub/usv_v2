@@ -1,6 +1,7 @@
 @use "../../utils/styles/mixins" as mixins;
 
 #displayCourrierModal {
+  flex-flow: row !important;
   @include mixins.modalContainer;
 }
 
