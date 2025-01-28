@@ -58,8 +58,8 @@ function ModifProfilDistribution(): ReactElement {
                 { value: "3", label: "Interne" },
               ]}
               defaultValue={{
-                value: "1",
-                label: "Gestion des ressources humaines",
+                value: "0",
+                label: "Choisir",
               }}
             />
           </div>

@@ -1,7 +1,22 @@
 @use '../../../../utils/styles/mixins' as mixins;
 
 #gererProfilDeDistribution {
+  position: relative !important;
   @include mixins.main
+}
+
+#newDistributionProfile {
+  h2 {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 1em;
+  }
+  @include mixins.modalContainer;
+}
+
+#newDistributionProfile form {
+  width: 25% !important;
+  @include mixins.form;
 }
 
 #gererProfilDeDistribution .goBackBtnWrapper {
