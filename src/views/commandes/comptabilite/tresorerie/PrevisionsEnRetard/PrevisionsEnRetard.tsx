@@ -93,6 +93,7 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 		cle: '',
 		societe: '', // Added société filter
 	})
+	const [showModal, setShowModal] = useState(false)
 
 	// Navigation for redirection
 	const navigate = useNavigate()

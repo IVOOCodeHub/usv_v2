@@ -4,10 +4,11 @@ import { ReactElement, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IPrevision } from '../../../../../utils/types/prevision.interface.ts'
 import Header from '../../../../../components/header/Header'
-import NRTL from '../../../../../components/NRTL/NRTL'
+import Nrtl from '../../../../../components/NRTL/NRTL'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
 import DateRange from '../../../../../components/dateRange/DateRange'
+import ModalCourriers from '../previsionAOrdonnancer/ModalCourriers.tsx'
 // import { UserContext } from '../../../../../context/userContext.tsx'
 // import { LoaderContext } from '../../../../../context/loaderContext.tsx'
 import { mockedPrevisions } from '../previsionAValider/mock/mockPrevValider.ts' // Import the mocked data
@@ -92,6 +93,7 @@ const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
 		cle: '',
 		societe: '', // Added société filter
 	})
+	const [showModalCourriers, setShowModalCourriers] = useState(false)
 
 	// Navigation for redirection
 	const navigate = useNavigate()
@@ -144,9 +146,10 @@ const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
 			if (rowDetails) {
 				console.log('RowDetails:', rowDetails)
 
-				navigate('/commandes/tresorerie/details_prevision_ordo_sans_courrier', {
-					state: { fullRowDetails: rowDetails }, // Pass full row details to the details page
-				})
+				// navigate('/commandes/tresorerie/details_prevision_ordo_sans_courrier', {
+				// 	state: { fullRowDetails: rowDetails }, // Pass full row details to the details page
+				// })
+				setShowModalCourriers(true)
 			} else {
 				console.error('Aucune prévision correspondante trouvée pour la clé:', cle)
 			}
@@ -224,7 +227,7 @@ const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
 					{!filters.societe ? (
 						<div className='no-societe-message'>Merci de choisir une société</div>
 					) : (
-						<NRTL
+						<Nrtl
 							datas={tableData}
 							headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
 							headerHoverBackgroundColor='#1092B8'
@@ -236,6 +239,14 @@ const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
 							filterableColumns={[false, false, false, false, false, false]} // Updated filterable columns
 							language='fr'
 							onRowClick={(index: number, rowData?: string[]) => handleRowClick(index, rowData)}
+						/>
+					)}
+					{showModalCourriers && (
+						<ModalCourriers
+							isOpen={showModalCourriers}
+							onClose={() => setShowModalCourriers(false)}
+							userCredentials={null}
+							previsionCode={''}
 						/>
 					)}
 					<div className='greyButtonWrapper'>
