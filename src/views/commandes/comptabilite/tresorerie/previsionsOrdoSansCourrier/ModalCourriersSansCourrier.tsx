@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Header from '../../../../../components/header/Header.tsx'
 import Nrtl from '../../../../../components/NRTL/NRTL'
+import ModalAffichagePdf from './ModalAffichagePdf.tsx'
 import { getCourrierDepensesService } from '../../../../../API/services/Courrier.service.ts'
 import { IUserCredentials } from '../../../../../utils/types/user.interface.ts'
 
