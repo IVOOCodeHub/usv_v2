@@ -26,7 +26,11 @@ function ComptaChoix(): ReactElement {
     {
       title: "Trésorerie & Budget",
       items: [
-        { name: "Trésorerie", link: "/commandes/tresorerie/menu" },
+        {
+          name: "Trésorerie",
+          link: "/commandes/tresorerie/menu",
+          isMigrated: true,
+        },
         { name: "Budget", link: "/" },
         { name: "Litiges", link: "/" },
       ],

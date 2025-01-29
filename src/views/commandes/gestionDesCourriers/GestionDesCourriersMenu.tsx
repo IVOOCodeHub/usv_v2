@@ -25,23 +25,42 @@ function GestionDesCourriersMenu(): ReactElement {
         {
           name: "Nouveaux courriers",
           link: "/commandes/gestion_des_courriers/nouveaux_courriers",
+          isMigrated: true,
         },
       ],
     },
     {
       title: "A distribuer",
-      items: [{ name: "Courriers à distribuer", link: "/commandes/gestion_des_courriers/courrier_a_distribuer" }],
+      items: [
+        {
+          name: "Courriers à distribuer",
+          link: "/commandes/gestion_des_courriers/courrier_a_distribuer",
+          isMigrated: true,
+        },
+      ],
     },
     {
       title: "Distribués",
-      items: [{ name: "Traiter mes courriers", link: "/commandes/gestion_des_courriers/traiter_mes_courriers" }],
+      items: [
+        {
+          name: "Traiter mes courriers",
+          link: "/commandes/gestion_des_courriers/traiter_mes_courriers",
+          isMigrated: true,
+        },
+      ],
     },
   ];
 
   const secondMenuData: IMenuContainerProps[] = [
     {
       title: "Utilitaires",
-      items: [{ name: "Utilitaires", link: "/commandes/gestion_des_courriers/courrier_utils" }],
+      items: [
+        {
+          name: "Utilitaires",
+          link: "/commandes/gestion_des_courriers/courrier_utils",
+          isMigrated: true,
+        },
+      ],
     },
   ];
 
@@ -58,7 +77,7 @@ function GestionDesCourriersMenu(): ReactElement {
             style: "grey",
             text: "Retour",
             type: "button",
-            onClick: (): void => navigate('/menu_general'),
+            onClick: (): void => navigate("/menu_general"),
           }}
         />
       </main>

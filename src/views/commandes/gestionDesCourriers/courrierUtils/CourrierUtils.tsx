@@ -9,8 +9,7 @@ import Footer from "../../../../components/footer/Footer";
 import Button from "../../../../components/button/Button.tsx";
 
 function CourrierUtils(): ReactElement {
-    const navigate: NavigateFunction = useNavigate();
-
+  const navigate: NavigateFunction = useNavigate();
 
   return (
     <>
@@ -29,21 +28,25 @@ function CourrierUtils(): ReactElement {
                 {
                   name: "Gérer les profils de distribution",
                   link: "/commandes/gestion_des_courriers/courrier_utils/gestion_des_profils_distribution",
+                  isMigrated: true,
                   isCheckable: false,
                 },
                 {
                   name: "Rechercher un courrier",
                   link: "/commandes/gestion_des_courriers/courrier_utils/recherche_courrier",
+                  isMigrated: true,
                   isCheckable: false,
                 },
                 {
                   name: "Gérer mon classement",
                   link: "/commandes/gestion_des_courriers/courrier_utils/gestion_classement",
+                  isMigrated: true,
                   isCheckable: false,
                 },
                 {
                   name: "Archiver par date",
                   link: "/commandes/gestion_des_courriers/courrier_utils/archiver_courrier",
+                  isMigrated: true,
                   isCheckable: false,
                 },
               ],

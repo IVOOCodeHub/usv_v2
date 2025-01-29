@@ -20,6 +20,7 @@ export default function MenuSection({
             key={index}
             name={item.name}
             link={item.link}
+            isMigrated={item.isMigrated}
             isCheckable={isCheckable}
           />
         ),

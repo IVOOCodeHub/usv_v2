@@ -21,18 +21,22 @@ function OrganisationGeneraleMenu(): ReactElement {
         {
           name: "Gestion des sociétés",
           link: "/",
+          isMigrated: false,
         },
         {
           name: "Gestion des comptes tiers",
           link: "/",
+          isMigrated: false,
         },
         {
           name: "Gestion des comptes bancaires",
           link: "/",
+          isMigrated: false,
         },
         {
           name: "Gestion des rubriques trésorerie",
           link: "/",
+          isMigrated: false,
         },
       ],
     },
@@ -42,14 +46,17 @@ function OrganisationGeneraleMenu(): ReactElement {
         {
           name: "Gestion des unités",
           link: "/",
+          isMigrated: false,
         },
         {
           name: "Gestion des sous-unités",
           link: "/",
+          isMigrated: false,
         },
         {
           name: "Gestion des applications",
           link: "/",
+          isMigrated: false,
         },
       ],
     },
@@ -59,10 +66,12 @@ function OrganisationGeneraleMenu(): ReactElement {
         {
           name: "Gestion sites",
           link: "/",
+          isMigrated: false,
         },
         {
           name: "Gestion emplacements",
           link: "/",
+          isMigrated: false,
         },
       ],
     },
@@ -72,6 +81,7 @@ function OrganisationGeneraleMenu(): ReactElement {
         {
           name: "Gestion plateaux",
           link: "/",
+          isMigrated: false,
         },
       ],
     },
@@ -81,14 +91,17 @@ function OrganisationGeneraleMenu(): ReactElement {
         {
           name: "Gestion postes",
           link: "/",
+          isMigrated: false,
         },
         {
           name: "Gestion fiches de postes",
           link: "/",
+          isMigrated: false,
         },
         {
           name: "Gestion packs paies & primes",
           link: "/",
+          isMigrated: false,
         },
       ],
     },
@@ -98,6 +111,7 @@ function OrganisationGeneraleMenu(): ReactElement {
         {
           name: "Gestion des services destinataires",
           link: "/organisation_generale/gestion_services_destinataires",
+          isMigrated: true,
         },
       ],
     },
