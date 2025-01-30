@@ -247,40 +247,6 @@ function MenuGeneral(): ReactElement {
             }}
           />
         </nav>
-        <nav className={"menuGeneral__testZone"}>
-          <Button
-            props={{
-              style: "blue",
-              text: "Test config son",
-              type: "button",
-              onClick: (): void => navigate("/test"),
-            }}
-          />
-          <Button
-            props={{
-              style: "blue",
-              text: "Test mscal.ocx",
-              type: "button",
-              onClick: (): void => navigate("/test"),
-            }}
-          />
-          <Button
-            props={{
-              style: "blue",
-              text: "Test envoi mail",
-              type: "button",
-              onClick: (): void => navigate("/test"),
-            }}
-          />
-          <Button
-            props={{
-              style: "blue",
-              text: "Maintenance XP par IE",
-              type: "button",
-              onClick: (): void => navigate("/test"),
-            }}
-          />
-        </nav>
       </main>
       <Footer />
     </>

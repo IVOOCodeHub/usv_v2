@@ -3,7 +3,15 @@ import { IUserCredentials } from "../utils/types/user.interface.ts";
 
 interface ICourrierContext {
   courrier: ICourrier | string | null;
-  getCourrier: (userCredentials: IUserCredentials, courrierID: string) => Promise<ICourrier | string  | undefined>
+  getCourrier: (
+    userCredentials: IUserCredentials,
+    courrierID: string,
+  ) => Promise<ICourrier | string | undefined>;
+  courriers: ICourrier[] | string | null;
+  getCourriers: (
+    userCredentials: IUserCredentials,
+  ) => Promise<ICourrier[] | string | undefined>;
+  setCourriers: (courriers: ICourrier[] | null) => void;
   courrierDepenses: ICourrierDepenses[] | string | null;
   setCourrierDepenses: (courrierDepenses: ICourrierDepenses[] | null) => void;
   getCourrierDepenses: (
@@ -18,6 +26,7 @@ import { createContext, useState, Context, ReactElement } from "react";
 import {
   getCourrierDepensesService,
   getCourrierService,
+  getCourriersService,
 } from "../API/services/Courrier.service.ts";
 import {
   ICourrier,
@@ -28,8 +37,13 @@ export const CourrierContext: Context<ICourrierContext> =
   createContext<ICourrierContext>({
     courrier: null,
     getCourrier: async (): Promise<ICourrier | string | undefined> => {
-        return undefined
+      return undefined;
     },
+    courriers: null,
+    getCourriers: async (): Promise<ICourrier[] | string | undefined> => {
+      return undefined;
+    },
+    setCourriers: (): void => {},
     courrierDepenses: null,
     setCourrierDepenses: (): void => {},
     getCourrierDepenses: async (): Promise<ICourrierDepenses[] | string> => {
@@ -43,16 +57,29 @@ export const CourrierProvider = ({
   children: ReactElement;
 }): ReactElement => {
   const [courrier, setCourrier] = useState<ICourrier | string | null>(null);
+  const [courriers, setCourriers] = useState<ICourrier[] | string | null>(null);
   const [courrierDepenses, setCourrierDepenses] = useState<
     ICourrierDepenses[] | string | null
   >(null);
 
+  const getCourriers = async (
+    userCredentials: IUserCredentials,
+  ): Promise<ICourrier[] | string> => {
+    const res: ICourrier[] | string =
+      await getCourriersService(userCredentials);
+    setCourriers(res);
+    return res;
+  };
+
   const getCourrier = async (
     userCredentials: IUserCredentials,
     courrierID: string,
-  ):Promise<ICourrier | string> => {
-    const res: ICourrier | string = await getCourrierService(userCredentials, courrierID);
-    setCourrier(res)
+  ): Promise<ICourrier | string> => {
+    const res: ICourrier | string = await getCourrierService(
+      userCredentials,
+      courrierID,
+    );
+    setCourrier(res);
     return res;
   };
 
@@ -75,6 +102,9 @@ export const CourrierProvider = ({
         getCourrierDepenses,
         courrier,
         getCourrier,
+        courriers,
+        setCourriers,
+        getCourriers,
       }}
     >
       {children}

@@ -40,6 +40,34 @@ export const getCourrierService = async (userCredentials: IUserCredentials, cour
 	return courrierModel(res.data as IServerCourrier)
 }
 
+export const getCourriersService = async (userCredentials: IUserCredentials) => {
+	const endpoint: string = `http://192.168.0.112:8800/api/storedProcedure`
+
+	const reqBody = {
+		userID: userCredentials.matricule,
+		password: userCredentials.password,
+		request: 'read_list_ivoo_vue_courrier_et_courrier_archive',
+		args: null,
+		test: false,
+	}
+
+	const res: AxiosResponse | {errorMessage: string} = await postRequest(endpoint, reqBody)
+
+	if ('errorMessage' in res) {
+		console.error(res.errorMessage)
+		switch (res.errorMessage) {
+			case 'Invalid credentials':
+				return 'Identifiants ou mot de passe incorrects'
+			case 'User not found':
+				return 'utilisateur non trouvé.'
+			default:
+				return "Une erreur inattendue s'est produite."
+		}
+	}
+
+	return res.data['data']['rows']
+}
+
 export const getCourrierDepensesService = async (
 	userCredentials: IUserCredentials
 ): Promise<ICourrierDepenses[] | string> => {

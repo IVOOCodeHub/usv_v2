@@ -1,7 +1,10 @@
 import "./rechercheCourrier.scss";
 
-import { ReactElement } from "react";
+import { ReactElement, useContext, useEffect } from "react";
 import { useNavigate, NavigateFunction } from "react-router-dom";
+
+import { CourrierContext } from "../../../../context/courrierContext";
+import { UserContext } from "../../../../context/userContext";
 
 import WithAuth from "../../../auth/WithAuth";
 import Header from "../../../../components/header/Header";
@@ -10,6 +13,15 @@ import Button from "../../../../components/button/Button";
 import NRTL from "../../../../components/NRTL/NRTL";
 
 function RechercheCourrier(): ReactElement {
+  const { courriers, getCourriers } = useContext(CourrierContext);
+  const { userCredentials } = useContext(UserContext);
+
+  useEffect((): void => {
+    if (!courriers && userCredentials) {
+      getCourriers(userCredentials).finally();
+    }
+  }, [courriers]);
+
   const navigate: NavigateFunction = useNavigate();
 
   const tableData = {
