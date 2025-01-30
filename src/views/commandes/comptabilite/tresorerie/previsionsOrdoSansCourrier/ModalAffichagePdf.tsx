@@ -14,21 +14,17 @@ const ModalAffichagePdf: React.FC<ModalAffichagePdfProps> = ({ isOpen, onClose, 
 		<div className='modal'>
 			<div className='modalContent'>
 				<div className='modal-header'>
-					<h2>Visualisation du PDF</h2>
-					<button className='modalCloseButton' onClick={onClose}>
-						X
-					</button>
+					<div className='modalButtons'>
+						<button className='associerButton' onClick={onAssocier}>
+							Associer
+						</button>
+						<button className='annulerButton' onClick={onClose}>
+							Annuler
+						</button>
+					</div>
 				</div>
 				<div className='pdfViewer'>
 					<iframe src={pdfUrl} title='PDF Viewer' width='100%' height='500px' />
-				</div>
-				<div className='modalButtons'>
-					<button className='associerButton' onClick={onAssocier}>
-						Associer
-					</button>
-					<button className='annulerButton' onClick={onClose}>
-						Annuler
-					</button>
 				</div>
 			</div>
 		</div>
