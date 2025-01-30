@@ -24,7 +24,7 @@ const ModalAffichagePdf: React.FC<ModalAffichagePdfProps> = ({ isOpen, onClose, 
 					</div>
 				</div>
 				<div className='pdfViewer'>
-					<iframe src={pdfUrl} title='PDF Viewer' width='100%' height='500px' />
+					<iframe src={pdfUrl} title='PDF Viewer' width='100%' height='800px' />
 				</div>
 			</div>
 		</div>
