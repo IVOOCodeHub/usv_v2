@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 
 // views
 import TresorerieMenuWithAuth from './tresorerieMenu/TresorerieMenu.tsx'
+import TPChoixWithAuth from './tresorerieMenu/TPChoix.tsx'
 import CourrierDepensesWithAuth from './courrierDepenses/CourrierDepenses.tsx'
 import CourrierConsultWithAuth from './courrierConsult/CourrierConsult.tsx'
 import CourrierRelanceWithAuth from './courrierRelance/CourrierRelance.tsx'
@@ -45,6 +46,7 @@ export default function TresorerieRouter(): ReactElement {
 			<Route path={'/prevision_en_retard'} element={<PrevisionsEnRetard />} />
 			<Route path={'/details_prevision_retard'} element={<DetailsPrevisionsRetard />} />
 			<Route path={'/prevision_ordo_sans_courrier'} element={<PrevisionOrdoSansCourrier />} />
+			<Route path={'/menu_emission_tp'} element={<TPChoixWithAuth />} />
 		</Routes>
 	)
 }

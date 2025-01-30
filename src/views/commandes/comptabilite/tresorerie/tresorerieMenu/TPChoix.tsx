@@ -1,5 +1,5 @@
 // styles
-import './tphoix.scss'
+import './tpChoix.scss'
 
 // types
 import { ReactElement } from 'react'
@@ -36,7 +36,7 @@ function TPChoix(): ReactElement {
 						style: 'grey',
 						text: 'Retour',
 						type: 'button',
-						onClick: (): void => navigate('commandes/tresorerie/menu'),
+						onClick: (): void => navigate('/commandes/tresorerie/menu'),
 					}}
 				/>
 			</main>
