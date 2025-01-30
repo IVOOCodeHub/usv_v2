@@ -7,26 +7,53 @@ import { IUserCredentials } from '../../../../../utils/types/user.interface.ts'
 
 // Mocked data for courriers (based on the screenshot)
 const mockedCourriers = [
-	['52871', '09/10/2023', 'IVOO', 'NOTE DE FRAIS', '148,20€ / note de frais / ANIQUANT N / CHQ...'],
-	['52869', '09/10/2023', 'ONE DIRECT SERVICES', 'FACTUREF', '1805.94 € / facture NF FP23040912'],
-	['52862', '09/10/2023', 'IVOO', 'FACTUREC', '33170.15 € / facture NF 1108'],
-	['52861', '09/10/2023', 'IVOO', 'FACTUREC', '54736.34 € / facture NF 1109'],
-	['52860', '09/10/2023', 'IVOO', 'FACTUREC', 'facture NF 1110'],
-	['52859', '09/10/2023', 'IVOS', 'CHEQUE EMIS', '94.84€ CHQ 0000100 / facture NF F2303082...'],
-	['52858', '09/10/2023', 'IVOO', 'FACTUREC', '39024.89 € / facture NF 1111'],
-	['52852', '09/10/2023', 'ENGIE', 'FACTUREF', '2027.82 € / facture NF 420065235194'],
-	['52850', '09/10/2023', 'SBL BNC', 'FACTUREF', '90 € / facture F23/34'],
-	['52848', '09/10/2023', 'SBL BNC', 'FACTUREF', '90 € / facture F23/33'],
+	[
+		'52871',
+		'09/10/2023',
+		'IVOO',
+		'NOTE DE FRAIS',
+		'148,20€ / note de frais / ANIQUANT N / CHQ...',
+		'2023_01\\20230106_17_03_54.pdf',
+	],
+	[
+		'52869',
+		'09/10/2023',
+		'ONE DIRECT SERVICES',
+		'FACTUREF',
+		'1805.94 € / facture NF FP23040912',
+		'2023_01\\20230106_17_03_54.pdf',
+	],
+	['52862', '09/10/2023', 'IVOO', 'FACTUREC', '33170.15 € / facture NF 1108', '2023_01\\20230106_17_03_54.pdf'],
+	['52861', '09/10/2023', 'IVOO', 'FACTUREC', '54736.34 € / facture NF 1109', '2023_01\\20230106_17_03_54.pdf'],
+	['52860', '09/10/2023', 'IVOO', 'FACTUREC', 'facture NF 1110', '2023_01\\20230106_17_03_54.pdf'],
+	[
+		'52859',
+		'09/10/2023',
+		'IVOS',
+		'CHEQUE EMIS',
+		'94.84€ CHQ 0000100 / facture NF F2303082...',
+		'2023_01\\20230106_17_03_54.pdf',
+	],
+	['52858', '09/10/2023', 'IVOO', 'FACTUREC', '39024.89 € / facture NF 1111', '2023_01\\20230106_17_03_54.pdf'],
+	['52852', '09/10/2023', 'ENGIE', 'FACTUREF', '2027.82 € / facture NF 420065235194', '2023_01\\20230106_17_03_54.pdf'],
+	['52850', '09/10/2023', 'SBL BNC', 'FACTUREF', '90 € / facture F23/34', '2023_01\\20230106_17_03_54.pdf'],
+	['52848', '09/10/2023', 'SBL BNC', 'FACTUREF', '90 € / facture F23/33', '2023_01\\20230106_17_03_54.pdf'],
 ]
 
 interface ModalCourriersSansCourrierProps {
 	isOpen: boolean
 	onClose: () => void
+	onOpenPdf: (pdfUrl: string) => void
 	userCredentials: IUserCredentials | null // Allow null for mocked data
 	previsionCode: string // Code de la prévision passé en paramètre
 }
 
-const ModalCourriersSansCourrier: React.FC<ModalCourriersSansCourrierProps> = ({ isOpen, onClose, userCredentials, previsionCode }) => {
+const ModalCourriersSansCourrier: React.FC<ModalCourriersSansCourrierProps> = ({
+	isOpen,
+	onClose,
+	onOpenPdf,
+	userCredentials,
+}) => {
 	const [courriers, setCourriers] = useState<string[][]>([])
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 
@@ -84,8 +111,11 @@ const ModalCourriersSansCourrier: React.FC<ModalCourriersSansCourrierProps> = ({
 	}
 
 	const handleRowClick = (index: number, rowData: string[] | undefined) => {
-		console.log('Row clicked:', rowData, 'Courrier:', courriers[index][0])
-		// Logique future pour associer un courrier à la prévision
+		if (rowData) {
+			console.log('Row clicked:', rowData)
+			const pdfUrl = `http://192.168.0.254:8080/usv_prod/courriers/${rowData[5].replace(/\\/g, '/')}`
+			onOpenPdf(pdfUrl)
+		}
 	}
 
 	return (

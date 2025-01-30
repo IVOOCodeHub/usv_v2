@@ -1,5 +1,4 @@
-import React from 'react'
-import './ModalAffichagePdf.css'
+import './ModalAffichagePdf.scss'
 
 interface ModalAffichagePdfProps {
 	isOpen: boolean // Controls whether the modal is open

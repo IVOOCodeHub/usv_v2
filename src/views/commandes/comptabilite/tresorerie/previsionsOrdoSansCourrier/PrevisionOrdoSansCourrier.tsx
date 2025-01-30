@@ -9,6 +9,7 @@ import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
 import DateRange from '../../../../../components/dateRange/DateRange'
 import ModalCourriersSansCourrier from './ModalCourriersSansCourrier.tsx'
+import ModalAffichagePdf from './ModalAffichagePdf.tsx'
 // import { UserContext } from '../../../../../context/userContext.tsx'
 // import { LoaderContext } from '../../../../../context/loaderContext.tsx'
 import { mockedPrevisions } from '../previsionAValider/mock/mockPrevValider.ts' // Import the mocked data
@@ -94,9 +95,18 @@ const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
 		societe: '', // Added société filter
 	})
 	const [showModalCourriers, setShowModalCourriers] = useState(false)
+	const [showModalPdf, setShowModalPdf] = useState(false)
+	const [selectedPdfUrl, setSelectedPdfUrl] = useState<string | null>(null)
 
 	// Navigation for redirection
 	const navigate = useNavigate()
+
+	const handleOpenPdf = (pdfUrl: string) => {
+		setSelectedPdfUrl(pdfUrl)
+		setShowModalCourriers(false)
+		setShowModalPdf(true)
+	}
+
 
 	// Check if a date range is valid
 	const isDateRangeValid = (min: string, max: string): boolean => {
@@ -241,12 +251,33 @@ const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
 							onRowClick={(index: number, rowData?: string[]) => handleRowClick(index, rowData)}
 						/>
 					)}
-					{showModalCourriers && (
+					{showModalCourriers && !showModalPdf && (
 						<ModalCourriersSansCourrier
 							isOpen={showModalCourriers}
 							onClose={() => setShowModalCourriers(false)}
+							onOpenPdf={(pdfUrl) => {
+								setSelectedPdfUrl(pdfUrl)
+								setShowModalCourriers(false)
+								setShowModalPdf(true)
+							}}
 							userCredentials={null}
-							previsionCode={''}
+							previsionCode=''
+						/>
+					)}
+
+					{showModalPdf && selectedPdfUrl && (
+						<ModalAffichagePdf
+							isOpen={showModalPdf}
+							pdfUrl={selectedPdfUrl}
+							onClose={() => {
+								setShowModalPdf(false)
+								setShowModalCourriers(true) // Revenir au modal des courriers
+							}}
+							onAssocier={() => {
+								console.log('Associer le fichier PDF')
+								setShowModalPdf(false)
+								setShowModalCourriers(true)
+							}}
 						/>
 					)}
 					<div className='greyButtonWrapper'>
