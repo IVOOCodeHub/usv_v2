@@ -23,6 +23,7 @@ import DetailsFactureInterco from './facturationIntercoARegulariser/DetailsFactu
 import PrevisionsEnRetard from './PrevisionsEnRetard/PrevisionsEnRetard.tsx'
 import DetailsPrevisionsRetard from './PrevisionsEnRetard/DetailsPrevisionsRetard.tsx'
 import PrevisionOrdoSansCourrier from './previsionsOrdoSansCourrier/PrevisionOrdoSansCourrier.tsx'
+import EmissionsODV from './emissionsTitresPaiements/emissionsODV.tsx'
 
 export default function TresorerieRouter(): ReactElement {
 	return (
@@ -47,6 +48,7 @@ export default function TresorerieRouter(): ReactElement {
 			<Route path={'/details_prevision_retard'} element={<DetailsPrevisionsRetard />} />
 			<Route path={'/prevision_ordo_sans_courrier'} element={<PrevisionOrdoSansCourrier />} />
 			<Route path={'/menu_emission_tp'} element={<TPChoixWithAuth />} />
+			<Route path={'/emissions_odv'} element={<EmissionsODV />} />
 		</Routes>
 	)
 }
