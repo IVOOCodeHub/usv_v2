@@ -13,13 +13,27 @@ import ModalAffichagePdf from '../previsionsOrdoSansCourrier/ModalAffichagePdf.t
 import { mockedPrevisions } from '../previsionAValider/mock/mockPrevValider.ts' // Import the mocked data
 
 interface RowDetails {
-	id: string
+	cle: string
 	societe: string
-	dateEmission: string
-	libelle: string
+	dateSaisie: string
+	dateEcheance: string
+	libelleCompteTiers: string
+	libelleEcriture: string
+	libelleEcritureAnnee: string
+	libelleEcritureMois: string
+	libelleEcriturePrefixe: string
+	libelleEcritureTrimestre: string
+	libelleEcritureBeneficiaire: string
+	credit: string
+	debit: string
 	montant: string
-	statut: string
+	rubriqueTreso: string
 	nomFichier?: string
+	dateOrdo: string
+	// no_compte_banque: string
+	modeReglement: string
+	statut: string
+	refSourceTiers: string
 }
 
 const EmissionsODV: () => ReactElement = (): ReactElement => {
@@ -37,18 +51,32 @@ const EmissionsODV: () => ReactElement = (): ReactElement => {
 		return lastDayCurrentYear.toISOString().split('T')[0]
 	}
 
-	const getRowDetails = (id: string): RowDetails | undefined => {
-		const matchedEmission = mockedPrevisions.find((emission) => emission.id === id)
-		if (!matchedEmission) return undefined
+	const getRowDetails = (cle: string): RowDetails | undefined => {
+		const matchedPrevision = mockedPrevisions.find((prevision) => prevision.cle === cle)
+		if (!matchedPrevision) return undefined
 
 		return {
-			id: matchedEmission.id || 'Non défini',
-			societe: matchedEmission.societe ?? 'Non défini',
-			dateEmission: matchedEmission.dateEmission ?? 'Non défini',
-			libelle: matchedEmission.libelle ?? 'Non défini',
-			montant: matchedEmission.montant ? parseFloat(matchedEmission.montant).toFixed(2) : '0.00',
-			statut: matchedEmission.statut ?? 'Non défini',
-			nomFichier: matchedEmission.nomFichier ?? 'Non défini',
+			societe: matchedPrevision.societe ?? 'Non défini',
+			cle: matchedPrevision.cle || 'Non défini',
+			dateSaisie: matchedPrevision.dateSaisie ?? 'Non défini',
+			dateEcheance: matchedPrevision.dateEcheance ?? 'Non défini',
+			libelleCompteTiers: matchedPrevision.libelleCompteTiers ?? 'Non défini',
+			libelleEcriture: matchedPrevision.libelleEcriture ?? 'Non défini',
+			libelleEcritureBeneficiaire: matchedPrevision.libelleEcritureBeneficiaire ?? 'Non défini',
+			libelleEcritureTrimestre: matchedPrevision.libelleEcritureTrimestre ?? 'Non défini',
+			libelleEcritureAnnee: matchedPrevision.libelleEcritureAnnee ?? 'Non défini',
+			libelleEcritureMois: matchedPrevision.libelleEcritureMois ?? 'Non défini',
+			libelleEcriturePrefixe: matchedPrevision.libelleEcriturePrefixe ?? 'Non défini',
+			dateOrdo: matchedPrevision.dateOrdo ?? 'Non défini',
+			// no_compte_banque: matchedPrevision.no_compte_banque ?? 'Non défini',
+			modeReglement: matchedPrevision.modeReglement ?? 'Non défini',
+			statut: matchedPrevision.statut ?? 'Non défini',
+			refSourceTiers: matchedPrevision.refSourceTiers ?? 'Non défini',
+			credit: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
+			debit: matchedPrevision.debit ? parseFloat(matchedPrevision.debit).toFixed(2) : '0.00',
+			montant: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
+			rubriqueTreso: matchedPrevision.rubriqueTreso ?? 'Non défini',
+			nomFichier: matchedPrevision.nomFichier ?? 'Non défini',
 		}
 	}
 
@@ -87,15 +115,24 @@ const EmissionsODV: () => ReactElement = (): ReactElement => {
 	// Convert data for the table
 	const convertToArray = (datas: IPrevision[]): string[][] =>
 		datas
-			.filter((data) => !filters.id || data.id.includes(filters.id)) // Filter by "ID"
+			.filter((data) => !filters.cle || data.cle.includes(filters.cle)) // Filter by "Code"
 			.filter((data) => !filters.societe || data.societe === filters.societe) // Filter by "Société"
-			.map((data) => [
-				data.id || 'Non défini',
-				data.dateEmission ? convertENDateToFr(data.dateEmission.split('/').reverse().join('-')) : 'Non défini',
-				data.libelle ?? 'Non défini',
-				keepTwoDecimals(parseFloat(data.montant)),
-				data.statut ?? 'Non défini',
-			])
+			.map((data) => {
+				const credit = data.credit ? parseFloat(data.credit) : 0
+				const debit = data.debit ? parseFloat(data.debit) : 0
+
+				return [
+					data.refSourceTiers ?? 'Non défini',
+					data.cle || 'Non défini',
+					data.dateOrdo ? convertENDateToFr(data.dateOrdo.split('/').reverse().join('-')) : 'Non défini',
+					data.dateEcheance ? convertENDateToFr(data.dateEcheance.split('/').reverse().join('-')) : 'Non défini',
+					data.libelleCompteTiers ?? 'Non défini',
+					data.rubriqueTreso ?? 'Non défini',
+					data.libelleEcriture ?? 'Non défini',
+					keepTwoDecimals(credit !== 0 ? credit : debit !== 0 ? -debit : 0),
+					data.noCompteBanque ? data.noCompteBanque.substring(15) : 'Non défini',
+				]
+			})
 
 	// Format amounts in euros
 	const keepTwoDecimals = (number: number): string =>
@@ -139,17 +176,17 @@ const EmissionsODV: () => ReactElement = (): ReactElement => {
 	// Update table data when filters change
 	useEffect(() => {
 		const filteredData = mockedPrevisions.filter((data) => {
-			const dateEmission = new Date(data.dateEmission)
+			const dateEcheance = new Date(data.dateEcheance)
 			const minDate = new Date(filters.minDate)
 			const maxDate = new Date(filters.maxDate)
-			return dateEmission >= minDate && dateEmission <= maxDate
+			return dateEcheance >= minDate && dateEcheance <= maxDate
 		})
 		setBodyArray(convertToArray(filteredData))
 	}, [filters])
 
 	// Prepare table data
 	const tableData = {
-		tableHead: ['ID', 'Date émission', 'Libellé', 'Montant', 'Statut'],
+		tableHead: ['Code', 'Prevision', 'Echéance', 'Ordo.', 'Fournisseur', 'Rubrique', 'Libellé', 'Montant', 'Banque'], // Updated table headers
 		tableBody: bodyArray,
 	}
 
@@ -179,11 +216,11 @@ const EmissionsODV: () => ReactElement = (): ReactElement => {
 							</select>
 						</div>
 						<div className='idInputWrapper'>
-							<label htmlFor='id'>ID :</label>
+							<label htmlFor='id'>Référence Paiement :</label>
 							<input
 								name='id'
 								type='text'
-								placeholder='Filtrer par ID'
+								placeholder='Code'
 								value={filters.id}
 								onChange={(e) => setFilters({ ...filters, id: e.target.value })}
 							/>
