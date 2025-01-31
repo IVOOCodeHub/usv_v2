@@ -30,7 +30,6 @@ interface RowDetails {
 	rubriqueTreso: string
 	nomFichier?: string
 	dateOrdo: string
-	// no_compte_banque: string
 	modeReglement: string
 	statut: string
 	refSourceTiers: string
@@ -51,55 +50,18 @@ const EmissionsODV: () => ReactElement = (): ReactElement => {
 		return lastDayCurrentYear.toISOString().split('T')[0]
 	}
 
-	const getRowDetails = (cle: string): RowDetails | undefined => {
-		const matchedPrevision = mockedPrevisions.find((prevision) => prevision.cle === cle)
-		if (!matchedPrevision) return undefined
-
-		return {
-			societe: matchedPrevision.societe ?? 'Non défini',
-			cle: matchedPrevision.cle || 'Non défini',
-			dateSaisie: matchedPrevision.dateSaisie ?? 'Non défini',
-			dateEcheance: matchedPrevision.dateEcheance ?? 'Non défini',
-			libelleCompteTiers: matchedPrevision.libelleCompteTiers ?? 'Non défini',
-			libelleEcriture: matchedPrevision.libelleEcriture ?? 'Non défini',
-			libelleEcritureBeneficiaire: matchedPrevision.libelleEcritureBeneficiaire ?? 'Non défini',
-			libelleEcritureTrimestre: matchedPrevision.libelleEcritureTrimestre ?? 'Non défini',
-			libelleEcritureAnnee: matchedPrevision.libelleEcritureAnnee ?? 'Non défini',
-			libelleEcritureMois: matchedPrevision.libelleEcritureMois ?? 'Non défini',
-			libelleEcriturePrefixe: matchedPrevision.libelleEcriturePrefixe ?? 'Non défini',
-			dateOrdo: matchedPrevision.dateOrdo ?? 'Non défini',
-			// no_compte_banque: matchedPrevision.no_compte_banque ?? 'Non défini',
-			modeReglement: matchedPrevision.modeReglement ?? 'Non défini',
-			statut: matchedPrevision.statut ?? 'Non défini',
-			refSourceTiers: matchedPrevision.refSourceTiers ?? 'Non défini',
-			credit: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
-			debit: matchedPrevision.debit ? parseFloat(matchedPrevision.debit).toFixed(2) : '0.00',
-			montant: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
-			rubriqueTreso: matchedPrevision.rubriqueTreso ?? 'Non défini',
-			nomFichier: matchedPrevision.nomFichier ?? 'Non défini',
-		}
-	}
-
-	// State for table data and filters
-	const [bodyArray, setBodyArray] = useState<string[][]>([])
 	const [filters, setFilters] = useState({
 		minDate: getDefaultDateMin(),
 		maxDate: getDefaultDateMax(),
 		id: '',
 		societe: '',
 	})
+
+	const [bodyArray, setBodyArray] = useState<string[][]>([])
 	const [showModalDetails, setShowModalDetails] = useState(false)
 	const [showModalPdf, setShowModalPdf] = useState(false)
 	const [selectedPdfUrl, setSelectedPdfUrl] = useState<string | null>(null)
-
-	// Navigation for redirection
 	const navigate = useNavigate()
-
-	const handleOpenPdf = (pdfUrl: string) => {
-		setSelectedPdfUrl(pdfUrl)
-		setShowModalDetails(false)
-		setShowModalPdf(true)
-	}
 
 	// Check if a date range is valid
 	const isDateRangeValid = (min: string, max: string): boolean => {
@@ -115,14 +77,23 @@ const EmissionsODV: () => ReactElement = (): ReactElement => {
 	// Convert data for the table
 	const convertToArray = (datas: IPrevision[]): string[][] =>
 		datas
-			.filter((data) => !filters.cle || data.cle.includes(filters.cle)) // Filter by "Code"
-			.filter((data) => !filters.societe || data.societe === filters.societe) // Filter by "Société"
+			.filter((data) => {
+				const dateEcheance = new Date(data.dateEcheance)
+				const minDate = new Date(filters.minDate)
+				const maxDate = new Date(filters.maxDate)
+				return (
+					dateEcheance >= minDate &&
+					dateEcheance <= maxDate &&
+					(!filters.id || data.refSourceTiers.toLowerCase().includes(filters.id.toLowerCase())) && // Case-insensitive filter by "Code" (refSourceTiers)
+					(!filters.societe || data.societe === filters.societe) // Filter by "Société"
+				)
+			})
 			.map((data) => {
 				const credit = data.credit ? parseFloat(data.credit) : 0
 				const debit = data.debit ? parseFloat(data.debit) : 0
 
 				return [
-					data.refSourceTiers ?? 'Non défini',
+					data.refSourceTiers ?? 'Non défini', // "Code" column
 					data.cle || 'Non défini',
 					data.dateOrdo ? convertENDateToFr(data.dateOrdo.split('/').reverse().join('-')) : 'Non défini',
 					data.dateEcheance ? convertENDateToFr(data.dateEcheance.split('/').reverse().join('-')) : 'Non défini',
@@ -146,8 +117,8 @@ const EmissionsODV: () => ReactElement = (): ReactElement => {
 	// Handle row click for navigation
 	const handleRowClick = (index: number, rowData?: string[]): void => {
 		if (rowData && rowData[0]) {
-			const id = rowData[0] // Assuming the key is in the first column of the row
-			const rowDetails = getRowDetails(id) // Fetch full row details using the key
+			const id = rowData[0]
+			const rowDetails = getRowDetails(id)
 
 			if (rowDetails) {
 				console.log('RowDetails:', rowDetails)
@@ -175,18 +146,13 @@ const EmissionsODV: () => ReactElement = (): ReactElement => {
 
 	// Update table data when filters change
 	useEffect(() => {
-		const filteredData = mockedPrevisions.filter((data) => {
-			const dateEcheance = new Date(data.dateEcheance)
-			const minDate = new Date(filters.minDate)
-			const maxDate = new Date(filters.maxDate)
-			return dateEcheance >= minDate && dateEcheance <= maxDate
-		})
+		const filteredData = mockedPrevisions
 		setBodyArray(convertToArray(filteredData))
-	}, [filters])
+	}, [filters.minDate, filters.maxDate, filters.id, filters.societe]) // Add filters.id and filters.societe to dependencies
 
 	// Prepare table data
 	const tableData = {
-		tableHead: ['Code', 'Prevision', 'Echéance', 'Ordo.', 'Fournisseur', 'Rubrique', 'Libellé', 'Montant', 'Banque'], // Updated table headers
+		tableHead: ['Code', 'Prevision', 'Echéance', 'Ordo.', 'Fournisseur', 'Rubrique', 'Libellé', 'Montant', 'Banque'],
 		tableBody: bodyArray,
 	}
 

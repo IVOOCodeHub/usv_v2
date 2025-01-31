@@ -1,6 +1,6 @@
 import './previsionOrdoSansCourrier.scss'
 import { convertFrDateToServerDate, convertENDateToFr } from '../../../../../utils/scripts/utils.ts'
-import { ReactElement, useContext, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IPrevision } from '../../../../../utils/types/prevision.interface.ts'
 import Header from '../../../../../components/header/Header'
@@ -10,8 +10,6 @@ import Footer from '../../../../../components/footer/Footer'
 import DateRange from '../../../../../components/dateRange/DateRange'
 import ModalCourriersSansCourrier from './ModalCourriersSansCourrier.tsx'
 import ModalAffichagePdf from './ModalAffichagePdf.tsx'
-// import { UserContext } from '../../../../../context/userContext.tsx'
-// import { LoaderContext } from '../../../../../context/loaderContext.tsx'
 import { mockedPrevisions } from '../previsionAValider/mock/mockPrevValider.ts' // Import the mocked data
 
 interface RowDetails {
@@ -32,17 +30,12 @@ interface RowDetails {
 	rubriqueTreso: string
 	nomFichier?: string
 	dateOrdo: string
-	// no_compte_banque: string
 	modeReglement: string
 	statut: string
 	refSourceTiers: string
 }
 
 const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
-	// Contexts for user data and loading state
-	// const { userCredentials } = useContext(UserContext)
-	// const { startLoading, stopLoading } = useContext(LoaderContext)
-
 	// Default date values
 	const getDefaultDateMin = (): string => {
 		const now = new Date()
@@ -57,56 +50,18 @@ const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
 		return lastDayCurrentYear.toISOString().split('T')[0]
 	}
 
-	const getRowDetails = (cle: string): RowDetails | undefined => {
-		const matchedPrevision = mockedPrevisions.find((prevision) => prevision.cle === cle)
-		if (!matchedPrevision) return undefined
-
-		return {
-			societe: matchedPrevision.societe ?? 'Non défini',
-			cle: matchedPrevision.cle || 'Non défini',
-			dateSaisie: matchedPrevision.dateSaisie ?? 'Non défini',
-			dateEcheance: matchedPrevision.dateEcheance ?? 'Non défini',
-			libelleCompteTiers: matchedPrevision.libelleCompteTiers ?? 'Non défini',
-			libelleEcriture: matchedPrevision.libelleEcriture ?? 'Non défini',
-			libelleEcritureBeneficiaire: matchedPrevision.libelleEcritureBeneficiaire ?? 'Non défini',
-			libelleEcritureTrimestre: matchedPrevision.libelleEcritureTrimestre ?? 'Non défini',
-			libelleEcritureAnnee: matchedPrevision.libelleEcritureAnnee ?? 'Non défini',
-			libelleEcritureMois: matchedPrevision.libelleEcritureMois ?? 'Non défini',
-			libelleEcriturePrefixe: matchedPrevision.libelleEcriturePrefixe ?? 'Non défini',
-			dateOrdo: matchedPrevision.dateOrdo ?? 'Non défini',
-			// no_compte_banque: matchedPrevision.no_compte_banque ?? 'Non défini',
-			modeReglement: matchedPrevision.modeReglement ?? 'Non défini',
-			statut: matchedPrevision.statut ?? 'Non défini',
-			refSourceTiers: matchedPrevision.refSourceTiers ?? 'Non défini',
-			credit: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
-			debit: matchedPrevision.debit ? parseFloat(matchedPrevision.debit).toFixed(2) : '0.00',
-			montant: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
-			rubriqueTreso: matchedPrevision.rubriqueTreso ?? 'Non défini',
-			nomFichier: matchedPrevision.nomFichier ?? 'Non défini',
-		}
-	}
-
-	// State for table data and filters
-	const [bodyArray, setBodyArray] = useState<string[][]>([])
 	const [filters, setFilters] = useState({
 		minDate: getDefaultDateMin(),
 		maxDate: getDefaultDateMax(),
 		cle: '',
-		societe: '', // Added société filter
+		societe: '',
 	})
+
+	const [bodyArray, setBodyArray] = useState<string[][]>([])
 	const [showModalCourriers, setShowModalCourriers] = useState(false)
 	const [showModalPdf, setShowModalPdf] = useState(false)
 	const [selectedPdfUrl, setSelectedPdfUrl] = useState<string | null>(null)
-
-	// Navigation for redirection
 	const navigate = useNavigate()
-
-	const handleOpenPdf = (pdfUrl: string) => {
-		setSelectedPdfUrl(pdfUrl)
-		setShowModalCourriers(false)
-		setShowModalPdf(true)
-	}
-
 
 	// Check if a date range is valid
 	const isDateRangeValid = (min: string, max: string): boolean => {
@@ -122,8 +77,17 @@ const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
 	// Convert data for the table
 	const convertToArray = (datas: IPrevision[]): string[][] =>
 		datas
-			.filter((data) => !filters.cle || data.cle.includes(filters.cle)) // Filter by "Code"
-			.filter((data) => !filters.societe || data.societe === filters.societe) // Filter by "Société"
+			.filter((data) => {
+				const dateEcheance = new Date(data.dateEcheance)
+				const minDate = new Date(filters.minDate)
+				const maxDate = new Date(filters.maxDate)
+				return (
+					dateEcheance >= minDate &&
+					dateEcheance <= maxDate &&
+					(!filters.cle || data.cle.toLowerCase().includes(filters.cle.toLowerCase())) && // Case-insensitive filter by "Code"
+					(!filters.societe || data.societe === filters.societe) // Filter by "Société"
+				)
+			})
 			.map((data) => {
 				const credit = data.credit ? parseFloat(data.credit) : 0
 				const debit = data.debit ? parseFloat(data.debit) : 0
@@ -150,15 +114,11 @@ const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
 	// Handle row click for navigation
 	const handleRowClick = (index: number, rowData?: string[]): void => {
 		if (rowData && rowData[0]) {
-			const cle = rowData[0] // Assuming the key is in the first column of the row
-			const rowDetails = getRowDetails(cle) // Fetch full row details using the key
+			const cle = rowData[0]
+			const rowDetails = getRowDetails(cle)
 
 			if (rowDetails) {
 				console.log('RowDetails:', rowDetails)
-
-				// navigate('/commandes/tresorerie/details_prevision_ordo_sans_courrier', {
-				// 	state: { fullRowDetails: rowDetails }, // Pass full row details to the details page
-				// })
 				setShowModalCourriers(true)
 			} else {
 				console.error('Aucune prévision correspondante trouvée pour la clé:', cle)
@@ -183,18 +143,13 @@ const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
 
 	// Update table data when filters change
 	useEffect(() => {
-		const filteredData = mockedPrevisions.filter((data) => {
-			const dateEcheance = new Date(data.dateEcheance)
-			const minDate = new Date(filters.minDate)
-			const maxDate = new Date(filters.maxDate)
-			return dateEcheance >= minDate && dateEcheance <= maxDate
-		})
+		const filteredData = mockedPrevisions
 		setBodyArray(convertToArray(filteredData))
-	}, [filters])
+	}, [filters.minDate, filters.maxDate, filters.cle, filters.societe]) // Add filters.cle and filters.societe to dependencies
 
 	// Prepare table data
 	const tableData = {
-		tableHead: ['Code', 'Date ordo.', 'Fournisseur', 'Rubrique', 'libellé', 'Montant'], // Updated table headers
+		tableHead: ['Code', 'Date ordo.', 'Fournisseur', 'Rubrique', 'libellé', 'Montant'],
 		tableBody: bodyArray,
 	}
 
@@ -246,7 +201,7 @@ const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
 							showItemsPerPageSelector
 							showPagination
 							itemsPerPageOptions={[5, 25, 50]}
-							filterableColumns={[false, false, false, false, false, false]} // Updated filterable columns
+							filterableColumns={[false, false, false, false, false, false]}
 							language='fr'
 							onRowClick={(index: number, rowData?: string[]) => handleRowClick(index, rowData)}
 						/>
@@ -271,7 +226,7 @@ const PrevisionOrdoSansCourrier: () => ReactElement = (): ReactElement => {
 							pdfUrl={selectedPdfUrl}
 							onClose={() => {
 								setShowModalPdf(false)
-								setShowModalCourriers(true) // Revenir au modal des courriers
+								setShowModalCourriers(true)
 							}}
 							onAssocier={() => {
 								console.log('Associer le fichier PDF')
