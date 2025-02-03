@@ -27,6 +27,8 @@ export interface IPrevision {
 	cleEcriture?: string
 	compteRegroupement?: string
 	noCompteBanque?: string
+	iban?: string
+	bic?: string
 	datePaiement?: string
 	modeReglement?: string
 	statut?: string

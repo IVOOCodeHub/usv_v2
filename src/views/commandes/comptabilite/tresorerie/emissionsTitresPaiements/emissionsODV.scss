@@ -28,6 +28,7 @@
             .DateRange__container {
                 flex: 1;
                 max-width: 50%;
+                justify-content: flex-start;
 
                 @media (max-width: 768px) {
                     max-width: 100%;
@@ -187,6 +188,52 @@
 
         to {
             opacity: 1;
+        }
+    }
+}
+
+// Styles for VirementModifIban.tsx
+#virementModifIban {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 90dvh;
+    background: #f2f2f2;
+
+    .virementModifIban__content {
+        width: 80%;
+        max-width: 800px;
+        padding: 2em;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        h1 {
+            font-size: 24px;
+            color: #36395a;
+            margin-bottom: 1em;
+        }
+
+        .details {
+            margin-bottom: 2em;
+
+            h2 {
+                font-size: 20px;
+                color: #36395a;
+                margin-bottom: 1em;
+            }
+
+            p {
+                font-size: 16px;
+                color: #36395a;
+                margin: 0.5em 0;
+            }
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
         }
     }
 }

@@ -74,6 +74,13 @@ const EmissionsODV: () => ReactElement = (): ReactElement => {
 		return dateMin <= dateMax
 	}
 
+	const isBankAccountValid = (noCompteBanque: string): boolean => {
+		if (!noCompteBanque) {
+			console.warn('Invalid bank account.', { noCompteBanque })
+			return false
+		}
+	}
+
 	// Convert data for the table
 	const convertToArray = (datas: IPrevision[]): string[][] =>
 		datas
@@ -101,7 +108,7 @@ const EmissionsODV: () => ReactElement = (): ReactElement => {
 					data.rubriqueTreso ?? 'Non défini',
 					data.libelleEcriture ?? 'Non défini',
 					keepTwoDecimals(credit !== 0 ? credit : debit !== 0 ? -debit : 0),
-					data.noCompteBanque ? data.noCompteBanque.substring(15) : 'Non défini',
+					data.noCompteBanque ? data.noCompteBanque.substring(15) : 'IBAN Inconnu',
 				]
 			})
 
@@ -118,11 +125,10 @@ const EmissionsODV: () => ReactElement = (): ReactElement => {
 	const handleRowClick = (index: number, rowData?: string[]): void => {
 		if (rowData && rowData[0]) {
 			const id = rowData[0]
-			const rowDetails = getRowDetails(id)
+			const selectedPrevision = mockedPrevisions.find((prev) => prev.refSourceTiers === id)
 
-			if (rowDetails) {
-				console.log('RowDetails:', rowDetails)
-				setShowModalDetails(true)
+			if (selectedPrevision) {
+				navigate('/commandes/tresorerie/virement-modif-iban', { state: { prevision: selectedPrevision } })
 			} else {
 				console.error("Aucune émission correspondante trouvée pour l'ID:", id)
 			}
