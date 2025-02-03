@@ -11,7 +11,7 @@ import App from "./App.tsx";
 import { LoaderProvider } from "./context/loaderContext.tsx";
 import { UserProvider } from "./context/userContext.tsx";
 import { SiteProvider } from "./context/siteContext.tsx";
-import { CourrierProvider } from "./context/courrierContext.tsx";
+import { CourrierProvider } from "./context/courrierContext/CourrierProvider";
 import { TiersProvider } from "./context/tiersContext.tsx";
 import { PrevisionProvider } from "./context/previsionContext/PrevisionProvider.tsx";
 import { FileProvider } from "./context/fileContext/FileProvider.tsx";

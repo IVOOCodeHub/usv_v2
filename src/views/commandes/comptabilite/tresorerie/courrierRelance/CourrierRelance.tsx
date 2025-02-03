@@ -25,7 +25,7 @@ import Footer from "../../../../../components/footer/Footer";
 
 // context
 import { UserContext } from "../../../../../context/userContext.tsx";
-import { CourrierContext } from "../../../../../context/courrierContext.tsx";
+import { CourrierContext } from "../../../../../context/courrierContext/CourrierContext";
 import { TiersContext } from "../../../../../context/tiersContext.tsx";
 import { ITiersPrevisions } from "../../../../../utils/types/tiers.interface.ts";
 import { ICourrier } from "../../../../../utils/types/courrier.interface.ts";

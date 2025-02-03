@@ -21,7 +21,7 @@ import Footer from '../../../../../components/footer/Footer'
 // context
 import { LoaderContext } from '../../../../../context/loaderContext.tsx'
 import { UserContext } from '../../../../../context/userContext'
-import { CourrierContext } from '../../../../../context/courrierContext.tsx'
+import { CourrierContext } from '../../../../../context/courrierContext/CourrierContext'
 import { ICourrierDepenses } from '../../../../../utils/types/courrier.interface.ts'
 
 const NouvellePrevisionRecette = () => {

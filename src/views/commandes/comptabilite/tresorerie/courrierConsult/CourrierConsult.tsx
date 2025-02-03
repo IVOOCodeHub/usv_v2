@@ -12,7 +12,7 @@ import { useNavigate, useLocation, NavigateFunction } from "react-router-dom";
 import { useContext, useState, useEffect, ReactElement } from "react";
 
 // context
-import { CourrierContext } from "../../../../../context/courrierContext.tsx";
+import { CourrierContext } from "../../../../../context/courrierContext/CourrierContext";
 
 // components
 import Header from "../../../../../components/header/Header";

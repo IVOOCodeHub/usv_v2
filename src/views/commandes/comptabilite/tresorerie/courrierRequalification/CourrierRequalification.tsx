@@ -13,7 +13,7 @@ import Button from "../../../../../components/button/Button.tsx";
 import Footer from "../../../../../components/footer/Footer";
 
 // context
-import { CourrierContext } from "../../../../../context/courrierContext.tsx";
+import { CourrierContext } from "../../../../../context/courrierContext/CourrierContext";
 
 export function CourrierRequalification(): ReactElement {
   const { courrier } = useContext(CourrierContext);

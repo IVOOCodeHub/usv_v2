@@ -62,3 +62,9 @@ export interface ICourrier {
   matMark: string;
   tacheAssociee: string;
 }
+
+export interface IPaginationParams {
+  offset: number;
+  limit: number;
+  search: string;
+}

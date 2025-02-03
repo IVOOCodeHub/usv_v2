@@ -3,7 +3,7 @@ import "./courrierDistribution.scss";
 import { ReactElement, useContext, useEffect } from "react";
 import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 
-import { CourrierContext } from "../../../../context/courrierContext.tsx";
+import { CourrierContext } from "../../../../context/courrierContext/CourrierContext";
 import { UserContext } from "../../../../context/userContext.tsx";
 
 import WithAuth from "../../../auth/WithAuth.tsx";

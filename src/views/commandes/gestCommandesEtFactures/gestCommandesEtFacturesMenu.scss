@@ -1,0 +1,11 @@
+@use "../../../utils/styles/mixins" as mixins;
+
+
+#gestCommandesEtFactureMenu {
+  @include mixins.main;
+}
+
+#gestCommandesEtFactureMenu #menuContainer {
+  width: 100%;
+  column-count: 1;
+}

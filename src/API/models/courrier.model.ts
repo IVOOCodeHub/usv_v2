@@ -103,7 +103,10 @@ export const courrierModel: (serverCourrier: IServerCourrier) => ICourrier = (
     clePaiement: serverCourrier.cle_paiement,
     cleCompta: serverCourrier.cle_compta,
     distributionDirecte: serverCourrier.distribution_directe,
-    datePiece: convertENDateToFr(serverCourrier.date_piece),
+    datePiece:
+      serverCourrier.date_piece && serverCourrier.date_piece.trim() !== ""
+        ? convertENDateToFr(serverCourrier.date_piece)
+        : "NA",
     codeOperationCompta: serverCourrier.code_operation_compta,
     original: serverCourrier.original,
     cleOriginal: serverCourrier.cle_original,

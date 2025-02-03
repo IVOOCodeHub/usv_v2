@@ -1,9 +1,12 @@
 import "./rechercheCourrier.scss";
 
-import { ReactElement, useContext, useEffect } from "react";
+import { IPaginationParams } from "../../../../utils/types/courrier.interface";
+import { ICourrier } from "../../../../utils/types/courrier.interface";
+
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { useNavigate, NavigateFunction } from "react-router-dom";
 
-import { CourrierContext } from "../../../../context/courrierContext";
+import { CourrierContext } from "../../../../context/courrierContext/CourrierContext";
 import { UserContext } from "../../../../context/userContext";
 
 import WithAuth from "../../../auth/WithAuth";
@@ -13,14 +16,28 @@ import Button from "../../../../components/button/Button";
 import NRTL from "../../../../components/NRTL/NRTL";
 
 function RechercheCourrier(): ReactElement {
-  const { courriers, getCourriers } = useContext(CourrierContext);
+  const { getCourriers } = useContext(CourrierContext);
   const { userCredentials } = useContext(UserContext);
+  const [courriersServer, setCourriersServer] = useState<ICourrier[] | []>([]);
+  const [paginationParams, setPaginationParams] = useState<IPaginationParams>({
+    offset: 0,
+    limit: 10,
+    search: "",
+  });
+  const [totalItems, setTotalItems] = useState<number>(0);
 
   useEffect((): void => {
-    if (!courriers && userCredentials) {
-      getCourriers(userCredentials).finally();
+    if (userCredentials) {
+      getCourriers(userCredentials, paginationParams)
+        .then((res: string | ICourrier[] | undefined): void => {
+          if (Array.isArray(res)) {
+            setCourriersServer(res);
+            setTotalItems(res?.length || 0);
+          }
+        })
+        .finally();
     }
-  }, [courriers]);
+  }, [userCredentials, paginationParams]);
 
   const navigate: NavigateFunction = useNavigate();
 
@@ -37,32 +54,18 @@ function RechercheCourrier(): ReactElement {
       "Statut",
       "Commentaire",
     ],
-    tableBody: [
-      [
-        "1",
-        "FLERIAU",
-        "14/10/2016",
-        "BERTON S.A.S",
-        "FACTUREREF",
-        "NC",
-        "COMPTABILITE",
-        "A TRAITER",
-        "TRAITE",
-        "15.55€",
-      ],
-      [
-        "62694",
-        "GEAS",
-        "16/01/2025",
-        "CREDIT COOPERAT",
-        "INFORMATION REÇUE",
-        "Récap annuel de frais 202",
-        "FINANCE",
-        "A TRAITER",
-        "DISTRIBUE",
-        "",
-      ],
-    ],
+    tableBody: courriersServer.map((courrier: ICourrier): string[] => [
+      courrier.cle,
+      courrier.societe,
+      courrier.datePiece,
+      courrier.societeEmettrice,
+      courrier.nature,
+      courrier.refDoc,
+      courrier.codeFournisseurSocieteDestinataire,
+      courrier.action,
+      courrier.statut,
+      courrier.commentaire,
+    ]),
   };
   return (
     <>
@@ -84,12 +87,12 @@ function RechercheCourrier(): ReactElement {
             showPreviousNextButtons={true}
             showSearchBar={true}
             filterableColumns={[
+              false,
               true,
               true,
               true,
               true,
-              true,
-              true,
+              false,
               true,
               true,
               true,
@@ -107,6 +110,20 @@ function RechercheCourrier(): ReactElement {
                 },
               )
             }
+            serverSidePagination={true}
+            serverCurrentPage={paginationParams.offset}
+            serverItemsPerPage={paginationParams.limit}
+            serverTotalItems={totalItems}
+            onServerPageChange={(newPage: number): void => {
+              setPaginationParams({ ...paginationParams, offset: newPage });
+            }}
+            onServerItemsPerPageChange={(newLimit: number): void => {
+              setPaginationParams({
+                ...paginationParams,
+                limit: newLimit,
+                offset: 0,
+              });
+            }}
           />
         </div>
         <div className={"goBackBtnWrapper"}>

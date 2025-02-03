@@ -112,8 +112,8 @@ function MenuGeneral(): ReactElement {
         },
         {
           name: "Gestion Commandes & Factures",
-          link: "/menu_general",
-          isMigrated: false,
+          link: "/commandes/gestion_commandes_et_factures",
+          isMigrated: true,
         },
         {
           name: "Comptabilité",
