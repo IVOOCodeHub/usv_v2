@@ -33,6 +33,18 @@ interface RowDetails {
 	modeReglement: string
 	statut: string
 	refSourceTiers: string
+
+	// New fields from the ASP code
+	ibanCible: string // IBAN of the recipient
+	bicCible: string // BIC of the recipient
+	ibanSource: string // IBAN of the issuer
+	bicSource: string // BIC of the issuer
+	libelleTiers: string // Description of the supplier
+	noCompteBanque: string // Bank account number
+	cleCourrier: string // Unique key for the payment
+	ibanTiers: string // IBAN of the supplier (from fournisseurs table)
+	bicTiers: string // BIC of the supplier (from fournisseurs table)
+	nomBanque: string // Bank name (from banques_comptes_societes table)
 }
 
 const EmissionsODV: () => ReactElement = (): ReactElement => {
@@ -74,12 +86,12 @@ const EmissionsODV: () => ReactElement = (): ReactElement => {
 		return dateMin <= dateMax
 	}
 
-	const isBankAccountValid = (noCompteBanque: string): boolean => {
-		if (!noCompteBanque) {
-			console.warn('Invalid bank account.', { noCompteBanque })
-			return false
-		}
-	}
+	// const isBankAccountValid = (noCompteBanque: string): boolean => {
+	// 	if (!noCompteBanque) {
+	// 		console.warn('Invalid bank account.', { noCompteBanque })
+	// 		return false
+	// 	}
+	// }
 
 	// Convert data for the table
 	const convertToArray = (datas: IPrevision[]): string[][] =>
@@ -121,16 +133,48 @@ const EmissionsODV: () => ReactElement = (): ReactElement => {
 			maximumFractionDigits: 2,
 		}).format(number)
 
+	const getRowDetails = (refSourceTiers: string): RowDetails | undefined => {
+		const matchedPrevision = mockedPrevisions.find((prevision) => prevision.refSourceTiers === refSourceTiers)
+		if (!matchedPrevision) return undefined
+
+		// Fetch additional data from the mocked data (replace with API calls if needed)
+		const ibanCible = matchedPrevision.iban || 'Non défini' // Replace with actual logic
+		const bicCible = matchedPrevision.bic || 'Non défini' // Replace with actual logic
+		const ibanSource = matchedPrevision.noCompteBanque ? matchedPrevision.noCompteBanque.substring(15) : 'Non défini' // Extract IBAN from noCompteBanque
+		const bicSource = 'Non défini' // Replace with actual logic
+		const libelleTiers = matchedPrevision.libelleCompteTiers || 'Non défini'
+		const noCompteBanque = matchedPrevision.noCompteBanque || 'Non défini'
+		const cleCourrier = matchedPrevision.cle || 'Non défini'
+		const ibanTiers = matchedPrevision.iban || 'Non défini' // Replace with actual logic
+		const bicTiers = matchedPrevision.bic || 'Non défini' // Replace with actual logic
+		const nomBanque = matchedPrevision.noCompteBanque ? matchedPrevision.noCompteBanque.split(' - ')[0] : 'Non défini' // Extract bank name from noCompteBanque
+
+		return {
+			...matchedPrevision,
+			ibanCible,
+			bicCible,
+			ibanSource,
+			bicSource,
+			libelleTiers,
+			noCompteBanque,
+			cleCourrier,
+			ibanTiers,
+			bicTiers,
+			nomBanque,
+		}
+	}
+
 	// Handle row click for navigation
 	const handleRowClick = (index: number, rowData?: string[]): void => {
 		if (rowData && rowData[0]) {
-			const id = rowData[0]
-			const selectedPrevision = mockedPrevisions.find((prev) => prev.refSourceTiers === id)
+			const refSourceTiers = rowData[0] // Assuming the first column contains the refSourceTiers
+			const rowDetails = getRowDetails(refSourceTiers)
 
-			if (selectedPrevision) {
-				navigate('/commandes/tresorerie/virement-modif-iban', { state: { prevision: selectedPrevision } })
+			if (rowDetails) {
+				navigate('/commandes/tresorerie/virement-modif-iban', { state: { prevision: rowDetails } })
+				console.log('RowDetails:', rowDetails)
 			} else {
-				console.error("Aucune émission correspondante trouvée pour l'ID:", id)
+				console.error("Aucune émission correspondante trouvée pour l'ID:", refSourceTiers)
 			}
 		} else {
 			console.warn('No data available for this row.')
