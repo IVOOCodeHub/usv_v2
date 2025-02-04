@@ -29,6 +29,14 @@ export interface IPrevision {
 	noCompteBanque?: string
 	iban?: string
 	bic?: string
+	ibanCible?: string
+	bicCible?: string
+	ibanSource?: string
+	bicSource?: string
+	libelleTiers?: string
+	ibanTiers?: string
+	bicTiers?: string
+	nomBanque?: string
 	datePaiement?: string
 	modeReglement?: string
 	statut?: string
