@@ -120,7 +120,6 @@ const VirementModifIban: React.FC = () => {
 										onChange={(e) => handleInputChange('libelleTiers', e.target.value)}
 									/>
 								</label>
-
 								<label>
 									IBAN Cible :
 									<input

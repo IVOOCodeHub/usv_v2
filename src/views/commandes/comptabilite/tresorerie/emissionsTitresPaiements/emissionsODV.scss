@@ -199,39 +199,38 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    min-height: 100vh; // Ensure it takes the full viewport height
-    padding: 2em; // Add some padding to avoid content touching the edges
-    background: #f2f2f2; // Optional: Add a background color for better visibility
+    min-height: 100vh;
+    padding: 2em;
+    background: #f2f2f2;
 
     .alreadyPaidButtonWrapper {
-        margin-bottom: 2em; // Add some space below the button
+        margin-bottom: 2em;
     }
 
     .main-container {
         display: flex;
-        flex-direction: row;
+        flex-direction: column; // Change to column to stack the 3rd tab below
         background-color: white;
         padding: 2em;
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        max-width: 1200px; // Adjusted to ensure enough space
-        width: 90%; // Ensure it doesn't exceed the viewport width
-        max-height: 90vh; // Limit the height to avoid overflow
-        overflow-y: auto; // Allow scrolling if content exceeds the height
+        max-width: 1200px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
 
         .coordonnees-container {
             display: flex;
             flex-direction: row;
             width: 100%;
-            gap: 2em; // Reduced gap
+            gap: 2em; // Gap between the first two tabs
             row-gap: 2em;
-            flex-wrap: nowrap; // Prevent wrapping
+            flex-wrap: wrap; // Allow wrapping for the 3rd tab
             margin: 0 auto;
 
             .tab-panel {
                 flex: 1;
                 min-width: 350px;
-                max-width: 45%; // Ensure they fit side by side
                 background: #ffffff;
                 border: 1px solid #36395a;
                 border-radius: 6px;
@@ -260,7 +259,8 @@
                         input,
                         select {
                             flex: 1;
-                            max-width: 250px;
+                            min-width: 200px; // Set a minimum width for inputs
+                            max-width: 100%; // Allow inputs to grow as needed
                             margin-left: 1em;
                             padding: 0.5em;
                             border: 1px solid #36395a;
@@ -280,11 +280,17 @@
                     }
                 }
             }
+
+            // Specific styling for the 3rd tab
+            .tab-panel:last-child {
+                flex-basis: 100%; // Make the 3rd tab span the full width
+                margin-top: 2em; // Add gap between the first two tabs and the 3rd tab
+            }
         }
     }
 
     .actions {
-        margin-top: 2em; // Add some space above the actions
+        margin-top: 2em;
     }
 }
 
