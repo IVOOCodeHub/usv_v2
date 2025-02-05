@@ -196,44 +196,105 @@
 #virementModifIban {
     display: flex;
     flex-flow: column;
-    align-items: center;
     justify-content: center;
-    min-height: 90dvh;
-    background: #f2f2f2;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh; // Ensure it takes the full viewport height
+    padding: 2em; // Add some padding to avoid content touching the edges
+    background: #f2f2f2; // Optional: Add a background color for better visibility
 
-    .virementModifIban__content {
-        width: 80%;
-        max-width: 800px;
+    .alreadyPaidButtonWrapper {
+        margin-bottom: 2em; // Add some space below the button
+    }
+
+    .main-container {
+        display: flex;
+        flex-direction: row;
+        background-color: white;
         padding: 2em;
-        background: white;
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 1200px; // Adjusted to ensure enough space
+        width: 90%; // Ensure it doesn't exceed the viewport width
+        max-height: 90vh; // Limit the height to avoid overflow
+        overflow-y: auto; // Allow scrolling if content exceeds the height
 
-        h1 {
-            font-size: 24px;
-            color: #36395a;
-            margin-bottom: 1em;
-        }
-
-        .details {
-            margin-bottom: 2em;
-
-            h2 {
-                font-size: 20px;
-                color: #36395a;
-                margin-bottom: 1em;
-            }
-
-            p {
-                font-size: 16px;
-                color: #36395a;
-                margin: 0.5em 0;
-            }
-        }
-
-        .actions {
+        .coordonnees-container {
             display: flex;
-            justify-content: flex-end;
+            flex-direction: row;
+            width: 100%;
+            gap: 2em; // Reduced gap
+            row-gap: 2em;
+            flex-wrap: nowrap; // Prevent wrapping
+            margin: 0 auto;
+
+            .tab-panel {
+                flex: 1;
+                min-width: 350px;
+                max-width: 45%; // Ensure they fit side by side
+                background: #ffffff;
+                border: 1px solid #36395a;
+                border-radius: 6px;
+                padding: 1.5em;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+                h2 {
+                    font-size: 1.5em;
+                    margin-bottom: 1em;
+                    text-align: center;
+                    color: #36395a;
+                }
+
+                .form-container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1em;
+
+                    label {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        font-size: 14px;
+                        color: #36395a;
+
+                        input,
+                        select {
+                            flex: 1;
+                            max-width: 250px;
+                            margin-left: 1em;
+                            padding: 0.5em;
+                            border: 1px solid #36395a;
+                            border-radius: 4px;
+                            background: #f2f2f2;
+                            font-size: 14px;
+                            text-align: center;
+
+                            &:hover {
+                                border-color: #1092b8;
+                            }
+
+                            &:focus {
+                                outline: 3.5px solid #1092b8;
+                            }
+                        }
+                    }
+                }
+            }
         }
+    }
+
+    .actions {
+        margin-top: 2em; // Add some space above the actions
+    }
+}
+
+@media (max-width: 768px) {
+    .coordonnees-container {
+        flex-direction: column;
+        gap: 1em;
+    }
+
+    .tab-panel {
+        max-width: 100%;
     }
 }

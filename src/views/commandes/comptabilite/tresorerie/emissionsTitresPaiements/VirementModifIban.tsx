@@ -50,43 +50,132 @@ const VirementModifIban: React.FC = () => {
 		return <div>Aucune donnée disponible.</div>
 	}
 
+	const handleInputChange = (field: keyof RowDetails, value: string) => {
+		console.log(field, value)
+	}
+
+	const handleAlreadyPaid = () => {
+		navigate(-1)
+	}
+
 	return (
 		<>
 			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | MODIFICATION DES IBAN / BIC du virement ${prevision.cle}` }} />
-			<main id='virementModifIban'>
-				<section className='virementModifIban__content'>
-					<h1>Modification IBAN</h1>
-					<div className='details'>
-						<h2>Détails du virement</h2>
-						<p>
-							<strong>Société:</strong> {prevision.societe}
-						</p>
-						<p>
-							<strong>Bénéficiaire:</strong> {prevision.libelleCompteTiers}
-						</p>
-						<p>
-							<strong>IBAN Source:</strong> {prevision.ibanSource}
-						</p>
-						<p>
-							<strong>BIC Source:</strong> {prevision.bicSource}
-						</p>
-						<p>
-							<strong>IBAN Cible:</strong> {prevision.ibanCible}
-						</p>
-						<p>
-							<strong>BIC Cible:</strong> {prevision.bicCible}
-						</p>
+			<div id='virementModifIban'>
+				<div className='alreadyPaidButtonWrapper'>
+					<Button
+						props={{ style: 'blue', text: 'Marquer comme déjà payé', type: 'button', onClick: handleAlreadyPaid }}
+					/>
+				</div>
+				<div className='main-container'>
+					<div className='coordonnees-container'>
+						{/* Section Emetteur */}
+						<section className='tab-panel'>
+							<h2>EMETTEUR</h2>
+							<div className='form-container'>
+								<label>
+									Société :
+									<input
+										type='text'
+										value={prevision.societe ?? ''}
+										onChange={(e) => handleInputChange('societe', e.target.value)}
+									/>
+								</label>
+								<label>
+									Banque :
+									<input
+										type='text'
+										value={prevision.nomBanque ?? ''}
+										onChange={(e) => handleInputChange('nomBanque', e.target.value)}
+									/>
+								</label>
+								<label>
+									IBAN Source :
+									<input
+										type='text'
+										value={prevision.ibanSource ?? ''}
+										onChange={(e) => handleInputChange('ibanSource', e.target.value)}
+									/>
+								</label>
+								<label>
+									BIC Source :
+									<input
+										type='text'
+										value={prevision.bicSource ?? ''}
+										onChange={(e) => handleInputChange('bicSource', e.target.value)}
+									/>
+								</label>
+							</div>
+						</section>
 
-						<p>
-							<strong>Montant:</strong> {parseFloat(prevision.credit).toFixed(2)} €
-						</p>
+						{/* Section Destinataire */}
+						<section className='tab-panel'>
+							<h2>DESTINATAIRE</h2>
+							<div className='form-container'>
+								<label>
+									Tiers :
+									<input
+										type='text'
+										value={prevision.libelleTiers ?? ''}
+										onChange={(e) => handleInputChange('libelleTiers', e.target.value)}
+									/>
+								</label>
+
+								<label>
+									IBAN Cible :
+									<input
+										type='text'
+										value={prevision.ibanCible ?? ''}
+										onChange={(e) => handleInputChange('ibanCible', e.target.value)}
+									/>
+								</label>
+								<label>
+									BIC Cible :
+									<input
+										type='text'
+										value={prevision.bicCible ?? ''}
+										onChange={(e) => handleInputChange('bicCible', e.target.value)}
+									/>
+								</label>
+							</div>
+						</section>
+
+						{/* Section Libellé */}
+						<section className='tab-panel'>
+							<div className='form-container'>
+								<label>
+									Libellé :
+									<input
+										type='text'
+										value={prevision.libelleEcriture ?? ''}
+										onChange={(e) => handleInputChange('libelleEcriture', e.target.value)}
+									/>
+								</label>
+								<label>
+									Date Ordo :
+									<input
+										type='date'
+										value={prevision.dateOrdo ?? ''}
+										onChange={(e) => handleInputChange('dateOrdo', e.target.value)}
+									/>
+								</label>
+								<label>
+									Montant :
+									<input
+										type='text'
+										value={parseFloat(prevision.credit.replace(/\s/g, '').replace(',', '.')) ?? 0}
+										onChange={(e) => handleInputChange('credit', e.target.value)}
+									/>
+								</label>
+							</div>
+						</section>
 					</div>
-					<div className='actions'>
-						<Button props={{ style: 'grey', text: 'Retour', type: 'button', onClick: () => navigate(-1) }} />
-					</div>
-				</section>
-			</main>
-			<Footer />
+				</div>
+
+				<div className='actions'>
+					<Button props={{ style: 'grey', text: 'Retour', type: 'button', onClick: () => navigate(-1) }} />
+				</div>
+			</div>
 		</>
 	)
 }

@@ -140,14 +140,14 @@ const EmissionsODV: () => ReactElement = (): ReactElement => {
 		// Fetch additional data from the mocked data (replace with API calls if needed)
 		const ibanCible = matchedPrevision.iban || 'Non défini' // Replace with actual logic
 		const bicCible = matchedPrevision.bic || 'Non défini' // Replace with actual logic
-		const ibanSource = matchedPrevision.noCompteBanque ? matchedPrevision.noCompteBanque.substring(15) : 'Non défini' // Extract IBAN from noCompteBanque
-		const bicSource = 'Non défini' // Replace with actual logic
+		const ibanSource = matchedPrevision.ibanSource ? matchedPrevision.ibanSource : 'Non défini' // Extract IBAN from noCompteBanque
+		const bicSource =  matchedPrevision.bicSource ? matchedPrevision.bicSource : 'Non défini' // Extract IBAN from noCompteBanque
 		const libelleTiers = matchedPrevision.libelleCompteTiers || 'Non défini'
 		const noCompteBanque = matchedPrevision.noCompteBanque || 'Non défini'
 		const cleCourrier = matchedPrevision.cle || 'Non défini'
 		const ibanTiers = matchedPrevision.iban || 'Non défini' // Replace with actual logic
 		const bicTiers = matchedPrevision.bic || 'Non défini' // Replace with actual logic
-		const nomBanque = matchedPrevision.noCompteBanque ? matchedPrevision.noCompteBanque.split(' - ')[0] : 'Non défini' // Extract bank name from noCompteBanque
+		const nomBanque = matchedPrevision.nomBanque ? matchedPrevision.nomBanque : 'Non défini' // Extract bank name from noCompteBanque
 
 		return {
 			...matchedPrevision,
