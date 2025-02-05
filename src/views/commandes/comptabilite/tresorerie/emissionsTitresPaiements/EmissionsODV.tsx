@@ -211,7 +211,7 @@ const EmissionsODV: () => ReactElement = (): ReactElement => {
 
 	return (
 		<>
-			<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | ÉMISSIONS ODV' }} />
+			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | ÉMISSIONS ODV ${filters.societe}` }} />
 			<main id='emissionsODV'>
 				<section className='emissionsODV__bottomSection'>
 					<div className='filtersWrapper'>

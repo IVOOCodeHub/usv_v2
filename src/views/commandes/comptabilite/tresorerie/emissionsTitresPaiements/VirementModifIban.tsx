@@ -52,7 +52,7 @@ const VirementModifIban: React.FC = () => {
 
 	return (
 		<>
-			<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | MODIFICATION IBAN' }} />
+			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | MODIFICATION DES IBAN / BIC du virement ${prevision.cle}` }} />
 			<main id='virementModifIban'>
 				<section className='virementModifIban__content'>
 					<h1>Modification IBAN</h1>
@@ -65,19 +65,20 @@ const VirementModifIban: React.FC = () => {
 							<strong>Bénéficiaire:</strong> {prevision.libelleCompteTiers}
 						</p>
 						<p>
-							<strong>IBAN Cible:</strong> {prevision.ibanCible}
-						</p>
-						<p>
-							<strong>BIC Cible:</strong> {prevision.bicCible}
-						</p>
-						<p>
 							<strong>IBAN Source:</strong> {prevision.ibanSource}
 						</p>
 						<p>
 							<strong>BIC Source:</strong> {prevision.bicSource}
 						</p>
 						<p>
-							<strong>Montant:</strong> {prevision.montant} €
+							<strong>IBAN Cible:</strong> {prevision.ibanCible}
+						</p>
+						<p>
+							<strong>BIC Cible:</strong> {prevision.bicCible}
+						</p>
+
+						<p>
+							<strong>Montant:</strong> {parseFloat(prevision.credit).toFixed(2)} €
 						</p>
 					</div>
 					<div className='actions'>
