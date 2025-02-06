@@ -146,6 +146,7 @@ const VirementModifIban: React.FC = () => {
 									Libellé :
 									<input
 										type='text'
+										name='libelleEcriture'
 										value={prevision.libelleEcriture ?? ''}
 										onChange={(e) => handleInputChange('libelleEcriture', e.target.value)}
 									/>

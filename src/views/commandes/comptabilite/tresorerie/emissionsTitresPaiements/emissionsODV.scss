@@ -261,7 +261,7 @@
                             flex: 1;
                             min-width: 200px; // Set a minimum width for inputs
                             max-width: 100%; // Allow inputs to grow as needed
-                            margin-left: 1em;
+                            // margin-left: 1em;
                             padding: 0.5em;
                             border: 1px solid #36395a;
                             border-radius: 4px;
@@ -275,6 +275,18 @@
 
                             &:focus {
                                 outline: 3.5px solid #1092b8;
+                            }
+
+                            input[type="text"] {
+                                min-width: 200px; // Minimum width for all inputs
+                                width: auto; // Allow the input to grow based on content
+                                flex: 1 1 auto; // Allow flexibility in sizing
+                            }
+
+                            // Specific styling for the "Libellé" input
+                            input[name="libelleEcriture"] {
+                                min-width: 300px; // Set a larger minimum width for "Libellé"
+                                width: 100%; // Allow it to take up the full available width
                             }
                         }
                     }
@@ -302,5 +314,29 @@
 
     .tab-panel {
         max-width: 100%;
+    }
+}
+
+#virementModifIban {
+    .main-container {
+        .coordonnees-container {
+            .tab-panel {
+                .form-container {
+                    label {
+                        input[type="text"] {
+                            min-width: 200px; // Minimum width for all inputs
+                            width: auto; // Allow the input to grow based on content
+                            flex: 1 1 auto; // Allow flexibility in sizing
+                        }
+
+                        // Specific styling for the "Libellé" input
+                        input[name="libelleEcriture"] {
+                            min-width: 300px; // Set a larger minimum width for "Libellé"
+                            width: 100%; // Allow it to take up the full available width
+                        }
+                    }
+                }
+            }
+        }
     }
 }
