@@ -52,7 +52,9 @@ const ModalBankEntries: React.FC<ModalBankEntriesProps> = ({
 					<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | ASSOCIATION LIGNE DE RELEVÉ BANCAIRE' }} />
 				</div>
 				<div className='selected-bank-entry-description'>
-					{libelleEcriture} - {libelleTiers}
+					<h3>
+						{libelleEcriture} - {libelleTiers}
+					</h3>
 				</div>
 				<Nrtl
 					datas={tableData}

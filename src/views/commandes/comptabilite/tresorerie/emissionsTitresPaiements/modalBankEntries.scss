@@ -20,11 +20,24 @@
     overflow-y: auto;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
+    // .selected-bank-entry-description {
+    //     margin-top: 1em;
+    //     font-size: 1.5em;
+    //     font-weight: bold;
+    //     color: #36395a;
+    // }
     .selected-bank-entry-description {
-        margin-top: 1em;
-        font-size: 1.5em;
-        font-weight: bold;
-        color: #36395a;
+        margin-bottom: 1em;
+        padding: 0.5em;
+        background: #f2f2f2;
+        border-radius: 8px;
+        border: 1px solid #36395a;
+
+        h3 {
+            font-size: 1.2em;
+            margin: 0;
+            color: #36395a;
+        }
     }
 }
 
