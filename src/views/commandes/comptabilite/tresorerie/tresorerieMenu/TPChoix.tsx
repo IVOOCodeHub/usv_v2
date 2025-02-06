@@ -21,7 +21,7 @@ function TPChoix(): ReactElement {
 			title: 'Emissions Titres Paiements',
 			items: [
 				{ name: 'Emission ODV', link: '/commandes/tresorerie/emissions_odv' },
-				{ name: "Validation des émissions d'ODV", link: '/' },
+				{ name: "Validation des émissions d'ODV", link: '/commandes/tresorerie/validation_odv' },
 				{ name: 'Emissions chèques', link: '/' },
 			],
 		},
