@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { IPrevision } from '../../../../../utils/types/prevision.interface'
 import Header from '../../../../../components/header/Header'
-import Footer from '../../../../../components/footer/Footer'
 import Button from '../../../../../components/button/Button.tsx'
+import ModalBankEntries from './ModalBankEntries.tsx'
 import './emissionsODV.scss'
 
 interface RowDetails {
@@ -44,6 +44,32 @@ interface RowDetails {
 const VirementModifIban: React.FC = () => {
 	const location = useLocation()
 	const navigate = useNavigate()
+
+	const [isModalOpen, setIsModalOpen] = useState(false)
+	const [selectedBankEntry, setSelectedBankEntry] = useState<{
+		code: string
+		date: string
+		libelle: string
+		debit: string
+	} | null>(null)
+
+	// Open the modal
+	const openModal = () => {
+		setIsModalOpen(true)
+	}
+
+	// Close the modal
+	const closeModal = () => {
+		setIsModalOpen(false)
+	}
+
+	// Handle bank entry selection
+	const handleSelectBankEntry = (bankEntry: { code: string; date: string; libelle: string; debit: string }) => {
+		setSelectedBankEntry(bankEntry)
+		// You can now associate the selected bank entry with the expenditure forecast
+		console.log('Selected Bank Entry:', bankEntry)
+	}
+
 	const { prevision } = location.state as { prevision: RowDetails }
 
 	if (!prevision) {
@@ -54,18 +80,12 @@ const VirementModifIban: React.FC = () => {
 		console.log(field, value)
 	}
 
-	const handleAlreadyPaid = () => {
-		navigate(-1)
-	}
-
 	return (
 		<>
 			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | MODIFICATION DES IBAN / BIC du virement ${prevision.cle}` }} />
 			<div id='virementModifIban'>
 				<div className='alreadyPaidButtonWrapper'>
-					<Button
-						props={{ style: 'blue', text: 'Marquer comme déjà payé', type: 'button', onClick: handleAlreadyPaid }}
-					/>
+					<Button props={{ style: 'blue', text: 'Marquer comme déjà payé', type: 'button', onClick: openModal }} />
 				</div>
 				<div className='main-container'>
 					<div className='coordonnees-container'>
@@ -170,6 +190,15 @@ const VirementModifIban: React.FC = () => {
 							</div>
 						</section>
 					</div>
+
+					{/* Modal for bank entries */}
+					<ModalBankEntries
+						isOpen={isModalOpen}
+						onClose={closeModal}
+						onSelectBankEntry={handleSelectBankEntry}
+						libelleTiers={prevision.libelleTiers}
+						libelleEcriture={prevision.libelleEcriture}
+					/>
 				</div>
 
 				<div className='actions'>
