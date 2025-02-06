@@ -4,12 +4,14 @@ import { Routes, Route } from "react-router-dom";
 // views
 import GestCommandesEtFactureMenuWithAuth from "./gestCommandesEtFactures/GestCommandesEtFacturesMenu.tsx";
 import GestionDesCourriersMenuWithAuth from "./gestionDesCourriers/GestionDesCourriersMenu.tsx";
+import CommandesFournisseursMenuWithAuth from "./commandesFournisseurs/commandesFournisseursMenu.tsx";
 import ComptaChoixWithAuth from "./comptabilite/ComptaChoix.tsx";
 
 // router
 import GestCommandesEtFacturesRouter from './gestCommandesEtFactures/GestCommandesEtFacturesRouter.tsx'
 import TresorerieRouter from "./comptabilite/tresorerie/TresorerieRouter.tsx";
 import CourriersRouter from "./gestionDesCourriers/CourriersRouter.tsx";
+import CommandesFournisseursRouter from "./commandesFournisseurs/commandesFournisseursRouter.tsx";
 
 export default function CommandesRouter(): ReactElement {
   return (
@@ -17,6 +19,10 @@ export default function CommandesRouter(): ReactElement {
       {/* Gestion des courriers */}
       <Route path={"gestion_des_courriers"} element={<GestionDesCourriersMenuWithAuth />}/>
       <Route path={'gestion_des_courriers/*'} element={<CourriersRouter />} />
+
+      {/* Commandes fournisseurs */}
+      <Route path={"commandes_fournisseurs"} element={<CommandesFournisseursMenuWithAuth />} />
+      <Route path={'commandes_fournisseurs/*'} element={<CommandesFournisseursRouter />} />
 
       {/* Gestion des commandes et factures */}
       <Route path={"gestion_commandes_et_factures"} element={<GestCommandesEtFactureMenuWithAuth />} />

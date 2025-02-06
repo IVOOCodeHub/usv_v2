@@ -1,0 +1,15 @@
+@use "../../../utils/styles/mixins" as mixins;
+
+#commandesFournisseurs {
+  @include mixins.main;
+}
+
+#commandesFournisseurs #menuContainer {
+  width: 100%;
+  column-count: 1;
+}
+
+#commandesFournisseurs .secondMenuWrapper #menuContainer  {
+  width: 250px;
+  column-count: 1;
+}
