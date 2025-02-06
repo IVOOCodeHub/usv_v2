@@ -35,7 +35,7 @@ const CommandesFournisseursMenu = (): ReactElement => {
                 },
                 {
                     name: "Utilitaires",
-                    link: "/commandes/commandes_fournisseurs/utilitaires",
+                    link: "/commandes/commandes_fournisseurs/utilitaire_commandes",
                     isMigrated: true,
                 },
                 {
