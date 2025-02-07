@@ -78,7 +78,7 @@ function ModifierPiece(): ReactElement {
                                             type: "button",
                                             onClick: (): void =>
                                                 navigate(
-                                                    "/commandes/commandes_fournisseurs/commandes_a_valider/62639",
+                                                    "/commandes/commandes_fournisseurs/commandes_a_valider/567",
                                                 ),
                                         }}
                                     />
@@ -89,7 +89,7 @@ function ModifierPiece(): ReactElement {
                                             type: "button",
                                             onClick: (): void =>
                                                 navigate(
-                                                    "/commandes/commandes_fournisseurs/commandes_a_valider/62639",
+                                                    "/commandes/commandes_fournisseurs/commandes_a_valider/567",
                                                 ),
                                         }}
                                     />
