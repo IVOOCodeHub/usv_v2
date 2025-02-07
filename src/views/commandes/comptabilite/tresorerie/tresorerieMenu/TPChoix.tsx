@@ -22,7 +22,7 @@ function TPChoix(): ReactElement {
 			items: [
 				{ name: 'Emission ODV', link: '/commandes/tresorerie/emissions_odv' },
 				{ name: "Validation des émissions d'ODV", link: '/commandes/tresorerie/validation_odv' },
-				{ name: 'Emissions chèques', link: '/' },
+				{ name: 'Emissions chèques', link: '/commandes/tresorerie/emissions_cheques' },
 			],
 		},
 	]
