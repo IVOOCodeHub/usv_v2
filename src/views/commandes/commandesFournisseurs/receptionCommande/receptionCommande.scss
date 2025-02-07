@@ -1,0 +1,72 @@
+@use "../../../../utils/styles/mixins" as mixins;
+
+#receptionCommande {
+  min-height: 90dvh;
+  gap: unset !important;
+  position: relative !important;
+  @include mixins.main;
+}
+
+#receptionCommande form {
+  gap: 0.1em !important;
+  text-align: end;
+  @include mixins.form;
+}
+
+#receptionCommande .topSection,
+#receptionCommande .bottomSection {
+  padding: 0.5em;
+  width: 100%;
+}
+
+#receptionCommande .topSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 1em;
+  min-height: 50dvh;
+
+  form {
+    width: 25%;
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-flow: column;
+    gap: 1em;
+  }
+
+  .documentTableContainer {
+    width: 50%;
+
+    table {
+      width: 100% !important;
+    }
+  }
+}
+
+#receptionCommande .bottomSection {
+  min-height: 40dvh;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+
+  .buttonContainer button {
+    width: fit-content !important;
+  }
+}
+
+#documentModal {
+  h2 {
+    text-align: center;
+    font-size: 1.5em;
+  }
+  iframe {
+    width: 60dvw !important;
+    height: 80dvh !important;
+    border: none;
+  }
+  @include mixins.modalContainer;
+}

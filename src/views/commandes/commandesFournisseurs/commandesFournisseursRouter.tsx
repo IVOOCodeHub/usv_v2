@@ -11,6 +11,8 @@ import ModificationCommandeWithAuth from "./modificationCommande/ModificationCom
 import VoirPiecesWithAuth from "./voirPieces/VoirPieces"
 import AjouterPiecesWithAuth from "./ajouterPiece/AjouterPiece";
 import ModifierPieceWithAuth from "./modifierPiece/ModifierPiece";
+import CommandesReceptionListWithAuth from "./commandesReceptionList/CommandesReceptionList";
+import ReceptionCommandeWithAuth from "./receptionCommande/ReceptionCommande";
 
 export default function CommandesFournisseursRouter() : ReactElement {
     return (
@@ -21,6 +23,8 @@ export default function CommandesFournisseursRouter() : ReactElement {
             <Route path={"/commandes_a_valider/voir_pieces/:commandeID"} element={<VoirPiecesWithAuth/>}/>
             <Route path={"/commandes_a_valider/ajouter_piece/:commandeID"} element={<AjouterPiecesWithAuth/>}/>
             <Route path={"/commandes_a_valider/modifier_piece/:commandeID"} element={<ModifierPieceWithAuth/>}/>
+            <Route path={"/commandes_reception_list"} element={<CommandesReceptionListWithAuth/>}/>
+            <Route path={"/commandes_reception_list/reception_commande/:commandeID"} element={<ReceptionCommandeWithAuth/>}/>
             <Route path={'/utilitaire_commandes'} element={<UtilitaireCommandesWithAuth />} />
             <Route path={'/utilitaire_commandes/modification_commande/:commandeID'} element={<ModificationCommandeWithAuth />} />
         </Routes>

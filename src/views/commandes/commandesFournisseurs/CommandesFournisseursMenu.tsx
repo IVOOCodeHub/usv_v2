@@ -30,7 +30,7 @@ const CommandesFournisseursMenu = (): ReactElement => {
                 },
                 {
                     name: "Réception Commandes",
-                    link: "/commandes/commandes_fournisseurs/reception_commandes",
+                    link: "/commandes/commandes_fournisseurs/commandes_reception_list",
                     isMigrated: true,
                 },
                 {
