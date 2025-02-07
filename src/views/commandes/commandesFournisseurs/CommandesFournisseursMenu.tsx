@@ -41,7 +41,7 @@ const CommandesFournisseursMenu = (): ReactElement => {
                 {
                     name: "États",
                     link: "/commandes/commandes_fournisseurs/etat",
-                    isMigrated: true,
+                    isMigrated: false,
                 }
             ]
         }

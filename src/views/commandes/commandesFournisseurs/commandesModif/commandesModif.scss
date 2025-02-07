@@ -20,13 +20,14 @@
   }
   form {
     @include mixins.form;
-    .buttonContainer {
-      margin-top: 1em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 2em;
-    }
+
+  }
+  .buttonContainer {
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;
   }
   .container {
     display: flex;
@@ -38,6 +39,7 @@
       width: 70%;
       display: flex;
       flex-flow: column;
+      position: relative;
       justify-content: flex-start;
       margin-bottom: 1em;
 
@@ -58,5 +60,47 @@
 input:read-only {
   border: none !important;
   cursor: no-drop;
-  //text-align: left !important;
+}
+.middleSide, form + buttonContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  button {
+    margin-bottom: 5px;
+  }
+}
+button {
+  width: 150px;
+  gap: 5px;
+}
+
+#createNewServiceModal,
+#updateServiceModal {
+  h2 {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 1em;
+  }
+  @include mixins.modalContainer;
+}
+
+#createNewServiceModal form,
+#updateServiceModal form {
+  width: 25% !important;
+  @include mixins.form;
+}
+
+#updateServiceModal .deleteButtonWrapper {
+  position: absolute;
+  top: 50%;
+  right: 25%;
+  transform: translate(50%, -50%);
+}
+#bottom_buttons {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  //justify-content: center;
+  gap: 2em;
 }

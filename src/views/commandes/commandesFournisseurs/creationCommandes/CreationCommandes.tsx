@@ -78,7 +78,9 @@ function CreationCommandes(): ReactElement {
                                                 ]}
                                                 id="acompte"
                                                 onChange={(selectedOption) => {
-                                                    setAcompte(selectedOption.value === "true");
+                                                    if (selectedOption) {
+                                                        setAcompte(selectedOption.value === "true");
+                                                    }
                                                 }}
                                             />
                                         </div>

@@ -4,14 +4,14 @@ import { Routes, Route } from "react-router-dom";
 // views
 import GestCommandesEtFactureMenuWithAuth from "./gestCommandesEtFactures/GestCommandesEtFacturesMenu.tsx";
 import GestionDesCourriersMenuWithAuth from "./gestionDesCourriers/GestionDesCourriersMenu.tsx";
-import CommandesFournisseursMenuWithAuth from "./commandesFournisseurs/commandesFournisseursMenu.tsx";
+import CommandesFournisseursMenuWithAuth from "./commandesFournisseurs/CommandesFournisseursMenu.tsx";
 import ComptaChoixWithAuth from "./comptabilite/ComptaChoix.tsx";
 
 // router
 import GestCommandesEtFacturesRouter from './gestCommandesEtFactures/GestCommandesEtFacturesRouter.tsx'
 import TresorerieRouter from "./comptabilite/tresorerie/TresorerieRouter.tsx";
 import CourriersRouter from "./gestionDesCourriers/CourriersRouter.tsx";
-import CommandesFournisseursRouter from "./commandesFournisseurs/commandesFournisseursRouter.tsx";
+import CommandesFournisseursRouter from "./commandesFournisseurs/CommandesFournisseursRouter.tsx";
 
 export default function CommandesRouter(): ReactElement {
   return (
