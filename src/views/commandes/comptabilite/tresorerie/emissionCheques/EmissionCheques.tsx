@@ -90,7 +90,7 @@ const EmissionCheques: () => ReactElement = (): ReactElement => {
 
 	return (
 		<>
-			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | EMISSION CHÈQUES ${filters.societe}` }} />
+			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | PAIEMENT PAR CHÈQUE ${filters.societe}` }} />
 			<main id='emissionCheques'>
 				<section className='emissionCheques__bottomSection'>
 					<div className='filtersWrapper'>
