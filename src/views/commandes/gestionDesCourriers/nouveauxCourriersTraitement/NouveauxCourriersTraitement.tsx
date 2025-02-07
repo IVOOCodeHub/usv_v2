@@ -135,11 +135,11 @@ function NouveauxCourriersTraitement(): ReactElement {
                   <input type={"text"} id={"refDoc"} />
                 </div>
                 <div className={"inputWrapper"}>
-                  <label htmlFor={"naturePiece"}>Commentaire</label>
+                  <label htmlFor={"commentaire"}>Commentaire</label>
                   <textarea></textarea>
                 </div>
                 <div className={"inputWrapper"}>
-                  <label htmlFor={"naturePiece"}>Distribution directe :</label>
+                  <label htmlFor={"distributionDirecte"}>Distribution directe :</label>
                   <Select
                     options={[
                       { value: "0", label: "Non" },

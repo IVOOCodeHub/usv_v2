@@ -78,8 +78,8 @@ function MenuGeneral(): ReactElement {
         },
         {
           name: "Commandes Fournisseurs",
-          link: "/menu_general",
-          isMigrated: false,
+          link: "/commandes/commandes_fournisseurs",
+          isMigrated: true,
         },
         {
           name: "Associer un document",
