@@ -3,12 +3,14 @@ import Button from '../button/Button'
 import { useState, useEffect } from 'react'
 
 interface DateRangeProps {
+	labelMini?: string
+	labelMaxi?: string
 	defaultMinDate?: string
 	defaultMaxDate?: string
 	onFilter: (minDate: string, maxDate: string) => void
 }
 
-const DateRange = ({ defaultMinDate, defaultMaxDate, onFilter }: DateRangeProps) => {
+const DateRange = ({ labelMini, labelMaxi, defaultMinDate, defaultMaxDate, onFilter }: DateRangeProps) => {
 	const [minDate, setMinDate] = useState<string>(defaultMinDate ?? '')
 	const [maxDate, setMaxDate] = useState<string>(defaultMaxDate ?? '')
 
@@ -36,11 +38,11 @@ const DateRange = ({ defaultMinDate, defaultMaxDate, onFilter }: DateRangeProps)
 		<div className='DateRange__container'>
 			<div className='dateContainer'>
 				<div className='inputWrapper'>
-					<label htmlFor='minDate'>Date mini :</label>
+					<label htmlFor='minDate'>{labelMini ?? 'Date Mini'}</label>
 					<input id='minDate' name='minDate' type='date' value={minDate} onChange={(e) => setMinDate(e.target.value)} />
 				</div>
 				<div className='inputWrapper'>
-					<label htmlFor='maxDate'>Date maxi :</label>
+					<label htmlFor='maxDate'>{labelMaxi ?? 'Date Maxi'}</label>
 					<input id='maxDate' name='maxDate' type='date' value={maxDate} onChange={(e) => setMaxDate(e.target.value)} />
 				</div>
 			</div>

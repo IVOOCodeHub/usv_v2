@@ -1,6 +1,6 @@
 import './validationODV.scss'
 import { convertFrDateToServerDate, convertENDateToFr } from '../../../../../utils/scripts/utils.ts'
-import { ReactElement, useContext, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IPrevision } from '../../../../../utils/types/prevision.interface.ts'
 import Header from '../../../../../components/header/Header'
@@ -8,59 +8,13 @@ import Nrtl from '../../../../../components/NRTL/NRTL'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
 import DateRange from '../../../../../components/dateRange/DateRange'
-import ModalCourriersSansCourrier from '../previsionsOrdoSansCourrier/ModalCourriersSansCourrier.tsx'
-import ModalAffichagePdf from '../previsionsOrdoSansCourrier/ModalAffichagePdf.tsx'
-import { mockedPrevisions } from '../previsionAValider/mock/mockPrevValider.ts' // Import the mocked data
-
-interface RowDetails {
-	cle: string
-	societe: string
-	dateSaisie: string
-	dateEcheance: string
-	libelleCompteTiers: string
-	libelleEcriture: string
-	libelleEcritureAnnee: string
-	libelleEcritureMois: string
-	libelleEcriturePrefixe: string
-	libelleEcritureTrimestre: string
-	libelleEcritureBeneficiaire: string
-	credit: string
-	debit: string
-	montant: string
-	rubriqueTreso: string
-	nomFichier?: string
-	dateOrdo: string
-	modeReglement: string
-	statut: string
-	refSourceTiers: string
-
-	// New fields from the ASP code
-	ibanCible: string // IBAN of the recipient
-	bicCible: string // BIC of the recipient
-	ibanSource: string // IBAN of the issuer
-	bicSource: string // BIC of the issuer
-	libelleTiers: string // Description of the supplier
-	noCompteBanque: string // Bank account number
-	cleCourrier: string // Unique key for the payment
-	ibanTiers: string // IBAN of the supplier (from fournisseurs table)
-	bicTiers: string // BIC of the supplier (from fournisseurs table)
-	nomBanque: string // Bank name (from banques_comptes_societes table)
-}
+import { mockedPrevisions } from '../previsionAValider/mock/mockPrevValider.ts'
 
 const ValidationODV: () => ReactElement = (): ReactElement => {
-	// Default date values
-	const getDefaultDateMin = (): string => {
-		const now = new Date()
-		const lastYear = now.getFullYear() - 1
-		const firstDayLastYear = new Date(Date.UTC(lastYear, 0, 1, 0, 0, 0))
-		return firstDayLastYear.toISOString().split('T')[0]
-	}
-
-	const getDefaultDateMax = (): string => {
-		const now = new Date()
-		const lastDayCurrentYear = new Date(Date.UTC(now.getFullYear(), 11, 31, 23, 59, 59))
-		return lastDayCurrentYear.toISOString().split('T')[0]
-	}
+	const getDefaultDateMin = (): string =>
+		new Date(Date.UTC(new Date().getFullYear() - 1, 0, 1)).toISOString().split('T')[0]
+	const getDefaultDateMax = (): string =>
+		new Date(Date.UTC(new Date().getFullYear(), 11, 31)).toISOString().split('T')[0]
 
 	const [filters, setFilters] = useState({
 		minDate: getDefaultDateMin(),
@@ -70,54 +24,40 @@ const ValidationODV: () => ReactElement = (): ReactElement => {
 	})
 
 	const [bodyArray, setBodyArray] = useState<string[][]>([])
-	const [showModalDetails, setShowModalDetails] = useState(false)
-	const [showModalPdf, setShowModalPdf] = useState(false)
-	const [selectedPdfUrl, setSelectedPdfUrl] = useState<string | null>(null)
+	const [confirmedRows, setConfirmedRows] = useState<Set<string>>(new Set())
+	const [confirmationPopup, setConfirmationPopup] = useState<{ show: boolean; rowData: string[] | null }>({
+		show: false,
+		rowData: null,
+	})
+	const [successMessage, setSuccessMessage] = useState<string | null>(null)
 	const navigate = useNavigate()
 
-	// Check if a date range is valid
-	const isDateRangeValid = (min: string, max: string): boolean => {
-		if (!Date.parse(min) || !Date.parse(max)) {
-			console.warn('Invalid date range.', { min, max })
-			return false
-		}
-		const dateMin = new Date(min)
-		const dateMax = new Date(max)
-		return dateMin <= dateMax
-	}
-
-	// Convert data for the table
 	const convertToArray = (datas: IPrevision[]): string[][] =>
 		datas
+			.filter((data) => !confirmedRows.has(data.cle)) // Exclude confirmed rows
 			.filter((data) => {
-				const dateEcheance = new Date(data.dateEcheance)
 				const minDate = new Date(filters.minDate)
 				const maxDate = new Date(filters.maxDate)
+				const dateOrdo = data.dateOrdo ? new Date(data.dateOrdo.split('/').reverse().join('-')) : null
+
 				return (
-					dateEcheance >= minDate &&
-					dateEcheance <= maxDate &&
-					(!filters.id || data.refSourceTiers.toLowerCase().includes(filters.id.toLowerCase())) && // Case-insensitive filter by "Code" (refSourceTiers)
-					(!filters.societe || data.societe === filters.societe) // Filter by "Société"
+					dateOrdo &&
+					dateOrdo >= minDate &&
+					dateOrdo <= maxDate && // ✅ Now filtering based on "Date Ordo"
+					(!filters.id || data.refSourceTiers.toLowerCase().includes(filters.id.toLowerCase())) &&
+					(!filters.societe || data.societe === filters.societe)
 				)
 			})
-			.map((data) => {
-				const credit = data.credit ? parseFloat(data.credit) : 0
-				const debit = data.debit ? parseFloat(data.debit) : 0
+			.map((data) => [
+				data.cle || 'Non défini',
+				data.dateSaisie ? convertENDateToFr(data.dateSaisie.split('/').reverse().join('-')) : 'Non défini',
+				data.dateOrdo ? convertENDateToFr(data.dateOrdo.split('/').reverse().join('-')) : 'Non défini', // ✅ Keeps "Date Ordo" in the table
+				data.libelleCompteTiers ?? 'Non défini',
+				data.rubriqueTreso ?? 'Non défini',
+				data.libelleEcriture ?? 'Non défini',
+				keepTwoDecimals(data.credit ? parseFloat(data.credit) : 0),
+			])
 
-				return [
-					data.refSourceTiers ?? 'Non défini', // "Code" column
-					data.cle || 'Non défini',
-					data.dateOrdo ? convertENDateToFr(data.dateOrdo.split('/').reverse().join('-')) : 'Non défini',
-					data.dateEcheance ? convertENDateToFr(data.dateEcheance.split('/').reverse().join('-')) : 'Non défini',
-					data.libelleCompteTiers ?? 'Non défini',
-					data.rubriqueTreso ?? 'Non défini',
-					data.libelleEcriture ?? 'Non défini',
-					keepTwoDecimals(credit !== 0 ? credit : debit !== 0 ? -debit : 0),
-					data.noCompteBanque ? data.noCompteBanque.substring(15) : 'IBAN Inconnu',
-				]
-			})
-
-	// Format amounts in euros
 	const keepTwoDecimals = (number: number): string =>
 		new Intl.NumberFormat('fr-FR', {
 			style: 'currency',
@@ -126,80 +66,46 @@ const ValidationODV: () => ReactElement = (): ReactElement => {
 			maximumFractionDigits: 2,
 		}).format(number)
 
-	const getRowDetails = (refSourceTiers: string): RowDetails | undefined => {
-		const matchedPrevision = mockedPrevisions.find((prevision) => prevision.refSourceTiers === refSourceTiers)
-		if (!matchedPrevision) return undefined
-
-		// Fetch additional data from the mocked data (replace with API calls if needed)
-		const ibanCible = matchedPrevision.iban || 'Non défini' // Replace with actual logic
-		const bicCible = matchedPrevision.bic || 'Non défini' // Replace with actual logic
-		const ibanSource = matchedPrevision.ibanSource ? matchedPrevision.ibanSource : 'Non défini' // Extract IBAN from noCompteBanque
-		const bicSource = matchedPrevision.bicSource ? matchedPrevision.bicSource : 'Non défini' // Extract IBAN from noCompteBanque
-		const libelleTiers = matchedPrevision.libelleCompteTiers || 'Non défini'
-		const noCompteBanque = matchedPrevision.noCompteBanque || 'Non défini'
-		const cleCourrier = matchedPrevision.cle || 'Non défini'
-		const ibanTiers = matchedPrevision.iban || 'Non défini' // Replace with actual logic
-		const bicTiers = matchedPrevision.bic || 'Non défini' // Replace with actual logic
-		const nomBanque = matchedPrevision.nomBanque ? matchedPrevision.nomBanque : 'Non défini' // Extract bank name from noCompteBanque
-
-		return {
-			...matchedPrevision,
-			ibanCible,
-			bicCible,
-			ibanSource,
-			bicSource,
-			libelleTiers,
-			noCompteBanque,
-			cleCourrier,
-			ibanTiers,
-			bicTiers,
-			nomBanque,
-		}
-	}
-
-	// Handle row click for navigation
-	const handleRowClick = (index: number, rowData?: string[]): void => {
-		if (rowData && rowData[0]) {
-			const refSourceTiers = rowData[0] // Assuming the first column contains the refSourceTiers
-			const rowDetails = getRowDetails(refSourceTiers)
-
-			if (rowDetails) {
-				navigate('/commandes/tresorerie/virement-modif-iban', { state: { prevision: rowDetails } })
-				console.log('RowDetails:', rowDetails)
-			} else {
-				console.error("Aucune émission correspondante trouvée pour l'ID:", refSourceTiers)
-			}
-		} else {
-			console.warn('No data available for this row.')
-		}
-	}
-
-	// Handle date filter changes
 	const handleDateFilter = (minDate: string, maxDate: string): void => {
 		const validMinDate = convertFrDateToServerDate(minDate)
 		const validMaxDate = convertFrDateToServerDate(maxDate)
 
-		if (!isDateRangeValid(validMinDate, validMaxDate)) {
+		if (!Date.parse(validMinDate) || !Date.parse(validMaxDate)) {
 			console.warn('Invalid date range.', { validMinDate, validMaxDate })
 			return
 		}
-
 		setFilters({ ...filters, minDate: validMinDate, maxDate: validMaxDate })
 	}
 
-	// Update table data when filters change
-	useEffect(() => {
-		const filteredData = mockedPrevisions
-		setBodyArray(convertToArray(filteredData))
-	}, [filters.minDate, filters.maxDate, filters.id, filters.societe]) // Add filters.id and filters.societe to dependencies
+	const handleRowClick = (index: number, rowData?: string[]): void => {
+		if (rowData) {
+			console.log('Row Details:', rowData)
+			setConfirmationPopup({ show: true, rowData })
+		}
+	}
 
-	// Prepare table data
+	const handleConfirmValidation = (): void => {
+		if (confirmationPopup.rowData) {
+			setConfirmedRows((prev) => new Set([...prev, confirmationPopup.rowData[0]]))
+			setSuccessMessage('ODV Confirmé !')
+			setTimeout(() => setSuccessMessage(null), 3000)
+		}
+		setConfirmationPopup({ show: false, rowData: null })
+	}
+
+	const handleCancelValidation = (): void => {
+		setConfirmationPopup({ show: false, rowData: null })
+	}
+
+	useEffect(() => {
+		setBodyArray(convertToArray(mockedPrevisions))
+	}, [filters, confirmedRows])
+
 	const tableData = {
-		tableHead: ['Code', 'Prevision', 'Echéance', 'Ordo.', 'Fournisseur', 'Rubrique', 'Libellé', 'Montant', 'Banque'],
+		tableHead: ['Code', 'Date Saisie', 'Date Ordo.', 'Fournisseur', 'Rubrique', 'Libellé', 'Montant'],
 		tableBody: bodyArray,
 	}
 
-	// Unique sociétés for the dropdown
 	const societes = Array.from(new Set(mockedPrevisions.map((emission) => emission.societe)))
 
 	return (
@@ -208,7 +114,13 @@ const ValidationODV: () => ReactElement = (): ReactElement => {
 			<main id='validationODV'>
 				<section className='validationODV__bottomSection'>
 					<div className='filtersWrapper'>
-						<DateRange onFilter={handleDateFilter} defaultMinDate={filters.minDate} defaultMaxDate={filters.maxDate} />
+						<DateRange
+							labelMini='Date Ordo mini'
+							labelMaxi='Date Ordo maxi'
+							onFilter={handleDateFilter}
+							defaultMinDate={filters.minDate}
+							defaultMaxDate={filters.maxDate}
+						/>
 						<div className='societeSelectWrapper'>
 							<label htmlFor='societe'>Société :</label>
 							<select
@@ -235,51 +147,35 @@ const ValidationODV: () => ReactElement = (): ReactElement => {
 							/>
 						</div>
 					</div>
-					{!filters.societe ? (
-						<div className='no-societe-message'>Merci de choisir une société</div>
-					) : (
-						<Nrtl
-							datas={tableData}
-							headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
-							headerHoverBackgroundColor='#1092B8'
-							showPreviousNextButtons
-							enableColumnSorting
-							showItemsPerPageSelector
-							showPagination
-							itemsPerPageOptions={[5, 25, 50]}
-							filterableColumns={[false, false, false, false, false]}
-							language='fr'
-							onRowClick={(index: number, rowData?: string[]) => handleRowClick(index, rowData)}
-						/>
-					)}
-					{showModalDetails && !showModalPdf && (
-						<ModalCourriersSansCourrier
-							isOpen={showModalDetails}
-							onClose={() => setShowModalDetails(false)}
-							onOpenPdf={(pdfUrl) => {
-								setSelectedPdfUrl(pdfUrl)
-								setShowModalDetails(false)
-								setShowModalPdf(true)
-							}}
-							userCredentials={null}
-							previsionCode=''
-						/>
-					)}
-
-					{showModalPdf && selectedPdfUrl && (
-						<ModalAffichagePdf
-							isOpen={showModalPdf}
-							pdfUrl={selectedPdfUrl}
-							onClose={() => {
-								setShowModalPdf(false)
-								setShowModalDetails(true)
-							}}
-							onAssocier={() => {
-								console.log('Associer le fichier PDF')
-								setShowModalPdf(false)
-								setShowModalDetails(true)
-							}}
-						/>
+					{successMessage && <div className='success-message'>{successMessage}</div>}
+					<Nrtl
+						datas={tableData}
+						headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
+						onRowClick={handleRowClick}
+					/>
+					{confirmationPopup.show && confirmationPopup.rowData && (
+						<div className='confirmation-modal'>
+							<div className='modal-content'>
+								<h3>Confirmer la validation de cet ODV ?</h3>
+								<p>
+									<strong>Fournisseur:</strong> {confirmationPopup.rowData[3]}
+								</p>
+								<p>
+									<strong>Libellé:</strong> {confirmationPopup.rowData[5]}
+								</p>
+								<p>
+									<strong>Montant:</strong> {confirmationPopup.rowData[6]}
+								</p>
+								<div className='modal-buttons'>
+									<button className='confirm' onClick={handleConfirmValidation}>
+										Oui
+									</button>
+									<button className='cancel' onClick={handleCancelValidation}>
+										Non
+									</button>
+								</div>
+							</div>
+						</div>
 					)}
 					<div className='greyButtonWrapper'>
 						<Button props={{ style: 'grey', text: 'Retour', type: 'button', onClick: () => navigate(-1) }} />
