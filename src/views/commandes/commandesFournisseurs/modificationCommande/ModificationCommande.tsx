@@ -43,6 +43,7 @@ import Header from "../../../../components/header/Header";
 import Button from "../../../../components/button/Button";
 import Footer from "../../../../components/footer/Footer";
 import NRTL from "../../../../components/NRTL/NRTL.tsx";
+import Select from "react-select";
 
 function ModificationCommande(): ReactElement {
   const navigate: NavigateFunction = useNavigate();
@@ -55,6 +56,8 @@ function ModificationCommande(): ReactElement {
     useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const iframeContainerRef = useRef<HTMLDivElement | null>(null);
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const mockupCommande: ICommande[] = [
     {
@@ -280,6 +283,47 @@ function ModificationCommande(): ReactElement {
   return (
     <>
       {isDocumentModalOpen && <DisplayDocumentModal />}
+      {isPopupOpen && (
+          <div className="popupOverlay" id="updateServiceModal">
+            <form className={"updateServiceForm"}>
+              <div className="popupContent">
+                <h2>Télécharger une pièce pour la commande {commande?.cle}</h2>
+                <div className={"formWrapper"}>
+                  <div className={"inputWrapper"}>
+                    <label htmlFor={"type"}>Type de document :</label>
+                    <Select
+                        id={"type"}
+                        options={[
+                          { value: "1", label: "Devis" },
+                          { value: "2", label: "Courrier" },
+                          { value: "3", label: "Autre" },
+                        ]}
+                    />
+                  </div>
+                </div>
+                <input type="file" />
+                <div className={"buttonContainer"}>
+                  <Button
+                      props={{
+                        style: "green",
+                        text: "Ajouter",
+                        type: "button",
+                        onClick: (): void => setIsPopupOpen(false)
+                      }}
+                  />
+                  <Button
+                      props={{
+                        style: "grey",
+                        text: "Annuler",
+                        type: "button",
+                        onClick: (): void => setIsPopupOpen(false)
+                      }}
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+      )}
       <Header
         props={{
           pageURL: `G_IVOO | COMMANDES | MODIFICATION COMMANDE ${commandeID}`,
@@ -394,6 +438,7 @@ function ModificationCommande(): ReactElement {
                 style: "blue",
                 text: "Télécharger pièce",
                 type: "button",
+                onClick: (): void => setIsPopupOpen(true),
               }}
             />
             <Button
@@ -407,8 +452,12 @@ function ModificationCommande(): ReactElement {
             <Button
               props={{
                 style: "blue",
-                text: "imprimer",
+                text: "Imprimer",
                 type: "button",
+                onClick: (): WindowProxy | null =>
+                    window.open(
+                        `http://srv-web:8081/CrystalWebViewerURL/view.aspx?mode=E&etat=commandes_f&xml=commandes_f&p1=so:${mockupCommande[0].societe}&p2=numBC:$${mockupCommande[0].societe}`, '_blank'
+                    ),
               }}
             />
             <Button

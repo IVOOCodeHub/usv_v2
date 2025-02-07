@@ -104,3 +104,8 @@ button {
   //justify-content: center;
   gap: 2em;
 }
+.buttonContainer {
+  display: flex !important;
+  margin-top: 5px;
+  gap: 5px;
+}

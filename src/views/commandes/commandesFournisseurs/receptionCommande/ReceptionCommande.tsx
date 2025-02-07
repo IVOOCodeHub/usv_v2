@@ -234,6 +234,10 @@ function ReceptionCommande(): ReactElement {
                 style: "blue",
                 text: "imprimer",
                 type: "button",
+                onClick: (): WindowProxy | null =>
+                    window.open(
+                        `http://srv-web:8081/CrystalWebViewerURL/view.aspx?mode=E&etat=commandes_f&xml=commandes_f&p1=so:${mockupCommande[0].societe}&p2=numBC:$${mockupCommande[0].societe}`, '_blank'
+                    ),
               }}
             />
 
