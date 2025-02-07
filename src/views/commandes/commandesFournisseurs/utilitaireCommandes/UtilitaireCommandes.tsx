@@ -54,6 +54,14 @@ function UtilitaireCommandes(): ReactElement {
           enableColumnSorting={true}
           itemsPerPageOptions={[10, 25, 50]}
           language={"fr"}
+          onRowClick={(index: number, rowData?: string[] | undefined): void =>
+            navigate(
+              `/commandes/commandes_fournisseurs/utilitaire_commandes/modification_commande/${rowData![0]}`,
+              {
+                state: { index: index, commandeID: rowData![0] },
+              },
+            )
+          }
         />
 
         <div className={"goBackBtnWrapper"}>
@@ -73,6 +81,7 @@ function UtilitaireCommandes(): ReactElement {
   );
 }
 
-export const UtilitaireCommandesWithAuth: (
+const UtilitaireCommandesWithAuth: (
   props: object,
 ) => ReactElement | null = WithAuth(UtilitaireCommandes);
+export default UtilitaireCommandesWithAuth;
