@@ -49,6 +49,7 @@ const EmissionCheques: () => ReactElement = (): ReactElement => {
 				data.rubriqueTreso ?? 'Non défini',
 				data.libelleEcriture ?? 'Non défini',
 				keepTwoDecimals(data.credit ? parseFloat(data.credit) : 0),
+				data.nomFichier ?? 'Non défini',
 			])
 
 	const keepTwoDecimals = (number: number): string =>
@@ -72,7 +73,7 @@ const EmissionCheques: () => ReactElement = (): ReactElement => {
 
 	const handleRowClick = (index: number, rowData?: string[]): void => {
 		if (rowData) {
-			console.log('Navigating to details page with:', rowData)
+			console.log('détails ligne cliquée :', rowData)
 			navigate('/commandes/tresorerie/detail-emission-chq', { state: { rowData } })
 		}
 	}

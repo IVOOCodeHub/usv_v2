@@ -9,13 +9,19 @@ const DetailEmissionChq = () => {
 	const location = useLocation()
 	const { rowData } = location.state || {}
 
+	const nomFichier =
+		rowData?.[7] !== 'Non défini'
+			? `http://192.168.0.254:8080/usv_prod/courriers/${rowData?.[7].replace(/\\/g, '/')}`
+			: null
+	// `http://192.168.0.254:8080/usv_prod/courriers/${rowData?.[7].replace(/\\/g, '/')}`
+
 	// State for inputs
 	const [bank, setBank] = useState('')
 	const [chequeNumber, setChequeNumber] = useState('')
 	const [chequeDate, setChequeDate] = useState('')
 	const [comment, setComment] = useState('')
 	const [status, setStatus] = useState('Chèque à émettre')
-	const [pdfUrl, setPdfUrl] = useState<string | null>(null)
+	const [pdfUrl, setPdfUrl] = useState<string | null>(nomFichier)
 
 	// Handles PDF Upload
 	const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,7 +93,6 @@ const DetailEmissionChq = () => {
 						</div>
 					</div>
 
-					<h3>Image du Chèque</h3>
 					{pdfUrl ? (
 						<iframe src={pdfUrl} width='100%' height='500px'></iframe>
 					) : (
