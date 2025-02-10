@@ -13,7 +13,6 @@ const DetailEmissionChq = () => {
 		rowData?.[7] !== 'Non défini'
 			? `http://192.168.0.254:8080/usv_prod/courriers/${rowData?.[7].replace(/\\/g, '/')}`
 			: null
-	// `http://192.168.0.254:8080/usv_prod/courriers/${rowData?.[7].replace(/\\/g, '/')}`
 
 	// State for inputs
 	const [bank, setBank] = useState('')
@@ -22,12 +21,17 @@ const DetailEmissionChq = () => {
 	const [comment, setComment] = useState('')
 	const [status, setStatus] = useState('Chèque à émettre')
 	const [pdfUrl, setPdfUrl] = useState<string | null>(nomFichier)
+	const [uploadedFile, setUploadedFile] = useState<File | null>(null) // ✅ Store uploaded file
 
 	// Handles PDF Upload
 	const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.files && event.target.files[0]) {
-			const fileUrl = URL.createObjectURL(event.target.files[0])
-			setPdfUrl(fileUrl)
+			const file = event.target.files[0]
+			const fileUrl = URL.createObjectURL(file)
+
+			console.log('PDF uploaded:', fileUrl)
+			setUploadedFile(file) // ✅ Save the file
+			setPdfUrl(fileUrl) // ✅ Set the new PDF URL
 		}
 	}
 
@@ -93,8 +97,9 @@ const DetailEmissionChq = () => {
 						</div>
 					</div>
 
+					<h3>Image du Chèque</h3>
 					{pdfUrl ? (
-						<iframe src={pdfUrl} width='100%' height='500px'></iframe>
+						<iframe key={pdfUrl} src={pdfUrl} width='100%' height='500px'></iframe> // ✅ Force re-render
 					) : (
 						<p>Aucune image de chèque associée.</p>
 					)}
@@ -107,7 +112,18 @@ const DetailEmissionChq = () => {
 					<div className='greyButtonWrapper'>
 						<Button props={{ style: 'grey', text: 'Retour', type: 'button', onClick: () => window.history.back() }} />
 						<Button
-							props={{ style: 'blue', text: 'Ok', type: 'button', onClick: () => console.log('Paiement enregistré') }}
+							props={{
+								style: 'blue',
+								text: 'Ok',
+								type: 'button',
+								onClick: () => {
+									if (uploadedFile) {
+										console.log('Paiement enregistré avec fichier joint:', uploadedFile.name)
+									} else {
+										console.log('Paiement enregistré sans fichier joint')
+									}
+								},
+							}}
 						/>
 					</div>
 				</section>
