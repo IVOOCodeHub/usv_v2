@@ -37,7 +37,7 @@ const DetailEmissionChq = () => {
 
 	return (
 		<>
-			<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | DÉTAIL ÉMISSION CHÈQUE' }} />
+			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | DÉTAIL ÉMISSION CHÈQUE ${rowData?.[0]}` }} />
 			<main id='detailEmissionChq'>
 				<section className='detailChq__bottomSection'>
 					<h3>Paiement Chèque {rowData?.[0]}</h3>
@@ -97,7 +97,6 @@ const DetailEmissionChq = () => {
 						</div>
 					</div>
 
-					<h3>Image du Chèque</h3>
 					{pdfUrl ? (
 						<iframe key={pdfUrl} src={pdfUrl} width='100%' height='500px'></iframe> // ✅ Force re-render
 					) : (
