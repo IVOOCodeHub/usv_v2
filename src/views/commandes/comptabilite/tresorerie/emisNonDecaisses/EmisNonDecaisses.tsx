@@ -41,7 +41,7 @@ const EmisNonDecaisses: React.FC = () => {
 					acc[societe] = []
 				}
 				acc[societe].push([
-					data.reference_paiement ?? 'Non défini', // ✅ FIXED: Use correct field name
+					data.reference_paiement ?? 'Non défini',
 					data.nom_banque_source ?? 'Non défini',
 					data.nom_societe_tiers ?? 'Non défini',
 					data.libelle ?? 'Non défini',
@@ -81,22 +81,11 @@ const EmisNonDecaisses: React.FC = () => {
 		}))
 	}
 
-	const getRowDetails = (cle: string): RowDetails | undefined => {
-		const matchedEmis = mockedEmisNonDecaisses.find((emis) => emis.reference_paiement === cle)
-		if (!matchedEmis) return undefined
-
-		return {
-			reference_paiement: matchedEmis.reference_paiement ?? 'Non défini',
-			societe: matchedEmis.societe ?? 'Non défini',
-			nom_banque_source: matchedEmis.nom_banque_source ?? 'Non défini',
-			nom_societe_tiers: matchedEmis.nom_societe_tiers ?? 'Non défini',
-			libelle: matchedEmis.libelle ?? 'Non défini',
-			mode_paiement: matchedEmis.mode_paiement ?? 'Non défini',
-			date_echeance: matchedEmis.date_echeance ?? 'Non défini',
-			montant: matchedEmis.montant ?? 'Non défini',
-			dh_statut: matchedEmis.dh_statut ?? 'Non défini',
-		}
-	}
+	// Compute the total sum across all tables
+	const totalSum = bodyArray.reduce((acc, group) => {
+		const groupSum = group.rows.reduce((subAcc, row) => subAcc + parseFloat(row[6] ?? '0'), 0)
+		return acc + groupSum
+	}, 0)
 
 	const handleRowClick = (index: number, rowData?: string[]) => {
 		if (!rowData) {
@@ -107,15 +96,6 @@ const EmisNonDecaisses: React.FC = () => {
 		const cle = rowData[0]
 		console.log('🛠️ Clicked Row Data:', rowData)
 		console.log('🔑 Extracted Clé:', cle)
-
-		const rowDetails = getRowDetails(cle)
-
-		if (!rowDetails) {
-			console.error('❌ No matching row found for clé:', cle)
-			return
-		}
-
-		console.log('✅ Row details:', rowDetails)
 	}
 
 	return (
@@ -147,33 +127,42 @@ const EmisNonDecaisses: React.FC = () => {
 					{bodyArray.length === 0 ? (
 						<div className='no-results'>Aucune émission trouvée pour ces critères.</div>
 					) : (
-						bodyArray.map(({ societe, rows }, index) => (
-							<div key={index} className='grouped-table'>
-								<h2>{societe}</h2>
-								<NRTL
-									datas={{
-										tableHead: ['Clé', 'Banque', 'Tiers', 'Libellé', 'Mode', 'Emis le', 'Montant'],
-										tableBody: rows,
-									}}
-									headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
-									headerHoverBackgroundColor='#1092B8'
-									showPreviousNextButtons
-									enableColumnSorting
-									showItemsPerPageSelector
-									showPagination
-									itemsPerPageOptions={[5, 25, 50]}
-									filterableColumns={[false, false, false, false, false, false, false]}
-									language='fr'
-									onRowClick={(index: number, rowData?: string[]) => handleRowClick(index, rowData)}
-								/>
-							</div>
-						))
+						bodyArray.map(({ societe, rows }, index) => {
+							const groupSum = rows.reduce((acc, row) => acc + parseFloat(row[6] ?? '0'), 0)
+							return (
+								<div key={index} className='grouped-table'>
+									<h2>{societe}</h2>
+									<NRTL
+										datas={{
+											tableHead: ['Clé', 'Banque', 'Tiers', 'Libellé', 'Mode', 'Emis le', 'Montant'],
+											tableBody: rows,
+										}}
+										headerBackgroundColor='linear-gradient(to left, #84CDE4FF, #1092B8)'
+										headerHoverBackgroundColor='#1092B8'
+										showPreviousNextButtons
+										enableColumnSorting
+										showItemsPerPageSelector
+										showPagination
+										itemsPerPageOptions={[5, 25, 50]}
+										filterableColumns={[false, false, false, false, false, false, false]}
+										language='fr'
+										onRowClick={(index: number, rowData?: string[]) => handleRowClick(index, rowData)}
+									/>
+									<p className='sub-total'>{groupSum.toFixed(2)} €</p>
+								</div>
+							)
+						})
 					)}
-
-					<div className='greyButtonWrapper'>
-						<Button props={{ style: 'grey', text: 'Retour', type: 'button', onClick: () => navigate(-1) }} />
-					</div>
 				</section>
+
+				{/* Fixed footer for total sum and return button */}
+				<div className='fixed-bottom-summary'>
+					<div className='summary-text'>
+						<strong>{bodyArray.reduce((sum, group) => sum + group.rows.length, 0)} paiements pour un total de :</strong>
+						<span className='total-amount'>{totalSum.toFixed(2)} €</span>
+					</div>
+					<Button props={{ style: 'grey', text: 'Retour', type: 'button', onClick: () => navigate(-1) }} />
+				</div>
 			</main>
 			<Footer />
 		</>

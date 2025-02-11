@@ -21,10 +21,8 @@
         position: relative;
         width: 90%;
         max-width: 1200px;
-        // background: white;
         padding: 2rem;
         border-radius: 10px;
-        // box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     .filtersWrapper {
@@ -73,5 +71,50 @@
         .table-container {
             gap: 1em;
         }
+    }
+
+    .sub-total {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 1em;
+        font-size: 1.4em;
+        font-weight: bold;
+        color: #36395a;
+    }
+
+    .fixed-bottom-summary {
+        position: sticky;
+        /* 🛠️ Stick it at the bottom but allow it to move with scrolling */
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #f2f2f2;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #36395a;
+        z-index: 10;
+        /* Ensure it's above other content */
+    }
+
+    main {
+        padding-bottom: 80px;
+        /* 🛠️ Prevents the footer from covering the total summary */
+    }
+
+    .footer {
+        position: relative;
+        /* 🛠️ Makes sure the footer doesn’t overlap content */
+        z-index: 5;
+    }
+
+    .total-amount {
+        color: #1092B8;
+        font-size: 1.4rem;
     }
 }
