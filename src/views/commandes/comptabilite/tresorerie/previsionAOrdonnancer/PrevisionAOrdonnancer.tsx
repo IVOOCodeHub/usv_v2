@@ -8,7 +8,7 @@ import NRTL from '../../../../../components/NRTL/NRTL'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
 import DateRange from '../../../../../components/dateRange/DateRange'
-import { UserContext } from '../../../../../context/userContext.tsx'
+import { UserContext } from '../../../../../context/userContext/UserContext.tsx'
 import { LoaderContext } from '../../../../../context/loaderContext.tsx'
 import { PrevisionContext } from '../../../../../context/previsionContext/PrevisionContext.tsx'
 

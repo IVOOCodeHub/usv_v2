@@ -19,7 +19,7 @@ import Button from "../../../components/button/Button";
 import Footer from "../../../components/footer/Footer";
 
 // context
-import { UserContext } from "../../../context/userContext.tsx";
+import { UserContext } from "../../../context/userContext/UserContext.tsx";
 import { SiteContext } from "../../../context/siteContext.tsx";
 
 function MenuSite(): ReactElement {

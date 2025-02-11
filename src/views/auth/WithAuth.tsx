@@ -1,6 +1,6 @@
 import { useContext, useEffect, ReactElement, ComponentType } from "react";
 import { useNavigate, NavigateFunction } from "react-router-dom";
-import { UserContext } from "../../context/userContext";
+import { UserContext } from "../../context/userContext/UserContext.tsx";
 
 export default function WithAuth<P extends object>(
     WrappedComponent: ComponentType<P>,

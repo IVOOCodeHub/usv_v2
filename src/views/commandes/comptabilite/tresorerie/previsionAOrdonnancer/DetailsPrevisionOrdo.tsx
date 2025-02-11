@@ -18,7 +18,7 @@ import ModalCourriers from './ModalCourriers.tsx'
 import VisualisationPrevisionsTiers from './VisualisationPrevisionsTiers.tsx'
 
 // context
-import { UserContext } from '../../../../../context/userContext.tsx'
+import { UserContext } from '../../../../../context/userContext/UserContext.tsx'
 
 // services
 import { getPrevisionDetailsService } from '../../../../../API/services/Prevision.service.ts'

@@ -9,7 +9,7 @@ import App from "./App.tsx";
 
 // context
 import { LoaderProvider } from "./context/loaderContext.tsx";
-import { UserProvider } from "./context/userContext.tsx";
+import { UserProvider } from "./context/userContext/UserProvider.tsx";
 import { SiteProvider } from "./context/siteContext.tsx";
 import { CourrierProvider } from "./context/courrierContext/CourrierProvider";
 import { TiersProvider } from "./context/tiersContext.tsx";

@@ -1,7 +1,7 @@
 import './ModifyTiersPage.scss'
 import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { UserContext } from '../../../../../context/userContext'
+import { UserContext } from '../../../../../context/userContext/UserContext.tsx'
 import { postRequest } from '../../../../../API/APICalls'
 import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button'

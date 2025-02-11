@@ -7,7 +7,7 @@ import { ReactElement, useContext, useEffect, useState } from "react";
 import { useNavigate, NavigateFunction } from "react-router-dom";
 
 import { CourrierContext } from "../../../../context/courrierContext/CourrierContext";
-import { UserContext } from "../../../../context/userContext";
+import { UserContext } from "../../../../context/userContext/UserContext.tsx";
 
 import WithAuth from "../../../auth/WithAuth";
 import Header from "../../../../components/header/Header";

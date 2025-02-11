@@ -24,7 +24,7 @@ import DisplayCourrierModalWithAuth from "../../../../../components/displayCourr
 import Footer from "../../../../../components/footer/Footer";
 
 // context
-import { UserContext } from "../../../../../context/userContext.tsx";
+import { UserContext } from "../../../../../context/userContext/UserContext.tsx";
 import { CourrierContext } from "../../../../../context/courrierContext/CourrierContext";
 import { TiersContext } from "../../../../../context/tiersContext.tsx";
 import { ITiersPrevisions } from "../../../../../utils/types/tiers.interface.ts";
