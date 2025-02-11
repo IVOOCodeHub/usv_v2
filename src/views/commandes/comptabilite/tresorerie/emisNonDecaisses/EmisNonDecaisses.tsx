@@ -158,7 +158,7 @@ const EmisNonDecaisses: React.FC = () => {
 				{/* Fixed footer for total sum and return button */}
 				<div className='fixed-bottom-summary'>
 					<div className='summary-text'>
-						<strong>{bodyArray.reduce((sum, group) => sum + group.rows.length, 0)} paiements pour un total de :</strong>
+						<strong>{bodyArray.reduce((sum, group) => sum + group.rows.length, 0)} paiements pour un total de : </strong>
 						<span className='total-amount'>{totalSum.toFixed(2)} €</span>
 					</div>
 					<Button props={{ style: 'grey', text: 'Retour', type: 'button', onClick: () => navigate(-1) }} />
