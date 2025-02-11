@@ -28,7 +28,7 @@ function TresorerieMenu(): ReactElement {
 				{ name: 'Prévisions en retard', link: '/commandes/tresorerie/prevision_en_retard' },
 				{ name: 'Prévisions ordonnancées sans courrier', link: '/commandes/tresorerie/prevision_ordo_sans_courrier' },
 				{ name: 'Émission des titres de paiements', link: '/commandes/tresorerie/menu_emission_tp' },
-				{ name: 'Émis non décaissés', link: '/' },
+				{ name: 'Émis non décaissés', link: '/commandes/tresorerie/emis_non_decaisses' },
 			],
 		},
 		{

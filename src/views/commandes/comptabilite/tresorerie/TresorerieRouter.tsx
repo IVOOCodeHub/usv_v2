@@ -28,6 +28,7 @@ import VirementModifIban from './emissionsTitresPaiements/VirementModifIban.tsx'
 import ValidationODV from './validationEmissionsODV/ValidationODV.tsx'
 import EmissionCheques from './emissionCheques/EmissionCheques.tsx'
 import DetailEmissionChq from './emissionCheques/DetailEmissionChq.tsx'
+import EmisNonDecaisses from './emisNonDecaisses/EmisNonDecaisses.tsx'
 
 export default function TresorerieRouter(): ReactElement {
 	return (
@@ -57,6 +58,7 @@ export default function TresorerieRouter(): ReactElement {
 			<Route path={'/validation_odv'} element={<ValidationODV />} />
 			<Route path={'/emissions_cheques'} element={<EmissionCheques />} />
 			<Route path={'/detail-emission-chq'} element={<DetailEmissionChq />} />
+			<Route path={'/emis_non_decaisses'} element={<EmisNonDecaisses />} />
 		</Routes>
 	)
 }
