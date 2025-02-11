@@ -27,6 +27,12 @@ export interface IPrevision {
 	cleEcriture?: string
 	compteRegroupement?: string
 	noCompteBanque?: string
+	nom_banque_source?: string
+	nom_societe_tiers?: string
+	libelle?: string
+	mode_paiement?: string
+	reference_paiement?: string
+	date_echeance?: string
 	iban?: string
 	bic?: string
 	ibanCible?: string
