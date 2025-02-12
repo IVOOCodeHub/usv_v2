@@ -120,7 +120,7 @@ function MenuGeneral(): ReactElement {
           link: "/commandes/compta_choix",
           isMigrated: true,
         },
-        { name: "Litiges", link: "/menu_general", isMigrated: false },
+        { name: "Litiges", link: "/commandes/litiges", isMigrated: true },
       ],
     },
     {

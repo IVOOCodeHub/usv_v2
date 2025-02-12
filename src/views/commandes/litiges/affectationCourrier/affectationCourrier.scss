@@ -1,0 +1,5 @@
+@use '../../../../utils/styles/mixins' as mixins;
+
+#affectationCourrier {
+  @include mixins.main;
+}

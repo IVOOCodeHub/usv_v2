@@ -15,6 +15,7 @@ import { CourrierProvider } from "./context/courrierContext/CourrierProvider";
 import { TiersProvider } from "./context/tiersContext.tsx";
 import { PrevisionProvider } from "./context/previsionContext/PrevisionProvider.tsx";
 import { FileProvider } from "./context/fileContext/FileProvider.tsx";
+import { LitigesProvider } from "./context/litigesContext/LitigesProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <LoaderProvider>
@@ -24,7 +25,9 @@ createRoot(document.getElementById("root")!).render(
           <PrevisionProvider>
             <FileProvider>
               <CourrierProvider>
-                <App />
+                <LitigesProvider>
+                  <App />
+                </LitigesProvider>
               </CourrierProvider>
             </FileProvider>
           </PrevisionProvider>

@@ -1,0 +1,10 @@
+@use '../../../../utils/styles/mixins' as mixins;
+
+#litigesMenu {
+  @include mixins.main;
+}
+
+#litigesMenu #menuContainer {
+  width: 100%;
+  column-count: 1;
+}

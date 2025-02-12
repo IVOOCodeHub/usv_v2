@@ -1,0 +1,5 @@
+@use '../../../../utils/styles/mixins' as mixins;
+
+#listeDossiersLitige {
+  @include mixins.main;
+}

@@ -139,3 +139,7 @@ export const trapFocus = (el: HTMLElement | null) => {
 		document.removeEventListener("keydown", handleKeyDown);
 	};
 };
+
+export const concatSocieteVsTiers = (societe: string, tiers: string): string=> {
+    return societe + ' VS ' + tiers;
+}
