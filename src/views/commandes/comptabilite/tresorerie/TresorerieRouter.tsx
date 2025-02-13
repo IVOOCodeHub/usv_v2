@@ -29,6 +29,7 @@ import ValidationODV from './validationEmissionsODV/ValidationODV.tsx'
 import EmissionCheques from './emissionCheques/EmissionCheques.tsx'
 import DetailEmissionChq from './emissionCheques/DetailEmissionChq.tsx'
 import EmisNonDecaisses from './emisNonDecaisses/EmisNonDecaisses.tsx'
+import RecetteAOrdonnancer from './recetteAOrdonnancer/RecetteAOrdonnancer.tsx'
 
 export default function TresorerieRouter(): ReactElement {
 	return (
@@ -59,6 +60,7 @@ export default function TresorerieRouter(): ReactElement {
 			<Route path={'/emissions_cheques'} element={<EmissionCheques />} />
 			<Route path={'/detail-emission-chq'} element={<DetailEmissionChq />} />
 			<Route path={'/emis_non_decaisses'} element={<EmisNonDecaisses />} />
+			<Route path={'/recette_a_ordonnancer'} element={<RecetteAOrdonnancer />} />
 		</Routes>
 	)
 }

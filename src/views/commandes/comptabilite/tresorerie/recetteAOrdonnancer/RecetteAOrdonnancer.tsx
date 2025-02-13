@@ -1,14 +1,14 @@
-import './previsionsEnRetard.scss'
+import './recetteAOrdonnancer.scss'
 import { convertFrDateToServerDate, convertENDateToFr } from '../../../../../utils/scripts/utils.ts'
 import { ReactElement, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { IPrevision } from '../../../../../utils/types/prevision.interface.ts'
 import Header from '../../../../../components/header/Header'
 import Nrtl from '../../../../../components/NRTL/NRTL'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
 import DateRange from '../../../../../components/dateRange/DateRange'
-import { mockedPrevisions } from '../previsionAValider/mock/mockPrevValider.ts' // Import the mocked data
+import { mockedRecettes } from './mock/mockedRecettes.ts'
+import { IPrevision } from '../../../../../utils/types/prevision.interface.ts'
 
 interface RowDetails {
 	cle: string
@@ -28,18 +28,12 @@ interface RowDetails {
 	rubriqueTreso: string
 	nomFichier?: string
 	dateOrdo: string
-	// no_compte_banque: string
 	modeReglement: string
 	statut: string
 	refSourceTiers: string
 }
 
-const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
-	// Contexts for user data and loading state
-	// const { userCredentials } = useContext(UserContext)
-	// const { startLoading, stopLoading } = useContext(LoaderContext)
-
-	// Default date values
+const RecetteAOrdonnancer: () => ReactElement = (): ReactElement => {
 	const getDefaultDateMin = (): string => {
 		const now = new Date()
 		const lastYear = now.getFullYear() - 1
@@ -54,48 +48,44 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 	}
 
 	const getRowDetails = (cle: string): RowDetails | undefined => {
-		const matchedPrevision = mockedPrevisions.find((prevision) => prevision.cle === cle)
-		if (!matchedPrevision) return undefined
+		const matchedRecette = mockedRecettes.find((recette) => recette.cle === cle)
+		if (!matchedRecette) return undefined
 
 		return {
-			societe: matchedPrevision.societe ?? 'Non défini',
-			cle: matchedPrevision.cle || 'Non défini',
-			dateSaisie: matchedPrevision.dateSaisie ?? 'Non défini',
-			dateEcheance: matchedPrevision.dateEcheance ?? 'Non défini',
-			libelleCompteTiers: matchedPrevision.libelleCompteTiers ?? 'Non défini',
-			libelleEcriture: matchedPrevision.libelleEcriture ?? 'Non défini',
-			libelleEcritureBeneficiaire: matchedPrevision.libelleEcritureBeneficiaire ?? 'Non défini',
-			libelleEcritureTrimestre: matchedPrevision.libelleEcritureTrimestre ?? 'Non défini',
-			libelleEcritureAnnee: matchedPrevision.libelleEcritureAnnee ?? 'Non défini',
-			libelleEcritureMois: matchedPrevision.libelleEcritureMois ?? 'Non défini',
-			libelleEcriturePrefixe: matchedPrevision.libelleEcriturePrefixe ?? 'Non défini',
-			dateOrdo: matchedPrevision.dateOrdo ?? 'Non défini',
-			// no_compte_banque: matchedPrevision.no_compte_banque ?? 'Non défini',
-			modeReglement: matchedPrevision.modeReglement ?? 'Non défini',
-			statut: matchedPrevision.statut ?? 'Non défini',
-			refSourceTiers: matchedPrevision.refSourceTiers ?? 'Non défini',
-			credit: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
-			debit: matchedPrevision.debit ? parseFloat(matchedPrevision.debit).toFixed(2) : '0.00',
-			montant: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
-			rubriqueTreso: matchedPrevision.rubriqueTreso ?? 'Non défini',
-			nomFichier: matchedPrevision.nomFichier ?? 'Non défini',
+			societe: matchedRecette.societe ?? 'Non défini',
+			cle: matchedRecette.cle || 'Non défini',
+			dateSaisie: matchedRecette.dateSaisie ?? 'Non défini',
+			dateEcheance: matchedRecette.dateEcheance ?? 'Non défini',
+			libelleCompteTiers: matchedRecette.libelleCompteTiers ?? 'Non défini',
+			libelleEcriture: matchedRecette.libelleEcriture ?? 'Non défini',
+			libelleEcritureBeneficiaire: matchedRecette.libelleEcritureBeneficiaire ?? 'Non défini',
+			libelleEcritureTrimestre: matchedRecette.libelleEcritureTrimestre ?? 'Non défini',
+			libelleEcritureAnnee: matchedRecette.libelleEcritureAnnee ?? 'Non défini',
+			libelleEcritureMois: matchedRecette.libelleEcritureMois ?? 'Non défini',
+			libelleEcriturePrefixe: matchedRecette.libelleEcriturePrefixe ?? 'Non défini',
+			dateOrdo: matchedRecette.dateOrdo ?? 'Non défini',
+			modeReglement: matchedRecette.modeReglement ?? 'Non défini',
+			statut: matchedRecette.statut ?? 'Non défini',
+			refSourceTiers: matchedRecette.refSourceTiers ?? 'Non défini',
+			credit: matchedRecette.credit ? parseFloat(matchedRecette.credit).toFixed(2) : '0.00',
+			debit: matchedRecette.debit ? parseFloat(matchedRecette.debit).toFixed(2) : '0.00',
+			montant: matchedRecette.credit ? parseFloat(matchedRecette.credit).toFixed(2) : '0.00',
+			rubriqueTreso: matchedRecette.rubriqueTreso ?? 'Non défini',
+			nomFichier: matchedRecette.nomFichier ?? 'Non défini',
 		}
 	}
 
-	// State for table data and filters
 	const [bodyArray, setBodyArray] = useState<string[][]>([])
 	const [filters, setFilters] = useState({
 		minDate: getDefaultDateMin(),
 		maxDate: getDefaultDateMax(),
 		cle: '',
-		societe: '', // Added société filter
+		societe: '',
 	})
 	const [showModal, setShowModal] = useState(false)
 
-	// Navigation for redirection
 	const navigate = useNavigate()
 
-	// Check if a date range is valid
 	const isDateRangeValid = (min: string, max: string): boolean => {
 		if (!Date.parse(min) || !Date.parse(max)) {
 			console.warn('Invalid date range.', { min, max })
@@ -106,20 +96,19 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 		return dateMin <= dateMax
 	}
 
-	// Convert data for the table
 	const convertToArray = (datas: IPrevision[]): string[][] =>
 		datas
-			.filter((data) => !filters.cle || data.cle.includes(filters.cle)) // Filter by "Code"
-			.filter((data) => !filters.societe || data.societe === filters.societe) // Filter by "Société"
+			.filter((data) => !filters.cle || data.cle.includes(filters.cle))
+			.filter((data) => !filters.societe || data.societe === filters.societe)
 			.map((data) => {
 				const credit = data.credit ? parseFloat(data.credit) : 0
 				const debit = data.debit ? parseFloat(data.debit) : 0
 
-				let montant = 0;
+				let montant = 0
 				if (credit !== 0) {
-					montant = credit;
+					montant = credit
 				} else if (debit !== 0) {
-					montant = -debit;
+					montant = -debit
 				}
 				return [
 					data.cle || 'Non défini',
@@ -129,11 +118,10 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 					data.rubriqueTreso ?? 'Non défini',
 					data.libelleEcriture ?? 'Non défini',
 					keepTwoDecimals(montant),
-					data.nomFichier ?? 'Aucun fichier joint', // Added "Courrier" column
+					data.nomFichier ?? 'Aucun fichier joint',
 				]
 			})
 
-	// Format amounts in euros
 	const keepTwoDecimals = (number: number): string =>
 		new Intl.NumberFormat('fr-FR', {
 			style: 'currency',
@@ -142,27 +130,25 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 			maximumFractionDigits: 2,
 		}).format(number)
 
-	// Handle row click for navigation
 	const handleRowClick = (index: number, rowData?: string[]): void => {
 		if (rowData?.[0]) {
-			const cle = rowData[0] // Assuming the key is in the second column of the row
-			const rowDetails = getRowDetails(cle) // Fetch full row details using the key
+			const cle = rowData[0]
+			const rowDetails = getRowDetails(cle)
 
 			if (rowDetails) {
 				console.log('RowDetails:', rowDetails)
 
-				navigate('/commandes/tresorerie/details_prevision_retard', {
-					state: { fullRowDetails: rowDetails }, // Pass full row details to the details page
+				navigate('/commandes/tresorerie/details_recette_ordonnancer', {
+					state: { fullRowDetails: rowDetails },
 				})
 			} else {
-				console.error('Aucune prévision correspondante trouvée pour la clé:', cle)
+				console.error('Aucune recette correspondante trouvée pour la clé:', cle)
 			}
 		} else {
 			console.warn('No data available for this row.')
 		}
 	}
 
-	// Handle date filter changes
 	const handleDateFilter = (minDate: string, maxDate: string): void => {
 		const validMinDate = convertFrDateToServerDate(minDate)
 		const validMaxDate = convertFrDateToServerDate(maxDate)
@@ -175,9 +161,8 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 		setFilters({ ...filters, minDate: validMinDate, maxDate: validMaxDate })
 	}
 
-	// Update table data when filters change
 	useEffect(() => {
-		const filteredData = mockedPrevisions.filter((data) => {
+		const filteredData = mockedRecettes.filter((data) => {
 			const dateEcheance = data.dateEcheance ? new Date(data.dateEcheance) : new Date()
 			const minDate = new Date(filters.minDate)
 			const maxDate = new Date(filters.maxDate)
@@ -186,20 +171,18 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 		setBodyArray(convertToArray(filteredData))
 	}, [filters])
 
-	// Prepare table data
 	const tableData = {
-		tableHead: ['Code', 'Date saisie', 'Échéance', 'Fournisseur', 'Rubrique', 'libellé', 'Montant', 'Courrier'], // Updated table headers
+		tableHead: ['Code', 'Date saisie', 'Échéance', 'Fournisseur', 'Rubrique', 'libellé', 'Montant', 'Courrier'],
 		tableBody: bodyArray,
 	}
 
-	// Unique sociétés for the dropdown
-	const societes = Array.from(new Set(mockedPrevisions.map((prev) => prev.societe)))
+	const societes = Array.from(new Set(mockedRecettes.map((recette) => recette.societe)))
 
 	return (
 		<>
-			<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | PRÉVISIONS EN RETARD' }} />
-			<main id='previsionsEnRetard'>
-				<section className='previsionsEnRetard__bottomSection'>
+			<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | RECETTES À ORDONNANCER' }} />
+			<main id='recetteAOrdonnancer'>
+				<section className='recetteAOrdonnancer__bottomSection'>
 					<div className='filtersWrapper'>
 						<DateRange onFilter={handleDateFilter} defaultMinDate={filters.minDate} defaultMaxDate={filters.maxDate} />
 						<div className='societeSelectWrapper'>
@@ -240,7 +223,7 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 							showItemsPerPageSelector
 							showPagination
 							itemsPerPageOptions={[5, 25, 50]}
-							filterableColumns={[false, false, false, true, false, false, false]} // Updated filterable columns
+							filterableColumns={[false, false, false, true, false, false, false]}
 							language='fr'
 							onRowClick={(index: number, rowData?: string[]) => handleRowClick(index, rowData)}
 						/>
@@ -255,4 +238,4 @@ const PrevisionsEnRetard: () => ReactElement = (): ReactElement => {
 	)
 }
 
-export default PrevisionsEnRetard
+export default RecetteAOrdonnancer
