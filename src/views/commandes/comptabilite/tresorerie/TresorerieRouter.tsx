@@ -30,6 +30,7 @@ import EmissionCheques from './emissionCheques/EmissionCheques.tsx'
 import DetailEmissionChq from './emissionCheques/DetailEmissionChq.tsx'
 import EmisNonDecaisses from './emisNonDecaisses/EmisNonDecaisses.tsx'
 import RecetteAOrdonnancer from './recetteAOrdonnancer/RecetteAOrdonnancer.tsx'
+import DetailRecetteAOrdo from './recetteAOrdonnancer/DetailRecetteAOrdo.tsx'
 
 export default function TresorerieRouter(): ReactElement {
 	return (
@@ -61,6 +62,7 @@ export default function TresorerieRouter(): ReactElement {
 			<Route path={'/detail-emission-chq'} element={<DetailEmissionChq />} />
 			<Route path={'/emis_non_decaisses'} element={<EmisNonDecaisses />} />
 			<Route path={'/recette_a_ordonnancer'} element={<RecetteAOrdonnancer />} />
+			<Route path={'/details_recette_ordonnancer'} element={<DetailRecetteAOrdo />} />
 		</Routes>
 	)
 }
