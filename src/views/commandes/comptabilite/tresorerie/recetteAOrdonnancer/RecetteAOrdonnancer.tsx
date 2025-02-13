@@ -112,13 +112,13 @@ const RecetteAOrdonnancer: () => ReactElement = (): ReactElement => {
 				}
 				return [
 					data.cle || 'Non défini',
-					data.dateOrdo ? convertENDateToFr(data.dateOrdo.split('/').reverse().join('-')) : 'Non défini',
+					data.dateSaisie ? convertENDateToFr(data.dateSaisie.split('/').reverse().join('-')) : 'Non défini',
 					data.dateEcheance ? convertENDateToFr(data.dateEcheance.split('/').reverse().join('-')) : 'Non défini',
+					data.dateOrdo ? convertENDateToFr(data.dateOrdo.split('/').reverse().join('-')) : 'Non défini',
 					data.libelleCompteTiers ?? 'Non défini',
-					data.rubriqueTreso ?? 'Non défini',
 					data.libelleEcriture ?? 'Non défini',
 					keepTwoDecimals(montant),
-					data.nomFichier ?? 'Aucun fichier joint',
+					// data.nomFichier ?? 'Aucun fichier joint',
 				]
 			})
 
@@ -172,7 +172,7 @@ const RecetteAOrdonnancer: () => ReactElement = (): ReactElement => {
 	}, [filters])
 
 	const tableData = {
-		tableHead: ['Code', 'Date saisie', 'Échéance', 'Fournisseur', 'Rubrique', 'libellé', 'Montant', 'Courrier'],
+		tableHead: ['Code', 'Date saisie', 'Échéance', 'Ordo', 'Partenaire', 'Libellé écriture', 'Montant'],
 		tableBody: bodyArray,
 	}
 
