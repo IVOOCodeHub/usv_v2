@@ -82,7 +82,7 @@ export const validateAndConvertDateForApi = (dateString: string): string => {
 // Outil pour éclater les IBAN en plusieurs champs si jamais certains champs de l'IBAN sont manquants ou invalides
 
 export const parseIBAN = (iban: string) => {
-	if (!iban || iban.length < 27) return null 
+	if (!iban || iban.length < 27) return null
 
 	// Extract parts of the IBAN
 	const ibanCodePays = iban.slice(0, 2) // First 2 characters (country code)
@@ -100,4 +100,14 @@ export const parseIBAN = (iban: string) => {
 		iban_no_compte: ibanNoCompte,
 		iban_cle_rib: ibanCleRib,
 	}
+}
+
+export const calculate20TVA = (amount: number): number => {
+	const tva20 = amount * 0.2
+	return tva20
+}
+
+export const calculate10TVA = (amount: number): number => {
+	const tva10 = amount * 0.1
+	return tva10
 }

@@ -5,7 +5,12 @@ import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
 import ModalCourriers from '../previsionAOrdonnancer/ModalCourriers.tsx'
 import ConfirmationModal from '../../../../../components/ConfirmationModal/ConfirmationModal.tsx'
-import { keepTwoDecimals, convertENDateToFr, formatDateToHtml } from '../../../../../utils/scripts/utils.ts'
+import {
+	keepTwoDecimals,
+	convertENDateToFr,
+	formatDateToHtml,
+	calculate20TVA,
+} from '../../../../../utils/scripts/utils.ts'
 import './recetteAOrdonnancer.scss'
 
 interface ILocationState {
@@ -73,15 +78,6 @@ const DetailRecetteAOrdo: React.FC = () => {
 		showModal: false,
 		isAddTiersModalOpen: false,
 	})
-
-	// Mocked data for "Rubrique" and "Libellé" fields
-	const [rubriques, setRubriques] = useState<{ cle: string; libelle: string }[]>([
-		{ cle: '1', libelle: 'Rubrique 1' },
-		{ cle: '2', libelle: 'Rubrique 2' },
-	])
-	const [prefixes, setPrefixes] = useState<string[]>(['Prefixe 1', 'Prefixe 2'])
-	const [mois, setMois] = useState<string[]>(['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'])
-	const [annees, setAnnees] = useState<string[]>(['2023', '2024', '2025'])
 
 	// Validate PDF link
 	const validatePdfLink = (link: string | null): boolean => {
@@ -160,11 +156,13 @@ const DetailRecetteAOrdo: React.FC = () => {
 		return <p>Aucune recette disponible pour la clé sélectionnée.</p>
 	}
 
-	console.log('détails recette à ordonnancer', details)
+	const calculatedTVA20 = calculate20TVA(parseFloat(details.credit.replace(/\s/g, '').replace(',', '.')))
 
 	return (
 		<>
-			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | DÉTAILS RECETTE À ORDONNANCER ${details.cle}` }} />
+			<Header
+				props={{ pageURL: `GIVOO | TRÉSORERIE | PREVISION RECETTE À ORDONNANCER ${details.societe} N° ${details.cle}` }}
+			/>
 			<main id='detailRecetteAOrdo'>
 				<div className='detailsContainer'>
 					<div className='leftSide'>
@@ -208,83 +206,28 @@ const DetailRecetteAOrdo: React.FC = () => {
 						)}
 						<div className='detailsWrapper'>
 							<div>
-								<strong>Date saisie :</strong> {details.dateSaisie || 'Non défini'}
+								<strong>Date facture :</strong> {details.dateSaisie || 'Non défini'}
 							</div>
 							<div>
-								<strong>Société :</strong> {details.societe || 'Non défini'}
+								<strong>Société facturée :</strong> {details.libelleCompteTiers || 'Non défini'}
 							</div>
 							<div>
-								<strong>Tiers :</strong> {details.libelleCompteTiers || 'Non défini'}
+								<strong>Libellé :</strong> {details.libelleEcriture || 'Non défini'}
 							</div>
 							<div>
-								<strong>Rubrique :</strong>
-								<select
-									value={details.rubriqueTreso || ''}
-									onChange={(e) => setDetails({ ...details, rubriqueTreso: e.target.value })}
-								>
-									<option value=''>Choisir</option>
-									{rubriques.map((rubrique) => (
-										<option key={rubrique.cle} value={rubrique.cle}>
-											{rubrique.libelle}
-										</option>
-									))}
-								</select>
+								<strong>Date échéance :</strong> {details.dateEcheance || 'Non défini'}
+							</div>
+							<div>
+								<strong>Date Ordo :</strong>
+								<input
+									type='date'
+									value={details.dateEcheance || 'Non défini'}
+									onChange={(e) => setDetails({ ...details, dateEcheance: e.target.value })}
+								/>
 							</div>
 
-							<div className='libelleWrapper'>
-								<div className='libelleTitle'>
-									<strong>Libellé :</strong>
-								</div>
-								<div className='IntercoLibelleWrapper'>
-									<select
-										value={details.libelleEcriturePrefixe || ''}
-										onChange={(e) => setDetails({ ...details, libelleEcriturePrefixe: e.target.value })}
-									>
-										<option value=''>Préfixe</option>
-										{prefixes.map((prefixe) => (
-											<option key={prefixe} value={prefixe}>
-												{prefixe}
-											</option>
-										))}
-									</select>
-									<select
-										value={details.libelleEcritureMois || ''}
-										onChange={(e) => setDetails({ ...details, libelleEcritureMois: e.target.value })}
-									>
-										<option value=''>Mois</option>
-										{mois.map((mois) => (
-											<option key={mois} value={mois}>
-												{mois}
-											</option>
-										))}
-									</select>
-									<select
-										value={details.libelleEcritureAnnee || ''}
-										onChange={(e) => setDetails({ ...details, libelleEcritureAnnee: e.target.value })}
-									>
-										<option value=''>Année</option>
-										{annees.map((annee) => (
-											<option key={annee} value={annee}>
-												{annee}
-											</option>
-										))}
-									</select>
-									<input
-										type='text'
-										placeholder='Trim'
-										value={details.libelleEcritureTrimestre || ''}
-										onChange={(e) => setDetails({ ...details, libelleEcritureTrimestre: e.target.value })}
-									/>
-									<input
-										type='text'
-										placeholder='Bénéficiaire'
-										value={details.libelleEcritureBeneficiaire || ''}
-										onChange={(e) => setDetails({ ...details, libelleEcritureBeneficiaire: e.target.value })}
-									/>
-								</div>
-							</div>
 							<div>
-								<strong>Crédit :</strong>{' '}
+								<strong>Montant :</strong>{' '}
 								<input
 									type='number'
 									value={parseFloat(details.credit.replace(/\s/g, '').replace(',', '.'))}
@@ -293,67 +236,14 @@ const DetailRecetteAOrdo: React.FC = () => {
 								/>
 							</div>
 							<div>
-								<strong>Débit :</strong>{' '}
-								<input
-									type='number'
-									value={parseFloat(details.debit.replace(/\s/g, '').replace(',', '.'))}
-									step='0.01'
-									onChange={(e) => setDetails({ ...details, debit: e.target.value })}
-								/>
+								<strong>TVA 20% :</strong> <input type='number' value={calculatedTVA20} step='0.01' readOnly />
 							</div>
+
 							<div>
-								<strong>Mode règlement :</strong>
-								<div className='modeReglement'>
-									<Button
-										props={{
-											style: modePaiement === 'PRELEV' ? 'blue' : 'grey',
-											text: 'PRELEV',
-											type: 'button',
-											onClick: () => setModePaiement('PRELEV'),
-										}}
-									/>
-									<Button
-										props={{
-											style: modePaiement === 'CHEQUE' ? 'blue' : 'grey',
-											text: 'CHEQUE',
-											type: 'button',
-											onClick: () => setModePaiement('CHEQUE'),
-										}}
-									/>
-									<Button
-										props={{
-											style: modePaiement === 'VIR' ? 'blue' : 'grey',
-											text: 'VIR',
-											type: 'button',
-											onClick: () => setModePaiement('VIR'),
-										}}
-									/>
-								</div>
-							</div>
-							<div>
-								<strong>Banq. règlement :</strong>{' '}
+								<strong>sur le compte bancaire :</strong>{' '}
 								<select value={''} onChange={(e) => setDetails({ ...details, noCompteBanque: e.target.value })}>
 									<option value='000257117126 - SOCIETE GENERALE'>000257117126 - SOCIETE GENERALE</option>
 									<option value='000257117127 - BNP PARIBAS'>000257117127 - BNP PARIBAS</option>
-								</select>
-							</div>
-							<div>
-								<strong>TVA 20% :</strong> {details.tva20 || 'Non défini'}
-							</div>
-							<div>
-								<strong>Date échéance :</strong> {details.dateEcheance || 'Non défini'}
-							</div>
-							<div>
-								<strong>Date ordo :</strong> {details.dateOrdo || 'Non défini'}
-							</div>
-							<div>
-								<strong>Statut :</strong>
-								<select
-									value={details.statut || ''}
-									onChange={(e) => setDetails({ ...details, statut: e.target.value })}
-								>
-									<option value='A REGULARISER'>Mise en paiement à régulariser</option>
-									<option value='ORDO'>Recette ordonnancée</option>
 								</select>
 							</div>
 							<div>
@@ -363,6 +253,16 @@ const DetailRecetteAOrdo: React.FC = () => {
 									value={details.commentaire || ''}
 									onChange={(e) => setDetails({ ...details, commentaire: e.target.value })}
 								/>
+							</div>
+							<div>
+								<strong>Statut :</strong>
+								<select
+									value={details.statut || ''}
+									onChange={(e) => setDetails({ ...details, statut: e.target.value })}
+								>
+									<option value='A REGULARISER'>Attente encaissement</option>
+									<option value='ORDO'>Litige</option>
+								</select>
 							</div>
 						</div>
 						<div className='buttonWrapper'>
