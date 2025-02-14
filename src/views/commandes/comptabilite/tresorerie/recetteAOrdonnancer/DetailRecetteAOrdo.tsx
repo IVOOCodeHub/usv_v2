@@ -91,9 +91,9 @@ const DetailRecetteAOrdo: React.FC = () => {
 		if (rowData) {
 			const formattedDetails: RowDetails = {
 				cle: rowData.cle || 'Non défini',
-				dateSaisie: rowData.dateSaisie ? convertENDateToFr(rowData.dateSaisie) : 'Non défini',
+				dateSaisie: rowData.dateSaisie ? convertENDateToFr(rowData.dateSaisie) : '',
 				societe: rowData.societe || 'Non défini',
-				dateEcheance: rowData.dateEcheance ? formatDateToHtml(rowData.dateEcheance) : 'Non défini',
+				dateEcheance: rowData.dateEcheance ? formatDateToHtml(rowData.dateEcheance) : '',
 				libelleCompteTiers: rowData.libelleCompteTiers || 'Non défini',
 				libelleEcriture: rowData.libelleEcriture || 'Non défini',
 				credit: rowData.credit ? keepTwoDecimals(Number(rowData.credit)) : '0.00',
@@ -221,7 +221,7 @@ const DetailRecetteAOrdo: React.FC = () => {
 								<strong>Date Ordo :</strong>
 								<input
 									type='date'
-									value={details.dateEcheance || 'Non défini'}
+									value={details.dateEcheance || ''}
 									onChange={(e) => setDetails({ ...details, dateEcheance: e.target.value })}
 								/>
 							</div>
@@ -260,8 +260,8 @@ const DetailRecetteAOrdo: React.FC = () => {
 									value={details.statut || ''}
 									onChange={(e) => setDetails({ ...details, statut: e.target.value })}
 								>
-									<option value='A REGULARISER'>Attente encaissement</option>
-									<option value='ORDO'>Litige</option>
+									<option value='ATTENTE ENCAISSEMENT'>Attente encaissement</option>
+									<option value='LITIGE'>Litige</option>
 								</select>
 							</div>
 						</div>
