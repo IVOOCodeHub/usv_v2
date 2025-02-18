@@ -25,7 +25,7 @@ function AjouterPiece(): ReactElement {
                     helpBtn: true,
                 }}
             />
-                <main id={"creationCommandes"}>
+                <main id={"ajouterPiece"}>
                     <div className={"goBackBtnWrapper"}>
                         <section className={"middleSide"}>
                             <form>

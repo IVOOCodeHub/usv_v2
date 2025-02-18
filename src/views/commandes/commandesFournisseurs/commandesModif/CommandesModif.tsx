@@ -387,7 +387,7 @@ function CommandesModif(): ReactElement {
                     helpBtn: true,
                 }}
             />
-            <main id={"modificationCommande"}>
+            <main id={"commandesModif"}>
                 <section className={"topSection"}>
                     {commande && (
                         <form>
@@ -435,7 +435,7 @@ function CommandesModif(): ReactElement {
                                 />
                             </div>
                             <div className={"inputWrapper"}>
-                                <label htmlFor={"delaiReglement"}>Délai de règlement</label>
+                                <label htmlFor={"delaiReglement"}>Délai de règlement :</label>
                                 <Select
                                     defaultValue={optionsDelais.find((option: OptionType) => option.value === commande.delaiReglement) || optionsDelais[0]}
                                     options={optionsDelais}
