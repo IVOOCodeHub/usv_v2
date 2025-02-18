@@ -25,10 +25,10 @@ interface ICommande {
 
 function CreationCommandes(): ReactElement {
     const navigate: NavigateFunction = useNavigate();
-    const [acompte, setAcompte] = useState(false);
+    // const [acompte, setAcompte] = useState(false);
     const [fournisseur, setFournisseur] = useState(false);
     const [commandesArray, setCommandesArray] = useState<string[][]>([]);
-    const [montantAcompte, setMontantAcompte] = useState("");
+    // const [montantAcompte, setMontantAcompte] = useState("");
 
     const mockupCommandes: ICommande[] = [
         {
@@ -118,7 +118,7 @@ function CreationCommandes(): ReactElement {
                                             />
                                         </div>
                                         <div className={"inputWrapper"}>
-                                            <label htmlFor={"fournisseurs"}>Fournisseurs :</label>
+                                            <label htmlFor={"fournisseurs"}>Fournisseur :</label>
                                             <Select
                                                 id={"fournisseurs"}
                                                 options={[
@@ -164,32 +164,32 @@ function CreationCommandes(): ReactElement {
                                                 id={"paiementCommande"}
                                             />
                                         </div>
-                                        <div className="inputWrapper">
-                                            <label htmlFor="acompte">Acompte :</label>
-                                            <Select
-                                                options={[
-                                                    { value: "false", label: "Non" },
-                                                    { value: "true", label: "Oui" },
-                                                ]}
-                                                id="acompte"
-                                                onChange={(selectedOption) => {
-                                                    if (selectedOption) {
-                                                        setAcompte(selectedOption.value === "true");
-                                                    }
-                                                }}
-                                            />
-                                        </div>
-                                        {acompte && (
-                                            <div className="inputWrapper">
-                                                <label htmlFor="acompteMontant">Montant de l'acompte (en €) :</label>
-                                                <input
-                                                    type="number"
-                                                    id="acompteMontant"
-                                                    value={montantAcompte}
-                                                    onChange={(e) => setMontantAcompte(e.target.value)}
-                                                />
-                                            </div>
-                                        )}
+                                        {/*<div className="inputWrapper">*/}
+                                        {/*    <label htmlFor="acompte">Acompte :</label>*/}
+                                        {/*    <Select*/}
+                                        {/*        options={[*/}
+                                        {/*            { value: "false", label: "Non" },*/}
+                                        {/*            { value: "true", label: "Oui" },*/}
+                                        {/*        ]}*/}
+                                        {/*        id="acompte"*/}
+                                        {/*        onChange={(selectedOption) => {*/}
+                                        {/*            if (selectedOption) {*/}
+                                        {/*                setAcompte(selectedOption.value === "true");*/}
+                                        {/*            }*/}
+                                        {/*        }}*/}
+                                        {/*    />*/}
+                                        {/*</div>*/}
+                                        {/*{acompte && (*/}
+                                        {/*    <div className="inputWrapper">*/}
+                                        {/*        <label htmlFor="acompteMontant">Montant de l'acompte (en €) :</label>*/}
+                                        {/*        <input*/}
+                                        {/*            type="number"*/}
+                                        {/*            id="acompteMontant"*/}
+                                        {/*            value={montantAcompte}*/}
+                                        {/*            onChange={(e) => setMontantAcompte(e.target.value)}*/}
+                                        {/*        />*/}
+                                        {/*    </div>*/}
+                                        {/*)}*/}
                                         <div className={"inputWrapper"}>
                                             <label htmlFor={"modeReglement"}>Mode de règlement :</label>
                                             <Select

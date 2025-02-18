@@ -84,7 +84,7 @@ function ModifierPiece(): ReactElement {
                                     />
                                     <Button
                                         props={{
-                                            style: "orange",
+                                            style: "red",
                                             text: "Supprimer",
                                             type: "button",
                                             onClick: (): void =>
