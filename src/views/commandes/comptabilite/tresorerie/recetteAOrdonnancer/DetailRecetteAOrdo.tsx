@@ -37,6 +37,7 @@ interface ILocationState {
 			modeReglement: string
 			statut: string
 			refSourceTiers: string
+			commentaire: string
 		}
 	}
 }
@@ -63,12 +64,12 @@ interface RowDetails {
 	modeReglement: string
 	statut: string
 	refSourceTiers: string
+	commentaire: string
 }
 
 const DetailRecetteAOrdo: React.FC = () => {
 	const navigate = useNavigate()
 	const location = useLocation() as ILocationState
-	const [modePaiement, setModePaiement] = useState<string>('')
 	const [courrier, setCourrier] = useState<string | null>(null)
 	const [isPdfLoaded, setIsPdfLoaded] = useState<boolean>(true)
 	const [details, setDetails] = useState<RowDetails | null>(null)
@@ -201,7 +202,7 @@ const DetailRecetteAOrdo: React.FC = () => {
 								isOpen={modalStates.isModalOpen}
 								onClose={() => toggleModal('isModalOpen')}
 								userCredentials={null}
-								recetteCode={details.cle}
+								previsionCode={details.cle}
 							/>
 						)}
 						<div className='detailsWrapper'>
@@ -250,6 +251,7 @@ const DetailRecetteAOrdo: React.FC = () => {
 								<strong>Commentaire :</strong>
 								<input
 									type='text'
+									style={{ width: '32rem' }}
 									value={details.commentaire || ''}
 									onChange={(e) => setDetails({ ...details, commentaire: e.target.value })}
 								/>
@@ -266,24 +268,7 @@ const DetailRecetteAOrdo: React.FC = () => {
 								</select>
 							</div>
 						</div>
-						<div className='buttonWrapper'>
-							<Button
-								props={{
-									style: 'blue',
-									text: 'Étalement',
-									type: 'button',
-									onClick: () => toggleModal('showModal'),
-								}}
-							/>
-							<Button
-								props={{
-									style: 'blue',
-									text: 'Supprimer',
-									type: 'button',
-									onClick: () => alert('Recette supprimée !'),
-								}}
-							/>
-						</div>
+
 						{modalStates.showModal && (
 							<ConfirmationModal
 								message='Confirmez-vous l’étalement de cette recette par la création d’un échéancier ?'
