@@ -16,12 +16,23 @@
 #commandesModif .bottomSection {
   padding: 0.5em;
   width: 100%;
+  .inputWrapper {
+    //height: 38px;
+    p {
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+  }
+}
+#commandesModif .bottomSection #NRTL{
+  margin-top: 0;
 }
 
 #commandesModif .topSection {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding: 40px;
   gap: 1em;
   min-height: 50dvh;
 
@@ -47,10 +58,16 @@
 #commandesModif .bottomSection {
   min-height: 40dvh;
   display: flex;
-  flex-flow: row;
-  align-items: center;
-  justify-content: center;
-  gap: 2em;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1em;
+  padding-left: 40px;
+  .buttonContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
 }
 
 #documentModal {

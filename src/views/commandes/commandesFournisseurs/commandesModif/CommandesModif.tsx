@@ -75,25 +75,25 @@ function CommandesModif(): ReactElement {
         { value: "ETC", label: "ETC" },
     ];
 
-    const optionsFournisseur: OptionType[] = [
-        { value: "A Montain", label: "A Montain" },
-        { value: "Agence N", label: "Agence N" },
-        { value: "TELECONVERGENCE", label: "TELECONVERGENCE" },
-        { value: "KILOUTOU", label: "KILOUTOU" },
-        { value: "ETC", label: "ETC" },
-    ];
-
-    const optionsNature: OptionType[] = [
-        { value: "ANIMATION", label: "ANIMATION" },
-        { value: "ANNONCE", label: "ANNONCE" },
-        { value: "BATIMENT", label: "BATIMENT" },
-        { value: "DEPLACEMENT", label: "DEPLACEMENT" },
-        { value: "DOCUMENTATION", label: "DOCUMENTATION" },
-        { value: "HYGIENE", label: "HYGIENE" },
-        { value: "INFORMATIQUE", label: "INFORMATIQUE" },
-        { value: "PAPETERIE", label: "PAPETERIE" },
-        { value: "TR", label: "TR" },
-    ];
+    // const optionsFournisseur: OptionType[] = [
+    //     { value: "A Montain", label: "A Montain" },
+    //     { value: "Agence N", label: "Agence N" },
+    //     { value: "TELECONVERGENCE", label: "TELECONVERGENCE" },
+    //     { value: "KILOUTOU", label: "KILOUTOU" },
+    //     { value: "ETC", label: "ETC" },
+    // ];
+    //
+    // const optionsNature: OptionType[] = [
+    //     { value: "ANIMATION", label: "ANIMATION" },
+    //     { value: "ANNONCE", label: "ANNONCE" },
+    //     { value: "BATIMENT", label: "BATIMENT" },
+    //     { value: "DEPLACEMENT", label: "DEPLACEMENT" },
+    //     { value: "DOCUMENTATION", label: "DOCUMENTATION" },
+    //     { value: "HYGIENE", label: "HYGIENE" },
+    //     { value: "INFORMATIQUE", label: "INFORMATIQUE" },
+    //     { value: "PAPETERIE", label: "PAPETERIE" },
+    //     { value: "TR", label: "TR" },
+    // ];
 
     const optionsDelais: OptionType[] = [
         { value: "A la commande", label: "A la commande" },
@@ -395,25 +395,27 @@ function CommandesModif(): ReactElement {
                                 <label htmlFor={"societe"}>Société :</label>
                                 <Select
                                     id={"societe"}
-                                    defaultValue={optionsSociete.find((option: OptionType) => option.value === commande.societe) || optionsSociete[0]}
+                                    // defaultValue={optionsSociete.find((option: OptionType) => option.value === commande.societe) || optionsSociete[0]}
                                     options={optionsSociete}
                                 />
                             </div>
                             <div className={"inputWrapper"}>
                                 <label htmlFor={"tiers"}>Fournisseur :</label>
-                                <Select
-                                    id={"fournisseur"}
-                                    defaultValue={optionsFournisseur.find((option: OptionType) => option.value === commande.tiers) || optionsFournisseur[0]}
-                                    options={optionsFournisseur}
-                                />
+                                <p>{commande.tiers}</p>
+                                {/*<Select*/}
+                                {/*    id={"fournisseur"}*/}
+                                {/*    defaultValue={optionsFournisseur.find((option: OptionType) => option.value === commande.tiers) || optionsFournisseur[0]}*/}
+                                {/*    options={optionsFournisseur}*/}
+                                {/*/>*/}
                             </div>
                             <div className={"inputWrapper"}>
                                 <label htmlFor={"nature"}>Nature :</label>
-                                <Select
-                                    id={"nature"}
-                                    defaultValue={optionsNature.find((option: OptionType) => option.value === commande.prefixeEcriture) || optionsNature[0]}
-                                    options={optionsNature}
-                                />
+                                <p>{commande.prefixeEcriture}</p>
+                                {/*<Select*/}
+                                {/*    id={"nature"}*/}
+                                {/*    defaultValue={optionsNature.find((option: OptionType) => option.value === commande.prefixeEcriture) || optionsNature[0]}*/}
+                                {/*    options={optionsNature}*/}
+                                {/*/>*/}
                             </div>
                             <div className={"inputWrapper"}>
                                 <label htmlFor={"objet"}>Objet :</label>
@@ -445,11 +447,13 @@ function CommandesModif(): ReactElement {
                             </div>
                             <div className={"inputWrapper"}>
                                 <label htmlFor={"totalHT"}>Total HT :</label>
-                                <input type={"text"} id={"totalHT"} defaultValue={commande.totalHT + " €"} />
+                                <p>{commande.totalHT} €</p>
+                                {/*<input type={"text"} id={"totalHT"} defaultValue={commande.totalHT + " €"} />*/}
                             </div>
                             <div className={"inputWrapper"}>
                                 <label htmlFor={"totalTTC"}>Total TTC :</label>
-                                <input type={"text"} id={"totalTTC"} defaultValue={commande.totalTTC + " €"} />
+                                <p>{commande.totalTTC} €</p>
+                                {/*<input type={"text"} id={"totalTTC"} defaultValue={commande.totalTTC + " €"} />*/}
                             </div>
                             <div className={"inputWrapper"}>
                                 <label htmlFor={"acompte"}>Acompte :</label>
@@ -539,7 +543,7 @@ function CommandesModif(): ReactElement {
                         />
                         <Button
                             props={{
-                                style: "blue",
+                                style: "grey",
                                 text: "Voir prévision",
                                 type: "button",
                             }}
@@ -550,6 +554,30 @@ function CommandesModif(): ReactElement {
                     </div>
                 </section>
                 <section className={"bottomSection"}>
+                    <div className={"buttonContainer"}>
+                        <Button
+                            props={{
+                                style: "blue",
+                                text: "Ajouter une ligne d'article",
+                                type: "button",
+                                onClick: (): void =>
+                                    navigate(
+                                        `/commandes/commandes_fournisseurs/commandes_a_valider/ajouter_piece/${commandeID}`,
+                                    ),
+                            }}
+                        />
+                        <Button
+                            props={{
+                                style: "red",
+                                text: "Supprimer tous les articles",
+                                type: "button",
+                                // onClick: (): void =>
+                                //     navigate(
+                                //         `/commandes/commandes_fournisseurs/commandes_a_valider/ajouter_piece/${commandeID}`,
+                                //     ),
+                            }}
+                        />
+                    </div>
                     <div className={"tableContainer"}>
                         <NRTL
                             datas={tableData}
@@ -569,19 +597,6 @@ function CommandesModif(): ReactElement {
                                 )
                             }
                             language={"fr"}
-                        />
-                    </div>
-                    <div className={"buttonContainer"}>
-                        <Button
-                            props={{
-                                style: "blue",
-                                text: "Ajouter une ligne d'article",
-                                type: "button",
-                                onClick: (): void =>
-                                    navigate(
-                                        `/commandes/commandes_fournisseurs/commandes_a_valider/ajouter_piece/${commandeID}`,
-                                    ),
-                            }}
                         />
                     </div>
                 </section>
