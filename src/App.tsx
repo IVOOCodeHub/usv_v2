@@ -29,7 +29,7 @@ function App(): ReactElement {
         <Route path={"gestion_givoo/*"} element={<GestionGIVOORouter />} />
         {/* Commandes sub application */}
         <Route path={"commandes/*"} element={<CommandesRouter />} />
-        <Route path={"gestion_informatique/*"} element={<GestionInformatiqueRouter />} />
+        {/*<Route path={"gestion_informatique/*"} element={<GestionInformatiqueRouter />} />*/}
       </Routes>
     </Router>
   );

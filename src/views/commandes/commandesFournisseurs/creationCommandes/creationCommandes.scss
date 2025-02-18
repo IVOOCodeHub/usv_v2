@@ -11,9 +11,9 @@
     margin-bottom: 1em;
   }
   form {
+    margin: auto !important;
     @include mixins.form;
     //max-width: 500px;
-    margin: auto;
   }
 
   .middleSide {
