@@ -3,7 +3,7 @@ import "./creationCommandes.scss";
 
 
 // hooks | libraries
-import {ReactElement, useState} from "react";
+import {ReactElement, useEffect, useState} from "react";
 import { useNavigate, NavigateFunction } from "react-router-dom";
 
 // components
@@ -12,12 +12,85 @@ import Button from "../../../../components/button/Button";
 import Select from "react-select";
 import Footer from "../../../../components/footer/Footer";
 import WithAuth from "../../../auth/WithAuth";
+import NRTL from "../../../../components/NRTL/NRTL.tsx";
+
+interface ICommande {
+    cle: string;
+    tiers: string;
+    objet: string;
+    totalTTC: string;
+    statut: string;
+    dateReception: string;
+}
 
 function CreationCommandes(): ReactElement {
     const navigate: NavigateFunction = useNavigate();
     const [acompte, setAcompte] = useState(false);
+    const [fournisseur, setFournisseur] = useState(false);
+    const [commandesArray, setCommandesArray] = useState<string[][]>([]);
     const [montantAcompte, setMontantAcompte] = useState("");
 
+    const mockupCommandes: ICommande[] = [
+        {
+            cle: "567",
+            tiers: "TELECONVERGENCE",
+            objet: "Commande Casques",
+            totalTTC: "2 460,00",
+            dateReception: "2024/12/05",
+            statut: "Commande validée",
+        },
+        {
+            cle: "563",
+            tiers: "TELECONVERGENCE",
+            objet: "Chauffages",
+            dateReception: "2025/21/01",
+            totalTTC: "619,41",
+            statut: "Commande recue",
+        },
+    ];
+    const commandesTableData = {
+        tableHead: ["Code", "Date", "Objet", "Montant TTC", "Statut"],
+        tableBody: commandesArray,
+    };
+
+    const DisplayCommandes = (): ReactElement => {
+        return (
+            <div className={'commandesTableContainer'}>
+                    <h2>Commandes Fournisseur</h2>
+                    <NRTL
+                        datas={commandesTableData}
+                        headerBackgroundColor={"linear-gradient(to left, #84CDE4FF, #1092B8)"}
+                        headerHoverBackgroundColor={"#1092B8"}
+                        language={"fr"}
+                        onRowClick={(): void => {
+                            navigate(
+                                `/commandes/commandes_fournisseurs/commandes_a_valider/567`
+                            )
+                        }}
+                    />
+            </div>
+        );
+    };
+    const findCommande = (tiers: string): ICommande[] => {
+        return mockupCommandes.filter(
+            (document: ICommande): boolean => document.tiers === tiers,
+        );
+    };
+    useEffect((): void => {
+            const commandes:  ICommande[] | null | undefined = findCommande("TELECONVERGENCE");
+            if (commandes) {
+                const tableRows:  string[][] = commandes.map(
+                    (commande: ICommande): string[] => [
+                        commande.cle,
+                        commande.dateReception,
+                        commande.objet,
+                        commande.totalTTC,
+                        commande.statut,
+                    ],
+                );
+                setCommandesArray(tableRows);
+            }
+    }, []);
     return (
         <>
             <Header
@@ -49,9 +122,31 @@ function CreationCommandes(): ReactElement {
                                             <Select
                                                 id={"fournisseurs"}
                                                 options={[
-                                                    { value: "1", label: "A Montain" },
-                                                    { value: "2", label: "Agence N" },
-                                                    { value: "3", label: "ETC" },
+                                                    { value: "A Montain", label: "A Montain" },
+                                                    { value: "Agence N", label: "Agence N" },
+                                                    { value: "ETC", label: "ETC" },
+                                                ]}
+                                                onChange={(selectedOption) => {
+                                                    if (selectedOption) {
+                                                        setFournisseur(selectedOption.value === "A Montain");
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                        <div className={"inputWrapper"}>
+                                            <label htmlFor={"nature"}>Nature :</label>
+                                            <Select
+                                                id={"nature"}
+                                                options={[
+                                                    { value: "1", label: "ANIMATION" },
+                                                    { value: "2", label: "ANNONCE" },
+                                                    { value: "3", label: "BATIMENT" },
+                                                    { value: "4", label: "DEPLACEMENT" },
+                                                    { value: "5", label: "DOCUMENTATION" },
+                                                    { value: "6", label: "HYGIENE" },
+                                                    { value: "7", label: "INFORMATIQUE" },
+                                                    { value: "8", label: "PAPETERIE" },
+                                                    { value: "9", label: "TR" },
                                                 ]}
                                             />
                                         </div>
@@ -112,18 +207,6 @@ function CreationCommandes(): ReactElement {
                                             <input type={"date"} id={"dateLivraison"} />
                                         </div>
                                         <div className={"inputWrapper"}>
-                                            <label htmlFor={"prefixeEcriture"}>Préfixe écriture :</label>
-                                            <Select
-                                                options={[
-                                                    { value: "0", label: "ASSURANCE" },
-                                                    { value: "1", label: "CAFE" },
-                                                    { value: "2", label: "SUPPORT" },
-                                                    { value: "3", label: "ETC" },
-                                                ]}
-                                                id={"prefixeEcriture"}
-                                            />
-                                        </div>
-                                        <div className={"inputWrapper"}>
                                             <label htmlFor={"commentaire"}>Commentaire</label>
                                             <textarea></textarea>
                                         </div>
@@ -150,6 +233,7 @@ function CreationCommandes(): ReactElement {
                                 </div>
                             </form>
 
+                            {fournisseur && <DisplayCommandes />}
                         </section>
                     </div>
                 </main>

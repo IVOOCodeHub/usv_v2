@@ -74,22 +74,6 @@ button {
   gap: 5px;
 }
 
-#createNewServiceModal,
-#updateServiceModal {
-  h2 {
-    text-align: center;
-    font-size: 1.5em;
-    margin-bottom: 1em;
-  }
-  @include mixins.modalContainer;
-}
-
-#createNewServiceModal form,
-#updateServiceModal form {
-  width: 25% !important;
-  @include mixins.form;
-}
-
 #updateServiceModal .deleteButtonWrapper {
   position: absolute;
   top: 50%;

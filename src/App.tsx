@@ -13,6 +13,7 @@ import MenuGeneral from "./views/general/menuGeneral/MenuGeneral.tsx";
 import GestionGIVOORouter from "./views/parametrages/gestionGIVOO/GestionGIVOORouter.tsx";
 import CommandesRouter from "./views/commandes/CommandesRouter.tsx";
 import OrganisationGeneraleRouter from "./views/parametrages/organisationGenerale/OrganisationGeneraleRouter.tsx";
+import GestionInformatiqueRouter from "./views/gestionInformatique/GestionInformatiqueRouter.tsx";
 
 function App(): ReactElement {
   return (
@@ -28,6 +29,7 @@ function App(): ReactElement {
         <Route path={"gestion_givoo/*"} element={<GestionGIVOORouter />} />
         {/* Commandes sub application */}
         <Route path={"commandes/*"} element={<CommandesRouter />} />
+        <Route path={"gestion_informatique/*"} element={<GestionInformatiqueRouter />} />
       </Routes>
     </Router>
   );

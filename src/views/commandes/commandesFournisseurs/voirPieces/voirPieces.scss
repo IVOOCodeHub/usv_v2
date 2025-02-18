@@ -23,11 +23,11 @@
   @include mixins.modalContainer;
 }
 
-#createNewServiceModal form,
-#updateServiceModal form {
-  width: 25% !important;
-  @include mixins.form;
-}
+//#createNewServiceModal form,
+//#updateServiceModal form {
+//  width: 25% !important;
+//  @include mixins.form;
+//}
 
 #updateServiceModal .deleteButtonWrapper {
   position: absolute;
