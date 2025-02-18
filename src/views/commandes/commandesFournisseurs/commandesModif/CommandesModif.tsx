@@ -60,23 +60,57 @@ function CommandesModif(): ReactElement {
     const iframeContainerRef = useRef<HTMLDivElement | null>(null);
 
     type OptionType = { value: string; label: string };
-    // type OptionsReceptionType = { value: string };
-    type OptionsReceptionType = { value: string; label: string };
 
-    const options=[
+    const options: OptionType[] =[
             { value: "CAISSE", label: "Caisse"  },
             { value: "CARTE BLEUE", label: "Carte Bleue" },
             { value: "CHEQUE", label: "Chèque" },
             { value: "VIREMENT", label: "Virement" },
-        ]
+        ];
 
+    const optionsSociete: OptionType[] = [
+        { value: "BB", label: "BB" },
+        { value: "FLEURIAU", label: "FLEURIAU" },
+        { value: "PVF", label: "PVF" },
+        { value: "ETC", label: "ETC" },
+    ];
 
-    const optionsReception: OptionsReceptionType[] = [
+    const optionsFournisseur: OptionType[] = [
+        { value: "A Montain", label: "A Montain" },
+        { value: "Agence N", label: "Agence N" },
+        { value: "TELECONVERGENCE", label: "TELECONVERGENCE" },
+        { value: "KILOUTOU", label: "KILOUTOU" },
+        { value: "ETC", label: "ETC" },
+    ];
+
+    const optionsNature: OptionType[] = [
+        { value: "ANIMATION", label: "ANIMATION" },
+        { value: "ANNONCE", label: "ANNONCE" },
+        { value: "BATIMENT", label: "BATIMENT" },
+        { value: "DEPLACEMENT", label: "DEPLACEMENT" },
+        { value: "DOCUMENTATION", label: "DOCUMENTATION" },
+        { value: "HYGIENE", label: "HYGIENE" },
+        { value: "INFORMATIQUE", label: "INFORMATIQUE" },
+        { value: "PAPETERIE", label: "PAPETERIE" },
+        { value: "TR", label: "TR" },
+    ];
+
+    const optionsDelais: OptionType[] = [
+        { value: "A la commande", label: "A la commande" },
+        { value: "Comptant", label: "Comptant" },
+        { value: "10 JOURS", label: "10 JOURS" },
+        { value: "15 JOURS", label: "15 JOURS" },
+        { value: "20 JOURS", label: "20 JOURS" },
+        { value: "30 JOURS", label: "30 JOURS" },
+        { value: "45 JOURS", label: "45 JOURS" },
+        { value: "60 JOURS", label: "60 JOURS" },
+    ];
+
+    const optionsReception: OptionType[] = [
         { value: "FERRARI Lolita (6285)", label: "FERRARI Lolita (6285)"},
         { value: "Nelly", label: "Nelly"},
         { value: "etc", label: "etc"},
     ];
-
 
     const mockupCommande: ICommande[] = [
         {
@@ -87,14 +121,14 @@ function CommandesModif(): ReactElement {
             objet: "Commande Casques",
             modeReglement: "VIREMENT",
             delaiReglement: "45 JOURS",
-            dateReception: "2024/12/05",
+            dateReception: "2024-12-05",
             totalHT: "2 050,00",
             totalTTC: "2 460,00",
             acompte: "0",
             reception: "FERRARI Lolita (6285)",
             solde: "2 460,00",
             commentaire: "Envoyé",
-            statut: "Commande validée non modifiable",
+            statut: "Commande à valider",
         },
         {
             cle: "563",
@@ -102,7 +136,7 @@ function CommandesModif(): ReactElement {
             tiers: "KILOUTOU",
             prefixeEcriture: "BATIMENT",
             objet: "Chauffages",
-            dateReception: "2025/21/01",
+            dateReception: "2025-02-18",
             modeReglement: "CARTE BLEUE",
             delaiReglement: "À LA COMMANDE",
             totalHT: "518,16",
@@ -110,7 +144,7 @@ function CommandesModif(): ReactElement {
             acompte: "0",
             reception: "FERRARI Lolita (6285)",
             commentaire: "Envoyé",
-            statut: "Commande validée non modifiable",
+            statut: "Commande à valider",
         },
     ];
 
@@ -126,7 +160,7 @@ function CommandesModif(): ReactElement {
         },
         {
             commandeID: "563",
-            refArticle: "",
+            refArticle: "XD4577",
             description: "Pack assurance casse, vol",
             quantite: "3",
             prixUnitaireHorsTaxe: "18,24",
@@ -135,7 +169,7 @@ function CommandesModif(): ReactElement {
         },
         {
             commandeID: "563",
-            refArticle: "",
+            refArticle: "FY45874",
             description: "Contribution frais déchets",
             quantite: "3",
             prixUnitaireHorsTaxe: "1,82",
@@ -149,7 +183,7 @@ function CommandesModif(): ReactElement {
             quantite: "25",
             prixUnitaireHorsTaxe: "65,00",
             tauxTVA: "20,00",
-            prixUnitaireTTC: "",
+            prixUnitaireTTC: "100,50",
         },
         {
             commandeID: "567",
@@ -158,7 +192,7 @@ function CommandesModif(): ReactElement {
             quantite: "25",
             prixUnitaireHorsTaxe: "17,00",
             tauxTVA: "20,00",
-            prixUnitaireTTC: "",
+            prixUnitaireTTC: "35,12",
         },
     ];
 
@@ -301,57 +335,7 @@ function CommandesModif(): ReactElement {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [isDocumentModalOpen]);
-    // ---------------------------------------------------------------
 
-   /* type OptionType = { value: number; label: string };
-    const [isReadOnly] = useState(true);
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const dataSociete1 = {
-        id: "62639",
-        societe: "IVOO",
-        fournisseur: "Mr Pizza",
-        dateLivraison: "2025-07-22",
-        prefixeEcriture: "Restaurant",
-        objet: "Achat de Pizzas",
-        totalTTC: "500",
-        reception: 0,
-        commentaire: "Achat de PizzasAchat de PizzasAchat de PizzasAchat de Pizzas",
-        acompte: 10
-    };
-    const options: OptionType[] = [
-        { value: 0, label: "BB" },
-        { value: 1, label: "Nelly" },
-        { value: 2, label: "etc" },
-    ];
-    useEffect((): void => {
-        const mockupBody: string[][] = [
-            [
-                "1",
-                "Pizza",
-                "50",
-                "21.00",
-                "0.00",
-                "21.00",
-            ],
-            [
-                "2",
-                "Trombones",
-                "100",
-                "11.00",
-                "0.00",
-                "21.00",
-            ],
-        ];
-        setBodyArray(mockupBody);
-    }, []);*/
-
-    /*const tableData = {
-        tableHead: ["Ref. article", "Description",  "Qté", "PU HT", "Taux TVA", "PU TTC"],
-        tableBody: bodyArray,
-    };*/
-
-
-    // ---------------------------------------------------------------
     return (
         <>
             {isDocumentModalOpen && <DisplayDocumentModal />}
@@ -409,15 +393,27 @@ function CommandesModif(): ReactElement {
                         <form>
                             <div className={"inputWrapper"}>
                                 <label htmlFor={"societe"}>Société :</label>
-                                <p>{commande.societe}</p>
+                                <Select
+                                    id={"societe"}
+                                    defaultValue={optionsSociete.find((option: OptionType) => option.value === commande.societe) || optionsSociete[0]}
+                                    options={optionsSociete}
+                                />
                             </div>
                             <div className={"inputWrapper"}>
                                 <label htmlFor={"tiers"}>Fournisseur :</label>
-                                <p>{commande.tiers}</p>
+                                <Select
+                                    id={"fournisseur"}
+                                    defaultValue={optionsFournisseur.find((option: OptionType) => option.value === commande.tiers) || optionsFournisseur[0]}
+                                    options={optionsFournisseur}
+                                />
                             </div>
                             <div className={"inputWrapper"}>
-                                <label htmlFor={"prefixeEcriture"}>Préfixe écriture :</label>
-                                <p>{commande.prefixeEcriture}</p>
+                                <label htmlFor={"nature"}>Nature :</label>
+                                <Select
+                                    id={"nature"}
+                                    defaultValue={optionsNature.find((option: OptionType) => option.value === commande.prefixeEcriture) || optionsNature[0]}
+                                    options={optionsNature}
+                                />
                             </div>
                             <div className={"inputWrapper"}>
                                 <label htmlFor={"objet"}>Objet :</label>
@@ -440,24 +436,29 @@ function CommandesModif(): ReactElement {
                             </div>
                             <div className={"inputWrapper"}>
                                 <label htmlFor={"delaiReglement"}>Délai de règlement</label>
-                                <p>{commande.delaiReglement}</p>
+                                <Select
+                                    defaultValue={optionsDelais.find((option: OptionType) => option.value === commande.delaiReglement) || optionsDelais[0]}
+                                    options={optionsDelais}
+
+                                    id={"modeReglement"}
+                                />
                             </div>
                             <div className={"inputWrapper"}>
-                                <label htmlFor={"TotalHT"}>Total HT :</label>
-                                <p>{commande.totalHT}€</p>
+                                <label htmlFor={"totalHT"}>Total HT :</label>
+                                <input type={"text"} id={"totalHT"} defaultValue={commande.totalHT + " €"} />
                             </div>
                             <div className={"inputWrapper"}>
                                 <label htmlFor={"totalTTC"}>Total TTC :</label>
-                                <p>{commande.totalTTC}€</p>
+                                <input type={"text"} id={"totalTTC"} defaultValue={commande.totalTTC + " €"} />
                             </div>
                             <div className={"inputWrapper"}>
                                 <label htmlFor={"acompte"}>Acompte :</label>
-                                <input type={"number"} id={"acompte"} defaultValue={commande.acompte} />
+                                <input type={"text"} id={"acompte"} defaultValue={commande.acompte + " €"} />
                             </div>
                             <div className={"inputWrapper"}>
                                 <label htmlFor={"reception"}>Reception :</label>
                                 <Select
-                                    defaultValue={optionsReception.find((optionsReception: OptionsReceptionType) => optionsReception.value === commande.reception) || options[0]}
+                                    defaultValue={optionsReception.find((optionsReception: OptionType) => optionsReception.value === commande.reception) || options[0]}
                                     options={optionsReception}
                                     id="reception"
                                 />
@@ -465,7 +466,7 @@ function CommandesModif(): ReactElement {
                             {commande.solde && (
                                 <div className={"inputWrapper"}>
                                     <label htmlFor={"solde"}>Solde :</label>
-                                    <input type={"text"} id={"solde"} defaultValue={commande.solde} />
+                                    <input type={"text"} id={"solde"} defaultValue={commande.solde + " €"} />
                                 </div>
                             )}
                             <div className={"inputWrapper"}>
@@ -589,266 +590,6 @@ function CommandesModif(): ReactElement {
         </>
     );
 }
-
-
-
- /*           <main id={"creationCommandes"}>
-                <div className={"goBackBtnWrapper"}>
-                    <section className={"middleSide"}>
-                        <form>
-                            <h2>Modification de la commande {dataSociete1.id}</h2>
-                            <div className={"formWrapper"}>
-                                <div className={"inputWrapper"}>
-                                    <label htmlFor={"societe"}>Société :</label>
-                                    <input
-                                        type="text"
-                                        id="societe"
-                                        className={"readOnly"}
-                                        value={dataSociete1.societe}
-                                        readOnly={isReadOnly}
-                                    />
-                                </div>
-                                <div className={"inputWrapper"}>
-                                    <label htmlFor={"fournisseurs"}>Fournisseurs :</label>
-                                    <input
-                                        type="text"
-                                        id="fournisseurs"
-                                        className={"readOnly"}
-                                        value={dataSociete1.fournisseur}
-                                        readOnly={isReadOnly}
-                                    />
-                                </div>
-                                <div className={"inputWrapper"}>
-                                    <label htmlFor={"prefixeEcriture"}>Préfixe écriture :</label>
-                                    <input
-                                        type="text"
-                                        id="prefixeEcriture"
-                                        className={"readOnly"}
-                                        value={dataSociete1.prefixeEcriture}
-                                        readOnly={isReadOnly}
-                                    />
-                                </div>
-                                <div className={"inputWrapper"}>
-                                    <label htmlFor={"objet"}>Objet :</label>
-                                    <input type={"text"} id={"objet"} defaultValue={dataSociete1.objet} />
-                                </div>
-                                <div className={"inputWrapper"}>
-                                    <label htmlFor={"dateLivraison"}>Date de Livraison :</label>
-                                    <input type={"date"} id={"dateLivraison"} defaultValue={dataSociete1.dateLivraison}/>
-                                </div>
-                                <div className={"inputWrapper"}>
-                                    <label htmlFor={"modeReglement"}>Mode de règlement :</label>
-                                    <Select
-                                        options={[
-                                            { value: "caisse", label: "Caisse"  },
-                                            { value: "CB", label: "Carte Bleue" },
-                                            { value: "chq", label: "Chèque" },
-                                            { value: "virement", label: "Virement" },
-                                        ]}
-                                        id={"modeReglement"}
-                                    />
-                                </div>
-
-                                <div className={"inputWrapper"}>
-                                    <label htmlFor={"totalTTC"}>total TTC (en €) :</label>
-                                    <input type={"number"} id={"totalTTC"} value={dataSociete1.totalTTC} readOnly={isReadOnly} />
-                                </div>
-                                <div className={"inputWrapper"}>
-                                    <label htmlFor={"acompte"}>Acompte (en €) :</label>
-                                    <input type={"number"} id={"acompte"} defaultValue={dataSociete1.acompte} />
-                                </div>
-
-                                <div className="inputWrapper">
-                                    <label htmlFor="reception">Reception :</label>
-                                    <Select
-                                        defaultValue={options.find((option: OptionType) => option.value === dataSociete1.reception) || options[0]}
-                                        options={options}+
-                                        id="reception"
-                                    />
-                                </div>
-                                <div className={"inputWrapper"}>
-                                    <label htmlFor={"commentaire"}>Commentaire</label>
-                                    <textarea defaultValue={dataSociete1.commentaire}></textarea>
-                                </div>
-                            </div>
-                            <div className={"buttonContainer"}>
-                                <Button
-                                    props={{
-                                        style: "green",
-                                        text: "Enregistrer",
-                                        type: "button",
-                                    }}
-                                /><Button
-                                    props={{
-                                        style: "blue",
-                                        text: "Accepter",
-                                        type: "button",
-                                    }}
-                                />
-                                <Button
-                                    props={{
-                                        style: "grey",
-                                        text: "Retour",
-                                        type: "button",
-                                        onClick: (): void =>
-                                            navigate(
-                                                "/commandes/commandes_fournisseurs",
-                                            ),
-                                    }}
-                                />
-                            </div>
-                        </form>
-                        {isPopupOpen && (
-                            <div className="popupOverlay" id="updateServiceModal">
-                                <form className={"updateServiceForm"}>
-                                    <div className="popupContent">
-                                        <h2>Télécharger une pièce pour la commande {dataSociete1.id}</h2>
-                                        <div className={"formWrapper"}>
-                                            <div className={"inputWrapper"}>
-                                                <label htmlFor={"type"}>Type de document :</label>
-                                                <Select
-                                                    id={"type"}
-                                                    options={[
-                                                        { value: "1", label: "Devis" },
-                                                        { value: "2", label: "Courrier" },
-                                                        { value: "3", label: "Autre" },
-                                                    ]}
-                                                />
-                                            </div>
-                                        </div>
-                                        <input type="file" />
-                                        <div className={"buttonContainer"}>
-                                            <Button
-                                                props={{
-                                                    style: "green",
-                                                    text: "Ajouter",
-                                                    type: "button",
-                                                    onClick: (): void => setIsPopupOpen(false)
-                                                }}
-                                            />
-                                            <Button
-                                                props={{
-                                                    style: "grey",
-                                                    text: "Annuler",
-                                                    type: "button",
-                                                    onClick: (): void => setIsPopupOpen(false)
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        )}
-                        <div className={"buttonContainer"}>
-                            <Button
-                                props={{
-                                    style: "red",
-                                    text: "Supprimer",
-                                    type: "button",
-                                    onClick: (): void =>
-                                        navigate(
-                                            "#",
-                                            // commandes_supprimer0.asp?code_commande=<%=code_commande%>
-                                        ),
-                                }}
-                            />
-                            <Button
-                            props={{
-                                style: "blue",
-                                text: "Télécharger pièce",
-                                type: "button",
-                                onClick: (): void => setIsPopupOpen(true),
-                                }}
-                            />
-                            <Button
-                                props={{
-                                    style: "blue",
-                                    text: "Voir pièces",
-                                    type: "button",
-                                    onClick: (): void =>
-                                        navigate(
-                                            `/commandes/commandes_fournisseurs/commandes_a_valider/voir_pieces/${dataSociete1.id}`,
-                                        ),
-                                }}
-                            />
-                            <Button
-                                props={{
-                                    style: "blue",
-                                    text: "Imprimer",
-                                    type: "button",
-                                    onClick: (): WindowProxy | null =>
-                                        window.open(
-                                            `http://srv-web:8081/CrystalWebViewerURL/view.aspx?mode=E&etat=commandes_f&xml=commandes_f&p1=so:${dataSociete1.societe}&p2=numBC:${dataSociete1.societe}`, '_blank'
-                                        ),
-                                }}
-                            />
-                            <Button
-                                props={{
-                                    style: "blue",
-                                    text: "Visu prévision",
-                                    type: "button",
-                                    onClick: (): void =>
-                                        navigate(
-                                            "#",
-                                        ),
-                                }}
-                            />
-                        </div>
-                    </section>
-                </div>
-                <NRTL
-                    datas={tableData}
-                    headerBackgroundColor={"linear-gradient(to left, #84CDE4FF, #1092B8)"}
-                    headerHoverBackgroundColor={"#1092B8"}
-                    showItemsPerPageSelector={true}
-                    showPreviousNextButtons={true}
-                    showSearchBar={true}
-                    onRowClick={(
-                        index: number,
-                        rowData: string[] | undefined,
-                    ): void =>
-                        navigate(
-                            `/commandes/commandes_fournisseurs/commandes_a_valider/modifier_piece/${rowData![0]}`,
-                            {
-                                state: { index: index, commandeID: rowData![0] },
-                            },
-                        )
-                    }
-                    filterableColumns={[true, true, true, true, true, true]}
-                    showPagination={true}
-                    enableColumnSorting={true}
-                    itemsPerPageOptions={[10, 25, 50]}
-                    language={"fr"}
-                />
-                <div className="buttonContainer" id={"bottom_buttons"}>
-                    <Button
-                        props={{
-                            style: "blue",
-                            text: "Ajouter une ligne d'article",
-                            type: "button",
-                            onClick: (): void =>
-                                navigate(
-                                    `/commandes/commandes_fournisseurs/commandes_a_valider/ajouter_piece/${dataSociete1.id}`,
-                                ),
-                        }}
-                    />
-                    <Button
-                        props={{
-                            style: "grey",
-                            text: "Retour",
-                            type: "button",
-                            onClick: (): void =>
-                                navigate(
-                                    "/commandes/commandes_fournisseurs",
-                                ),
-                        }}
-                    />
-                </div>
-            </main>
-            <Footer />
-        </>
-    );
-}*/
 
 const CommandesModifWithAuth: (
     props: object,

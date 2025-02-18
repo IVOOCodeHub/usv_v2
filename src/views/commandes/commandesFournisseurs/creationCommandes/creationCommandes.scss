@@ -20,13 +20,18 @@
   }
   form {
     @include mixins.form;
-    .buttonContainer {
-      margin-top: 1em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 2em;
-    }
+    //max-width: 500px;
+  margin: auto;
+  }
+  #NRTL table{
+    width: auto;
+  }
+  .buttonContainer {
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;
   }
   .container {
     display: flex;
@@ -38,10 +43,43 @@
       width: 70%;
       display: flex;
       flex-flow: column;
+      position: relative;
       justify-content: flex-start;
       margin-bottom: 1em;
 
     }
+  }
+  .formWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12%;
+    label {
+      padding-right: 5px;
+    }
+  }
+  .inputWrapper {
+    margin-bottom: 0.5em;
+  }
+  .commandesTableContainer {
+    width: auto !important;;
+  }
+  //.middleSide {
+  //  width: 70%;
+  //  display: flex;
+  //  flex-flow: column;
+  //  position: relative;
+  //  justify-content: flex-start;
+  //  margin-bottom: 1em;
+  //
+  //}
+  //.commandesTableContainer {
+  //   width: 50%;
+  // }
+  .goBackBtnWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
   }
   .formWrapper {
      display: flex;
@@ -49,6 +87,7 @@
      gap: 12%;
     label {
       padding-right: 5px;
+      width: 180px !important;
     }
    }
   .inputWrapper {

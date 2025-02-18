@@ -1,0 +1,8 @@
+@use "../../../utils/styles/variables" as vars;
+@use "../../../utils/styles/mixins" as mixins;
+
+
+.popupContent {
+  @include mixins.form;
+  width: auto;
+}

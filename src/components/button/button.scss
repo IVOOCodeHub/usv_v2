@@ -136,6 +136,53 @@
     font-size: 2.5dvw;
   }
 }
+.orangeButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 14px;
+  font-size: 0.85dvw;
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+  border-radius: 6px;
+  border: none;
+  color: #fff;
+  background: linear-gradient(180deg, #ff8c00 0%, #FF7f50 100%);
+  background-origin: border-box;
+  box-shadow:
+          0 0.5px 1.5px rgba(54, 122, 246, 0.25),
+          inset 0 0.8px 0px -0.25px rgba(255, 255, 255, 0.2);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:focus {
+    box-shadow:
+            inset 0 0.8px 0px -0.25px rgba(255, 255, 255, 0.2),
+            0px 0.5px 1.5px rgb(0, 175, 89),
+            0px 0px 0px 3.5px rgb(0, 204, 102);
+    outline: 3.5px solid #36395a;
+  }
+
+  &:active {
+    box-shadow:
+            inset 0 0.8px 0px -0.25px rgba(255, 255, 255, 0.2),
+            0px 0.5px 1.5px rgb(0, 175, 89),
+            0px 0px 0px 3.5px rgb(0, 204, 102);
+    outline: 3.5px solid #36395a;
+  }
+
+  @media (max-width: 1024px) {
+    font-size: 1.5dvw;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 2.5dvw;
+  }
+}
 
 .greenButton {
   display: flex;

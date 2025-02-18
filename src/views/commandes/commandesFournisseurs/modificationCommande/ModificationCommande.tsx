@@ -128,7 +128,7 @@ function ModificationCommande(): ReactElement {
       quantite: "25",
       prixUnitaireHorsTaxe: "65,00",
       tauxTVA: "20,00",
-      prixUnitaireTTC: "",
+      prixUnitaireTTC: "100,51",
     },
     {
       commandeID: "567",
@@ -137,7 +137,7 @@ function ModificationCommande(): ReactElement {
       quantite: "25",
       prixUnitaireHorsTaxe: "17,00",
       tauxTVA: "20,00",
-      prixUnitaireTTC: "",
+      prixUnitaireTTC: "35,40",
     },
   ];
 

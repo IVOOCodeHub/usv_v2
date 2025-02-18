@@ -38,11 +38,11 @@ function ModifierPiece(): ReactElement {
                     helpBtn: true,
                 }}
             />
-                <main id={"creationCommandes"}>
+                <main id={"modifierPiece"}>
                     <div className={"goBackBtnWrapper"}>
                         <section className={"middleSide"}>
                             <form>
-                                <h2>Modifier l'article article à la commande 3337</h2>
+                                <h2>Modifier l'article à la commande 3337</h2>
                                 <div className={"formWrapper"}>
                                     <div className={"inputWrapper"}>
                                         <label htmlFor={"ref"}>Référence article :</label>
@@ -75,6 +75,17 @@ function ModifierPiece(): ReactElement {
                                         props={{
                                             style: "green",
                                             text: "Enregistrer",
+                                            type: "button",
+                                            onClick: (): void =>
+                                                navigate(
+                                                    "/commandes/commandes_fournisseurs/commandes_a_valider/567",
+                                                ),
+                                        }}
+                                    />
+                                    <Button
+                                        props={{
+                                            style: "orange",
+                                            text: "Supprimer",
                                             type: "button",
                                             onClick: (): void =>
                                                 navigate(

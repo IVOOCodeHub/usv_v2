@@ -19,15 +19,8 @@ function CommandesAValider(): ReactElement {
 
     useEffect((): void => {
         const mockupBody: string[][] = [
-            [
-                "567",
-                "03/02/2025",
-                "PVF",
-                "TELECONVERGENCE",
-                "Commande Casques",
-                "Cde Validée",
-            ],
-            ["563", "20/01/2025", "PVF", "KILOUTOU", "Chauffages", "Cmd reçu"],
+            ["567", "03/02/2025", "PVF", "TELECONVERGENCE", "Commande Casques", "Commande à valider"],
+            ["563", "20/01/2025", "PVF", "KILOUTOU", "Chauffages", "Commande à valider"],
         ];
         setBodyArray(mockupBody);
     }, []);
