@@ -260,6 +260,7 @@ const DetailRecetteAOrdo: React.FC = () => {
 									value={details.statut || ''}
 									onChange={(e) => setDetails({ ...details, statut: e.target.value })}
 								>
+									<option value='A ORDONNANCER'>À ordonnancer</option>
 									<option value='ATTENTE ENCAISSEMENT'>Attente encaissement</option>
 									<option value='LITIGE'>Litige</option>
 								</select>
