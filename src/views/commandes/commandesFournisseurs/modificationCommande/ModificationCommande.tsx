@@ -361,7 +361,7 @@ function ModificationCommande(): ReactElement {
                 <p>{commande.modeReglement}</p>
               </div>
               <div className={"inputWrapper"}>
-                <label htmlFor={"delaiReglement"}>Délai de règlement</label>
+                <label htmlFor={"delaiReglement"}>Délai de règlement :</label>
                 <p>{commande.delaiReglement}</p>
               </div>
               <div className={"inputWrapper"}>

@@ -1,95 +1,178 @@
 @use "../../../../utils/styles/mixins" as mixins;
 
 #commandesModif {
+  min-height: 90dvh;
+  gap: unset !important;
+  position: relative !important;
+  @include mixins.main;
+}
+
+#commandesModif form {
+  gap: 0.1em !important;
+  @include mixins.form;
+}
+
+#commandesModif .topSection,
+#commandesModif .bottomSection {
+  padding: 0.5em;
+  width: 100%;
+}
+
+#commandesModif .topSection {
   display: flex;
   align-items: center;
+  justify-content: space-around;
+  gap: 1em;
+  min-height: 50dvh;
+
+  form {
+    width: 25%;
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-flow: column;
+    gap: 1em;
+  }
+
+  .documentTableContainer {
+    width: 50%;
+
+    table {
+      width: 100% !important;
+    }
+  }
+}
+
+#commandesModif .bottomSection {
+  min-height: 40dvh;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
   justify-content: center;
-  gap: 2%;
-  margin: auto;
-  background: #f2f2f2;
-  min-height: 90dvh;
-  width: 100%;
-  padding: 1em 1em;
+  gap: 2em;
+}
 
-  @include mixins.main;
-
+#documentModal {
   h2 {
     text-align: center;
     font-size: 1.5em;
-    margin-bottom: 1em;
   }
-  form {
-    @include mixins.form;
-
+  iframe {
+    width: 60dvw !important;
+    height: 80dvh !important;
+    border: none;
   }
-  .buttonContainer {
-    margin-top: 1em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2em;
-  }
-  .container {
-    display: flex;
-    flex-flow: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    .middleSide {
-      width: 70%;
-      display: flex;
-      flex-flow: column;
-      position: relative;
-      justify-content: flex-start;
-      margin-bottom: 1em;
-
-    }
-  }
-  .formWrapper {
-     display: flex;
-     flex-direction: column;
-     gap: 12%;
-    label {
-      padding-right: 5px;
-    }
-   }
-  .inputWrapper {
-     margin-bottom: 0.5em;
-   }
+  @include mixins.modalContainer;
 }
-input:read-only {
-  border: none !important;
-  cursor: no-drop;
-}
-.middleSide, form + buttonContainer {
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-  button {
-    margin-bottom: 5px;
-  }
-}
-button {
-  width: 150px;
-  gap: 5px;
-}
-
-#updateServiceModal .deleteButtonWrapper {
-  position: absolute;
-  top: 50%;
-  right: 25%;
-  transform: translate(50%, -50%);
-}
-#bottom_buttons {
-  margin-top: 1em;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  //justify-content: center;
-  gap: 2em;
-}
-.buttonContainer {
-  display: flex !important;
-  margin-top: 5px;
-  gap: 5px;
-}
+//
+//#commandesModif {
+//  padding: 1em 1em;
+//  @include mixins.main;
+//
+//  .topSection {
+//    display: flex;
+//    flex-direction: row;
+//    justify-content: flex-start;
+//    gap: 10px;
+//    .buttonContainer {
+//      display: flex;
+//      flex-direction: column;
+//    }
+//    form {
+//      width: 25% !important;
+//    }
+//  }
+//  form {
+//    gap: 0.1em !important;
+//    @include mixins.form;
+//  }
+//  .buttonContainer {
+//    //width: 40%;
+//    display: flex;
+//    flex-direction: row;
+//    .bottomSection {
+//      display: flex;
+//    }
+//  }
+//
+//  h2 {
+//    text-align: center;
+//    font-size: 1.5em;
+//    margin-bottom: 1em;
+//  }
+//  form {
+//    @include mixins.form;
+//
+//  }
+//  .buttonContainer {
+//    margin-top: 1em;
+//    display: flex;
+//    align-items: center;
+//    justify-content: center;
+//    gap: 2em;
+//  }
+//  .container {
+//    display: flex;
+//    flex-flow: row;
+//    align-items: center;
+//    justify-content: center;
+//    width: 100%;
+//    .middleSide {
+//      width: 70%;
+//      display: flex;
+//      flex-flow: column;
+//      position: relative;
+//      justify-content: flex-start;
+//      margin-bottom: 1em;
+//
+//    }
+//  }
+//  .formWrapper {
+//     display: flex;
+//     flex-direction: column;
+//     gap: 12%;
+//    label {
+//      padding-right: 5px;
+//    }
+//   }
+//  .inputWrapper {
+//     margin-bottom: 0.5em;
+//   }
+//}
+//input:read-only {
+//  border: none !important;
+//  cursor: no-drop;
+//}
+//.middleSide, form + buttonContainer {
+//  display: flex;
+//  flex-direction: row;
+//  gap: 5px;
+//  button {
+//    margin-bottom: 5px;
+//  }
+//}
+//button {
+//  width: 150px;
+//  gap: 5px;
+//}
+//
+//#updateServiceModal .deleteButtonWrapper {
+//  position: absolute;
+//  top: 50%;
+//  right: 25%;
+//  transform: translate(50%, -50%);
+//}
+//#bottom_buttons {
+//  margin-top: 1em;
+//  display: flex;
+//  flex-direction: row;
+//  align-items: center;
+//  //justify-content: center;
+//  gap: 2em;
+//}
+//.buttonContainer {
+//  display: flex !important;
+//  margin-top: 5px;
+//  gap: 5px;
+//}
