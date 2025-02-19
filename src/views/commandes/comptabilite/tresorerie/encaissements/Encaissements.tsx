@@ -137,7 +137,7 @@ const Encaissements: React.FC = (): ReactElement => {
 			if (rowDetails) {
 				console.log('RowDetails:', rowDetails)
 
-				navigate('/commandes/tresorerie/details_recette_ordonnancer', {
+				navigate('/commandes/tresorerie/details_encaissement', {
 					state: { fullRowDetails: rowDetails },
 				})
 			} else {

@@ -132,3 +132,178 @@
         height: 3em;
     }
 }
+
+#detailsEncaissement {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 90dvh;
+    background: #f2f2f2;
+
+    .detailsContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1200px;
+        height: 80dvh;
+        margin: 2rem auto;
+        gap: 2rem;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            height: auto;
+            gap: 1rem;
+        }
+
+        .leftSide,
+        .rightSide {
+            flex: 1;
+            min-width: 0; // Allow flex items to shrink
+            overflow: auto; // Add scroll if content overflows
+        }
+
+        .leftSide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border: 1px solid #36395a;
+            padding: 1rem;
+
+            .courrierDisplay {
+                width: 100%;
+                height: 75dvh;
+                border: none;
+
+                @media (max-width: 768px) {
+                    height: 300px;
+                }
+            }
+        }
+
+        .rightSide {
+            background: #fff;
+            border: 1px solid #36395a;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+
+            h3 {
+                margin: 0;
+                font-size: 1.5rem;
+                color: #36395a;
+            }
+
+            .detailsWrapper {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                height: 60dvh;
+                overflow: auto; // Add scroll if content overflows
+
+                p {
+                    margin: 0;
+                    font-size: 1rem;
+                    color: #36395a;
+
+                    strong {
+                        color: #000;
+                    }
+                }
+            }
+
+            .buttonWrapper {
+                display: flex;
+                justify-content: space-between;
+                gap: 1rem;
+
+                @media (max-width: 768px) {
+                    flex-direction: column;
+                }
+
+                button {
+                    flex: 1;
+                    min-width: 120px;
+                }
+            }
+
+            .prevCourButtonHidden {
+                display: none;
+            }
+
+            .prevCourButtonActive {
+                display: flex;
+            }
+
+            .libelleWrapper {
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: flex-start;
+                overflow: visible;
+                gap: 1em;
+
+                .libelleTitle {
+                    display: flex;
+                    width: 100%;
+                    justify-content: flex-start;
+                    align-items: center;
+                    gap: 1em;
+                    font-weight: bold;
+                    font-size: 1.2em;
+                    color: #36395a;
+                }
+            }
+
+            .IntercoLibelleWrapper {
+                display: flex;
+                width: 100%;
+                flex-wrap: wrap;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                gap: 1em;
+
+                @media (max-width: 768px) {
+                    flex-direction: column;
+                }
+
+                select,
+                input {
+                    flex: 1 1 auto;
+                    /* Allow elements to grow and shrink */
+                    min-width: 150px;
+                    /* Set a minimum width to prevent truncation */
+                    max-width: 200px;
+                    /* Set a maximum width to prevent over-stretching */
+                    white-space: normal;
+                    /* Allow text to wrap */
+                }
+            }
+
+            /* Additional media query for 1440px width */
+            @media (min-width: 1440px) {
+                .IntercoLibelleWrapper {
+                    gap: 2em;
+                    /* Increase gap for wider screens */
+                }
+
+                .IntercoLibelleWrapper select,
+                .IntercoLibelleWrapper input {
+                    max-width: 250px;
+                    /* Adjust max-width for wider screens */
+                }
+            }
+        }
+    }
+
+    input,
+    select {
+        margin-left: 0.5em;
+    }
+}
