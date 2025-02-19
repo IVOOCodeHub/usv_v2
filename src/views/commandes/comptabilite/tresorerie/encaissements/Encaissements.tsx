@@ -1,27 +1,39 @@
-import React, { ReactElement, useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom' // If you're using routing
-import Header from '../../../../../components/header/Header.tsx'
-import Nrtl from '../../../../../components/NRTL/NRTL.tsx'
+import './encaissements.scss'
+import { convertFrDateToServerDate, convertENDateToFr } from '../../../../../utils/scripts/utils.ts'
+import { ReactElement, useState, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Header from '../../../../../components/header/Header'
+import Nrtl from '../../../../../components/NRTL/NRTL'
 import Button from '../../../../../components/button/Button.tsx'
-import Footer from '../../../../../components/footer/Footer.tsx'
-import DateRange from '../../../../../components/dateRange/DateRange.tsx' // Assuming you have a DateRange component
-import './encaissements.scss' // Create this file (see CSS below)
+import Footer from '../../../../../components/footer/Footer'
+import DateRange from '../../../../../components/dateRange/DateRange'
+import { mockedRecettes } from '../recetteAOrdonnancer/mock/mockedRecettes.ts'
+import { IPrevision } from '../../../../../utils/types/prevision.interface.ts'
 
-// Define an interface for your encaissement data
-interface IEncaissement {
-	id: string
-	dateEncaissement: string
-	montant: number
-	modePaiement: string
-	reference: string
-	societe: string // Added societe
-	// ... other properties
+interface RowDetails {
+	cle: string
+	societe: string
+	dateSaisie: string
+	dateEcheance: string
+	libelleCompteTiers: string
+	libelleEcriture: string
+	libelleEcritureAnnee: string
+	libelleEcritureMois: string
+	libelleEcriturePrefixe: string
+	libelleEcritureTrimestre: string
+	libelleEcritureBeneficiaire: string
+	credit: string
+	debit: string
+	montant: string
+	rubriqueTreso: string
+	nomFichier?: string
+	dateOrdo: string
+	modeReglement: string
+	statut: string
+	refSourceTiers: string
 }
 
-const Encaissements: () => ReactElement = (): ReactElement => {
-	const navigate = useNavigate()
-
-	// Default date functions (you'll need to implement these based on your date format)
+const Encaissements: React.FC = (): ReactElement => {
 	const getDefaultDateMin = (): string => {
 		const now = new Date()
 		const lastYear = now.getFullYear() - 1
@@ -35,73 +47,44 @@ const Encaissements: () => ReactElement = (): ReactElement => {
 		return lastDayCurrentYear.toISOString().split('T')[0]
 	}
 
-	// State for encaissements data
-	const [encaissements, setEncaissements] = useState<IEncaissement[]>([])
-	const [loading, setLoading] = useState(true)
-	const [error, setError] = useState<string | null>(null)
+	const getRowDetails = (cle: string): RowDetails | undefined => {
+		const matchedRecette = mockedRecettes.find((recette) => recette.cle.toLowerCase() === cle.toLowerCase())
+		if (!matchedRecette) return undefined
 
-	// State for filters
-	const [filters, setFilters] = useState({
-		minDate: getDefaultDateMin(),
-		maxDate: getDefaultDateMax(),
-		cle: '', // Assuming 'cle' maps to 'reference' or 'id'
-		societe: '',
-	})
-
-	// Function to fetch encaissements data (replace with your API call)
-	const fetchEncaissements = async () => {
-		setLoading(true)
-		try {
-			// const response = await fetch('/api/encaissements'); // Replace with your API endpoint
-			// const data: IEncaissement[] = await response.json();
-			//Simulate API call with mocked data
-			const mockedData: IEncaissement[] = [
-				{
-					id: '1',
-					dateEncaissement: '2024-01-15',
-					montant: 100,
-					modePaiement: 'CB',
-					reference: 'REF123',
-					societe: 'GIVOO France',
-				},
-				{
-					id: '2',
-					dateEncaissement: '2024-02-20',
-					montant: 250,
-					modePaiement: 'Virement',
-					reference: 'REF456',
-					societe: 'GIVOO Germany',
-				},
-				{
-					id: '3',
-					dateEncaissement: '2024-03-10',
-					montant: 120,
-					modePaiement: 'CB',
-					reference: 'REF789',
-					societe: 'GIVOO France',
-				},
-				{
-					id: '4',
-					dateEncaissement: '2024-04-05',
-					montant: 300,
-					modePaiement: 'Virement',
-					reference: 'REF101',
-					societe: 'GIVOO Spain',
-				},
-			]
-			setEncaissements(mockedData)
-			setLoading(false)
-		} catch (err: any) {
-			setError(err.message || 'Failed to fetch encaissements.')
-			setLoading(false)
+		return {
+			societe: matchedRecette.societe ?? 'Non défini',
+			cle: matchedRecette.cle || 'Non défini',
+			dateSaisie: matchedRecette.dateSaisie ?? 'Non défini',
+			dateEcheance: matchedRecette.dateEcheance ?? 'Non défini',
+			libelleCompteTiers: matchedRecette.libelleCompteTiers ?? 'Non défini',
+			libelleEcriture: matchedRecette.libelleEcriture ?? 'Non défini',
+			libelleEcritureBeneficiaire: matchedRecette.libelleEcritureBeneficiaire ?? 'Non défini',
+			libelleEcritureTrimestre: matchedRecette.libelleEcritureTrimestre ?? 'Non défini',
+			libelleEcritureAnnee: matchedRecette.libelleEcritureAnnee ?? 'Non défini',
+			libelleEcritureMois: matchedRecette.libelleEcritureMois ?? 'Non défini',
+			libelleEcriturePrefixe: matchedRecette.libelleEcriturePrefixe ?? 'Non défini',
+			dateOrdo: matchedRecette.dateOrdo ?? 'Non défini',
+			modeReglement: matchedRecette.modeReglement ?? 'Non défini',
+			statut: matchedRecette.statut ?? 'Non défini',
+			refSourceTiers: matchedRecette.refSourceTiers ?? 'Non défini',
+			credit: matchedRecette.credit ? parseFloat(matchedRecette.credit).toFixed(2) : '0.00',
+			debit: matchedRecette.debit ? parseFloat(matchedRecette.debit).toFixed(2) : '0.00',
+			montant: matchedRecette.credit ? parseFloat(matchedRecette.credit).toFixed(2) : '0.00',
+			rubriqueTreso: matchedRecette.rubriqueTreso ?? 'Non défini',
+			nomFichier: matchedRecette.nomFichier ?? 'Non défini',
 		}
 	}
 
-	useEffect(() => {
-		fetchEncaissements()
-	}, []) // Fetch data on initial load
+	const [filters, setFilters] = useState({
+		minDate: getDefaultDateMin(),
+		maxDate: getDefaultDateMax(),
+		cle: '',
+		societe: '',
+	})
+	const [showModal, setShowModal] = useState(false)
 
-	// Date Validation
+	const navigate = useNavigate()
+
 	const isDateRangeValid = (min: string, max: string): boolean => {
 		if (!Date.parse(min) || !Date.parse(max)) {
 			console.warn('Invalid date range.', { min, max })
@@ -112,11 +95,62 @@ const Encaissements: () => ReactElement = (): ReactElement => {
 		return dateMin <= dateMax
 	}
 
-	// Date Filter Handler
+	const convertToArray = (datas: IPrevision[]): string[][] =>
+		datas
+			.filter((data) => !filters.cle || data.cle.toLowerCase().includes(filters.cle.toLowerCase()))
+			.filter((data) => !filters.societe || data.societe === filters.societe)
+			.map((data) => {
+				const credit = data.credit ? parseFloat(data.credit) : 0
+				const debit = data.debit ? parseFloat(data.debit) : 0
+
+				let montant = 0
+				if (credit !== 0) {
+					montant = credit
+				} else if (debit !== 0) {
+					montant = -debit
+				}
+				return [
+					data.cle || 'Non défini',
+					data.dateSaisie ? convertENDateToFr(data.dateSaisie.split('/').reverse().join('-')) : 'Non défini',
+					data.dateEcheance ? convertENDateToFr(data.dateEcheance.split('/').reverse().join('-')) : 'Non défini',
+					data.dateOrdo ? convertENDateToFr(data.dateOrdo.split('/').reverse().join('-')) : 'Non défini',
+					data.libelleCompteTiers ?? 'Non défini',
+					data.libelleEcriture ?? 'Non défini',
+					keepTwoDecimals(montant),
+					// data.nomFichier ?? 'Aucun fichier joint',
+				]
+			})
+
+	const keepTwoDecimals = (number: number): string =>
+		new Intl.NumberFormat('fr-FR', {
+			style: 'currency',
+			currency: 'EUR',
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		}).format(number)
+
+	const handleRowClick = (index: number, rowData?: string[]): void => {
+		if (rowData?.[0]) {
+			const cle = rowData[0]
+			const rowDetails = getRowDetails(cle)
+
+			if (rowDetails) {
+				console.log('RowDetails:', rowDetails)
+
+				navigate('/commandes/tresorerie/details_recette_ordonnancer', {
+					state: { fullRowDetails: rowDetails },
+				})
+			} else {
+				console.error('Aucune recette correspondante trouvée pour la clé:', cle)
+			}
+		} else {
+			console.warn('No data available for this row.')
+		}
+	}
+
 	const handleDateFilter = (minDate: string, maxDate: string): void => {
-		// Assuming you have a function to convert the date format
-		const validMinDate = convertFrDateToServerDate(minDate) // Replace with your date conversion
-		const validMaxDate = convertFrDateToServerDate(maxDate) // Replace with your date conversion
+		const validMinDate = convertFrDateToServerDate(minDate)
+		const validMaxDate = convertFrDateToServerDate(maxDate)
 
 		if (!isDateRangeValid(validMinDate, validMaxDate)) {
 			console.warn('Invalid date range.', { validMinDate, validMaxDate })
@@ -126,79 +160,37 @@ const Encaissements: () => ReactElement = (): ReactElement => {
 		setFilters({ ...filters, minDate: validMinDate, maxDate: validMaxDate })
 	}
 
-	// Function to handle row click
-	const handleRowClick = (index: number, rowData?: string[]) => {
-		if (rowData?.[0]) {
-			const encaissementId = rowData[0]
-			// Navigate to details page (adjust the route as needed)
-			navigate(`/encaissements/${encaissementId}`)
-		}
-	}
+	const filteredData = useMemo(() => {
+		return mockedRecettes.filter((data) => {
+			const dateEcheance = data.dateEcheance ? new Date(data.dateEcheance) : new Date()
+			const minDate = new Date(filters.minDate)
+			const maxDate = new Date(filters.maxDate)
+			return dateEcheance >= minDate && dateEcheance <= maxDate
+		})
+	}, [filters, mockedRecettes])
 
-	// Function to convert dates to french format (replace with your implementation)
-	const convertENDateToFr = (date: string): string => {
-		// Implement your date conversion logic here
-		return date // Placeholder
-	}
+	const bodyArray = useMemo(() => convertToArray(filteredData), [filteredData])
 
-	// Function to keep two decimals
-	const keepTwoDecimals = (number: number): string =>
-		new Intl.NumberFormat('fr-FR', {
-			style: 'currency',
-			currency: 'EUR',
-			minimumFractionDigits: 2,
-			maximumFractionDigits: 2,
-		}).format(number)
-
-	// Data Transformation for Nrtl
-	const convertToArray = (datas: IEncaissement[]): string[][] =>
-		datas
-			.filter((data) => !filters.cle || data.reference.includes(filters.cle) || data.id.includes(filters.cle)) //Adjusted for reference or ID
-			.filter((data) => !filters.societe || data.societe === filters.societe)
-			.filter((data) => {
-				const encaissementDate = new Date(data.dateEncaissement) //Use dateEncaissement
-				const minDate = new Date(filters.minDate)
-				const maxDate = new Date(filters.maxDate)
-				return encaissementDate >= minDate && encaissementDate <= maxDate
-			})
-			.map((data) => [
-				data.id,
-				convertENDateToFr(data.dateEncaissement), // Format the date
-				keepTwoDecimals(data.montant), // Format the amount
-				data.modePaiement,
-				data.reference,
-			])
-
-	useEffect(() => {
-		//Apply filters when encaissements or filters change
-		if (encaissements) {
-			setBodyArray(convertToArray(encaissements))
-		}
-	}, [encaissements, filters])
-
-	const [bodyArray, setBodyArray] = useState<string[][]>([])
-
-	// Prepare data for the table component (Nrtl)
 	const tableData = {
-		tableHead: ['ID', 'Date', 'Montant', 'Mode de Paiement', 'Référence'],
+		tableHead: ['Code', 'Date saisie', 'Échéance', 'Ordo', 'Partenaire', 'Libellé écriture', 'Montant'],
 		tableBody: bodyArray,
 	}
 
-	//Get unique societes
-	const societes = Array.from(new Set(encaissements.map((encaissement) => encaissement.societe)))
-
-	//Conversion function placeholders
-	function convertFrDateToServerDate(date: string | undefined): string {
-		return date || ''
-	}
+	const societes = Array.from(new Set(mockedRecettes.map((recette) => recette.societe)))
 
 	return (
 		<>
-			<Header props={{ pageURL: 'GIVOO | ENCAISSEMENTS' }} />
+			<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | ENCaisSEMENTS' }} />
 			<main id='encaissements'>
 				<section className='encaissements__bottomSection'>
 					<div className='filtersWrapper'>
-						<DateRange onFilter={handleDateFilter} defaultMinDate={filters.minDate} defaultMaxDate={filters.maxDate} />
+						<DateRange
+							onFilter={handleDateFilter}
+							defaultMinDate={filters.minDate}
+							defaultMaxDate={filters.maxDate}
+							labelMini='Échéance minimum'
+							labelMaxi='Échéance maximum'
+						/>
 						<div className='societeSelectWrapper'>
 							<label htmlFor='societe'>Société :</label>
 							<select
@@ -219,7 +211,7 @@ const Encaissements: () => ReactElement = (): ReactElement => {
 							<input
 								name='cle'
 								type='text'
-								placeholder='Filtrer par référence'
+								placeholder='Filtrer par code'
 								value={filters.cle}
 								onChange={(e) => setFilters({ ...filters, cle: e.target.value })}
 							/>
@@ -237,15 +229,13 @@ const Encaissements: () => ReactElement = (): ReactElement => {
 							showItemsPerPageSelector
 							showPagination
 							itemsPerPageOptions={[5, 25, 50]}
-							filterableColumns={[false, true, true, true, true]}
+							filterableColumns={[false, false, false, false, false, true, false]}
 							language='fr'
-							onRowClick={handleRowClick}
+							onRowClick={(index: number, rowData?: string[]) => handleRowClick(index, rowData)}
 						/>
 					)}
-
 					<div className='greyButtonWrapper'>
 						<Button props={{ style: 'grey', text: 'Retour', type: 'button', onClick: () => navigate(-1) }} />
-						{/* Add other buttons as needed */}
 					</div>
 				</section>
 			</main>
