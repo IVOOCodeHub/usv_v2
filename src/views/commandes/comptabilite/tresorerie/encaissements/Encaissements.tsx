@@ -180,7 +180,7 @@ const Encaissements: React.FC = (): ReactElement => {
 
 	return (
 		<>
-			<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | ENCaisSEMENTS' }} />
+			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | MISE À L'ENCAISSEMENT DES RECETTES ${filters.societe}` }} />
 			<main id='encaissements'>
 				<section className='encaissements__bottomSection'>
 					<div className='filtersWrapper'>
