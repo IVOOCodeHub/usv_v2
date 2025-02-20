@@ -7,7 +7,7 @@ import Nrtl from '../../../../../components/NRTL/NRTL'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
 import DateRange from '../../../../../components/dateRange/DateRange'
-import { mockedRecettes } from '../recetteAOrdonnancer/mock/mockedRecettes.ts'
+import { mockedEncaissements } from './mock/mockedEncaissements.ts'
 import { IPrevision } from '../../../../../utils/types/prevision.interface.ts'
 
 interface RowDetails {
@@ -48,7 +48,7 @@ const Encaissements: React.FC = (): ReactElement => {
 	}
 
 	const getRowDetails = (cle: string): RowDetails | undefined => {
-		const matchedRecette = mockedRecettes.find((recette) => recette.cle.toLowerCase() === cle.toLowerCase())
+		const matchedRecette = mockedEncaissements.find((recette) => recette.cle.toLowerCase() === cle.toLowerCase())
 		if (!matchedRecette) return undefined
 
 		return {
@@ -161,13 +161,13 @@ const Encaissements: React.FC = (): ReactElement => {
 	}
 
 	const filteredData = useMemo(() => {
-		return mockedRecettes.filter((data) => {
+		return mockedEncaissements.filter((data) => {
 			const dateEcheance = data.dateEcheance ? new Date(data.dateEcheance) : new Date()
 			const minDate = new Date(filters.minDate)
 			const maxDate = new Date(filters.maxDate)
 			return dateEcheance >= minDate && dateEcheance <= maxDate
 		})
-	}, [filters, mockedRecettes])
+	}, [filters, mockedEncaissements])
 
 	const bodyArray = useMemo(() => convertToArray(filteredData), [filteredData])
 
@@ -176,7 +176,7 @@ const Encaissements: React.FC = (): ReactElement => {
 		tableBody: bodyArray,
 	}
 
-	const societes = Array.from(new Set(mockedRecettes.map((recette) => recette.societe)))
+	const societes = Array.from(new Set(mockedEncaissements.map((recette) => recette.societe)))
 
 	return (
 		<>
