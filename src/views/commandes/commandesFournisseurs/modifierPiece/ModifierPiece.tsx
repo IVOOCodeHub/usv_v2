@@ -78,7 +78,7 @@ function ModifierPiece(): ReactElement {
                                             type: "button",
                                             onClick: (): void =>
                                                 navigate(
-                                                    "/commandes/commandes_fournisseurs/commandes_a_valider/567",
+                                                    "/commandes/commandes_fournisseurs/creation_commandes/567",
                                                 ),
                                         }}
                                     />
@@ -89,7 +89,7 @@ function ModifierPiece(): ReactElement {
                                             type: "button",
                                             onClick: (): void =>
                                                 navigate(
-                                                    "/commandes/commandes_fournisseurs/commandes_a_valider/567",
+                                                    "/commandes/commandes_fournisseurs/creation_commandes/567",
                                                 ),
                                         }}
                                     />
@@ -100,7 +100,7 @@ function ModifierPiece(): ReactElement {
                                             type: "button",
                                             onClick: (): void =>
                                                 navigate(
-                                                    "/commandes/commandes_fournisseurs/commandes_a_valider/567",
+                                                    "/commandes/commandes_fournisseurs/creation_commandes/567",
                                                 ),
                                         }}
                                     />

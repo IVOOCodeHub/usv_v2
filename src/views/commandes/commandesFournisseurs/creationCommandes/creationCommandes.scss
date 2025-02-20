@@ -14,6 +14,9 @@
     margin: auto !important;
     @include mixins.form;
     //max-width: 500px;
+    input {
+      text-align: left !important;
+    }
   }
 
   .middleSide {
@@ -26,6 +29,14 @@
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 1em;
+  }
+  .commandeArticles .buttonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    button {
+      width: 180px;
+    }
   }
   #NRTL table{
     width: auto;
@@ -49,6 +60,7 @@
     flex-direction: column;
     gap: 12%;
     label {
+      min-width: 190px;
       padding-right: 5px;
     }
   }
@@ -77,4 +89,7 @@
   .inputWrapper {
      margin-bottom: 0.5em;
    }
+  .red {
+    color: darkred;
+  }
 }
