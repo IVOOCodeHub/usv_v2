@@ -31,6 +31,7 @@ interface RowDetails {
 	modeReglement: string
 	statut: string
 	refSourceTiers: string
+	reference_paiement: string
 }
 
 const Encaissements: React.FC = (): ReactElement => {
@@ -72,6 +73,7 @@ const Encaissements: React.FC = (): ReactElement => {
 			montant: matchedRecette.credit ? parseFloat(matchedRecette.credit).toFixed(2) : '0.00',
 			rubriqueTreso: matchedRecette.rubriqueTreso ?? 'Non défini',
 			nomFichier: matchedRecette.nomFichier ?? 'Non défini',
+			reference_paiement: matchedRecette.reference_paiement ?? 'Non défini',
 		}
 	}
 

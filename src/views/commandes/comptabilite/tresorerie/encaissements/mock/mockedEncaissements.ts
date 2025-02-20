@@ -32,6 +32,7 @@ export const mockedEncaissements: IPrevision[] = [
 		ibanTiers: 'FR7630004000031234567890143',
 		bicTiers: 'SOGEFRPP',
 		nomBanque: 'SOCIETE GENERALE',
+		reference_paiement: 'REF001',
 	},
 	{
 		cle: 'REC002',
@@ -63,6 +64,7 @@ export const mockedEncaissements: IPrevision[] = [
 		ibanTiers: 'FR7630004000031234567890143',
 		bicTiers: 'BNPAFRPP',
 		nomBanque: 'BNP PARIBAS',
+		reference_paiement: 'REF001',
 	},
 	{
 		cle: 'REC003',
@@ -94,6 +96,7 @@ export const mockedEncaissements: IPrevision[] = [
 		ibanTiers: 'FR7630004000031234567890143',
 		bicTiers: 'AGRIFRPP',
 		nomBanque: 'CREDIT AGRICOLE',
+		reference_paiement: 'REF001',
 	},
 	{
 		cle: 'REC004',
@@ -125,6 +128,7 @@ export const mockedEncaissements: IPrevision[] = [
 		ibanTiers: 'FR7630004000031234567890143',
 		bicTiers: 'PSSTFRPP',
 		nomBanque: 'LA BANQUE POSTALE',
+		reference_paiement: 'REF001',
 	},
 	{
 		cle: 'REC005',
@@ -156,6 +160,7 @@ export const mockedEncaissements: IPrevision[] = [
 		ibanTiers: 'FR7630004000031234567890143',
 		bicTiers: 'HSBFFRPP',
 		nomBanque: 'HSBC',
+		reference_paiement: 'REF001',
 	},
 	{
 		cle: 'REC006',
@@ -187,6 +192,7 @@ export const mockedEncaissements: IPrevision[] = [
 		ibanTiers: 'FR7630004000031234567890143',
 		bicTiers: 'DEUTFRPP',
 		nomBanque: 'DEUTSCHE BANK',
+		reference_paiement: 'REF001',
 	},
 	{
 		cle: 'REC007',
@@ -218,6 +224,7 @@ export const mockedEncaissements: IPrevision[] = [
 		ibanTiers: 'FR7630004000031234567890143',
 		bicTiers: 'BARCFRPP',
 		nomBanque: 'BARCLAYS',
+		reference_paiement: 'REF001',
 	},
 	{
 		cle: 'REC008',
@@ -249,6 +256,7 @@ export const mockedEncaissements: IPrevision[] = [
 		ibanTiers: 'FR7630004000031234567890143',
 		bicTiers: 'CITIFRPP',
 		nomBanque: 'CITIBANK',
+		reference_paiement: 'REF001',
 	},
 	{
 		cle: 'REC009',
@@ -280,6 +288,7 @@ export const mockedEncaissements: IPrevision[] = [
 		ibanTiers: 'FR7630004000031234567890143',
 		bicTiers: 'SANTFRPP',
 		nomBanque: 'SANTANDER',
+		reference_paiement: 'REF001',
 	},
 	{
 		cle: 'REC010',
@@ -311,6 +320,7 @@ export const mockedEncaissements: IPrevision[] = [
 		ibanTiers: 'FR7630004000031234567890143',
 		bicTiers: 'SOGEFRPP',
 		nomBanque: 'SOCIETE GENERALE',
+		reference_paiement: 'REF001',
 	},
 	{
 		cle: 'REC011',
@@ -342,6 +352,7 @@ export const mockedEncaissements: IPrevision[] = [
 		ibanTiers: 'FR7630004000031234567890143',
 		bicTiers: 'BNPAFRPP',
 		nomBanque: 'BNP PARIBAS',
+		reference_paiement: 'REF001',
 	},
 	{
 		cle: 'REC012',
@@ -373,6 +384,7 @@ export const mockedEncaissements: IPrevision[] = [
 		ibanTiers: 'FR7630004000031234567890143',
 		bicTiers: 'AGRIFRPP',
 		nomBanque: 'CREDIT AGRICOLE',
+		reference_paiement: 'REF001',
 	},
 	{
 		cle: 'REC013',
@@ -404,6 +416,7 @@ export const mockedEncaissements: IPrevision[] = [
 		ibanTiers: 'FR7630004000031234567890143',
 		bicTiers: 'PSSTFRPP',
 		nomBanque: 'LA BANQUE POSTALE',
+		reference_paiement: 'REF001',
 	},
 	{
 		cle: 'REC014',
@@ -435,6 +448,7 @@ export const mockedEncaissements: IPrevision[] = [
 		ibanTiers: 'FR7630004000031234567890143',
 		bicTiers: 'HSBFFRPP',
 		nomBanque: 'HSBC',
+		reference_paiement: 'REF001',
 	},
 	{
 		cle: 'REC015',
@@ -466,6 +480,7 @@ export const mockedEncaissements: IPrevision[] = [
 		ibanTiers: 'FR7630004000031234567890143',
 		bicTiers: 'DEUTFRPP',
 		nomBanque: 'DEUTSCHE BANK',
+		reference_paiement: 'REF001',
 	},
 	{
 		cle: 'REC016',
@@ -497,5 +512,6 @@ export const mockedEncaissements: IPrevision[] = [
 		ibanTiers: 'FR7630004000031234567890143',
 		bicTiers: 'BARCFRPP',
 		nomBanque: 'BARCLAYS',
+		reference_paiement: 'REF001',
 	},
 ]

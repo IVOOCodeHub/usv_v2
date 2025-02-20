@@ -5,12 +5,7 @@ import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
 import ModalCourriers from '../previsionAOrdonnancer/ModalCourriers.tsx'
 import ConfirmationModal from '../../../../../components/ConfirmationModal/ConfirmationModal.tsx'
-import {
-	keepTwoDecimals,
-	convertENDateToFr,
-	formatDateToHtml,
-	calculate20TVA,
-} from '../../../../../utils/scripts/utils.ts'
+import { keepTwoDecimals, convertENDateToFr } from '../../../../../utils/scripts/utils.ts'
 import './encaissements.scss'
 
 interface ILocationState {
@@ -38,6 +33,7 @@ interface ILocationState {
 			statut: string
 			refSourceTiers: string
 			commentaire: string
+			reference_paiement: string
 		}
 	}
 }
@@ -65,6 +61,7 @@ interface RowDetails {
 	statut: string
 	refSourceTiers: string
 	commentaire: string
+	reference_paiement: string
 }
 
 const DetailsEncaissement: React.FC = () => {
@@ -94,7 +91,7 @@ const DetailsEncaissement: React.FC = () => {
 				cle: rowData.cle || 'Non défini',
 				dateSaisie: rowData.dateSaisie ? convertENDateToFr(rowData.dateSaisie) : '',
 				societe: rowData.societe || 'Non défini',
-				dateEcheance: rowData.dateEcheance ? formatDateToHtml(rowData.dateEcheance) : '',
+				dateEcheance: rowData.dateEcheance || '',
 				libelleCompteTiers: rowData.libelleCompteTiers || 'Non défini',
 				libelleEcriture: rowData.libelleEcriture || 'Non défini',
 				libelleEcritureAnnee: rowData.libelleEcritureAnnee || 'Non défini',
@@ -113,6 +110,7 @@ const DetailsEncaissement: React.FC = () => {
 				commentaire: rowData.commentaire || '',
 				dateOrdo: rowData.dateOrdo || '',
 				refSourceTiers: rowData.refSourceTiers || '',
+				reference_paiement: rowData.reference_paiement || '',
 			}
 			setDetails(formattedDetails)
 
@@ -164,8 +162,6 @@ const DetailsEncaissement: React.FC = () => {
 	if (!details) {
 		return <p>Aucune recette disponible pour la clé sélectionnée.</p>
 	}
-
-	const calculatedTVA20 = calculate20TVA(parseFloat(details.credit.replace(/\s/g, '').replace(',', '.')))
 
 	return (
 		<>
@@ -219,33 +215,19 @@ const DetailsEncaissement: React.FC = () => {
 								<strong>Société facturée :</strong> {details.libelleCompteTiers || 'Non défini'}
 							</div>
 							<div>
+								<strong>Tiers (payeur) :</strong> {details.societe || 'Non défini'}
+							</div>
+							<div>
 								<strong>Libellé :</strong> {details.libelleEcriture || 'Non défini'}
 							</div>
 							<div>
-								<strong>Date échéance :</strong> {details.dateEcheance || 'Non défini'}
-							</div>
-							<div>
-								<strong>Date Ordo :</strong>
+								<strong>Date échéance :</strong>
 								<input
 									type='date'
-									value={details.dateOrdo || ''}
-									onChange={(e) => setDetails({ ...details, dateOrdo: e.target.value })}
+									value={details.dateEcheance || ''}
+									onChange={(e) => setDetails({ ...details, dateEcheance: e.target.value })}
 								/>
 							</div>
-
-							<div>
-								<strong>Montant :</strong>{' '}
-								<input
-									type='number'
-									value={parseFloat(details.credit.replace(/\s/g, '').replace(',', '.'))}
-									step='0.01'
-									onChange={(e) => setDetails({ ...details, credit: e.target.value })}
-								/>
-							</div>
-							<div>
-								<strong>TVA 20% :</strong> <input type='number' value={calculatedTVA20} step='0.01' readOnly />
-							</div>
-
 							<div>
 								<strong>Reçu le :</strong>
 								<input
@@ -255,7 +237,26 @@ const DetailsEncaissement: React.FC = () => {
 								/>
 							</div>
 							<div>
-								<strong>Payé par :</strong> {details.modeReglement || 'Non défini'}
+								<strong>Montant en euros :</strong>{' '}
+								<input
+									type='number'
+									value={parseFloat(details.credit.replace(/\s/g, '').replace(',', '.'))}
+									step='0.01'
+									onChange={(e) => setDetails({ ...details, credit: e.target.value })}
+								/>
+							</div>
+
+							<div>
+								<strong>Payé par :</strong>
+								<select
+									value={details.modeReglement || ''}
+									onChange={(e) => setDetails({ ...details, modeReglement: e.target.value })}
+								>
+									<option value='CAISSE'>Caisse</option>
+									<option value='CHEQUE'>Chèque</option>
+									<option value='TRAITE'>Traite</option>
+									<option value='VIREMENT'>Virement</option>
+								</select>
 							</div>
 							<div>
 								<strong>Remis le :</strong>
@@ -276,7 +277,13 @@ const DetailsEncaissement: React.FC = () => {
 								</select>
 							</div>
 							<div>
-								<strong>Réf. justificatif bancaire :</strong> {details.refSourceTiers || 'Non défini'}
+								<strong>Réf. justificatif bancaire :</strong>
+								<input
+									type='text'
+									style={{ width: '32rem' }}
+									value={details.reference_paiement || ''}
+									onChange={(e) => setDetails({ ...details, reference_paiement: e.target.value })}
+								/>
 							</div>
 							<div>
 								<strong>Commentaire :</strong>
@@ -295,6 +302,7 @@ const DetailsEncaissement: React.FC = () => {
 								>
 									<option value='A ORDONNANCER'>À ordonnancer</option>
 									<option value='ATTENTE ENCAISSEMENT'>Attente encaissement</option>
+									<option value='ENCAISSEMENT'>À l'encaissement</option>
 									<option value='LITIGE'>Litige</option>
 								</select>
 							</div>
