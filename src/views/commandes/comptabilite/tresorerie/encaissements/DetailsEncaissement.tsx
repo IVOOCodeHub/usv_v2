@@ -169,7 +169,7 @@ const DetailsEncaissement: React.FC = () => {
 
 	return (
 		<>
-			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | DÉTAILS ENCaisSEMENT ${details.societe} N° ${details.cle}` }} />
+			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | DÉTAILS ENCAISSEMENT ${details.societe} N° ${details.cle}` }} />
 			<main id='detailsEncaissement'>
 				<div className='detailsContainer'>
 					<div className='leftSide'>
@@ -201,7 +201,7 @@ const DetailsEncaissement: React.FC = () => {
 									}}
 								/>
 							</div>
-							Encaissement {details.cle}{' '}
+							ENCAISSEMENT RECETTE N° {details.cle}{' '}
 						</h3>
 						{modalStates.isModalOpen && (
 							<ModalCourriers
