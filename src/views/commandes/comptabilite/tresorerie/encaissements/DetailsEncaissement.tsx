@@ -97,14 +97,22 @@ const DetailsEncaissement: React.FC = () => {
 				dateEcheance: rowData.dateEcheance ? formatDateToHtml(rowData.dateEcheance) : '',
 				libelleCompteTiers: rowData.libelleCompteTiers || 'Non défini',
 				libelleEcriture: rowData.libelleEcriture || 'Non défini',
+				libelleEcritureAnnee: rowData.libelleEcritureAnnee || 'Non défini',
+				libelleEcritureMois: rowData.libelleEcritureMois || 'Non défini',
+				libelleEcriturePrefixe: rowData.libelleEcriturePrefixe || 'Non défini',
+				libelleEcritureTrimestre: rowData.libelleEcritureTrimestre || 'Non défini',
+				libelleEcritureBeneficiaire: rowData.libelleEcritureBeneficiaire || 'Non défini',
 				credit: rowData.credit ? keepTwoDecimals(Number(rowData.credit)) : '0.00',
 				debit: rowData.debit ? keepTwoDecimals(Number(rowData.debit)) : '0.00',
 				nomFichier: rowData.nomFichier ?? 'Non défini',
 				rubriqueTreso: rowData.rubriqueTreso || 'Non défini',
 				modeReglement: rowData.modeReglement || 'Non défini',
 				noCompteBanque: rowData.noCompteBanque || 'Non défini',
+				banqueReglement: rowData.banqueReglement || 'Non défini',
 				statut: rowData.statut || 'A REGULARISER',
 				commentaire: rowData.commentaire || '',
+				dateOrdo: rowData.dateOrdo || '',
+				refSourceTiers: rowData.refSourceTiers || '',
 			}
 			setDetails(formattedDetails)
 
@@ -220,8 +228,8 @@ const DetailsEncaissement: React.FC = () => {
 								<strong>Date Ordo :</strong>
 								<input
 									type='date'
-									value={details.dateEcheance || ''}
-									onChange={(e) => setDetails({ ...details, dateEcheance: e.target.value })}
+									value={details.dateOrdo || ''}
+									onChange={(e) => setDetails({ ...details, dateOrdo: e.target.value })}
 								/>
 							</div>
 
