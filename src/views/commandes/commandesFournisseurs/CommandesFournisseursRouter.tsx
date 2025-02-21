@@ -18,6 +18,7 @@ export default function CommandesFournisseursRouter() : ReactElement {
     return (
         <Routes>
             <Route path={"/creation_commandes"} element={<CreationCommandesWithAuth/>}/>
+            <Route path={"/creation_commandes/:commandeID"} element={<CreationCommandesWithAuth/>}/>
             <Route path={"/commandes_a_valider"} element={<CommandesAValiderWithAuth/>}/>
             <Route path={"/commandes_a_valider/:commandeID"} element={<CommandesModifWithAuth/>}/>
             <Route path={"/commandes_a_valider/voir_pieces/:commandeID"} element={<VoirPiecesWithAuth/>}/>

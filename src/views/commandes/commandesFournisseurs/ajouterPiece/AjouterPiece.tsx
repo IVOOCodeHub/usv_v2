@@ -4,7 +4,7 @@ import "./ajouterPiece.scss";
 
 // hooks | libraries
 import {ReactElement} from "react";
-import { useNavigate, NavigateFunction } from "react-router-dom";
+import {useNavigate, NavigateFunction, useParams} from "react-router-dom";
 
 // components
 import Header from "../../../../components/header/Header";
@@ -15,6 +15,7 @@ import WithAuth from "../../../auth/WithAuth";
 
 function AjouterPiece(): ReactElement {
     const navigate: NavigateFunction = useNavigate();
+    const { commandeID } = useParams();
 
     return (
         <>
@@ -29,7 +30,7 @@ function AjouterPiece(): ReactElement {
                     <div className={"goBackBtnWrapper"}>
                         <section className={"middleSide"}>
                             <form>
-                                <h2>Ajouter un article à la commande 3337</h2>
+                                <h2>Ajouter un article à la commande {commandeID}</h2>
                                 <div className={"formWrapper"}>
                                     <div className={"inputWrapper"}>
                                         <label htmlFor={"ref"}>Référence article :</label>
@@ -68,7 +69,7 @@ function AjouterPiece(): ReactElement {
                                             type: "button",
                                             onClick: (): void =>
                                                 navigate(
-                                                    `/commandes/commandes_fournisseurs/commandes_a_valider/567`,
+                                                    `/commandes/commandes_fournisseurs/creation_commandes`,
                                                 ),
                                         }}
                                     />
@@ -79,7 +80,7 @@ function AjouterPiece(): ReactElement {
                                             type: "button",
                                             onClick: (): void =>
                                                 navigate(
-                                                    "/commandes/commandes_fournisseurs/commandes_a_valider/567",
+                                                    "/commandes/commandes_fournisseurs/creation_commandes",
                                                 ),
                                         }}
                                     />

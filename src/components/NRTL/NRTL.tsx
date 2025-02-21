@@ -22,6 +22,7 @@ interface INRTLProps {
   itemsPerPageOptions?: number[];
   language?: "En" | "Fr" | string;
   onRowClick?: (index: number, rowData?: string[]) => void;
+  title?: string;
 
   // server side pagination
   serverSidePagination?: boolean;
@@ -68,6 +69,7 @@ export default function NRTL({
   itemsPerPageOptions = [25, 50, 100],
   language = "En",
   onRowClick,
+  title,
 
   // server side pagination
   serverSidePagination = false,
@@ -247,6 +249,8 @@ export default function NRTL({
     );
   };
 
+  const contentTitle = title ? 'title = "' + title : '';
+
   useEffect((): void => {
     if (!itemsPerPageOptions.includes(itemsPerPage)) {
       setItemsPerPage(itemsPerPageOptions[0]);
@@ -418,12 +422,13 @@ export default function NRTL({
                 (row: string[], index: number): ReactElement => (
                   <tr
                     key={index}
+                    {...(title ? { title } : {})}
                     onClick={(): void => onRowClick?.(index, row)}
                     style={{ cursor: onRowClick ? "pointer" : "default" }}
                   >
                     {row.map(
                       (cell: string, cellIndex: number): ReactElement => (
-                        <td key={cellIndex}>{cell}</td>
+                          <td key={cellIndex}>{cell}</td>
                       ),
                     )}
                   </tr>
