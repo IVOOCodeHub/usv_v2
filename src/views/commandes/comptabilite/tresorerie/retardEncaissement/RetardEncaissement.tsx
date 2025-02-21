@@ -7,7 +7,7 @@ import Nrtl from '../../../../../components/NRTL/NRTL'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
 import DateRange from '../../../../../components/dateRange/DateRange'
-import { mockedEncaissements } from './mock/mockedEncaissements.ts'
+import { mockedEncaissements } from '../encaissements/mock/mockedEncaissements.ts'
 import { IPrevision } from '../../../../../utils/types/prevision.interface.ts'
 
 interface RowDetails {
@@ -117,6 +117,7 @@ const RetardEncaissement: React.FC = (): ReactElement => {
 					data.dateEcheance ? convertENDateToFr(data.dateEcheance.split('/').reverse().join('-')) : 'Non défini',
 					data.dateOrdo ? convertENDateToFr(data.dateOrdo.split('/').reverse().join('-')) : 'Non défini',
 					data.libelleCompteTiers ?? 'Non défini',
+					data.rubriqueTreso ?? 'Non défini',
 					data.libelleEcriture ?? 'Non défini',
 					keepTwoDecimals(montant),
 					// data.nomFichier ?? 'Aucun fichier joint',
@@ -174,7 +175,7 @@ const RetardEncaissement: React.FC = (): ReactElement => {
 	const bodyArray = useMemo(() => convertToArray(filteredData), [filteredData])
 
 	const tableData = {
-		tableHead: ['Code', 'Date saisie', 'Échéance', 'Ordo', 'Partenaire', 'Libellé écriture', 'Montant'],
+		tableHead: ['Code', 'Date saisie', 'Échéance', 'Ordo', 'Fournisseur', 'Rubrique', 'Libellé écriture', 'Montant'],
 		tableBody: bodyArray,
 	}
 
@@ -225,7 +226,7 @@ const RetardEncaissement: React.FC = (): ReactElement => {
 							showItemsPerPageSelector
 							showPagination
 							itemsPerPageOptions={[5, 25, 50]}
-							filterableColumns={[false, false, false, false, false, true, false]}
+							filterableColumns={[false, false, false, false, false, false, true, false]}
 							language='fr'
 							onRowClick={(index: number, rowData?: string[]) => handleRowClick(index, rowData)}
 						/>

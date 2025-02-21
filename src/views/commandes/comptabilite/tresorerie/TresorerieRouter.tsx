@@ -33,6 +33,7 @@ import RecetteAOrdonnancer from './recetteAOrdonnancer/RecetteAOrdonnancer.tsx'
 import DetailRecetteAOrdo from './recetteAOrdonnancer/DetailRecetteAOrdo.tsx'
 import Encaissements from './encaissements/Encaissements.tsx'
 import DetailsEncaissement from './encaissements/DetailsEncaissement.tsx'
+import RetardEncaissement from './retardEncaissement/RetardEncaissement.tsx'
 
 export default function TresorerieRouter(): ReactElement {
 	return (
@@ -67,6 +68,7 @@ export default function TresorerieRouter(): ReactElement {
 			<Route path={'/details_recette_ordonnancer'} element={<DetailRecetteAOrdo />} />
 			<Route path={'/encaissements'} element={<Encaissements />} />
 			<Route path={'/details_encaissement'} element={<DetailsEncaissement />} />
+			<Route path={'/retard_encaissement'} element={<RetardEncaissement />} />
 		</Routes>
 	)
 }
