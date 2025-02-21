@@ -183,7 +183,7 @@ const RetardEncaissement: React.FC = (): ReactElement => {
 
 	return (
 		<>
-			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | RETARD D'ENCAISSEMENT DES RECETTES ${filters.societe}` }} />
+			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | RETARD ENCAISSEMENTS ${filters.societe}` }} />
 			<main id='retardEncaissement'>
 				<section className='retardEncaissement__bottomSection'>
 					<div className='filtersWrapper'>
