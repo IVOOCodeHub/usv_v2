@@ -83,6 +83,8 @@ const DetailsRetard: React.FC = () => {
 	const [prefixes, setPrefixes] = useState<string[]>([])
 	const [mois, setMois] = useState<string[]>([])
 	const [annees, setAnnees] = useState<string[]>([])
+	const [societes, setSocietes] = useState<string[]>([])
+	const [partenaires, setPartenaires] = useState<string[]>([])
 
 	const validatePdfLink = (link: string | null): boolean => {
 		if (!link) return false // If the link is null, it's invalid
@@ -96,7 +98,7 @@ const DetailsRetard: React.FC = () => {
 				cle: rowData.cle || 'Non défini',
 				dateSaisie: rowData.dateSaisie ? convertENDateToFr(rowData.dateSaisie) : 'Non défini',
 				societe: rowData.societe || 'Non défini',
-				dateEcheance: rowData.dateEcheance ? formatDateToHtml(rowData.dateEcheance) : 'Non défini',
+				dateEcheance: rowData.dateEcheance ?? 'Non défini',
 				libelleCompteTiers: rowData.libelleCompteTiers || 'Non défini',
 				libelleEcriture: rowData.libelleEcriture || 'Non défini',
 				credit: rowData.credit ? keepTwoDecimals(Number(rowData.credit)) : '0.00',
@@ -130,14 +132,16 @@ const DetailsRetard: React.FC = () => {
 			setPrefixes(['Prefixe 1', 'Prefixe 2'])
 			setMois(['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'])
 			setAnnees(['2023', '2024', '2025'])
+			setSocietes(['SOCIETE 1', 'SOCIETE 2', 'SOCIETE 3', 'SOCIETE 4', 'SOCIETE 5'])
+			setPartenaires(['PARTENAIRE 1', 'PARTENAIRE 2', 'PARTENAIRE 3', 'PARTENAIRE 4', 'PARTENAIRE 5'])
 		} else {
 			console.error('Aucune donnée de ligne trouvée dans location.state.fullRowDetails.')
 		}
 	}, [location?.state?.fullRowDetails])
 
-	const handleSave = (updatedDetails: RowDetails) => {
-		alert('Fonctionnalité de sauvegarde non implémentée pour le moment.')
-	}
+	// const handleSave = (updatedDetails: RowDetails) => {
+	// 	alert('Fonctionnalité de sauvegarde non implémentée pour le moment.')
+	// }
 
 	const handleConfirm = () => {
 		setModalStates((prev) => ({ ...prev, showModal: false })) // Close the modal
@@ -241,7 +245,7 @@ const DetailsRetard: React.FC = () => {
 									}}
 								/>
 							</div>
-							Encaissement en retard {details.cle}{' '}
+							PRÉVISION {details.cle}{' '}
 						</h3>
 						{modalStates.isModalOpen && (
 							<ModalCourriers
@@ -256,57 +260,87 @@ const DetailsRetard: React.FC = () => {
 								<strong>Date saisie :</strong> {details.dateSaisie || 'Non défini'}
 							</div>
 							<div>
-								<strong>Société :</strong> {details.societe || 'Non défini'}
+								<strong>Société :</strong>{' '}
+								<select
+									value={details.societe || ''}
+									onChange={(e) => setDetails({ ...details, societe: e.target.value })}
+								>
+									<option value=''>{details.societe || 'Non défini'}</option>
+									{societes.map((societe) => (
+										<option key={societe} value={societe}>
+											{societe}
+										</option>
+									))}
+								</select>
 							</div>
 							<div>
-								<strong>Tiers :</strong> {details.libelleCompteTiers || 'Non défini'}
+								<strong>Tiers :</strong>
+								<select
+									value={details.libelleCompteTiers || ''}
+									onChange={(e) => setDetails({ ...details, libelleCompteTiers: e.target.value })}
+								>
+									<option value=''>{details.libelleCompteTiers || 'Non défini'}</option>
+									{partenaires.map((partenaire) => (
+										<option key={partenaire} value={partenaire}>
+											{partenaire}
+										</option>
+									))}
+								</select>
 							</div>
-							<div>
-								<strong>Libellé :</strong> {details.libelleEcriture || 'Non défini'}
-							</div>
-							<div>
-								<strong>Date échéance :</strong> {details.dateEcheance || 'Non défini'}
-							</div>
-							<div>
-								<strong>Date Ordo :</strong>
-								<input
-									type='date'
-									value={details.dateOrdo || ''}
-									onChange={(e) => setDetails({ ...details, dateOrdo: e.target.value })}
+							<div className='buttonWrapper'>
+								<Button
+									props={{
+										style: 'blue',
+										text: 'Prévisions',
+										type: 'button',
+										onClick: () => toggleModal('isPrevisionsModalOpen'),
+									}}
+								/>
+								<Button
+									props={{
+										style: 'blue',
+										text: 'Rechercher Tiers',
+										type: 'button',
+										onClick: () => toggleModal('isTiersModalOpen'),
+									}}
+								/>
+								<Button
+									props={{
+										style: 'blue',
+										text: 'Créer Tiers',
+										type: 'button',
+										onClick: () => toggleModal('isAddTiersModalOpen'),
+									}}
 								/>
 							</div>
 							<div>
-								<strong>Crédit :</strong>{' '}
-								<input
-									type='number'
-									value={parseFloat(details.credit.replace(/\s/g, '').replace(',', '.'))}
-									step='0.01'
-									onChange={(e) => setDetails({ ...details, credit: e.target.value })}
-								/>
+								<strong>Rubrique :</strong>
+								<select
+									value={details.rubriqueTreso || ''}
+									onChange={(e) => setDetails({ ...details, rubriqueTreso: e.target.value })}
+								>
+									<option value=''>{details.rubriqueTreso || 'Non défini'}</option>
+									<option value='INTERCO'>INTERCO</option>
+									<option value='CHARGES SALARIALES'>CHARGES SALARIALES</option>
+									<option value='PAIE SOLDE'>PAIE SOLDE</option>
+									<option value='NOTE DE FRAIS'>NOTE DE FRAIS</option>
+									<option value='BANQUE'>BANQUE</option>
+								</select>
 							</div>
 							<div>
-								<strong>Débit :</strong>{' '}
-								<input
-									type='number'
-									value={parseFloat(details.debit.replace(/\s/g, '').replace(',', '.'))}
-									step='0.01'
-									onChange={(e) => setDetails({ ...details, debit: e.target.value })}
-								/>
-							</div>
-							<div>
-								<strong>Mode règlement :</strong>
+								<strong>Payé par :</strong>
 								<div className='modeReglement'>
 									<Button
 										props={{
-											style: details.modeReglement === 'PRELEV' ? 'blue' : 'grey',
+											style: modePaiement === 'PRELEV' ? 'blue' : 'grey',
 											text: 'PRELEV',
 											type: 'button',
-											onClick: () => setDetails({ ...details, modeReglement: 'PRELEV' }),
+											onClick: () => setModePaiement('PRELEV'),
 										}}
 									/>
 									<Button
 										props={{
-											style: details.modeReglement === 'CHEQUE' ? 'blue' : 'grey',
+											style: modePaiement === 'CHEQUE' ? 'blue' : 'grey',
 											text: 'CHEQUE',
 											type: 'button',
 											onClick: handleCheque,
@@ -314,104 +348,19 @@ const DetailsRetard: React.FC = () => {
 									/>
 									<Button
 										props={{
-											style: details.modeReglement === 'VIR' ? 'blue' : 'grey',
+											style: modePaiement === 'VIR' ? 'blue' : 'grey',
 											text: 'VIR',
 											type: 'button',
-											onClick: () => setDetails({ ...details, modeReglement: 'VIR' }),
+											onClick: () => setModePaiement('VIR'),
 										}}
 									/>
 								</div>
 							</div>
 							<div>
-								<strong>Banq. règlement :</strong>{' '}
+								<strong>vers compte :</strong>{' '}
 								<select value={''} onChange={(e) => setDetails({ ...details, banqueReglement: e.target.value })}>
 									<option value='000257117126 - SOCIETE GENERALE'>000257117126 - SOCIETE GENERALE</option>
 									<option value='000257117127 - BNP PARIBAS'>000257117127 - BNP PARIBAS</option>
-								</select>
-							</div>
-							<div>
-								<strong>Statut :</strong>
-								<select
-									value={details.statut || ''}
-									onChange={(e) => setDetails({ ...details, statut: e.target.value })}
-								>
-									<option value='A VALIDER'>Mise en paiement à valider</option>
-									<option value='VALIDE'>Mise en paiement validée</option>
-									<option value='REJETE'>Paiement rejeté</option>
-									<option value='LITIGE'>Litige</option>
-								</select>
-							</div>
-							<div>
-								<strong>Commentaire :</strong>
-								<input
-									type='text'
-									style={{ width: '32rem' }}
-									value={details.commentaire || ''}
-									onChange={(e) => setDetails({ ...details, commentaire: e.target.value })}
-								/>
-							</div>
-							<div className='tiersWrapper'>
-								<div>
-									<strong>Tiers : </strong> {details.libelleCompteTiers || 'Non défini'}
-								</div>
-								<div className='buttonWrapper'>
-									<Button
-										props={{
-											style: 'blue',
-											text: 'Prévisions',
-											type: 'button',
-											onClick: () => toggleModal('isPrevisionsModalOpen'),
-										}}
-									/>
-									<Button
-										props={{
-											style: 'blue',
-											text: 'Rechercher Tiers',
-											type: 'button',
-											onClick: () => toggleModal('isTiersModalOpen'),
-										}}
-									/>
-									<Button
-										props={{
-											style: 'blue',
-											text: 'Créer Tiers',
-											type: 'button',
-											onClick: () => toggleModal('isAddTiersModalOpen'),
-										}}
-									/>
-								</div>
-							</div>
-							{modalStates.isPrevisionsModalOpen && (
-								<div className='modal'>
-									<div className='modalContent'>
-										<VisualisationPrevisionsTiers
-											userCredentials={null}
-											refSourceTiers={details.refSourceTiers}
-											onClose={() => toggleModal('isPrevisionsModalOpen')}
-										/>
-									</div>
-								</div>
-							)}
-							{modalStates.isTiersModalOpen && (
-								<ModalTiers
-									isOpen={modalStates.isTiersModalOpen}
-									onClose={() => toggleModal('isTiersModalOpen')}
-									onSelectTiers={handleSelectTiers}
-								/>
-							)}
-							{modalStates.isAddTiersModalOpen && <AddTiersModal onClose={() => toggleModal('isAddTiersModalOpen')} />}
-							<div>
-								<strong>Rubrique :</strong>{' '}
-								<select
-									value={details.rubriqueTreso || ''}
-									onChange={(e) => setDetails({ ...details, rubriqueTreso: e.target.value })}
-								>
-									<option value=''>Choisir</option>
-									{rubriques.map((rubrique) => (
-										<option key={rubrique.cle} value={rubrique.cle}>
-											{rubrique.libelle}
-										</option>
-									))}
 								</select>
 							</div>
 							<div className='libelleWrapper'>
@@ -461,19 +410,76 @@ const DetailsRetard: React.FC = () => {
 									<input
 										type='text'
 										placeholder='Bénéficiaire'
-										value={details.libelleEcritureBeneficiaire || ''}
-										onChange={(e) => setDetails({ ...details, libelleEcritureBeneficiaire: e.target.value })}
+										value={details.libelleCompteTiers || ''}
+										onChange={(e) => setDetails({ ...details, libelleCompteTiers: e.target.value })}
 									/>
 								</div>
 							</div>
+							<div>
+								<strong>Montant :</strong>{' '}
+								<input
+									type='number'
+									value={parseFloat(details.credit.replace(/\s/g, '').replace(',', '.'))}
+									step='0.01'
+									onChange={(e) => setDetails({ ...details, credit: e.target.value })}
+								/>
+							</div>
+							<div>
+								<strong>Date échéance :</strong>
+								<input
+									type='date'
+									value={details.dateEcheance || ''}
+									onChange={(e) => setDetails({ ...details, dateEcheance: e.target.value })}
+								/>
+							</div>
+
+							<div>
+								<strong>Statut :</strong>
+								<select
+									value={details.statut || ''}
+									onChange={(e) => setDetails({ ...details, statut: e.target.value })}
+								>
+									<option value='A VALIDER'>Mise en paiement à valider</option>
+									<option value='VALIDE'>Mise en paiement validée</option>
+									<option value='REJETE'>Paiement rejeté</option>
+									<option value='LITIGE'>Litige</option>
+								</select>
+							</div>
+							<div>
+								<strong>Commentaire :</strong>
+								<input
+									type='text'
+									style={{ width: '32rem' }}
+									value={details.commentaire || ''}
+									onChange={(e) => setDetails({ ...details, commentaire: e.target.value })}
+								/>
+							</div>
+							<div className='tiersWrapper'>
+								<div>
+									<strong>Tiers : </strong> {details.libelleCompteTiers || 'Non défini'}
+								</div>
+							</div>
+							{modalStates.isPrevisionsModalOpen && (
+								<div className='modal'>
+									<div className='modalContent'>
+										<VisualisationPrevisionsTiers
+											userCredentials={null}
+											refSourceTiers={details.refSourceTiers}
+											onClose={() => toggleModal('isPrevisionsModalOpen')}
+										/>
+									</div>
+								</div>
+							)}
+							{modalStates.isTiersModalOpen && (
+								<ModalTiers
+									isOpen={modalStates.isTiersModalOpen}
+									onClose={() => toggleModal('isTiersModalOpen')}
+									onSelectTiers={handleSelectTiers}
+								/>
+							)}
+							{modalStates.isAddTiersModalOpen && <AddTiersModal onClose={() => toggleModal('isAddTiersModalOpen')} />}
 						</div>
-						{modalStates.showModal && (
-							<ConfirmationModal
-								message='Confirmez-vous l’étalement de cette prévision par la création d’un échéancier ?'
-								onConfirm={handleConfirm}
-								onCancel={handleCancel}
-							/>
-						)}
+
 						<div className='buttonWrapper'>
 							<Button
 								props={{
