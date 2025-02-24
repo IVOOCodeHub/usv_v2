@@ -140,7 +140,7 @@ const RetardEncaissement: React.FC = (): ReactElement => {
 			if (rowDetails) {
 				console.log('RowDetails:', rowDetails)
 
-				navigate('/commandes/tresorerie/details_encaissement', {
+				navigate('/commandes/tresorerie/details_retard_encaissement', {
 					state: { fullRowDetails: rowDetails },
 				})
 			} else {
