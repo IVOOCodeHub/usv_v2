@@ -35,6 +35,7 @@ import Encaissements from './encaissements/Encaissements.tsx'
 import DetailsEncaissement from './encaissements/DetailsEncaissement.tsx'
 import RetardEncaissement from './retardEncaissement/RetardEncaissement.tsx'
 import DetailsRetard from './retardEncaissement/DetailsRetard.tsx'
+import Equilibrages from './equilibrages/Equilibrages.tsx'
 
 export default function TresorerieRouter(): ReactElement {
 	return (
@@ -71,6 +72,7 @@ export default function TresorerieRouter(): ReactElement {
 			<Route path={'/details_encaissement'} element={<DetailsEncaissement />} />
 			<Route path={'/retard_encaissement'} element={<RetardEncaissement />} />
 			<Route path={'/details_retard_encaissement'} element={<DetailsRetard />} />
+			<Route path={'/equilibrages'} element={<Equilibrages />} />
 		</Routes>
 	)
 }

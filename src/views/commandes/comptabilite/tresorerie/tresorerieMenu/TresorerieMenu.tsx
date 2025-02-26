@@ -63,7 +63,7 @@ function TresorerieMenu(): ReactElement {
 			<main id={'tresorerieMenu'}>
 				<div className={'menuWrapper'}>
 					<MenuContainer menuData={menuData} />
-					<button type={'button'} onClick={(): void => navigate('/menu_general')}>
+					<button type={'button'} onClick={(): void => navigate('/commandes/tresorerie/equilibrages')}>
 						Équilibrages
 					</button>
 					<MenuContainer menuData={menuDataBottom} />
