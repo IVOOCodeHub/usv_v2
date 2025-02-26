@@ -35,6 +35,9 @@ interface ILocationState {
 			modeReglement: string
 			statut: string
 			refSourceTiers: string
+			refJustifPaiement?: string
+			dateJustifPaiement?: string
+			commentaire?: string
 		}
 	}
 }
@@ -61,6 +64,9 @@ interface RowDetails {
 	modeReglement: string
 	statut: string
 	refSourceTiers: string
+	refJustifPaiement?: string
+	dateJustifPaiement?: string
+	commentaire?: string
 }
 
 const DetailsRetard: React.FC = () => {
@@ -85,6 +91,8 @@ const DetailsRetard: React.FC = () => {
 	const [annees, setAnnees] = useState<string[]>([])
 	const [societes, setSocietes] = useState<string[]>([])
 	const [partenaires, setPartenaires] = useState<string[]>([])
+	// const [refJustifPaiements, setRefJustifPaiements] = useState<string[]>([])
+	// const [dateJustifPaiements, setDateJustifPaiements] = useState<string[]>([])
 
 	const validatePdfLink = (link: string | null): boolean => {
 		if (!link) return false // If the link is null, it's invalid
@@ -111,6 +119,9 @@ const DetailsRetard: React.FC = () => {
 				refSourceTiers: rowData.refSourceTiers || 'Non défini',
 				dateOrdo: rowData.dateOrdo || 'Non défini',
 				banqueReglement: rowData.banqueReglement || 'Non défini',
+				refJustifPaiement: rowData.refJustifPaiement ?? 'Non défini',
+				dateJustifPaiement: rowData.dateJustifPaiement ?? 'Non défini',
+				commentaire: rowData.commentaire ?? '',
 			}
 			setDetails(formattedDetails)
 			setModePaiement(rowData.modeReglement || '')
@@ -139,19 +150,10 @@ const DetailsRetard: React.FC = () => {
 		}
 	}, [location?.state?.fullRowDetails])
 
-	// const handleSave = (updatedDetails: RowDetails) => {
-	// 	alert('Fonctionnalité de sauvegarde non implémentée pour le moment.')
-	// }
-
-	const handleConfirm = () => {
-		setModalStates((prev) => ({ ...prev, showModal: false })) // Close the modal
-		if (details) {
-			navigate(`/commandes/tresorerie/etalement-prevision-tiers/${details.refSourceTiers}`) // Navigate to EtalementPrevisionTiers.tsx
-		}
-	}
-
-	const handleCancel = () => {
-		setModalStates((prev) => ({ ...prev, showModal: false }))
+	const handleSave = (updatedDetails: RowDetails) => {
+		console.log('updatedDetails:', updatedDetails)
+		alert('Modifications sauvegardées')
+		navigate(-1)
 	}
 
 	const handleCheque = () => {
@@ -274,7 +276,7 @@ const DetailsRetard: React.FC = () => {
 								</select>
 							</div>
 							<div>
-								<strong>Tiers :</strong>
+								<strong>Tiers partenaire :</strong>
 								<select
 									value={details.libelleCompteTiers || ''}
 									onChange={(e) => setDetails({ ...details, libelleCompteTiers: e.target.value })}
@@ -363,6 +365,22 @@ const DetailsRetard: React.FC = () => {
 									<option value='000257117127 - BNP PARIBAS'>000257117127 - BNP PARIBAS</option>
 								</select>
 							</div>
+							<div>
+								<strong>Ref justif paiement :</strong>
+								<input
+									type='text'
+									value={details.refJustifPaiement ?? ''}
+									onChange={(e) => setDetails({ ...details, refJustifPaiement: e.target.value })}
+								/>
+							</div>
+							<div>
+								<strong>Date justif paiement :</strong>
+								<input
+									type='date'
+									value={details.dateJustifPaiement ?? ''}
+									onChange={(e) => setDetails({ ...details, dateJustifPaiement: e.target.value })}
+								/>
+							</div>
 							<div className='libelleWrapper'>
 								<div className='libelleTitle'>
 									<strong>Libellé :</strong>
@@ -434,30 +452,24 @@ const DetailsRetard: React.FC = () => {
 							</div>
 
 							<div>
+								<strong>Commentaire :</strong>
+								<input
+									type='text'
+									style={{ width: '32rem' }}
+									value={details.commentaire ?? ''}
+									onChange={(e) => setDetails({ ...details, commentaire: e.target.value })}
+								/>
+							</div>
+							<div>
 								<strong>Statut :</strong>
 								<select
 									value={details.statut || ''}
 									onChange={(e) => setDetails({ ...details, statut: e.target.value })}
 								>
-									<option value='A VALIDER'>Mise en paiement à valider</option>
-									<option value='VALIDE'>Mise en paiement validée</option>
-									<option value='REJETE'>Paiement rejeté</option>
+									<option value='ATTENTE'>Attente encaissement</option>
+									<option value='ENCAISSEMENT'>À l'encaissement</option>
 									<option value='LITIGE'>Litige</option>
 								</select>
-							</div>
-							<div>
-								<strong>Commentaire :</strong>
-								<input
-									type='text'
-									style={{ width: '32rem' }}
-									value={details.commentaire || ''}
-									onChange={(e) => setDetails({ ...details, commentaire: e.target.value })}
-								/>
-							</div>
-							<div className='tiersWrapper'>
-								<div>
-									<strong>Tiers : </strong> {details.libelleCompteTiers || 'Non défini'}
-								</div>
 							</div>
 							{modalStates.isPrevisionsModalOpen && (
 								<div className='modal'>
@@ -486,7 +498,7 @@ const DetailsRetard: React.FC = () => {
 									style: 'blue',
 									text: 'Ok',
 									type: 'button',
-									onClick: () => alert('Encaissement validé'),
+									onClick: () => handleSave(details),
 								}}
 							/>
 							<Button
@@ -495,6 +507,14 @@ const DetailsRetard: React.FC = () => {
 									text: 'Annuler',
 									type: 'button',
 									onClick: () => navigate(-1),
+								}}
+							/>
+							<Button
+								props={{
+									style: 'blue',
+									text: 'Supprimer',
+									type: 'button',
+									onClick: () => alert('Fonctionnalité de suppression non implémentée pour le moment.'),
 								}}
 							/>
 						</div>

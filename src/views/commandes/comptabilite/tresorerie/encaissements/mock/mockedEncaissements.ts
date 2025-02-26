@@ -33,6 +33,9 @@ export const mockedEncaissements: IPrevision[] = [
 		bicTiers: 'SOGEFRPP',
 		nomBanque: 'SOCIETE GENERALE',
 		reference_paiement: 'REF001',
+		refJustifPaiement: 'REF001',
+		dateJustifPaiement: '2024-01-10',
+		commentaire: 'Bonne réponse',
 	},
 	{
 		cle: 'REC002',
@@ -65,6 +68,9 @@ export const mockedEncaissements: IPrevision[] = [
 		bicTiers: 'BNPAFRPP',
 		nomBanque: 'BNP PARIBAS',
 		reference_paiement: 'REF001',
+		refJustifPaiement: 'REF002',
+		dateJustifPaiement: '2024-02-10',
+		commentaire: 'Bonne réponse',
 	},
 	{
 		cle: 'REC003',
@@ -97,6 +103,9 @@ export const mockedEncaissements: IPrevision[] = [
 		bicTiers: 'AGRIFRPP',
 		nomBanque: 'CREDIT AGRICOLE',
 		reference_paiement: 'REF001',
+		refJustifPaiement: 'REF003',
+		dateJustifPaiement: '2024-03-10',
+		commentaire: 'Bonne réponse',
 	},
 	{
 		cle: 'REC004',
@@ -129,6 +138,9 @@ export const mockedEncaissements: IPrevision[] = [
 		bicTiers: 'PSSTFRPP',
 		nomBanque: 'LA BANQUE POSTALE',
 		reference_paiement: 'REF001',
+		refJustifPaiement: 'REF004',
+		dateJustifPaiement: '2024-04-10',
+		commentaire: 'Bonne réponse',
 	},
 	{
 		cle: 'REC005',
@@ -161,6 +173,9 @@ export const mockedEncaissements: IPrevision[] = [
 		bicTiers: 'HSBFFRPP',
 		nomBanque: 'HSBC',
 		reference_paiement: 'REF001',
+		refJustifPaiement: 'REF005',
+		dateJustifPaiement: '2024-05-10',
+		commentaire: 'Bonne réponse',
 	},
 	{
 		cle: 'REC006',
@@ -193,6 +208,9 @@ export const mockedEncaissements: IPrevision[] = [
 		bicTiers: 'DEUTFRPP',
 		nomBanque: 'DEUTSCHE BANK',
 		reference_paiement: 'REF001',
+		refJustifPaiement: 'REF006',
+		dateJustifPaiement: '2024-06-10',
+		commentaire: 'Bonne réponse',
 	},
 	{
 		cle: 'REC007',
@@ -225,6 +243,9 @@ export const mockedEncaissements: IPrevision[] = [
 		bicTiers: 'BARCFRPP',
 		nomBanque: 'BARCLAYS',
 		reference_paiement: 'REF001',
+		refJustifPaiement: 'REF007',
+		dateJustifPaiement: '2024-07-10',
+		commentaire: 'Bonne réponse',
 	},
 	{
 		cle: 'REC008',
@@ -257,6 +278,9 @@ export const mockedEncaissements: IPrevision[] = [
 		bicTiers: 'CITIFRPP',
 		nomBanque: 'CITIBANK',
 		reference_paiement: 'REF001',
+		refJustifPaiement: 'REF008',
+		dateJustifPaiement: '2024-08-10',
+		commentaire: 'Bonne réponse',
 	},
 	{
 		cle: 'REC009',
@@ -289,6 +313,9 @@ export const mockedEncaissements: IPrevision[] = [
 		bicTiers: 'SANTFRPP',
 		nomBanque: 'SANTANDER',
 		reference_paiement: 'REF001',
+		refJustifPaiement: 'REF009',
+		dateJustifPaiement: '2024-09-10',
+		commentaire: 'Bonne réponse',
 	},
 	{
 		cle: 'REC010',
@@ -321,6 +348,9 @@ export const mockedEncaissements: IPrevision[] = [
 		bicTiers: 'SOGEFRPP',
 		nomBanque: 'SOCIETE GENERALE',
 		reference_paiement: 'REF001',
+		refJustifPaiement: 'REF010',
+		dateJustifPaiement: '2024-10-10',
+		commentaire: 'Bonne réponse',
 	},
 	{
 		cle: 'REC011',
@@ -353,6 +383,9 @@ export const mockedEncaissements: IPrevision[] = [
 		bicTiers: 'BNPAFRPP',
 		nomBanque: 'BNP PARIBAS',
 		reference_paiement: 'REF001',
+		refJustifPaiement: 'REF011',
+		dateJustifPaiement: '2024-11-10',
+		commentaire: 'Bonne réponse',
 	},
 	{
 		cle: 'REC012',
@@ -385,6 +418,9 @@ export const mockedEncaissements: IPrevision[] = [
 		bicTiers: 'AGRIFRPP',
 		nomBanque: 'CREDIT AGRICOLE',
 		reference_paiement: 'REF001',
+		refJustifPaiement: 'REF012',
+		dateJustifPaiement: '2024-12-10',
+		commentaire: 'Bonne réponse',
 	},
 	{
 		cle: 'REC013',
@@ -417,6 +453,9 @@ export const mockedEncaissements: IPrevision[] = [
 		bicTiers: 'PSSTFRPP',
 		nomBanque: 'LA BANQUE POSTALE',
 		reference_paiement: 'REF001',
+		refJustifPaiement: 'REF013',
+		dateJustifPaiement: '2024-01-10',
+		commentaire: 'Bonne réponse',
 	},
 	{
 		cle: 'REC014',
@@ -449,6 +488,9 @@ export const mockedEncaissements: IPrevision[] = [
 		bicTiers: 'HSBFFRPP',
 		nomBanque: 'HSBC',
 		reference_paiement: 'REF001',
+		refJustifPaiement: 'REF014',
+		dateJustifPaiement: '2024-04-10',
+		commentaire: 'Bonne réponse',
 	},
 	{
 		cle: 'REC015',
@@ -481,6 +523,9 @@ export const mockedEncaissements: IPrevision[] = [
 		bicTiers: 'DEUTFRPP',
 		nomBanque: 'DEUTSCHE BANK',
 		reference_paiement: 'REF001',
+		refJustifPaiement: 'REF015',
+		dateJustifPaiement: '2024-03-10',
+		commentaire: 'Bonne réponse',
 	},
 	{
 		cle: 'REC016',
@@ -513,5 +558,8 @@ export const mockedEncaissements: IPrevision[] = [
 		bicTiers: 'BARCFRPP',
 		nomBanque: 'BARCLAYS',
 		reference_paiement: 'REF001',
+		refJustifPaiement: 'REF016',
+		dateJustifPaiement: '2024-04-10',
+		commentaire: 'Bonne réponse',
 	},
 ]

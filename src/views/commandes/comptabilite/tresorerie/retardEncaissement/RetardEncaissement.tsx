@@ -32,6 +32,8 @@ interface RowDetails {
 	statut: string
 	refSourceTiers: string
 	commentaire: string
+	refJustifPaiement?: string
+	dateJustifPaiement?: string
 }
 
 const RetardEncaissement: React.FC = (): ReactElement => {
@@ -74,6 +76,8 @@ const RetardEncaissement: React.FC = (): ReactElement => {
 			rubriqueTreso: matchedRecette.rubriqueTreso ?? 'Non défini',
 			nomFichier: matchedRecette.nomFichier ?? 'Non défini',
 			commentaire: matchedRecette.commentaire ?? '',
+			refJustifPaiement: matchedRecette.refJustifPaiement ?? '',
+			dateJustifPaiement: matchedRecette.dateJustifPaiement ?? '',
 		}
 	}
 

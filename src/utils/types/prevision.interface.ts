@@ -77,4 +77,6 @@ export interface IPrevision {
 	cleEtale?: string
 	nomFichier?: string // Facultatif pour les courriers
 	montant?: string
+	refJustifPaiement?: string
+	dateJustifPaiement?: string
 }
