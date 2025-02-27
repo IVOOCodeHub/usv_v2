@@ -28,10 +28,13 @@ const AjoutEquilibrage: React.FC = () => {
 
 	// Function to handle input change
 	const handleInputChange = (field: keyof RowDetails, value: string) => {
-		setRowDetails((prev) => ({
-			...prev,
-			[field]: value,
-		}))
+		setRowDetails((prev) => {
+			if (!prev) return null;
+			return {
+				...prev,
+				[field]: value,
+			};
+		})
 	}
 
 	// Function to handle form submission
