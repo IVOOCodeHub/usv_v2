@@ -147,10 +147,20 @@ const Equilibrages: React.FC = () => {
 							/>
 						)}
 						<div className='totals'>
-							<div>Total Emis Non Décaissé: {parseFloat(totals.emisNonDecaisse).toFixed(2)}</div>
-							<div>Total Mobilisable: {parseFloat(totals.mobilisable).toFixed(2)}</div>
-							<div>Total Ordo: {parseFloat(totals.ordo).toFixed(2)}</div>
-							<div>Total Solde après Ordo: {parseFloat(totals.soldeApresOrdo).toFixed(2)}</div>
+							<div>
+								Total Emis Non Décaissé:{' '}
+								<span className='finalTotals'>{parseFloat(totals.emisNonDecaisse).toFixed(2)} €</span>
+							</div>
+							<div>
+								Total Mobilisable: <span className='finalTotals'>{parseFloat(totals.mobilisable).toFixed(2)} €</span>
+							</div>
+							<div>
+								Total Ordo: <span className='finalTotals'>{parseFloat(totals.ordo).toFixed(2)} €</span>
+							</div>
+							<div>
+								Total Solde après Ordo:{' '}
+								<span className='finalTotals'>{parseFloat(totals.soldeApresOrdo).toFixed(2)} €</span>
+							</div>
 						</div>
 					</div>
 					<div className='greyButtonWrapper'>
