@@ -136,8 +136,8 @@ const Equilibrages: React.FC = () => {
 										if (rowDetails) {
 											console.log('RowDetails :', rowDetails)
 
-											navigate(`/commandes/tresorerie/details_facture_interco/`, {
-												state: { fullRowDetails: rowDetails },
+											navigate(`/commandes/tresorerie/ajout_equilibrage/`, {
+												state: { rowDetails },
 											})
 										} else {
 											console.error('Aucune prévision correspondante trouvée pour la clé:', compte)
