@@ -46,7 +46,7 @@ const AjoutEquilibrage: React.FC = () => {
 
 	return (
 		<>
-			<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | AJOUT ÉQUILIBRAGE' }} />
+			<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | CRÉATION ÉQUILIBRAGE' }} />
 			<main id='ajoutEquilibrage'>
 				<section className='equilibrage-container'>
 					{/* Section ÉMETTEUR */}
@@ -102,13 +102,39 @@ const AjoutEquilibrage: React.FC = () => {
 					<div className='equilibrage-section destinataire'>
 						<h2>DESTINATAIRE</h2>
 						<p>
-							<strong>Banque :</strong> {rowDetails?.banque}
+							<strong>Banque :</strong> <span className='details-value'>{rowDetails?.banque}</span>
 						</p>
 						<p>
-							<strong>Compte :</strong> {rowDetails?.compte}
+							<strong>Compte :</strong> <span className='details-value'>{rowDetails?.compte}</span>
 						</p>
 						<p>
-							<strong>Société :</strong> {rowDetails?.societe}
+							<strong>Société :</strong> <span className='details-value'>{rowDetails?.societe}</span>
+						</p>
+						<p>
+							<strong>Solde au {rowDetails?.dernierImport ?? ''} :</strong>{' '}
+							<span className='details-value-right'>{rowDetails?.dernierSolde ?? ''}</span>
+						</p>
+						<p>
+							<strong>Emis Non Décaissés :</strong>{' '}
+							<span className='details-value-right'>{rowDetails?.emisNonDecaisse ?? ''}</span>
+						</p>
+						<p>
+							<strong>Solde prévu :</strong>{' '}
+							<span className='details-value-right'>{rowDetails?.soldeApresEND ?? ''}</span>
+						</p>
+						<p>
+							<strong>Découvert Autorisé :</strong>{' '}
+							<span className='details-value-right'>{rowDetails?.decouvertAutorise ?? ''}</span>
+						</p>
+						<p>
+							<strong>Mobilisable :</strong>{' '}
+							<span className='details-value-right'>{rowDetails?.mobilisable ?? ''}</span>
+						</p>
+						<p>
+							<strong>Ordonnancés :</strong> <span className='details-value-right'>{rowDetails?.ordo ?? ''}</span>
+						</p>
+						<p>
+							<strong>Solde :</strong> <span className='details-value-right'>{rowDetails?.soldeApresOrdo ?? ''}</span>
 						</p>
 					</div>
 				</section>
@@ -120,7 +146,6 @@ const AjoutEquilibrage: React.FC = () => {
 					<Button props={{ style: 'grey', text: 'Annuler', type: 'button', onClick: () => navigate(-1) }} />
 				</div>
 			</main>
-			<Footer />
 		</>
 	)
 }

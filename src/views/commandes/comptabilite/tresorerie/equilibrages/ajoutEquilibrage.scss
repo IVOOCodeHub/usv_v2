@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     min-height: 90vh;
     background: #f2f2f2;
     padding: 2rem;
@@ -31,7 +32,7 @@
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: white;
-            background: darkblue;
+            background: linear-gradient(180deg, #4b91f7 0%, #367af6 100%);
             padding: 0.5rem;
             text-align: center;
             border-radius: 5px;
@@ -71,13 +72,35 @@
 
     .emetteur {
         background: #ffffcc;
-        border-left: 5px solid darkblue;
+        border-left: 5px solid #ffcc00;
     }
 
     .destinataire {
         background: #e9f6e9;
         border-left: 5px solid #4CAF50;
+
+        p {
+            display: flex;
+            justify-content: space-between;
+
+            .details-value {
+                flex: 2;
+                text-align: left; // Alignement normal pour Banque, Compte et Société
+                font-size: 1.2rem;
+                margin-left: 5px;
+            }
+
+            .details-value-right {
+                flex: 1;
+                text-align: right; // Alignement à droite pour les montants
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: #36395a;
+            }
+        }
     }
+
+
 
     .button-wrapper {
         margin-top: 2rem;
