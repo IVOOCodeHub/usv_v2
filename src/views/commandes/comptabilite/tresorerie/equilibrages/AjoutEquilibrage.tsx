@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button.tsx'
-import Footer from '../../../../../components/footer/Footer'
 import './ajoutEquilibrage.scss'
 import { mockedEquilibrages } from './mock/mockedEquilibrages'
 
@@ -72,10 +71,10 @@ const AjoutEquilibrage: React.FC = () => {
 							placeholder='0.00'
 						/>
 
-						<label>Libellé écriture</label>
+						<label htmlFor='libelleEcriture'>Libellé écriture</label>
 						<div className='libelle-container'>
 							<span>EQUILIB</span>
-							<select id='mois' value={mois} onChange={(e) => setMois(e.target.value)}>
+							<select id='libelleEcriture' value={mois} onChange={(e) => setMois(e.target.value)}>
 								<option value=''>Mois</option>
 								{moisOptions.map((m) => (
 									<option key={m} value={m}>
