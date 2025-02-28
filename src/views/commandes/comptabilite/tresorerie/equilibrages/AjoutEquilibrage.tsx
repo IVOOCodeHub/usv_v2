@@ -1,197 +1,124 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button.tsx'
 import Footer from '../../../../../components/footer/Footer'
-import './equilibrages.scss'
-
-interface RowDetails {
-	banque: string
-	dernierImport: string
-	compte: string
-	societe: string
-	dernierSolde: string
-	emisNonDecaisse: string
-	soldeApresEND: string
-	decouvertAutorise: string
-	mobilisable: string
-	ordo: string
-	soldeApresOrdo: string
-	soldeApresEqui: string
-}
+import './ajoutEquilibrage.scss'
+import { mockedEquilibrages } from './mock/mockedEquilibrages'
 
 const AjoutEquilibrage: React.FC = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
+	const rowDetails = location.state?.rowDetails
 
-	const [rowDetails, setRowDetails] = useState<RowDetails | null>(null)
+	const [emetteurCompte, setEmetteurCompte] = useState('')
+	const [montant, setMontant] = useState('')
+	const [mois, setMois] = useState('')
+	const [annee, setAnnee] = useState('')
+	const [dateOrdo, setDateOrdo] = useState('')
 
-	// Function to handle input change
-	const handleInputChange = (field: keyof RowDetails, value: string) => {
-		setRowDetails((prev) => {
-			if (!prev) return null;
-			return {
-				...prev,
-				[field]: value,
-			};
-		})
-	}
+	// Liste des comptes bancaires excluant celui du destinataire
+	const comptesBancaires = mockedEquilibrages
+		.map((item) => item.compte)
+		.filter((compte) => compte !== rowDetails?.compte)
 
-	// Function to handle form submission
-	const handleSubmit = (event: React.FormEvent) => {
-		event.preventDefault()
-		// Here you can add logic to submit the form data
-		console.log('Form submitted:', rowDetails)
-		navigate('/commandes/tresorerie/equilibrages')
-	}
+	const moisOptions = [
+		'Janvier',
+		'Février',
+		'Mars',
+		'Avril',
+		'Mai',
+		'Juin',
+		'Juillet',
+		'Août',
+		'Septembre',
+		'Octobre',
+		'Novembre',
+		'Décembre',
+	]
+	const anneeOptions = ['2024', '2025', '2026', '2027']
 
-	// Function to handle cancel
-	const handleCancel = () => {
-		navigate('/commandes/tresorerie/equilibrages')
-	}
-
-	// Use effect to set row details from location state
 	useEffect(() => {
-		const { state } = location
-		if (state && state.rowDetails) {
-			setRowDetails(state.rowDetails)
+		if (!rowDetails) {
+			navigate('/commandes/tresorerie/equilibrages')
 		}
-	}, [location])
+	}, [rowDetails, navigate])
 
 	return (
 		<>
-			<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | AJOUT EQUILIBRAGE' }} />
+			<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | AJOUT ÉQUILIBRAGE' }} />
 			<main id='ajoutEquilibrage'>
-				<section className='ajoutEquilibrage__bottomSection'>
-					<div className='form-container'>
-						<form onSubmit={handleSubmit}>
-							<div className='form-group'>
-								<label>
-									Banque :
-									<input
-										type='text'
-										value={rowDetails?.banque ?? ''}
-										onChange={(e) => handleInputChange('banque', e.target.value)}
-									/>
-								</label>
-							</div>
-							<div className='form-group'>
-								<label>
-									Der.Import :
-									<input
-										type='date'
-										value={rowDetails?.dernierImport ?? ''}
-										onChange={(e) => handleInputChange('dernierImport', e.target.value)}
-									/>
-								</label>
-							</div>
-							<div className='form-group'>
-								<label>
-									Compte :
-									<input
-										type='text'
-										value={rowDetails?.compte ?? ''}
-										onChange={(e) => handleInputChange('compte', e.target.value)}
-									/>
-								</label>
-							</div>
-							<div className='form-group'>
-								<label>
-									Société :
-									<input
-										type='text'
-										value={rowDetails?.societe ?? ''}
-										onChange={(e) => handleInputChange('societe', e.target.value)}
-									/>
-								</label>
-							</div>
-							<div className='form-group'>
-								<label>
-									Dernier Solde :
-									<input
-										type='text'
-										value={rowDetails?.dernierSolde ?? ''}
-										onChange={(e) => handleInputChange('dernierSolde', e.target.value)}
-									/>
-								</label>
-							</div>
-							<div className='form-group'>
-								<label>
-									Emis Non Décaissé :
-									<input
-										type='text'
-										value={rowDetails?.emisNonDecaisse ?? ''}
-										onChange={(e) => handleInputChange('emisNonDecaisse', e.target.value)}
-									/>
-								</label>
-							</div>
-							<div className='form-group'>
-								<label>
-									Solde après E.N.D. :
-									<input
-										type='text'
-										value={rowDetails?.soldeApresEND ?? ''}
-										onChange={(e) => handleInputChange('soldeApresEND', e.target.value)}
-									/>
-								</label>
-							</div>
-							<div className='form-group'>
-								<label>
-									Découvert Autorisé :
-									<input
-										type='text'
-										value={rowDetails?.decouvertAutorise ?? ''}
-										onChange={(e) => handleInputChange('decouvertAutorise', e.target.value)}
-									/>
-								</label>
-							</div>
-							<div className='form-group'>
-								<label>
-									Mobilisable :
-									<input
-										type='text'
-										value={rowDetails?.mobilisable ?? ''}
-										onChange={(e) => handleInputChange('mobilisable', e.target.value)}
-									/>
-								</label>
-							</div>
-							<div className='form-group'>
-								<label>
-									Ordo :
-									<input
-										type='text'
-										value={rowDetails?.ordo ?? ''}
-										onChange={(e) => handleInputChange('ordo', e.target.value)}
-									/>
-								</label>
-							</div>
-							<div className='form-group'>
-								<label>
-									Solde après Ordo :
-									<input
-										type='text'
-										value={rowDetails?.soldeApresOrdo ?? ''}
-										onChange={(e) => handleInputChange('soldeApresOrdo', e.target.value)}
-									/>
-								</label>
-							</div>
-							<div className='form-group'>
-								<label>
-									Solde après Equi :
-									<input
-										type='text'
-										value={rowDetails?.soldeApresEqui ?? ''}
-										onChange={(e) => handleInputChange('soldeApresEqui', e.target.value)}
-									/>
-								</label>
-							</div>
-							<div className='button-wrapper'>
-								<Button props={{ style: 'blue', text: 'Ajouter', type: 'submit' }} />
-								<Button props={{ style: 'grey', text: 'Annuler', type: 'button', onClick: handleCancel }} />
-							</div>
-						</form>
+				<section className='equilibrage-container'>
+					{/* Section ÉMETTEUR */}
+					<div className='equilibrage-section emetteur'>
+						<h2>ÉMETTEUR</h2>
+
+						<label htmlFor='compteEmetteur'>Compte bancaire</label>
+						<select id='compteEmetteur' value={emetteurCompte} onChange={(e) => setEmetteurCompte(e.target.value)}>
+							<option value=''>Choisir...</option>
+							{comptesBancaires.map((compte) => (
+								<option key={compte} value={compte}>
+									{compte}
+								</option>
+							))}
+						</select>
+
+						<label htmlFor='montant'>Montant</label>
+						<input
+							type='number'
+							id='montant'
+							value={montant}
+							onChange={(e) => setMontant(e.target.value)}
+							placeholder='0.00'
+						/>
+
+						<label>Libellé écriture</label>
+						<div className='libelle-container'>
+							<span>EQUILIB</span>
+							<select id='mois' value={mois} onChange={(e) => setMois(e.target.value)}>
+								<option value=''>Mois</option>
+								{moisOptions.map((m) => (
+									<option key={m} value={m}>
+										{m}
+									</option>
+								))}
+							</select>
+							<span>Année</span>
+							<select id='annee' value={annee} onChange={(e) => setAnnee(e.target.value)}>
+								<option value=''>Choisir...</option>
+								{anneeOptions.map((a) => (
+									<option key={a} value={a}>
+										{a}
+									</option>
+								))}
+							</select>
+						</div>
+
+						<label htmlFor='dateOrdo'>Date ordonnancement</label>
+						<input type='date' id='dateOrdo' value={dateOrdo} onChange={(e) => setDateOrdo(e.target.value)} />
+					</div>
+
+					{/* Section DESTINATAIRE */}
+					<div className='equilibrage-section destinataire'>
+						<h2>DESTINATAIRE</h2>
+						<p>
+							<strong>Banque :</strong> {rowDetails?.banque}
+						</p>
+						<p>
+							<strong>Compte :</strong> {rowDetails?.compte}
+						</p>
+						<p>
+							<strong>Société :</strong> {rowDetails?.societe}
+						</p>
 					</div>
 				</section>
+
+				<div className='button-wrapper'>
+					<Button
+						props={{ style: 'blue', text: 'Valider', type: 'button', onClick: () => console.log('Équilibrage validé') }}
+					/>
+					<Button props={{ style: 'grey', text: 'Annuler', type: 'button', onClick: () => navigate(-1) }} />
+				</div>
 			</main>
 			<Footer />
 		</>
