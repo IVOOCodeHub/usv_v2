@@ -47,7 +47,7 @@ function TresorerieMenu(): ReactElement {
 		{
 			title: '',
 			items: [
-				{ name: 'Gestion des échéanciers', link: '/' },
+				{ name: 'Gestion des échéanciers', link: '/commandes/tresorerie/echeancier/echeancier_menu' },
 				{ name: 'Gestion des imports de RB', link: '/' },
 				{ name: 'Tableau des prévisions', link: '/' },
 				{ name: 'États', link: '/' },
