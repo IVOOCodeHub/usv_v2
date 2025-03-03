@@ -15,6 +15,13 @@ const AjoutEquilibrage: React.FC = () => {
 	const [mois, setMois] = useState('')
 	const [annee, setAnnee] = useState('')
 	const [dateOrdo, setDateOrdo] = useState('')
+	const [errors, setErrors] = useState({
+		emetteurCompte: false,
+		montant: false,
+		mois: false,
+		annee: false,
+		dateOrdo: false,
+	})
 
 	// Liste des comptes bancaires excluant celui du destinataire
 	const comptesBancaires = mockedEquilibrages
@@ -37,6 +44,27 @@ const AjoutEquilibrage: React.FC = () => {
 	]
 	const anneeOptions = ['2024', '2025', '2026', '2027']
 
+	const handleValidate = (e: React.FormEvent) => {
+		e.preventDefault()
+
+		const newErrors = {
+			emetteurCompte: emetteurCompte.trim() === '',
+			montant: montant.trim() === '',
+			mois: mois.trim() === '',
+			annee: annee.trim() === '',
+			dateOrdo: dateOrdo.trim() === '',
+		}
+
+		setErrors(newErrors)
+
+		if (Object.values(newErrors).includes(true)) {
+			return
+		}
+
+		alert('Équilibrage validé')
+		navigate(-1)
+	}
+
 	useEffect(() => {
 		if (!rowDetails) {
 			navigate('/commandes/tresorerie/equilibrages')
@@ -53,7 +81,15 @@ const AjoutEquilibrage: React.FC = () => {
 						<h2>ÉMETTEUR</h2>
 
 						<label htmlFor='compteEmetteur'>Compte bancaire</label>
-						<select id='compteEmetteur' value={emetteurCompte} onChange={(e) => setEmetteurCompte(e.target.value)}>
+						<select
+							id='compteEmetteur'
+							value={emetteurCompte}
+							onChange={(e) => {
+								setEmetteurCompte(e.target.value)
+								setErrors((prev) => ({ ...prev, emetteurCompte: false })) // Remove error on change
+							}}
+							className={errors.emetteurCompte ? 'error-border' : ''}
+						>
 							<option value=''>Choisir...</option>
 							{comptesBancaires.map((compte) => (
 								<option key={compte} value={compte}>
@@ -61,20 +97,32 @@ const AjoutEquilibrage: React.FC = () => {
 								</option>
 							))}
 						</select>
-
+						{errors.emetteurCompte && <p className='error-message'>Merci de remplir ce champ.</p>}
 						<label htmlFor='montant'>Montant</label>
 						<input
 							type='number'
 							id='montant'
 							value={montant}
-							onChange={(e) => setMontant(e.target.value)}
+							onChange={(e) => {
+								setMontant(e.target.value)
+								setErrors((prev) => ({ ...prev, montant: false }))
+							}}
 							placeholder='0.00'
+							className={errors.montant ? 'error-border' : ''}
 						/>
-
+						{errors.montant && <p className='error-message'>Merci de remplir ce champ.</p>}
 						<label htmlFor='libelleEcriture'>Libellé écriture</label>
 						<div className='libelle-container'>
 							<span>EQUILIB</span>
-							<select id='libelleEcriture' value={mois} onChange={(e) => setMois(e.target.value)}>
+							<select
+								id='libelleEcriture'
+								value={mois}
+								className={errors.emetteurCompte ? 'error-border' : ''}
+								onChange={(e) => {
+									setMois(e.target.value)
+									setErrors((prev) => ({ ...prev, mois: false }))
+								}}
+							>
 								<option value=''>Mois</option>
 								{moisOptions.map((m) => (
 									<option key={m} value={m}>
@@ -82,7 +130,16 @@ const AjoutEquilibrage: React.FC = () => {
 									</option>
 								))}
 							</select>
-							<select id='annee' value={annee} onChange={(e) => setAnnee(e.target.value)}>
+							{errors.mois && <p className='error-message'>Merci de choisir une option.</p>}
+							<select
+								id='annee'
+								value={annee}
+								className={errors.annee ? 'error-border' : ''}
+								onChange={(e) => {
+									setAnnee(e.target.value)
+									setErrors((prev) => ({ ...prev, annee: false }))
+								}}
+							>
 								<option value=''>Année</option>
 								{anneeOptions.map((a) => (
 									<option key={a} value={a}>
@@ -90,10 +147,21 @@ const AjoutEquilibrage: React.FC = () => {
 									</option>
 								))}
 							</select>
+							{errors.annee && <p className='error-message'>Merci de choisir une option.</p>}
 						</div>
 
 						<label htmlFor='dateOrdo'>Date ordonnancement</label>
-						<input type='date' id='dateOrdo' value={dateOrdo} onChange={(e) => setDateOrdo(e.target.value)} />
+						<input
+							type='date'
+							id='dateOrdo'
+							value={dateOrdo}
+							className={errors.dateOrdo ? 'error-border' : ''}
+							onChange={(e) => {
+								setDateOrdo(e.target.value)
+								setErrors((prev) => ({ ...prev, dateOrdo: false }))
+							}}
+						/>
+						{errors.dateOrdo && <p className='error-message'>Merci de remplir ce champ.</p>}
 					</div>
 
 					{/* Section DESTINATAIRE */}
@@ -137,12 +205,12 @@ const AjoutEquilibrage: React.FC = () => {
 					</div>
 				</section>
 
-				<div className='button-wrapper'>
-					<Button
-						props={{ style: 'blue', text: 'Valider', type: 'button', onClick: () => console.log('Équilibrage validé') }}
-					/>
-					<Button props={{ style: 'grey', text: 'Annuler', type: 'button', onClick: () => navigate(-1) }} />
-				</div>
+				<form onSubmit={handleValidate}>
+					<div className='button-wrapper'>
+						<Button props={{ style: 'blue', text: 'Valider', type: 'submit' }} />
+						<Button props={{ style: 'grey', text: 'Annuler', type: 'button', onClick: () => navigate(-1) }} />
+					</div>
+				</form>
 			</main>
 		</>
 	)
