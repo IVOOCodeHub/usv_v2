@@ -82,9 +82,8 @@ const AjoutEquilibrage: React.FC = () => {
 									</option>
 								))}
 							</select>
-							<span>Année</span>
 							<select id='annee' value={annee} onChange={(e) => setAnnee(e.target.value)}>
-								<option value=''>Choisir...</option>
+								<option value=''>Année</option>
 								{anneeOptions.map((a) => (
 									<option key={a} value={a}>
 										{a}
