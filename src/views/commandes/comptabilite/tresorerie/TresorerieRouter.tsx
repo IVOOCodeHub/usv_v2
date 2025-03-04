@@ -38,6 +38,7 @@ import DetailsRetard from './retardEncaissement/DetailsRetard.tsx'
 import Equilibrages from './equilibrages/Equilibrages.tsx'
 import AjoutEquilibrage from './equilibrages/AjoutEquilibrage.tsx'
 import EcheancierMenuWithAuth from './tresorerieMenu/EcheancierMenu.tsx'
+import GestionEcheancier from './gestionEcheancier/GestionEcheancier.tsx'
 
 export default function TresorerieRouter(): ReactElement {
 	return (
@@ -77,6 +78,7 @@ export default function TresorerieRouter(): ReactElement {
 			<Route path={'/equilibrages'} element={<Equilibrages />} />
 			<Route path={'/ajout_equilibrage'} element={<AjoutEquilibrage />} />
 			<Route path={'/echeancier/echeancier_menu'} element={<EcheancierMenuWithAuth />} />
+			<Route path={'/echeancier/echeancier_gestion'} element={<GestionEcheancier />} />
 		</Routes>
 	)
 }
