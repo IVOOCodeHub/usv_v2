@@ -112,25 +112,23 @@ const GestionEcheancier: () => ReactElement = (): ReactElement => {
 			.filter((data) => !filters.cle || data.cle.includes(filters.cle))
 			.filter((data) => !filters.societe || data.societe === filters.societe)
 			.map((data) => {
-				const credit = data.credit ? parseFloat(data.credit) : 0
-				const debit = data.debit ? parseFloat(data.debit) : 0
-
 				let montant = 0
-				if (credit !== 0) {
-					montant = credit
-				} else if (debit !== 0) {
-					montant = -debit
+				const montantValue = parseFloat(data.montant ?? '0')
+				if (montantValue >= 0) {
+					montant = montantValue
+				} else if (montantValue < 0) {
+					montant = -montantValue
 				}
 				return [
 					data.cle || 'Non défini',
-					data.libelleCompteTiers ?? 'Non défini',
-					data.rubriqueTreso ?? 'Non défini',
-					data.nomBanque ?? 'Non défini',
-					data.nomFichier ?? 'Aucun fichier joint',
-					data.frequence ?? 'Non défini',
-					data.jourMouvement ?? 'Non défini',
-					data.noCompte ?? 'Non défini',
+					data.tiers ?? 'Non défini',
+					data.contrat ?? 'Non défini',
+					data.banqueDebitee ?? 'Non défini',
+					data.frequence ?? 'Aucun fichier joint',
+					data.jour ?? 'Non défini',
+					data.libelle ?? 'Non défini',
 					keepTwoDecimals(montant),
+					data.statut ?? 'Non défini',
 				]
 			})
 

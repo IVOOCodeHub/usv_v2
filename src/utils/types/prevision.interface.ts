@@ -79,4 +79,9 @@ export interface IPrevision {
 	montant?: string
 	refJustifPaiement?: string
 	dateJustifPaiement?: string
+	tiers?: string
+	contrat?: string
+	banqueDebitee?: string
+	frequence?: string
+	jour?: string
 }
