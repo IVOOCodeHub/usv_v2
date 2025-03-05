@@ -211,11 +211,11 @@ const GestionEcheancier: () => ReactElement = (): ReactElement => {
 							</select>
 						</div>
 						<div className='codeInputWrapper'>
-							<label htmlFor='cle'>Code :</label>
+							<label htmlFor='cle'>Clé :</label>
 							<input
 								name='cle'
 								type='text'
-								placeholder='Filtrer par code'
+								placeholder='Filtrer par clé'
 								value={filters.cle}
 								onChange={(e) => setFilters({ ...filters, cle: e.target.value })}
 							/>
