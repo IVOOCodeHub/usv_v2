@@ -148,7 +148,7 @@ const GestionEcheancier: () => ReactElement = (): ReactElement => {
 			if (rowDetails) {
 				console.log('RowDetails:', rowDetails)
 
-				navigate('/commandes/tresorerie/details_echeancier', {
+				navigate('/commandes/tresorerie/echeancier/details_echeancier', {
 					state: { fullRowDetails: rowDetails },
 				})
 			} else {
@@ -190,7 +190,7 @@ const GestionEcheancier: () => ReactElement = (): ReactElement => {
 
 	return (
 		<>
-			<Header props={{ pageURL: 'GIVOO | TRÉSORERIE | GESTION ÉCHÉANCIER' }} />
+			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | GESTION DE L'ÉCHÉANCIER ${filters.societe}` }} />
 			<main id='gestionEcheancier'>
 				<section className='gestionEcheancier__bottomSection'>
 					<div className='filtersWrapper'>

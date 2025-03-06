@@ -1,0 +1,105 @@
+#detailEcheancier {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    padding: 2em;
+    background: #f2f2f2;
+
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        padding: 2em;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 1200px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+
+        .coordonnees-container {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            gap: 2em;
+            row-gap: 2em;
+            flex-wrap: wrap;
+            margin: 0 auto;
+
+            .tab-panel {
+                flex: 1;
+                min-width: 350px;
+                background: #ffffff;
+                border: 1px solid #36395a;
+                border-radius: 6px;
+                padding: 1.5em;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+                h2 {
+                    font-size: 1.5em;
+                    margin-bottom: 1em;
+                    text-align: center;
+                    color: #36395a;
+                }
+
+                .form-container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1em;
+
+                    label {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        font-size: 14px;
+                        color: #36395a;
+
+                        input,
+                        select {
+                            flex: 1;
+                            min-width: 200px;
+                            max-width: 100%;
+                            padding: 0.5em;
+                            border: 1px solid #36395a;
+                            border-radius: 4px;
+                            background: #f2f2f2;
+                            font-size: 14px;
+                            text-align: center;
+
+                            &:hover {
+                                border-color: #1092b8;
+                            }
+
+                            &:focus {
+                                outline: 3.5px solid #1092b8;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .tab-panel:last-child {
+                flex-basis: 100%;
+                margin-top: 2em;
+            }
+        }
+    }
+
+    .actions {
+        margin-top: 2em;
+    }
+}
+
+@media (max-width: 768px) {
+    .coordonnees-container {
+        flex-direction: column;
+        gap: 1em;
+    }
+
+    .tab-panel {
+        max-width: 100%;
+    }
+}
