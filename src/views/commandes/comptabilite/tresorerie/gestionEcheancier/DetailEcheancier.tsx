@@ -42,6 +42,7 @@ interface RowDetails {
 	frequence: string
 	jourMouvement: string
 	dateDebut: string
+	modePaiement: string
 }
 
 const DetailEcheancier: React.FC = () => {
@@ -49,6 +50,10 @@ const DetailEcheancier: React.FC = () => {
 	const navigate = useNavigate()
 	const [details, setDetails] = useState<RowDetails | null>(null)
 	const [tiersOptions, setTiersOptions] = useState<string[]>([])
+	const [contratTiersOptions, setContratTiersOptions] = useState<string[]>([])
+	const [rubriqueTresoOptions, setRubriqueTresoOptions] = useState<string[]>([])
+	const [prefixeLibelleOptions, setPrefixeLibelleOptions] = useState<string[]>([])
+	const [frequenceOptions, setFrequenceOptions] = useState<string[]>([])
 
 	useEffect(() => {
 		const rowData = location?.state?.fullRowDetails
@@ -90,6 +95,7 @@ const DetailEcheancier: React.FC = () => {
 				frequence: rowData.frequence || 'Non défini',
 				jourMouvement: rowData.jourMouvement || 'Non défini',
 				dateDebut: rowData.dateDebut || 'Non défini',
+				modePaiement: rowData.modePaiement || 'Non défini',
 			}
 			setDetails(fullRowDetails)
 		} else {
@@ -99,6 +105,18 @@ const DetailEcheancier: React.FC = () => {
 		// Extract unique tiers options
 		const uniqueTiers = Array.from(new Set(mockedEcheances.map((echeance) => echeance.tiers)))
 		setTiersOptions(uniqueTiers)
+
+		const uniqueContratTiers = Array.from(new Set(mockedEcheances.map((echeance) => echeance.contratTiers)))
+		setContratTiersOptions(uniqueContratTiers)
+
+		const uniqueRubriqueTreso = Array.from(new Set(mockedEcheances.map((echeance) => echeance.rubriqueTreso)))
+		setRubriqueTresoOptions(uniqueRubriqueTreso)
+
+		const uniquePrefixeLibelle = Array.from(new Set(mockedEcheances.map((echeance) => echeance.prefixe_libelle)))
+		setPrefixeLibelleOptions(uniquePrefixeLibelle)
+
+		const uniqueFrequence = Array.from(new Set(mockedEcheances.map((echeance) => echeance.frequence)))
+		setFrequenceOptions(uniqueFrequence)
 	}, [location?.state?.fullRowDetails])
 
 	const handleInputChange = (field: keyof RowDetails, value: string) => {
@@ -138,27 +156,45 @@ const DetailEcheancier: React.FC = () => {
 								</label>
 								<label>
 									Identification contrat tiers :
-									<input
-										type='text'
+									<select
 										value={details?.contratTiers ?? ''}
-										onChange={(e) => handleInputChange('contratTiers', e.target.value)}
-									/>
+										onChange={(e) => setDetails({ ...details!, contratTiers: e.target.value } as RowDetails)}
+									>
+										<option value=''>Choisir</option>
+										{contratTiersOptions.map((contratTiers, index) => (
+											<option key={index} value={contratTiers}>
+												{contratTiers}
+											</option>
+										))}
+									</select>
 								</label>
 								<label>
 									Rubrique :
-									<input
-										type='text'
+									<select
 										value={details?.rubriqueTreso ?? ''}
-										onChange={(e) => handleInputChange('rubriqueTreso', e.target.value)}
-									/>
+										onChange={(e) => setDetails({ ...details!, rubriqueTreso: e.target.value } as RowDetails)}
+									>
+										<option value=''>Choisir</option>
+										{rubriqueTresoOptions.map((rubriqueTreso, index) => (
+											<option key={index} value={rubriqueTreso}>
+												{rubriqueTreso}
+											</option>
+										))}
+									</select>
 								</label>
 								<label>
 									Libellé préfixe :
-									<input
-										type='text'
+									<select
 										value={details?.prefixe_libelle ?? ''}
-										onChange={(e) => handleInputChange('prefixe_libelle', e.target.value)}
-									/>
+										onChange={(e) => setDetails({ ...details!, prefixe_libelle: e.target.value } as RowDetails)}
+									>
+										<option value=''>Choisir</option>
+										{prefixeLibelleOptions.map((prefixeLibelle, index) => (
+											<option key={index} value={prefixeLibelle}>
+												{prefixeLibelle}
+											</option>
+										))}
+									</select>
 								</label>
 							</div>
 						</section>
@@ -168,11 +204,14 @@ const DetailEcheancier: React.FC = () => {
 							<div className='form-container'>
 								<label>
 									Mode de paiement :
-									<input
-										type='text'
-										value={details?.modeReglement ?? ''}
-										onChange={(e) => handleInputChange('modeReglement', e.target.value)}
-									/>
+									<select
+										value={details?.modePaiement ?? ''}
+										onChange={(e) => handleInputChange('modePaiement', e.target.value)}
+									>
+										<option value=''>Choisir</option>
+										<option value='VIR'>Virement</option>
+										<option value='PRELEV'>Prélèvement</option>
+									</select>
 								</label>
 								<label>
 									Montant :
@@ -192,11 +231,17 @@ const DetailEcheancier: React.FC = () => {
 								</label>
 								<label>
 									Fréquence :
-									<input
-										type='text'
+									<select
 										value={details?.frequence ?? ''}
 										onChange={(e) => handleInputChange('frequence', e.target.value)}
-									/>
+									>
+										<option value=''>Choisir</option>
+										{frequenceOptions.map((frequence, index) => (
+											<option key={index} value={frequence}>
+												{frequence}
+											</option>
+										))}
+									</select>
 								</label>
 							</div>
 						</section>
