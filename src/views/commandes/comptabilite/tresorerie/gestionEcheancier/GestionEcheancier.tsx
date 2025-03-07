@@ -38,6 +38,7 @@ interface RowDetails {
 	noCompte: string
 	contratTiers: string
 	prefixe_libelle: string
+	tiers: string
 }
 
 const GestionEcheancier: () => ReactElement = (): ReactElement => {
@@ -84,6 +85,7 @@ const GestionEcheancier: () => ReactElement = (): ReactElement => {
 			noCompte: matchedPrevision.noCompte ?? 'Non défini',
 			contratTiers: matchedPrevision.contratTiers ?? 'Non défini',
 			prefixe_libelle: matchedPrevision.prefixe_libelle ?? 'Non défini',
+			tiers: matchedPrevision.tiers ?? 'Non défini',
 		}
 	}
 

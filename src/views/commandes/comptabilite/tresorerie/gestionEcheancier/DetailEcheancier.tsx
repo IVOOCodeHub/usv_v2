@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button.tsx'
 import './detailEcheancier.scss'
+import { mockedEcheances } from './mock/mockEcheances.ts' // Assurez-vous que le chemin est correct
 
 interface RowDetails {
 	cle: string
@@ -35,17 +36,70 @@ interface RowDetails {
 	ibanTiers: string
 	bicTiers: string
 	nomBanque: string
+	tiers: string
+	contratTiers: string
+	prefixe_libelle: string
+	frequence: string
+	jourMouvement: string
+	dateDebut: string
 }
 
 const DetailEcheancier: React.FC = () => {
 	const location = useLocation()
 	const navigate = useNavigate()
+	const [details, setDetails] = useState<RowDetails | null>(null)
+	const [tiersOptions, setTiersOptions] = useState<string[]>([])
 
-	const { fullRowDetails } = location.state as { fullRowDetails: RowDetails }
+	useEffect(() => {
+		const rowData = location?.state?.fullRowDetails
+		if (rowData) {
+			const fullRowDetails: RowDetails = {
+				cle: rowData.cle || 'Non défini',
+				societe: rowData.societe || 'Non défini',
+				dateSaisie: rowData.dateSaisie || 'Non défini',
+				dateEcheance: rowData.dateEcheance || 'Non défini',
+				libelleCompteTiers: rowData.libelleCompteTiers || 'Non défini',
+				libelleEcriture: rowData.libelleEcriture || 'Non défini',
+				libelleEcritureAnnee: rowData.libelleEcritureAnnee || 'Non défini',
+				libelleEcritureMois: rowData.libelleEcritureMois || 'Non défini',
+				libelleEcriturePrefixe: rowData.libelleEcriturePrefixe || 'Non défini',
+				libelleEcritureTrimestre: rowData.libelleEcritureTrimestre || 'Non défini',
+				libelleEcritureBeneficiaire: rowData.libelleEcritureBeneficiaire || 'Non défini',
+				credit: rowData.credit || 'Non défini',
+				debit: rowData.debit || 'Non défini',
+				montant: rowData.montant || 'Non défini',
+				rubriqueTreso: rowData.rubriqueTreso || 'Non défini',
+				nomFichier: rowData.nomFichier || 'Non défini',
+				dateOrdo: rowData.dateOrdo || 'Non défini',
+				modeReglement: rowData.modeReglement || 'Non défini',
+				statut: rowData.statut || 'Non défini',
+				refSourceTiers: rowData.refSourceTiers || 'Non défini',
+				ibanCible: rowData.ibanCible || 'Non défini',
+				bicCible: rowData.bicCible || 'Non défini',
+				ibanSource: rowData.ibanSource || 'Non défini',
+				bicSource: rowData.bicSource || 'Non défini',
+				libelleTiers: rowData.libelleTiers || 'Non défini',
+				noCompteBanque: rowData.noCompteBanque || 'Non défini',
+				cleCourrier: rowData.cleCourrier || 'Non défini',
+				ibanTiers: rowData.ibanTiers || 'Non défini',
+				bicTiers: rowData.bicTiers || 'Non défini',
+				nomBanque: rowData.nomBanque || 'Non défini',
+				tiers: rowData.tiers || 'Non défini',
+				contratTiers: rowData.contratTiers || 'Non défini',
+				prefixe_libelle: rowData.prefixe_libelle || 'Non défini',
+				frequence: rowData.frequence || 'Non défini',
+				jourMouvement: rowData.jourMouvement || 'Non défini',
+				dateDebut: rowData.dateDebut || 'Non défini',
+			}
+			setDetails(fullRowDetails)
+		} else {
+			setDetails(null)
+		}
 
-	if (!fullRowDetails) {
-		return <div>Aucune donnée disponible.</div>
-	}
+		// Extract unique tiers options
+		const uniqueTiers = Array.from(new Set(mockedEcheances.map((echeance) => echeance.tiers)))
+		setTiersOptions(uniqueTiers)
+	}, [location?.state?.fullRowDetails])
 
 	const handleInputChange = (field: keyof RowDetails, value: string) => {
 		console.log(field, value)
@@ -53,7 +107,7 @@ const DetailEcheancier: React.FC = () => {
 
 	return (
 		<>
-			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | DÉTAILS DE L'ÉCHÉANCE ${fullRowDetails.cle}` }} />
+			<Header props={{ pageURL: `GIVOO | TRÉSORERIE | DÉTAILS DE L'ÉCHÉANCE ${details?.cle}` }} />
 			<div id='detailEcheancier'>
 				<div className='main-container'>
 					<div className='coordonnees-container'>
@@ -64,40 +118,46 @@ const DetailEcheancier: React.FC = () => {
 									Société :
 									<input
 										type='text'
-										value={fullRowDetails.societe ?? ''}
+										value={details?.societe ?? ''}
 										onChange={(e) => handleInputChange('societe', e.target.value)}
 									/>
 								</label>
 								<label>
-									Banque :
+									Tiers :
+									<select
+										value={details?.tiers ?? ''}
+										onChange={(e) => setDetails({ ...details!, tiers: e.target.value } as RowDetails)}
+									>
+										<option value=''>Choisir</option>
+										{tiersOptions.map((tiers, index) => (
+											<option key={index} value={tiers}>
+												{tiers}
+											</option>
+										))}
+									</select>
+								</label>
+								<label>
+									Identification contrat tiers :
 									<input
 										type='text'
-										value={fullRowDetails.nomBanque ?? ''}
-										onChange={(e) => handleInputChange('nomBanque', e.target.value)}
+										value={details?.contratTiers ?? ''}
+										onChange={(e) => handleInputChange('contratTiers', e.target.value)}
 									/>
 								</label>
 								<label>
-									IBAN Source :
+									Rubrique :
 									<input
 										type='text'
-										value={fullRowDetails.ibanSource ?? ''}
-										onChange={(e) => handleInputChange('ibanSource', e.target.value)}
+										value={details?.rubriqueTreso ?? ''}
+										onChange={(e) => handleInputChange('rubriqueTreso', e.target.value)}
 									/>
 								</label>
 								<label>
-									BIC Source :
+									Libellé préfixe :
 									<input
 										type='text'
-										value={fullRowDetails.bicSource ?? ''}
-										onChange={(e) => handleInputChange('bicSource', e.target.value)}
-									/>
-								</label>
-								<label>
-									BIC Source :
-									<input
-										type='text'
-										value={fullRowDetails.bicSource ?? ''}
-										onChange={(e) => handleInputChange('bicSource', e.target.value)}
+										value={details?.prefixe_libelle ?? ''}
+										onChange={(e) => handleInputChange('prefixe_libelle', e.target.value)}
 									/>
 								</label>
 							</div>
@@ -107,35 +167,35 @@ const DetailEcheancier: React.FC = () => {
 						<section className='tab-panel'>
 							<div className='form-container'>
 								<label>
-									Tiers :
+									Mode de paiement :
 									<input
 										type='text'
-										value={fullRowDetails.libelleTiers ?? ''}
-										onChange={(e) => handleInputChange('libelleTiers', e.target.value)}
+										value={details?.modeReglement ?? ''}
+										onChange={(e) => handleInputChange('modeReglement', e.target.value)}
 									/>
 								</label>
 								<label>
-									IBAN Cible :
+									Montant :
 									<input
 										type='text'
-										value={fullRowDetails.ibanCible ?? ''}
-										onChange={(e) => handleInputChange('ibanCible', e.target.value)}
+										value={details?.montant ?? ''}
+										onChange={(e) => handleInputChange('montant', e.target.value)}
 									/>
 								</label>
 								<label>
-									BIC Cible :
+									Banque émettrice :
 									<input
 										type='text'
-										value={fullRowDetails.bicCible ?? ''}
-										onChange={(e) => handleInputChange('bicCible', e.target.value)}
+										value={details?.nomBanque ?? ''}
+										onChange={(e) => handleInputChange('nomBanque', e.target.value)}
 									/>
 								</label>
 								<label>
-									BIC Cible :
+									Fréquence :
 									<input
 										type='text'
-										value={fullRowDetails.bicCible ?? ''}
-										onChange={(e) => handleInputChange('bicCible', e.target.value)}
+										value={details?.frequence ?? ''}
+										onChange={(e) => handleInputChange('frequence', e.target.value)}
 									/>
 								</label>
 							</div>
@@ -145,36 +205,36 @@ const DetailEcheancier: React.FC = () => {
 						<section className='tab-panel'>
 							<div className='form-container'>
 								<label>
-									Libellé :
+									Date PREMIER mouvement :
 									<input
 										type='text'
 										name='libelleEcriture'
-										value={fullRowDetails.libelleEcriture ?? ''}
+										value={details?.libelleEcriture ?? ''}
 										onChange={(e) => handleInputChange('libelleEcriture', e.target.value)}
 									/>
 								</label>
 								<label>
-									Date Ordo :
+									Date PROCHAIN mouvement :
 									<input
 										type='date'
-										value={fullRowDetails.dateOrdo ?? ''}
+										value={details?.dateOrdo ?? ''}
 										onChange={(e) => handleInputChange('dateOrdo', e.target.value)}
 									/>
 								</label>
 								<label>
-									Montant :
+									Date DERNIER mouvement :
 									<input
 										type='text'
-										value={parseFloat(fullRowDetails.montant.replace(/\s/g, '').replace(',', '.')) ?? 0}
-										onChange={(e) => handleInputChange('montant', e.target.value)}
+										value={details?.dateFin ?? ''}
+										onChange={(e) => handleInputChange('dateFin', e.target.value)}
 									/>
 								</label>
 								<label>
-									Montant :
+									Statut :
 									<input
 										type='text'
-										value={parseFloat(fullRowDetails.montant.replace(/\s/g, '').replace(',', '.')) ?? 0}
-										onChange={(e) => handleInputChange('montant', e.target.value)}
+										value={details?.statut ?? ''}
+										onChange={(e) => handleInputChange('statut', e.target.value)}
 									/>
 								</label>
 							</div>
