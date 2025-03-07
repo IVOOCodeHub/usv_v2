@@ -59,7 +59,6 @@ const DetailEcheancier: React.FC = () => {
 					<div className='coordonnees-container'>
 						{/* Section Emetteur */}
 						<section className='tab-panel'>
-							<h2>EMETTEUR</h2>
 							<div className='form-container'>
 								<label>
 									Société :
@@ -93,12 +92,19 @@ const DetailEcheancier: React.FC = () => {
 										onChange={(e) => handleInputChange('bicSource', e.target.value)}
 									/>
 								</label>
+								<label>
+									BIC Source :
+									<input
+										type='text'
+										value={fullRowDetails.bicSource ?? ''}
+										onChange={(e) => handleInputChange('bicSource', e.target.value)}
+									/>
+								</label>
 							</div>
 						</section>
 
 						{/* Section Destinataire */}
 						<section className='tab-panel'>
-							<h2>DESTINATAIRE</h2>
 							<div className='form-container'>
 								<label>
 									Tiers :
@@ -114,6 +120,14 @@ const DetailEcheancier: React.FC = () => {
 										type='text'
 										value={fullRowDetails.ibanCible ?? ''}
 										onChange={(e) => handleInputChange('ibanCible', e.target.value)}
+									/>
+								</label>
+								<label>
+									BIC Cible :
+									<input
+										type='text'
+										value={fullRowDetails.bicCible ?? ''}
+										onChange={(e) => handleInputChange('bicCible', e.target.value)}
 									/>
 								</label>
 								<label>
@@ -151,8 +165,16 @@ const DetailEcheancier: React.FC = () => {
 									Montant :
 									<input
 										type='text'
-										value={parseFloat(fullRowDetails.credit.replace(/\s/g, '').replace(',', '.')) ?? 0}
-										onChange={(e) => handleInputChange('credit', e.target.value)}
+										value={parseFloat(fullRowDetails.montant.replace(/\s/g, '').replace(',', '.')) ?? 0}
+										onChange={(e) => handleInputChange('montant', e.target.value)}
+									/>
+								</label>
+								<label>
+									Montant :
+									<input
+										type='text'
+										value={parseFloat(fullRowDetails.montant.replace(/\s/g, '').replace(',', '.')) ?? 0}
+										onChange={(e) => handleInputChange('montant', e.target.value)}
 									/>
 								</label>
 							</div>

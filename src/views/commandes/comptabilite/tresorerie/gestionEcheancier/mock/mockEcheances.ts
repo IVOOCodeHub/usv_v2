@@ -20,6 +20,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2023-11-15',
 		cleCourrier: 'Courrier A',
 		iban: 'FR7630006000011234567890189',
+		prefixe_libelle: 'Préfixe A',
 	},
 	{
 		cle: '002',
@@ -42,6 +43,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2023-10-01',
 		cleCourrier: 'Courrier B',
 		iban: 'FR1420041010050500013M02606',
+		prefixe_libelle: 'Préfixe B',
 	},
 	{
 		cle: '003',
@@ -64,6 +66,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2024-01-01',
 		cleCourrier: 'Courrier C',
 		iban: 'FR7630006000011234567890143',
+		prefixe_libelle: 'Préfixe C',
 	},
 	{
 		cle: '004',
@@ -86,6 +89,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2023-11-01',
 		cleCourrier: 'Courrier D',
 		iban: 'FR7630006000011234567890154',
+		prefixe_libelle: 'Préfixe D',
 	},
 	{
 		cle: '005',
@@ -108,6 +112,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2023-12-01',
 		cleCourrier: 'Courrier E',
 		iban: 'FR7630006000011234567890165',
+		prefixe_libelle: 'Préfixe E',
 	},
 	{
 		cle: '006',
@@ -130,6 +135,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2023-11-20',
 		cleCourrier: 'Courrier F',
 		iban: 'FR7630006000011234567890176',
+		prefixe_libelle: 'Préfixe F',
 	},
 	{
 		cle: '007',
@@ -152,6 +158,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2023-10-01',
 		cleCourrier: 'Courrier G',
 		iban: 'FR7630006000011234567890187',
+		prefixe_libelle: 'Préfixe G',
 	},
 	{
 		cle: '008',
@@ -174,6 +181,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2024-01-01',
 		cleCourrier: 'Courrier H',
 		iban: 'FR7630006000011234567890198',
+		prefixe_libelle: 'Préfixe H',
 	},
 	{
 		cle: '009',
@@ -196,6 +204,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2023-11-01',
 		cleCourrier: 'Courrier I',
 		iban: 'FR7630006000011234567890209',
+		prefixe_libelle: 'Préfixe I',
 	},
 	{
 		cle: '010',
@@ -218,6 +227,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2023-12-01',
 		cleCourrier: 'Courrier J',
 		iban: 'FR7630006000011234567890210',
+		prefixe_libelle: 'Préfixe J',
 	},
 	{
 		cle: '011',
@@ -240,6 +250,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2023-11-10',
 		cleCourrier: 'Courrier K',
 		iban: 'FR7630006000011234567890221',
+		prefixe_libelle: 'Préfixe K',
 	},
 	{
 		cle: '012',
@@ -262,6 +273,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2023-10-05',
 		cleCourrier: 'Courrier L',
 		iban: 'FR1420041010050500013M02617',
+		prefixe_libelle: 'Préfixe L',
 	},
 	{
 		cle: '013',
@@ -284,6 +296,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2024-01-01',
 		cleCourrier: 'Courrier M',
 		iban: 'FR7630006000011234567890242',
+		prefixe_libelle: 'Préfixe M',
 	},
 	{
 		cle: '014',
@@ -306,6 +319,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2023-11-01',
 		cleCourrier: 'Courrier N',
 		iban: 'FR7630006000011234567890253',
+		prefixe_libelle: 'Préfixe N',
 	},
 	{
 		cle: '015',
@@ -328,6 +342,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2023-12-01',
 		cleCourrier: 'Courrier O',
 		iban: 'FR7630006000011234567890264',
+		prefixe_libelle: 'Préfixe O',
 	},
 	{
 		cle: '016',
@@ -350,6 +365,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2023-11-25',
 		cleCourrier: 'Courrier P',
 		iban: 'FR7630006000011234567890275',
+		prefixe_libelle: 'Préfixe P',
 	},
 	{
 		cle: '017',
@@ -372,6 +388,7 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2023-10-01',
 		cleCourrier: 'Courrier Q',
 		iban: 'FR7630006000011234567890286',
+		prefixe_libelle: 'Préfixe Q',
 	},
 	{
 		cle: '018',
@@ -394,5 +411,6 @@ export const mockedEcheances = [
 		dateProchaineGeneration: '2024-01-01',
 		cleCourrier: 'Courrier R',
 		iban: 'FR7630006000011234567890297',
+		prefixe_libelle: 'Préfixe R',
 	},
 ]

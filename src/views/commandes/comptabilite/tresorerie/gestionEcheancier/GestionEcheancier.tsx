@@ -37,6 +37,7 @@ interface RowDetails {
 	nomBanque: string
 	noCompte: string
 	contratTiers: string
+	prefixe_libelle: string
 }
 
 const GestionEcheancier: () => ReactElement = (): ReactElement => {
@@ -73,8 +74,6 @@ const GestionEcheancier: () => ReactElement = (): ReactElement => {
 			modeReglement: matchedPrevision.modeReglement ?? 'Non défini',
 			statut: matchedPrevision.statut ?? 'Non défini',
 			refSourceTiers: matchedPrevision.refSourceTiers ?? 'Non défini',
-			credit: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
-			debit: matchedPrevision.debit ? parseFloat(matchedPrevision.debit).toFixed(2) : '0.00',
 			montant: matchedPrevision.credit ? parseFloat(matchedPrevision.credit).toFixed(2) : '0.00',
 			rubriqueTreso: matchedPrevision.rubriqueTreso ?? 'Non défini',
 			nomFichier: matchedPrevision.nomFichier ?? 'Non défini',
@@ -84,6 +83,7 @@ const GestionEcheancier: () => ReactElement = (): ReactElement => {
 			nomBanque: matchedPrevision.nomBanque ?? 'Non défini',
 			noCompte: matchedPrevision.noCompte ?? 'Non défini',
 			contratTiers: matchedPrevision.contratTiers ?? 'Non défini',
+			prefixe_libelle: matchedPrevision.prefixe_libelle ?? 'Non défini',
 		}
 	}
 
