@@ -1,0 +1,13 @@
+@use "../../utils/styles/mixins" as mixins;
+
+#reactElModal {
+  @include mixins.modalContainer;
+}
+
+#reactElModal .reactElModalContainer {
+  width: 25%;
+}
+
+#reactElModal .reactElModalContainer form {
+  @include mixins.form;
+}

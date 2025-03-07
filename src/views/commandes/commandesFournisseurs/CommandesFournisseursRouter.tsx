@@ -29,4 +29,5 @@ export default function CommandesFournisseursRouter() : ReactElement {
             <Route path={'/utilitaire_commandes'} element={<UtilitaireCommandesWithAuth />} />
             <Route path={'/utilitaire_commandes/modification_commande/:commandeID'} element={<ModificationCommandeWithAuth />} />
         </Routes>
-)}
+   )
+}

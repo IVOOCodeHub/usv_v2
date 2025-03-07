@@ -422,7 +422,7 @@ export default function NRTL({
                 (row: string[], index: number): ReactElement => (
                   <tr
                     key={index}
-                    {...(title ? { title } : {})}
+                    {...(title && { title } )}
                     onClick={(): void => onRowClick?.(index, row)}
                     style={{ cursor: onRowClick ? "pointer" : "default" }}
                   >
