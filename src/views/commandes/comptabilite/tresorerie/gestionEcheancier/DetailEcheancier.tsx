@@ -3,7 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button.tsx'
 import './detailEcheancier.scss'
-import { mockedEcheances } from './mock/mockEcheances.ts' // Assurez-vous que le chemin est correct
+import { mockedEcheances } from './mock/mockEcheances.ts'
+import { convertENDateToFr, formatDateToHtml } from '../../../../../utils/scripts/utils.ts'
 
 interface RowDetails {
 	cle: string
@@ -42,6 +43,8 @@ interface RowDetails {
 	frequence: string
 	jourMouvement: string
 	dateDebut: string
+	dateFin: string
+	dateProchaineGeneration: string
 	modePaiement: string
 }
 
@@ -95,6 +98,8 @@ const DetailEcheancier: React.FC = () => {
 				frequence: rowData.frequence || 'Non défini',
 				jourMouvement: rowData.jourMouvement || 'Non défini',
 				dateDebut: rowData.dateDebut || 'Non défini',
+				dateFin: rowData.dateFin || 'Non défini',
+				dateProchaineGeneration: rowData.dateProchaineGeneration || 'Non défini',
 				modePaiement: rowData.modePaiement || 'Non défini',
 			}
 			setDetails(fullRowDetails)
@@ -102,7 +107,7 @@ const DetailEcheancier: React.FC = () => {
 			setDetails(null)
 		}
 
-		// Extract unique tiers options
+		// Extract unique options
 		const uniqueTiers = Array.from(new Set(mockedEcheances.map((echeance) => echeance.tiers)))
 		setTiersOptions(uniqueTiers)
 
@@ -199,7 +204,7 @@ const DetailEcheancier: React.FC = () => {
 							</div>
 						</section>
 
-						{/* Section Destinataire */}
+						{/* Section Compta */}
 						<section className='tab-panel'>
 							<div className='form-container'>
 								<label>
@@ -246,41 +251,40 @@ const DetailEcheancier: React.FC = () => {
 							</div>
 						</section>
 
-						{/* Section Libellé */}
+						{/* Section Dates */}
 						<section className='tab-panel'>
 							<div className='form-container'>
 								<label>
 									Date PREMIER mouvement :
 									<input
-										type='text'
-										name='libelleEcriture'
-										value={details?.libelleEcriture ?? ''}
-										onChange={(e) => handleInputChange('libelleEcriture', e.target.value)}
+										type='date'
+										value={details?.dateDebut ?? ''}
+										onChange={(e) => handleInputChange('dateDebut', e.target.value)}
 									/>
 								</label>
 								<label>
 									Date PROCHAIN mouvement :
 									<input
 										type='date'
-										value={details?.dateOrdo ?? ''}
-										onChange={(e) => handleInputChange('dateOrdo', e.target.value)}
+										value={details?.dateProchaineGeneration ?? ''}
+										onChange={(e) => handleInputChange('dateProchaineGeneration', e.target.value)}
 									/>
 								</label>
 								<label>
 									Date DERNIER mouvement :
 									<input
-										type='text'
+										type='date'
 										value={details?.dateFin ?? ''}
 										onChange={(e) => handleInputChange('dateFin', e.target.value)}
 									/>
 								</label>
 								<label>
 									Statut :
-									<input
-										type='text'
-										value={details?.statut ?? ''}
-										onChange={(e) => handleInputChange('statut', e.target.value)}
-									/>
+									<select value={details?.statut ?? ''} onChange={(e) => handleInputChange('statut', e.target.value)}>
+										<option value='A VALIDER'>À valider</option>
+										<option value='VALIDE'>Validé</option>
+										<option value='SUSPENDU'>Suspendu</option>
+									</select>
 								</label>
 							</div>
 						</section>

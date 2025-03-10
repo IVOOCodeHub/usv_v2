@@ -34,6 +34,8 @@ interface RowDetails {
 	frequence: string
 	jourMouvement: string
 	dateDebut: string
+	dateFin: string
+	dateProchaineGeneration: string
 	nomBanque: string
 	noCompte: string
 	contratTiers: string
@@ -81,6 +83,8 @@ const GestionEcheancier: () => ReactElement = (): ReactElement => {
 			frequence: matchedPrevision.frequence ?? 'Non défini',
 			jourMouvement: matchedPrevision.jourMouvement ?? 'Non défini',
 			dateDebut: matchedPrevision.dateDebut ?? 'Non défini',
+			dateFin: matchedPrevision.dateFin ?? 'Non défini',
+			dateProchaineGeneration: matchedPrevision.dateProchaineGeneration ?? 'Non défini',
 			nomBanque: matchedPrevision.banqueDebitee ?? 'Non défini',
 			noCompte: matchedPrevision.noCompte ?? 'Non défini',
 			contratTiers: matchedPrevision.contratTiers ?? 'Non défini',
