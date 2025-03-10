@@ -4,7 +4,6 @@ import Header from '../../../../../components/header/Header'
 import Button from '../../../../../components/button/Button.tsx'
 import './detailEcheancier.scss'
 import { mockedEcheances } from './mock/mockEcheances.ts'
-import { convertENDateToFr, formatDateToHtml } from '../../../../../utils/scripts/utils.ts'
 
 interface RowDetails {
 	cle: string
@@ -125,7 +124,7 @@ const DetailEcheancier: React.FC = () => {
 	}, [location?.state?.fullRowDetails])
 
 	const handleInputChange = (field: keyof RowDetails, value: string) => {
-		console.log(field, value)
+		setDetails({ ...details!, [field]: value } as RowDetails)
 	}
 
 	return (
@@ -147,13 +146,10 @@ const DetailEcheancier: React.FC = () => {
 								</label>
 								<label>
 									Tiers :
-									<select
-										value={details?.tiers ?? ''}
-										onChange={(e) => setDetails({ ...details!, tiers: e.target.value } as RowDetails)}
-									>
+									<select value={details?.tiers ?? ''} onChange={(e) => handleInputChange('tiers', e.target.value)}>
 										<option value=''>Choisir</option>
-										{tiersOptions.map((tiers, index) => (
-											<option key={index} value={tiers}>
+										{tiersOptions.map((tiers) => (
+											<option key={tiers} value={tiers} selected={details?.tiers === tiers}>
 												{tiers}
 											</option>
 										))}
@@ -163,11 +159,11 @@ const DetailEcheancier: React.FC = () => {
 									Identification contrat tiers :
 									<select
 										value={details?.contratTiers ?? ''}
-										onChange={(e) => setDetails({ ...details!, contratTiers: e.target.value } as RowDetails)}
+										onChange={(e) => handleInputChange('contratTiers', e.target.value)}
 									>
 										<option value=''>Choisir</option>
 										{contratTiersOptions.map((contratTiers, index) => (
-											<option key={index} value={contratTiers}>
+											<option key={index} value={contratTiers} selected={details?.contratTiers === contratTiers}>
 												{contratTiers}
 											</option>
 										))}
@@ -177,11 +173,11 @@ const DetailEcheancier: React.FC = () => {
 									Rubrique :
 									<select
 										value={details?.rubriqueTreso ?? ''}
-										onChange={(e) => setDetails({ ...details!, rubriqueTreso: e.target.value } as RowDetails)}
+										onChange={(e) => handleInputChange('rubriqueTreso', e.target.value)}
 									>
 										<option value=''>Choisir</option>
 										{rubriqueTresoOptions.map((rubriqueTreso, index) => (
-											<option key={index} value={rubriqueTreso}>
+											<option key={index} value={rubriqueTreso} selected={details?.rubriqueTreso === rubriqueTreso}>
 												{rubriqueTreso}
 											</option>
 										))}
@@ -191,11 +187,15 @@ const DetailEcheancier: React.FC = () => {
 									Libellé préfixe :
 									<select
 										value={details?.prefixe_libelle ?? ''}
-										onChange={(e) => setDetails({ ...details!, prefixe_libelle: e.target.value } as RowDetails)}
+										onChange={(e) => handleInputChange('prefixe_libelle', e.target.value)}
 									>
 										<option value=''>Choisir</option>
-										{prefixeLibelleOptions.map((prefixeLibelle, index) => (
-											<option key={index} value={prefixeLibelle}>
+										{prefixeLibelleOptions.map((prefixeLibelle) => (
+											<option
+												key={prefixeLibelle}
+												value={prefixeLibelle}
+												selected={details?.prefixe_libelle === prefixeLibelle}
+											>
 												{prefixeLibelle}
 											</option>
 										))}
@@ -214,8 +214,12 @@ const DetailEcheancier: React.FC = () => {
 										onChange={(e) => handleInputChange('modePaiement', e.target.value)}
 									>
 										<option value=''>Choisir</option>
-										<option value='VIR'>Virement</option>
-										<option value='PRELEV'>Prélèvement</option>
+										<option value='VIR' selected={details?.modePaiement === 'VIR'}>
+											Virement
+										</option>
+										<option value='PRELEV' selected={details?.modePaiement === 'PRELEV'}>
+											Prélèvement
+										</option>
 									</select>
 								</label>
 								<label>
@@ -241,8 +245,8 @@ const DetailEcheancier: React.FC = () => {
 										onChange={(e) => handleInputChange('frequence', e.target.value)}
 									>
 										<option value=''>Choisir</option>
-										{frequenceOptions.map((frequence, index) => (
-											<option key={index} value={frequence}>
+										{frequenceOptions.map((frequence) => (
+											<option key={frequence} value={frequence} selected={details?.frequence === frequence}>
 												{frequence}
 											</option>
 										))}
@@ -281,9 +285,15 @@ const DetailEcheancier: React.FC = () => {
 								<label>
 									Statut :
 									<select value={details?.statut ?? ''} onChange={(e) => handleInputChange('statut', e.target.value)}>
-										<option value='A VALIDER'>À valider</option>
-										<option value='VALIDE'>Validé</option>
-										<option value='SUSPENDU'>Suspendu</option>
+										<option value='A VALIDER' selected={details?.statut === 'A VALIDER'}>
+											À valider
+										</option>
+										<option value='VALIDE' selected={details?.statut === 'VALIDE'}>
+											Validé
+										</option>
+										<option value='SUSPENDU' selected={details?.statut === 'SUSPENDU'}>
+											Suspendu
+										</option>
 									</select>
 								</label>
 							</div>
